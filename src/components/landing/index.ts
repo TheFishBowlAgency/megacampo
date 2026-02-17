@@ -1,0 +1,11 @@
+export { AdventureSection } from "./AdventureSection";
+export { CTASection } from "./CTASection";
+export { EventTypesSection } from "./EventTypesSection";
+export { FAQSection } from "./FAQSection";
+export { Footer } from "./Footer";
+export { Hero } from "./Hero";
+export { KeyFeatures } from "./KeyFeatures";
+export { MapsSection } from "./MapsSection";
+export { MoreThanPaintballSection } from "./MoreThanPaintballSection";
+export { SafetySection } from "./SafetySection";
+export { TestimonialsSection } from "./TestimonialsSection";

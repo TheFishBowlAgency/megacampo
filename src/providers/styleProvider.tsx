@@ -8,7 +8,11 @@ export default function StyleProvider({
   children: React.ReactNode;
 }) {
   return (
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="light"
+      storageKey="megacampo-theme"
+    >
       <ChakraProvider value={system}>{children}</ChakraProvider>
     </ThemeProvider>
   );

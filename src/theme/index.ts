@@ -5,65 +5,157 @@ import {
   defaultConfig,
   defineConfig,
   defineSemanticTokens,
+  defineTextStyles,
   defineTokens,
 } from "@chakra-ui/react";
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Design tokens – replace with Figma variables or brand guidelines when ready
+// Figma styles → design tokens
 // ─────────────────────────────────────────────────────────────────────────────
 
 const fonts = defineTokens.fonts({
-  heading: { value: "var(--font-geist-sans), sans-serif" },
-  body: { value: "var(--font-geist-sans), sans-serif" },
-  mono: { value: "var(--font-geist-mono), monospace" },
+  heading: { value: "var(--font-anton), sans-serif" },
+  "heading.molot": {
+    value:
+      "var(--font-molot, var(--font-anton)), sans-serif",
+  },
+  // Add Molot via next/font/local and set --font-molot in layout when you have the font file
+  body: { value: "var(--font-roboto), sans-serif" },
+  mono: { value: "var(--font-roboto), monospace" },
 });
 
-const brandColors = defineTokens.colors({
-  brand: {
-    50: { value: "#f0f9ff" },
-    100: { value: "#e0f2fe" },
-    200: { value: "#bae6fd" },
-    300: { value: "#7dd3fc" },
-    400: { value: "#38bdf8" },
-    500: { value: "#0ea5e9" },
-    600: { value: "#0284c7" },
-    700: { value: "#0369a1" },
-    800: { value: "#075985" },
-    900: { value: "#0c4a6e" },
-    950: { value: "#082f49" },
+const fontSizes = defineTokens.fontSizes({
+  "display.h1": { value: "7.25rem" },
+  "display.h2": { value: "3rem" },
+  "display.h3": { value: "2rem" },
+  "body.lg": { value: "1.5rem" },
+});
+
+const colors = defineTokens.colors({
+  primary: { value: "#FEA100" },
+  offset: { value: "#FFECCC" },
+  dark: { value: "#282828" },
+  surfaceDark: { value: "#3E3E3E" },
+  grayMid: { value: "#939598" },
+  grayLight: { value: "#F5F5F5" },
+  background: { value: "#FFD999" },
+});
+
+const semanticColors = defineSemanticTokens.colors({
+  primary: {
+    DEFAULT: {
+      value: { _light: "{colors.primary}", _dark: "{colors.primary}" },
+    },
+    muted: {
+      value: { _light: "{colors.offset}", _dark: "{colors.offset}" },
+    },
+  },
+  bg: {
+    DEFAULT: {
+      value: { _light: "{colors.background}", _dark: "{colors.dark}" },
+    },
+    dark: {
+      value: { _light: "{colors.surfaceDark}", _dark: "{colors.surfaceDark}" },
+    },
+    subtle: {
+      value: { _light: "{colors.grayLight}", _dark: "{colors.grayMid}" },
+    },
+    muted: {
+      value: { _light: "{colors.offset}", _dark: "{colors.grayMid}" },
+    },
+  },
+  fg: {
+    DEFAULT: {
+      value: { _light: "{colors.dark}", _dark: "{colors.grayLight}" },
+    },
+    muted: {
+      value: { _light: "{colors.grayMid}", _dark: "{colors.grayMid}" },
+    },
   },
 });
 
-const brandSemanticColors = defineSemanticTokens.colors({
-  brand: {
-    solid: {
-      value: { _light: "{colors.brand.500}", _dark: "{colors.brand.400}" },
+const textStyles = defineTextStyles({
+  "h1.anton": {
+    value: {
+      fontFamily: "heading",
+      fontSize: "display.h1",
+      fontWeight: "normal",
+      lineHeight: "1",
     },
-    "solid.hover": {
-      value: { _light: "{colors.brand.600}", _dark: "{colors.brand.300}" },
+  },
+  "h1.molot": {
+    value: {
+      fontFamily: "heading.molot",
+      fontSize: "display.h1",
+      fontWeight: "normal",
+      lineHeight: "1",
     },
-    muted: {
-      value: { _light: "{colors.brand.100}", _dark: "{colors.brand.900}" },
+  },
+  h2: {
+    value: {
+      fontFamily: "body",
+      fontSize: "display.h2",
+      fontWeight: "extrabold",
+      lineHeight: "1.2",
     },
-    emphasized: {
-      value: { _light: "{colors.brand.600}", _dark: "{colors.brand.300}" },
+  },
+  h3: {
+    value: {
+      fontFamily: "body",
+      fontSize: "display.h3",
+      fontWeight: "extrabold",
+      lineHeight: "1.2",
+    },
+  },
+  h4: {
+    value: {
+      fontFamily: "body",
+      fontSize: "display.h3",
+      fontWeight: "semibold",
+      lineHeight: "1.2",
+    },
+  },
+  h5: {
+    value: {
+      fontFamily: "body",
+      fontSize: "body.lg",
+      fontWeight: "extrabold",
+      lineHeight: "1.3",
+    },
+  },
+  body: {
+    value: {
+      fontFamily: "body",
+      fontSize: "body.lg",
+      fontWeight: "normal",
+      lineHeight: "1.5",
+    },
+  },
+  button: {
+    value: {
+      fontFamily: "body",
+      fontSize: "body.lg",
+      fontWeight: "medium",
+      lineHeight: "1.3",
     },
   },
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
-// System (theme) – merged with Chakra defaults
+// System – merged with Chakra defaults
 // ─────────────────────────────────────────────────────────────────────────────
 
 const themeExtension = defineConfig({
   theme: {
     tokens: {
       fonts,
-      colors: brandColors,
+      fontSizes,
+      colors,
     },
     semanticTokens: {
-      colors: brandSemanticColors,
+      colors: semanticColors,
     },
+    textStyles,
   },
 });
 
