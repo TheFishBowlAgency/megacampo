@@ -12,12 +12,12 @@ import {
 } from "@chakra-ui/react";
 
 const NAV_LINKS = [
-  { label: "ATIVIDADES", href: "#actividades" },
+  { label: "ATIVIDADES", href: "/#actividades" },
   { label: "O PARQUE", href: "/cenarios" },
-  { label: "EVENTOS", href: "#eventos" },
-  { label: "LOJA", href: "#loja" },
-  { label: "RESERVAS", href: "#reservas" },
-  { label: "CONTACTOS", href: "#contactos" },
+  { label: "EVENTOS", href: "/eventos" },
+  { label: "LOJA", href: "/#loja" },
+  { label: "RESERVAS", href: "/#reservas" },
+  { label: "CONTACTOS", href: "/#contactos" },
 ];
 
 const PHONE = "+351 913 402 013";

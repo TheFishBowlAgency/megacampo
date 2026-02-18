@@ -11,20 +11,23 @@ import { usePathname } from "next/navigation";
 import { Link } from "@/components/ui";
 
 const NAV_LINKS = [
-  { label: "ACTIVIDADES", href: "#actividades" },
+  { label: "ACTIVIDADES", href: "/#actividades" },
   { label: "O PARQUE", href: "/cenarios" },
-  { label: "EVENTOS", href: "#eventos" },
+  { label: "EVENTOS", href: "/eventos" },
   { label: "LOJA", href: "#loja" },
-  { label: "RESERVAS", href: "#reservas" },
-  { label: "CONTACTOS", href: "#contactos" },
+  { label: "RESERVAS", href: "/#reservas" },
+  { label: "CONTACTOS", href: "/#contactos" },
 ];
 
 export function Navbar({ onOpenMenu }: { onOpenMenu: () => void }) {
   const pathname = usePathname();
   const showMobileNav = useBreakpointValue({ base: true, lg: false }) ?? true;
 
-  const isActive = (item: (typeof NAV_LINKS)[number]) =>
-    item.href === "/cenarios" && pathname === "/cenarios";
+  const isActive = (item: (typeof NAV_LINKS)[number]) => {
+    if (item.href === "/cenarios") return pathname === "/cenarios";
+    if (item.href === "/eventos") return pathname === "/eventos";
+    return false;
+  };
 
   return (
     <Box bg="white" borderBottomWidth="1px" borderColor="gray.200" py="3">

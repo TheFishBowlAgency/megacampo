@@ -35,15 +35,23 @@ const ITEMS = [
   },
 ];
 
-export function FAQSection() {
+type FAQSectionProps = {
+  id?: string;
+  heading?: string;
+};
+
+export function FAQSection({
+  id = "faq",
+  heading = "Perguntas frequentes",
+}: FAQSectionProps) {
   const [openIndex, setOpenIndex] = useState<number>(0);
 
   return (
-    <Section id="faq">
+    <Section id={id}>
       <Container>
         <VStack gap="8" align="stretch">
-          <Text as="h2" textStyle="h2" color="fg">
-            Perguntas frequentes
+          <Text as="h2" textStyle="h2" color="fg" textTransform="uppercase">
+            {heading}
           </Text>
           <VStack gap="0" align="stretch">
             {ITEMS.map((item, i) => (

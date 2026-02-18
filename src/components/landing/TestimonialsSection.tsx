@@ -1,20 +1,28 @@
 import { Box, Grid, HStack, IconButton, Text, VStack } from "@chakra-ui/react";
 import { Container, Section } from "@/components/layout";
 
-const HEADING = "Milhares de clientes aprovam o Megacampo";
-const SUBHEADING = "Descubra o que dizem quem já viveu a aventura.";
+const DEFAULT_HEADING = "Milhares de clientes aprovam o Megacampo";
+const DEFAULT_SUBHEADING = "Descubra o que dizem quem já viveu a aventura.";
 
-export function TestimonialsSection() {
+type TestimonialsSectionProps = {
+  heading?: string;
+  subheading?: string;
+};
+
+export function TestimonialsSection({
+  heading = DEFAULT_HEADING,
+  subheading = DEFAULT_SUBHEADING,
+}: TestimonialsSectionProps = {}) {
   return (
     <Section variant="subtle">
       <Container>
         <VStack gap="8">
           <VStack gap="2" textAlign="center">
             <Text as="h2" textStyle="h2" color="fg">
-              {HEADING}
+              {heading}
             </Text>
             <Text textStyle="body" color="fg.muted" maxW="xl">
-              {SUBHEADING}
+              {subheading}
             </Text>
           </VStack>
           <Box w="full" position="relative">
