@@ -4,29 +4,34 @@ import {
   Box,
   HStack,
   IconButton,
-  Link,
   Text,
   useBreakpointValue,
 } from "@chakra-ui/react";
+import { usePathname } from "next/navigation";
+import { Link } from "@/components/ui";
 
 const NAV_LINKS = [
   { label: "ACTIVIDADES", href: "#actividades" },
-  { label: "PREÇOS", href: "#precos" },
+  { label: "O PARQUE", href: "/cenarios" },
   { label: "EVENTOS", href: "#eventos" },
-  { label: "FAQ", href: "#faq" },
+  { label: "LOJA", href: "#loja" },
   { label: "RESERVAS", href: "#reservas" },
   { label: "CONTACTOS", href: "#contactos" },
 ];
 
 export function Navbar({ onOpenMenu }: { onOpenMenu: () => void }) {
+  const pathname = usePathname();
   const showMobileNav = useBreakpointValue({ base: true, lg: false }) ?? true;
+
+  const isActive = (item: (typeof NAV_LINKS)[number]) =>
+    item.href === "/cenarios" && pathname === "/cenarios";
 
   return (
     <Box bg="white" borderBottomWidth="1px" borderColor="gray.200" py="3">
       <Box maxW="1280px" mx="auto" px={{ base: "4", md: "6", lg: "8" }}>
         <HStack justify="space-between" gap="4">
           {/* Logo */}
-          <Link href="#" _hover={{ opacity: 0.9 }}>
+          <Link href="/" _hover={{ opacity: 0.9 }}>
             <Text
               fontFamily="heading"
               fontSize={{ base: "lg", md: "xl" }}
@@ -57,25 +62,26 @@ export function Navbar({ onOpenMenu }: { onOpenMenu: () => void }) {
             </HStack>
           ) : (
             <HStack gap="6" flex="1" justify="center">
-              {NAV_LINKS.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  fontWeight="semibold"
-                  textTransform="uppercase"
-                  fontSize="sm"
-                  letterSpacing="wider"
-                  color={item.label === "PREÇOS" ? "primary" : "fg"}
-                  borderBottom={
-                    item.label === "PREÇOS" ? "2px solid" : undefined
-                  }
-                  borderColor="primary"
-                  pb="1"
-                  _hover={{ color: "primary" }}
-                >
-                  {item.label}
-                </Link>
-              ))}
+              {NAV_LINKS.map((item) => {
+                const active = isActive(item);
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    fontWeight="semibold"
+                    textTransform="uppercase"
+                    fontSize="sm"
+                    letterSpacing="wider"
+                    color={active ? "primary" : "fg"}
+                    borderBottom={active ? "2px solid" : undefined}
+                    borderColor="primary"
+                    pb="1"
+                    _hover={{ color: "primary" }}
+                  >
+                    {item.label}
+                  </Link>
+                );
+              })}
             </HStack>
           )}
 
