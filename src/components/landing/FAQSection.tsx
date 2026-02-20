@@ -35,19 +35,23 @@ const ITEMS = [
   },
 ];
 
+type FAQSectionVariant = "default" | "subtle";
+
 type FAQSectionProps = {
   id?: string;
   heading?: string;
+  variant?: FAQSectionVariant;
 };
 
 export function FAQSection({
   id = "faq",
   heading = "Perguntas frequentes",
+  variant = "default",
 }: FAQSectionProps) {
   const [openIndex, setOpenIndex] = useState<number>(0);
 
   return (
-    <Section id={id}>
+    <Section id={id} variant={variant === "subtle" ? "subtle" : "default"}>
       <Container>
         <VStack gap="8" align="stretch">
           <Text as="h2" textStyle="h2" color="fg" textTransform="uppercase">

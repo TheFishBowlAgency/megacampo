@@ -1,15 +1,23 @@
 import { Box, Text, VStack } from "@chakra-ui/react";
+import { Link } from "@/components/ui";
 import { Container } from "./Container";
+
+export type PageHeroCta = {
+  label: string;
+  href: string;
+};
 
 type PageHeroProps = {
   title: string;
   subtitle?: string;
+  /** Optional primary CTA button below subtitle */
+  cta?: PageHeroCta;
 };
 
 /**
- * Full-width hero for inner pages (e.g. Eventos). Dark background, centered title.
+ * Full-width hero for inner pages (e.g. Eventos, Como). Dark background, centered title.
  */
-export function PageHero({ title, subtitle }: PageHeroProps) {
+export function PageHero({ title, subtitle, cta }: PageHeroProps) {
   return (
     <Box bg="bg.dark" color="white" py={{ base: "12", md: "16", lg: "20" }}>
       <Container>
@@ -37,6 +45,21 @@ export function PageHero({ title, subtitle }: PageHeroProps) {
             >
               {subtitle}
             </Text>
+          )}
+          {cta && (
+            <Link
+              href={cta.href}
+              bg="primary"
+              color="white"
+              px={{ base: "8", md: "10" }}
+              py={{ base: "3", md: "4" }}
+              textStyle="button"
+              textTransform="uppercase"
+              borderRadius="md"
+              _hover={{ bg: "primary", opacity: 0.9 }}
+            >
+              {cta.label}
+            </Link>
           )}
         </VStack>
       </Container>

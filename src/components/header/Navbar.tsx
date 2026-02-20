@@ -13,6 +13,7 @@ import { Link } from "@/components/ui";
 const NAV_LINKS = [
   { label: "ACTIVIDADES", href: "/#actividades" },
   { label: "O PARQUE", href: "/cenarios" },
+  { label: "COMO", href: "/como" },
   { label: "EVENTOS", href: "/eventos" },
   { label: "LOJA", href: "#loja" },
   { label: "RESERVAS", href: "/#reservas" },
@@ -25,6 +26,7 @@ export function Navbar({ onOpenMenu }: { onOpenMenu: () => void }) {
 
   const isActive = (item: (typeof NAV_LINKS)[number]) => {
     if (item.href === "/cenarios") return pathname === "/cenarios";
+    if (item.href === "/como") return pathname === "/como";
     if (item.href === "/eventos") return pathname === "/eventos";
     return false;
   };

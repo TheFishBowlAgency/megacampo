@@ -14,6 +14,7 @@ import {
 const NAV_LINKS = [
   { label: "ATIVIDADES", href: "/#actividades" },
   { label: "O PARQUE", href: "/cenarios" },
+  { label: "COMO", href: "/como" },
   { label: "EVENTOS", href: "/eventos" },
   { label: "LOJA", href: "/#loja" },
   { label: "RESERVAS", href: "/#reservas" },
