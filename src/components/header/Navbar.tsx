@@ -55,9 +55,18 @@ export function Navbar({ onOpenMenu }: { onOpenMenu: () => void }) {
               <IconButton aria-label="Pesquisar" variant="ghost" size="sm">
                 <SearchIcon />
               </IconButton>
-              <IconButton aria-label="Carrinho" variant="ghost" size="sm">
+              <Link
+                href="/carrinho"
+                aria-label="Carrinho"
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                p="2"
+                borderRadius="md"
+                _hover={{ bg: "gray.100" }}
+              >
                 <CartIcon />
-              </IconButton>
+              </Link>
               <IconButton
                 aria-label="Abrir menu"
                 variant="ghost"
@@ -97,9 +106,18 @@ export function Navbar({ onOpenMenu }: { onOpenMenu: () => void }) {
               <IconButton aria-label="Pesquisar" variant="ghost" size="sm">
                 <SearchIcon />
               </IconButton>
-              <IconButton aria-label="Carrinho" variant="ghost" size="sm">
+              <Link
+                href="/carrinho"
+                aria-label="Carrinho"
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                p="2"
+                borderRadius="md"
+                _hover={{ bg: "gray.100" }}
+              >
                 <CartIcon />
-              </IconButton>
+              </Link>
             </HStack>
           )}
         </HStack>
