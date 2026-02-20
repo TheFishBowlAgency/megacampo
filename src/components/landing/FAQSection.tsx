@@ -4,7 +4,7 @@ import { Box, Text, VStack } from "@chakra-ui/react";
 import { useState } from "react";
 import { Container, Section } from "@/components/layout";
 
-const ITEMS = [
+const DEFAULT_ITEMS = [
   {
     question: "Qual o número mínimo de jogadores?",
     answer:
@@ -35,18 +35,26 @@ const ITEMS = [
   },
 ];
 
+export interface FAQItem {
+  question: string;
+  answer: string;
+}
+
 type FAQSectionVariant = "default" | "subtle";
 
 type FAQSectionProps = {
   id?: string;
   heading?: string;
   variant?: FAQSectionVariant;
+  /** When provided, used instead of default FAQ items (e.g. product-specific FAQs). */
+  items?: FAQItem[];
 };
 
 export function FAQSection({
   id = "faq",
   heading = "Perguntas frequentes",
   variant = "default",
+  items = DEFAULT_ITEMS,
 }: FAQSectionProps) {
   const [openIndex, setOpenIndex] = useState<number>(0);
 
@@ -58,7 +66,7 @@ export function FAQSection({
             {heading}
           </Text>
           <VStack gap="0" align="stretch">
-            {ITEMS.map((item, i) => (
+            {items.map((item, i) => (
               <Box
                 key={item.question}
                 borderBottomWidth="1px"

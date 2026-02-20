@@ -18,7 +18,7 @@ const NAV_LINKS = [
   { label: "LOJA", href: "#loja" },
   { label: "RESERVAS", href: "/#reservas" },
   { label: "CONTACTOS", href: "/#contactos" },
-];
+] as const;
 
 export function Navbar({ onOpenMenu }: { onOpenMenu: () => void }) {
   const pathname = usePathname();
@@ -28,6 +28,8 @@ export function Navbar({ onOpenMenu }: { onOpenMenu: () => void }) {
     if (item.href === "/cenarios") return pathname === "/cenarios";
     if (item.href === "/como") return pathname === "/como";
     if (item.href === "/eventos") return pathname === "/eventos";
+    if (item.href === "/#actividades")
+      return pathname.startsWith("/atividades");
     return false;
   };
 

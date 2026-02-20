@@ -1,9 +1,11 @@
-import { Box, Button, Grid, Link, Text, VStack } from "@chakra-ui/react";
+import { Box, Button, Grid, Text, VStack } from "@chakra-ui/react";
+import { Link } from "@/components/ui";
 import { Container, Section } from "@/components/layout";
 
 const ADVENTURES = [
   {
     title: "PAINTBALL",
+    slug: "paintball" as const,
     years: "+20 Anos",
     description:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, ",
@@ -12,6 +14,7 @@ const ADVENTURES = [
   },
   {
     title: "AIRSOFT",
+    slug: null,
     years: "+10 Anos",
     description: "Em breve",
     cta: null,
@@ -19,6 +22,7 @@ const ADVENTURES = [
   },
   {
     title: "SOFT PAINTBALL",
+    slug: null,
     years: "+5 Anos",
     description: "Em breve",
     cta: null,
@@ -26,6 +30,7 @@ const ADVENTURES = [
   },
   {
     title: "LASERTAG",
+    slug: null,
     years: "+2 Anos",
     description: "Em breve",
     cta: null,
@@ -50,52 +55,84 @@ export function AdventureSection() {
             gap="6"
             w="full"
           >
-            {ADVENTURES.map((item) => (
-              <Box
-                key={item.title}
-                bg={item.active ? "bg.dark" : "bg.subtle"}
-                color={item.active ? "white" : "fg"}
-                borderRadius="lg"
-                p="6"
-                minH="200px"
-                display="flex"
-                flexDirection="column"
-                justifyContent="space-between"
-              >
-                <Text fontSize="sm" opacity={item.active ? 0.9 : 0.8}>
-                  {item.description}
-                </Text>
-                {item.cta && (
-                  <Button
-                    colorPalette="primary"
-                    size="sm"
-                    alignSelf="flex-start"
-                    _hover={{ bg: "primary.muted", color: "fg" }}
-                  >
-                    {item.cta}
-                  </Button>
-                )}
-                <Box
-                  pt="4"
-                  borderTopWidth="1px"
-                  borderColor={item.active ? "whiteAlpha.300" : "gray.200"}
-                >
-                  <Text
-                    fontWeight="bold"
-                    textTransform="uppercase"
-                    fontSize="sm"
-                  >
-                    {item.title}
+            {ADVENTURES.map((item) => {
+              const href = item.slug ? `/atividades/${item.slug}` : undefined;
+              const cardContent = (
+                <>
+                  <Text fontSize="sm" opacity={item.active ? 0.9 : 0.8}>
+                    {item.description}
                   </Text>
-                  <Text
-                    fontSize="xs"
-                    color={item.active ? "whiteAlpha.800" : "fg.muted"}
+                  {item.cta && href && (
+                    <Button
+                      asChild
+                      colorPalette="primary"
+                      size="sm"
+                      alignSelf="flex-start"
+                      _hover={{ bg: "primary.muted", color: "fg" }}
+                    >
+                      <Link href={href}>{item.cta}</Link>
+                    </Button>
+                  )}
+                  {item.cta && !href && (
+                    <Button
+                      colorPalette="primary"
+                      size="sm"
+                      alignSelf="flex-start"
+                      _hover={{ bg: "primary.muted", color: "fg" }}
+                      disabled
+                    >
+                      {item.cta}
+                    </Button>
+                  )}
+                  <Box
+                    pt="4"
+                    borderTopWidth="1px"
+                    borderColor={item.active ? "whiteAlpha.300" : "gray.200"}
                   >
-                    {item.years}
-                  </Text>
+                    <Text
+                      fontWeight="bold"
+                      textTransform="uppercase"
+                      fontSize="sm"
+                    >
+                      {item.title}
+                    </Text>
+                    <Text
+                      fontSize="xs"
+                      color={item.active ? "whiteAlpha.800" : "fg.muted"}
+                    >
+                      {item.years}
+                    </Text>
+                  </Box>
+                </>
+              );
+              const cardProps = {
+                bg: item.active ? "bg.dark" : "bg.subtle",
+                color: item.active ? "white" : "fg",
+                borderRadius: "lg",
+                p: "6",
+                minH: "200px",
+                display: "flex",
+                flexDirection: "column" as const,
+                justifyContent: "space-between",
+              };
+              if (href) {
+                return (
+                  <Link
+                    href={href}
+                    _hover={{ textDecoration: "none", opacity: 0.95 }}
+                    key={item.title}
+                    {...cardProps}
+                  >
+                    {cardContent}
+                  </Link>
+                );
+              }
+              return (
+                <Box key={item.title} {...cardProps}>
+                  {cardContent}
                 </Box>
-              </Box>
-            ))}
+              );
+            })}
           </Grid>
           <Link
             href="#actividades"
