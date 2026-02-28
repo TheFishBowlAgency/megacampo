@@ -85,7 +85,7 @@ function LargeTestimonialCard({
 }: ProductTestimonialType) {
   return (
     <Box
-      bg="primary.muted"
+      bg="bg"
       borderRadius="lg"
       p="6"
       display="flex"
@@ -131,7 +131,7 @@ function SmallTestimonialCard({
   const isLandscape = variant === "landscape";
   return (
     <Box
-      bg="primary.muted"
+      bg="bg"
       borderRadius="lg"
       p="4"
       display="flex"

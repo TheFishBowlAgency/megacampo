@@ -10,7 +10,7 @@ const ADDRESS_LINE_2 = "Sobral da Abalheira, 2640-615 Mafra";
 
 export function Footer() {
   return (
-    <Box as="footer" id="contactos">
+    <Box as="footer" id="contactos" bg="bg.subtle">
       <Box h="1px" bg="dark" />
       <Box py={{ base: "6", md: "10", lg: "16" }}>
         <Box maxW="1320px" mx="auto" px={{ base: "5", md: "6", lg: "8" }}>

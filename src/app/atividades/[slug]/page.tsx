@@ -26,8 +26,13 @@ export default async function ProductPage({ params }: ProductPageProps) {
   return (
     <>
       <Header />
-      <main>
-        <PageHero title={product.title} />
+      <main style={{ backgroundColor: "var(--chakra-colors-gray-light)" }}>
+        <PageHero
+          title={product.title}
+          heroBg="bg.hero"
+          titleTextStyle="h1.molot"
+          minH={{ base: "300px", md: "400px", lg: "560px" }}
+        />
         <ProductHighlightStrip highlights={product.highlights} />
         <ProductPricingSection
           sectionTitle={product.sectionTitle}
@@ -41,7 +46,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
         <FAQSection
           id="faq"
           heading={product.faqHeading}
-          variant="default"
+          variant="subtle"
           items={product.faqItems}
         />
         <Footer />

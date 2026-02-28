@@ -1,18 +1,17 @@
 "use client";
 
-import { Box, Button, Text, VStack } from "@chakra-ui/react";
+import { Box, Text, VStack } from "@chakra-ui/react";
 import { Link } from "@/components/ui";
 import type { ProductPackage } from "@/data/products";
 
 export interface PricingCardProps {
   pkg: ProductPackage;
-  /** Optional reservation URL; defaults to /#reservas */
   reserveHref?: string;
 }
 
 /**
- * Single pricing package card: orange banner, price, features, CTA.
- * Reusable on product page and elsewhere.
+ * Pricing package card matching Figma design: dark bg, orange ribbon banner
+ * with rotated package name (Molot font), price, features, and CTA.
  */
 export function PricingCard({
   pkg,
@@ -21,101 +20,125 @@ export function PricingCard({
   return (
     <Box
       as="article"
-      bg="bg.dark"
-      borderRadius="lg"
-      overflow="hidden"
-      borderWidth="1px"
-      borderColor="whiteAlpha.200"
-      position="relative"
+      bg="dark"
+      borderRadius="sm"
       display="flex"
       flexDirection="column"
-      minH={{ base: "auto", md: "420px" }}
+      alignItems="center"
+      justifyContent="space-between"
+      w="full"
+      h="full"
+      pt={{ base: "4", lg: "8" }}
+      pb={{ base: "8", lg: "16" }}
+      px={{ base: "2.5", lg: "8" }}
+      overflow="hidden"
     >
-      {pkg.popular && (
-        <Box
-          position="absolute"
-          top="0"
-          left="0"
-          right="0"
-          py="1.5"
-          px="3"
-          borderBottomWidth="1px"
-          borderColor="whiteAlpha.300"
-          textAlign="center"
-          zIndex="1"
-        >
-          <Text
-            fontSize="xs"
-            fontWeight="bold"
-            textTransform="uppercase"
-            color="white"
-            letterSpacing="wider"
+      <VStack gap={{ base: "6", lg: "12" }} align="center" w="full">
+        {/* Orange ribbon banner with rotated package name */}
+        <Box py={{ base: "2", lg: "3" }}>
+          <Box
+            bg="primary"
+            px={{ base: "4", lg: "8" }}
+            py={{ base: "1.5", lg: "3" }}
+            borderRadius="md"
+            transform="rotate(-5.22deg)"
           >
-            O MAIS POPULAR
-          </Text>
+            <Text
+              fontFamily="heading.molot"
+              fontSize={{ base: "xl", lg: "3rem" }}
+              color="dark"
+              textAlign="center"
+              whiteSpace="nowrap"
+              lineHeight="1"
+            >
+              {pkg.name}
+            </Text>
+          </Box>
         </Box>
-      )}
-      <Box
-        bg="primary"
-        color="white"
-        py="3"
-        px="4"
-        textAlign="center"
-        mt={pkg.popular ? "8" : "0"}
-      >
-        <Text
-          fontWeight="bold"
-          textTransform="uppercase"
-          fontSize={{ base: "md", lg: "lg" }}
-          letterSpacing="wider"
-        >
-          {pkg.name}
-        </Text>
-      </Box>
-      <VStack
-        p={{ base: "5", md: "6" }}
-        flex="1"
-        align="stretch"
-        gap="4"
-        justifyContent="space-between"
-      >
-        <Box>
+
+        {/* Price */}
+        <VStack gap="2" align="center">
           <Text
-            fontSize={{ base: "2xl", md: "3xl" }}
-            fontWeight="bold"
+            fontSize={{ base: "2xl", lg: "3rem" }}
+            fontWeight="black"
             color="white"
+            lineHeight="1"
           >
             {pkg.price}€
           </Text>
-          <Text fontSize="sm" color="whiteAlpha.800">
+          <Text
+            fontSize={{ base: "sm", lg: "body.lg" }}
+            color="white"
+            opacity={0.5}
+          >
             {pkg.perPersonLabel ?? "Por pessoa"}
           </Text>
-        </Box>
-        <VStack align="stretch" gap="2" flex="1">
+        </VStack>
+
+        {/* Dashed separator */}
+        <Box
+          w="full"
+          borderBottomWidth="1px"
+          borderStyle="dashed"
+          borderColor="whiteAlpha.400"
+        />
+
+        {/* Popular badge + features */}
+        <VStack gap={{ base: "4", lg: "6" }} align="center" w="full">
+          {pkg.popular && (
+            <Box
+              bg={{ base: "primary.muted", lg: "bg.subtle" }}
+              px={{ base: "4", lg: "8" }}
+              py="2"
+              borderRadius="md"
+            >
+              <Text
+                fontSize={{ base: "sm", lg: "body.lg" }}
+                fontWeight="medium"
+                color="primary"
+                textTransform="uppercase"
+                whiteSpace="nowrap"
+              >
+                O MAIS POPULAR
+              </Text>
+            </Box>
+          )}
           {pkg.features.map((feature) => (
             <Text
               key={feature}
-              fontSize="sm"
-              color="whiteAlpha.900"
-              lineHeight="tall"
+              fontSize={{ base: "sm", lg: "body.lg" }}
+              fontWeight="extrabold"
+              color="white"
+              opacity={0.5}
+              textAlign="center"
+              textTransform="uppercase"
             >
               {feature}
             </Text>
           ))}
         </VStack>
-        <Button
-          asChild
-          width="full"
-          bg="primary"
-          color="white"
-          fontWeight="bold"
-          textTransform="uppercase"
-          size="lg"
-          _hover={{ bg: "primary.muted", color: "fg" }}
-        >
-          <Link href={reserveHref}>{pkg.ctaLabel ?? "RESERVA JÁ"}</Link>
-        </Button>
       </VStack>
+
+      {/* CTA button */}
+      <Link
+        href={reserveHref}
+        bg="primary"
+        color="white"
+        fontWeight="medium"
+        textTransform="uppercase"
+        fontSize={{ base: "sm", lg: "body.lg" }}
+        px="8"
+        py="4"
+        borderRadius="md"
+        boxShadow="0px 5px 16px 0px rgba(0,0,0,0.22)"
+        mt={{ base: "8", lg: "12" }}
+        _hover={{ opacity: 0.9 }}
+        display="inline-flex"
+        alignItems="center"
+        justifyContent="center"
+      >
+        {pkg.ctaLabel ?? "RESERVA JÁ"}
+      </Link>
     </Box>
   );
 }

@@ -15,6 +15,8 @@ type PageHeroProps = {
   heroBg?: string;
   /** Override the title text style — defaults to "h1.anton" */
   titleTextStyle?: string;
+  /** Minimum height for the hero — when set, content is vertically centered */
+  minH?: React.ComponentProps<typeof Box>["minH"];
 };
 
 /**
@@ -26,9 +28,22 @@ export function PageHero({
   cta,
   heroBg = "bg.dark",
   titleTextStyle = "h1.anton",
+  minH,
 }: PageHeroProps) {
   return (
-    <Box bg={heroBg} color="white" py={{ base: "12", md: "16", lg: "20" }}>
+    <Box
+      bg={heroBg}
+      color="white"
+      py={{ base: "12", md: "16", lg: "20" }}
+      {...(minH
+        ? {
+            minH,
+            display: "flex",
+            flexDirection: "column" as const,
+            justifyContent: "center",
+          }
+        : {})}
+    >
       <Container>
         <VStack
           gap={{ base: "4", md: "8" }}

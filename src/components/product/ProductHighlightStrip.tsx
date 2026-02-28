@@ -1,52 +1,54 @@
 "use client";
 
-import { Box, Grid, Text } from "@chakra-ui/react";
+import { Box, Flex, Text } from "@chakra-ui/react";
 import { Container } from "@/components/layout";
 import type { ProductHighlight as ProductHighlightType } from "@/data/products";
+
+function HighlightBadge({ label }: { label: string }) {
+  return (
+    <Box
+      position="relative"
+      borderWidth="3px"
+      borderColor="primary"
+      borderRadius="lg"
+      px={{ base: "5", md: "6", lg: "10" }}
+      py={{ base: "3", md: "4", lg: "5" }}
+      textAlign="center"
+      minW={{ base: "140px", md: "160px", lg: "180px" }}
+    >
+      <Text
+        fontFamily="heading.molot"
+        fontSize={{ base: "sm", md: "md", lg: "body.lg" }}
+        color="fg"
+        textTransform="uppercase"
+        lineHeight="1.2"
+      >
+        {label}
+      </Text>
+    </Box>
+  );
+}
 
 export interface ProductHighlightStripProps {
   highlights: ProductHighlightType[];
 }
 
-/**
- * Strip of highlight boxes below the hero (e.g. "12 MAPAS", "30 MIN DE LASER").
- * Uses theme primary/offset for background.
- */
 export function ProductHighlightStrip({
   highlights,
 }: ProductHighlightStripProps) {
   return (
-    <Box bg="bg" py={{ base: "6", md: "8" }}>
+    <Box py={{ base: "6", md: "10", lg: "12" }}>
       <Container>
-        <Grid
-          templateColumns={{
-            base: "1fr",
-            sm: "repeat(2, 1fr)",
-            md: "repeat(3, 1fr)",
-          }}
-          gap={{ base: "4", md: "6" }}
+        <Flex
+          justify="center"
+          align="center"
+          gap={{ base: "4", md: "6", lg: "12" }}
+          flexWrap="wrap"
         >
           {highlights.map(({ label }) => (
-            <Box
-              key={label}
-              bg="primary.muted"
-              color="fg"
-              borderRadius="md"
-              py={{ base: "5", md: "6" }}
-              px={{ base: "5", md: "6" }}
-              textAlign="center"
-            >
-              <Text
-                fontWeight="bold"
-                textTransform="uppercase"
-                letterSpacing="wider"
-                fontSize={{ base: "sm", md: "md" }}
-              >
-                {label}
-              </Text>
-            </Box>
+            <HighlightBadge key={label} label={label} />
           ))}
-        </Grid>
+        </Flex>
       </Container>
     </Box>
   );

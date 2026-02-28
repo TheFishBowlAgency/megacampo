@@ -27,11 +27,10 @@ export function ProductPricingSection({
       <SectionHeading title={sectionTitle} description={sectionDescription} />
       <Grid
         templateColumns={{
-          base: "1fr",
-          sm: "repeat(2, 1fr)",
+          base: "repeat(2, 1fr)",
           lg: "repeat(4, 1fr)",
         }}
-        gap={{ base: "6", md: "6", lg: "6" }}
+        gap={{ base: "2.5", md: "4", lg: "5" }}
       >
         {packages.map((pkg) => (
           <PricingCard key={pkg.id} pkg={pkg} reserveHref={reserveHref} />
