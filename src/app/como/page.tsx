@@ -19,7 +19,7 @@ const STEPS: HowItWorksStep[] = [
     stepLabel: "Primeiro passo",
     title: "Escolhe a tua experiência",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
+      "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud.",
     linkText: "Ver mais",
     href: "/eventos",
     icon: <HandPointingIcon />,
@@ -29,7 +29,7 @@ const STEPS: HowItWorksStep[] = [
     stepLabel: "Segundo passo",
     title: "Planeia a tua visita",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
+      "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud.",
     linkText: "Ver mais",
     href: "/cenarios",
     icon: <ChecklistIcon />,
@@ -39,7 +39,7 @@ const STEPS: HowItWorksStep[] = [
     stepLabel: "Terceiro passo",
     title: "Marca a tua visita",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
+      "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud.",
     linkText: "Ver mais",
     href: "/#reservas",
     icon: <CalendarCheckIcon />,
@@ -55,6 +55,8 @@ export default function ComoPage() {
           title={HERO_TITLE}
           subtitle={HERO_SUBTITLE}
           cta={{ label: "Reserva já", href: "/#reservas" }}
+          heroBg="bg.hero"
+          titleTextStyle="h1.molot"
         />
 
         <HowItWorksSection steps={STEPS} />

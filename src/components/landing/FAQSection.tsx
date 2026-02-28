@@ -8,28 +8,29 @@ const DEFAULT_ITEMS = [
   {
     question: "Qual o número mínimo de jogadores?",
     answer:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. O número mínimo varia consoante a atividade.",
+      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
   },
   {
-    question: "É preciso levar bolas de paintball?",
-    answer: "Não. Todo o equipamento necessário está incluído no preço.",
+    question: "Dói muito levar com bolas de paintball?",
+    answer:
+      "Não. As bolas de paintball são feitas de gelatina e tinta biodegradável. O impacto é semelhante a um estalar de dedos.",
   },
   {
-    question: "Qual a idade mínima para jogar?",
+    question: "Qual é a idade mínima para jogar?",
     answer: "A idade mínima é 10 anos, acompanhados por um adulto responsável.",
   },
   {
     question: "O que está incluído no preço?",
     answer:
-      "Equipamento completo (marca, máscara, fato), bolas de paintball e monitor durante a atividade.",
+      "Equipamento completo (marcadora, máscara, fato), bolas de paintball e monitor durante a atividade.",
   },
   {
-    question: "Podemos trazer comida/bebida? Há barbecues?",
+    question: "Podemos trazer comida/bebida? Há barbecue?",
     answer:
       "Sim. Temos zonas de piquenique e barbecues disponíveis mediante reserva.",
   },
   {
-    question: "E o que acontece se chover?",
+    question: "O que acontece se chover?",
     answer:
       "As atividades realizam-se na mesma. Em condições extremas, reagendamos sem custos adicionais.",
   },
@@ -66,28 +67,29 @@ export function FAQSection({
             {heading}
           </Text>
           <VStack gap="0" align="stretch">
+            {/* Top divider — matches Figma's dark top border */}
+            <Box h="1px" bg="fg" />
             {items.map((item, i) => (
-              <Box
-                key={item.question}
-                borderBottomWidth="1px"
-                borderColor="gray.200"
-              >
+              <Box key={item.question}>
                 <Box
                   as="button"
                   width="full"
                   display="flex"
                   alignItems="center"
                   justifyContent="space-between"
+                  gap="5"
                   py="4"
                   px="0"
                   textAlign="left"
                   fontWeight="semibold"
+                  fontSize={{ base: "md", md: "lg", lg: "xl" }}
                   color="fg"
+                  cursor="pointer"
                   _hover={{ color: "primary" }}
                   onClick={() => setOpenIndex(openIndex === i ? -1 : i)}
                 >
                   {item.question}
-                  <Box as="span" fontSize="xl" color="primary" aria-hidden>
+                  <Box as="span" fontSize="xl" flexShrink={0} aria-hidden>
                     {openIndex === i ? "−" : "+"}
                   </Box>
                 </Box>
@@ -96,12 +98,12 @@ export function FAQSection({
                     pb="4"
                     pr="8"
                     color="fg.muted"
-                    textStyle="body"
-                    fontSize="md"
+                    fontSize={{ base: "sm", md: "md" }}
                   >
                     {item.answer}
                   </Box>
                 )}
+                <Box h="1px" bg="fg.muted" />
               </Box>
             ))}
           </VStack>

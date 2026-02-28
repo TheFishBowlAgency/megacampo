@@ -10,26 +10,35 @@ export type PageHeroCta = {
 type PageHeroProps = {
   title: string;
   subtitle?: string;
-  /** Optional primary CTA button below subtitle */
   cta?: PageHeroCta;
+  /** Override the hero background — defaults to "bg.dark" */
+  heroBg?: string;
+  /** Override the title text style — defaults to "h1.anton" */
+  titleTextStyle?: string;
 };
 
 /**
  * Full-width hero for inner pages (e.g. Eventos, Como). Dark background, centered title.
  */
-export function PageHero({ title, subtitle, cta }: PageHeroProps) {
+export function PageHero({
+  title,
+  subtitle,
+  cta,
+  heroBg = "bg.dark",
+  titleTextStyle = "h1.anton",
+}: PageHeroProps) {
   return (
-    <Box bg="bg.dark" color="white" py={{ base: "12", md: "16", lg: "20" }}>
+    <Box bg={heroBg} color="white" py={{ base: "12", md: "16", lg: "20" }}>
       <Container>
         <VStack
-          gap={{ base: "4", md: "6" }}
+          gap={{ base: "4", md: "8" }}
           textAlign="center"
           maxW="4xl"
           mx="auto"
         >
           <Text
             as="h1"
-            textStyle="h1.anton"
+            textStyle={titleTextStyle}
             fontSize={{ base: "2.5rem", md: "4rem", lg: "5rem" }}
             lineHeight="1"
             textTransform="uppercase"
@@ -38,7 +47,7 @@ export function PageHero({ title, subtitle, cta }: PageHeroProps) {
           </Text>
           {subtitle && (
             <Text
-              textStyle="body"
+              textStyle="h5"
               fontSize={{ base: "md", md: "lg" }}
               color="whiteAlpha.900"
               maxW="2xl"

@@ -36,6 +36,7 @@ const colors = defineTokens.colors({
   offset: { value: "#FFECCC" },
   dark: { value: "#282828" },
   surfaceDark: { value: "#3E3E3E" },
+  surfaceMid: { value: "#575757" },
   grayMid: { value: "#939598" },
   grayLight: { value: "#F5F5F5" },
   background: { value: "#FFD999" },
@@ -56,6 +57,9 @@ const semanticColors = defineSemanticTokens.colors({
     },
     dark: {
       value: { _light: "{colors.surfaceDark}", _dark: "{colors.surfaceDark}" },
+    },
+    hero: {
+      value: { _light: "{colors.surfaceMid}", _dark: "{colors.surfaceMid}" },
     },
     subtle: {
       value: { _light: "{colors.grayLight}", _dark: "{colors.grayMid}" },
