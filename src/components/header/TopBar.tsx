@@ -13,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 
-const PHONE = "+351 912 345 678";
+const PHONE = "+351 913 402 013";
 
 const LANGUAGES = [
   { code: "pt", label: "Português" },

@@ -1,48 +1,59 @@
-import { Box, Grid, Text } from "@chakra-ui/react";
+import { Box, Flex, Text } from "@chakra-ui/react";
 import { Container } from "@/components/layout";
 
 const FEATURES = [
-  "+20 ANOS DE EXPERIÊNCIA",
-  "MAPA DE AÇÃO",
-  "CENÁRIOS ÚNICOS",
-  "EQUIPAMENTO INCLUÍDO",
-  "SEGURANÇA EM PRIMEIRO",
+  "+30 ANOS DE EXPERIÊNCIA",
+  "12 MAPAS",
+  "30 MINUTOS DE LISBOA",
+  "+20.000 VISITANTES",
+  "40 HECTARES",
 ];
 
 export function KeyFeatures() {
   return (
-    <Box bg="white" py={{ base: "8", md: "10" }}>
+    <Box py={{ base: "8", md: "10" }}>
       <Container>
-        <Grid
-          templateColumns={{
-            base: "repeat(2, 1fr)",
-            md: "repeat(3, 1fr)",
-            lg: "repeat(5, 1fr)",
-          }}
-          gap="4"
+        <Flex
+          flexWrap="wrap"
+          gap={{ base: "3", md: "4", lg: "5" }}
+          justifyContent="center"
         >
           {FEATURES.map((label) => (
             <Box
               key={label}
-              borderWidth="2px"
-              borderColor="primary"
-              borderRadius="md"
-              p="4"
-              textAlign="center"
-              _hover={{ bg: "primary.muted" }}
+              position="relative"
+              display="inline-flex"
+              alignItems="center"
+              justifyContent="center"
+              px={{ base: "5", md: "4", lg: "3" }}
+              py={{ base: "2", md: "3" }}
+              minW={{ base: "160px", md: "180px", lg: "200px" }}
+              minH={{ base: "50px", md: "60px", lg: "70px" }}
             >
+              <Box
+                position="absolute"
+                inset="0"
+                border="2px solid"
+                borderColor="dark"
+                transform="skewX(-8deg)"
+                borderRadius="sm"
+              />
               <Text
-                fontWeight="bold"
-                fontSize={{ base: "xs", md: "sm" }}
+                fontFamily="heading.molot"
+                fontSize={{ base: "xs", md: "sm", lg: "body.lg" }}
+                fontWeight="normal"
+                textAlign="center"
+                color="dark"
                 textTransform="uppercase"
-                letterSpacing="wider"
-                color="fg"
+                lineHeight="1.2"
+                position="relative"
+                zIndex="1"
               >
                 {label}
               </Text>
             </Box>
           ))}
-        </Grid>
+        </Flex>
       </Container>
     </Box>
   );

@@ -1,8 +1,11 @@
-import { Box, Grid, HStack, IconButton, Text, VStack } from "@chakra-ui/react";
+"use client";
+
+import { Box, Grid, HStack, Text, VStack } from "@chakra-ui/react";
 import { Container, Section } from "@/components/layout";
 
-const DEFAULT_HEADING = "Milhares de clientes aprovam o Megacampo";
-const DEFAULT_SUBHEADING = "Descubra o que dizem quem já viveu a aventura.";
+const DEFAULT_HEADING = "MILHARES DE CLIENTES APROVAM O MEGACAMPO";
+const DEFAULT_SUBHEADING =
+  "Para muitos jogadores, a melhor experiência de paintball que já viveram.";
 
 type TestimonialsSectionProps = {
   heading?: string;
@@ -14,51 +17,97 @@ export function TestimonialsSection({
   subheading = DEFAULT_SUBHEADING,
 }: TestimonialsSectionProps = {}) {
   return (
-    <Section variant="subtle">
+    <Section variant="default">
       <Container>
-        <VStack gap="8">
-          <VStack gap="2" textAlign="center">
-            <Text as="h2" textStyle="h2" color="fg">
+        <VStack gap={{ base: "6", md: "8", lg: "16" }}>
+          <VStack gap={{ base: "3", md: "4", lg: "8" }} textAlign="center">
+            <Text
+              as="h2"
+              textStyle="h2"
+              fontSize={{ base: "xl", md: "2xl", lg: "display.h2" }}
+              color="fg"
+              textTransform="uppercase"
+            >
               {heading}
             </Text>
-            <Text textStyle="body" color="fg.muted" maxW="xl">
+            <Text
+              textStyle="h5"
+              fontSize={{ base: "sm", md: "md", lg: "body.lg" }}
+              color="fg"
+            >
               {subheading}
             </Text>
           </VStack>
+
           <Box w="full" position="relative">
             <Grid
-              templateColumns={{ base: "1fr", md: "repeat(4, 1fr)" }}
-              gap="4"
+              templateColumns={{
+                base: "1fr",
+                md: "repeat(2, 1fr)",
+                lg: "repeat(4, 1fr)",
+              }}
+              gap={{ base: "4", md: "5" }}
               w="full"
             >
               {[1, 2, 3, 4].map((i) => (
                 <Box
                   key={i}
-                  bg="white"
-                  borderRadius="lg"
-                  minH="120px"
-                  borderWidth="1px"
-                  borderColor="gray.200"
+                  bg="gray.300"
+                  w="full"
+                  aspectRatio="315/428"
+                  display={{
+                    base: i > 1 ? "none" : "block",
+                    md: i > 2 ? "none" : "block",
+                    lg: "block",
+                  }}
                 />
               ))}
             </Grid>
-            <HStack justify="center" mt="6" gap="2">
-              <IconButton
+
+            <HStack
+              justify={{ base: "center", lg: "space-between" }}
+              mt={{ base: "6", lg: "0" }}
+              gap="4"
+              position={{ lg: "absolute" }}
+              top={{ lg: "50%" }}
+              left={{ lg: "0" }}
+              right={{ lg: "0" }}
+              transform={{ lg: "translateY(-50%)" }}
+              px={{ lg: "0" }}
+              pointerEvents="none"
+            >
+              <Box
+                as="button"
                 aria-label="Anterior"
-                variant="outline"
-                size="sm"
-                colorPalette="primary"
+                w={{ base: "40px", lg: "60px" }}
+                h={{ base: "40px", lg: "60px" }}
+                border="2px solid"
+                borderColor="dark"
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                cursor="pointer"
+                pointerEvents="auto"
+                _hover={{ bg: "gray.100" }}
               >
                 <ChevronLeftIcon />
-              </IconButton>
-              <IconButton
+              </Box>
+              <Box
+                as="button"
                 aria-label="Seguinte"
-                variant="outline"
-                size="sm"
-                colorPalette="primary"
+                w={{ base: "40px", lg: "60px" }}
+                h={{ base: "40px", lg: "60px" }}
+                border="2px solid"
+                borderColor="dark"
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                cursor="pointer"
+                pointerEvents="auto"
+                _hover={{ bg: "gray.100" }}
               >
                 <ChevronRightIcon />
-              </IconButton>
+              </Box>
             </HStack>
           </Box>
         </VStack>
@@ -71,13 +120,13 @@ function ChevronLeftIcon() {
   return (
     <svg
       width="20"
-      height="20"
-      viewBox="0 0 24 24"
+      height="12"
+      viewBox="0 0 33 20"
       fill="none"
       stroke="currentColor"
       strokeWidth="2"
     >
-      <path d="m15 18-6-6 6-6" />
+      <path d="M33 10H3M3 10L13 1M3 10L13 19" />
     </svg>
   );
 }
@@ -86,13 +135,13 @@ function ChevronRightIcon() {
   return (
     <svg
       width="20"
-      height="20"
-      viewBox="0 0 24 24"
+      height="12"
+      viewBox="0 0 33 20"
       fill="none"
       stroke="currentColor"
       strokeWidth="2"
     >
-      <path d="m9 18 6-6-6-6" />
+      <path d="M0 10H30M30 10L20 1M30 10L20 19" />
     </svg>
   );
 }

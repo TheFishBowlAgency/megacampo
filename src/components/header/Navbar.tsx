@@ -1,12 +1,7 @@
 "use client";
 
-import {
-  Box,
-  HStack,
-  IconButton,
-  Text,
-  useBreakpointValue,
-} from "@chakra-ui/react";
+import { Box, HStack, IconButton, useBreakpointValue } from "@chakra-ui/react";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Link } from "@/components/ui";
 
@@ -39,15 +34,14 @@ export function Navbar({ onOpenMenu }: { onOpenMenu: () => void }) {
         <HStack justify="space-between" gap="4">
           {/* Logo */}
           <Link href="/" _hover={{ opacity: 0.9 }}>
-            <Text
-              fontFamily="heading"
-              fontSize={{ base: "lg", md: "xl" }}
-              fontWeight="normal"
-              color="fg"
-              letterSpacing="wider"
-            >
-              MEGA CAMPO
-            </Text>
+            <Image
+              src="/logo.png"
+              alt="Megacampo"
+              width={139}
+              height={80}
+              style={{ height: "auto", width: "auto", maxWidth: "100px" }}
+              priority
+            />
           </Link>
 
           {showMobileNav ? (

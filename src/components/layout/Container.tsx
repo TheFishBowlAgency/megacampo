@@ -1,6 +1,6 @@
 import { Box } from "@chakra-ui/react";
 
-const CONTAINER_MAX = "1280px";
+const CONTAINER_MAX = "1320px";
 
 export function Container({
   children,

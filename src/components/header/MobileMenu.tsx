@@ -10,6 +10,7 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
+import Image from "next/image";
 
 const NAV_LINKS = [
   { label: "ATIVIDADES", href: "/#actividades" },
@@ -167,15 +168,13 @@ export function MobileMenu({
 
 function Logo() {
   return (
-    <Text
-      fontFamily="heading"
-      fontSize="xl"
-      fontWeight="normal"
-      color="fg"
-      letterSpacing="wider"
-    >
-      MEGACAMPO
-    </Text>
+    <Image
+      src="/logo.png"
+      alt="Megacampo"
+      width={139}
+      height={80}
+      style={{ height: "auto", width: "auto", maxWidth: "80px" }}
+    />
   );
 }
 

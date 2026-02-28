@@ -26,6 +26,7 @@ const fonts = defineTokens.fonts({
 
 const fontSizes = defineTokens.fontSizes({
   "display.h1": { value: "7.25rem" },
+  "display.h1.mobile": { value: "2.75rem" },
   "display.h2": { value: "3rem" },
   "display.h3": { value: "2rem" },
   "body.lg": { value: "1.5rem" },

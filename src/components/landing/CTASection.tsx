@@ -8,8 +8,8 @@ export type CTASectionProps = {
   href?: string;
 };
 
-const DEFAULT_HEADING = "Pronto para uma aventura?";
-const DEFAULT_BUTTON = "Reservas já";
+const DEFAULT_HEADING = "PRONTO PARA UMA AVENTURA?";
+const DEFAULT_BUTTON = "RESERVA JÁ";
 const DEFAULT_HREF = "/#reservas";
 
 export function CTASection({
@@ -18,28 +18,29 @@ export function CTASection({
   href = DEFAULT_HREF,
 }: CTASectionProps = {}) {
   return (
-    <Box bg="primary" color="white" py={{ base: "12", md: "16" }}>
+    <Box bg="primary" py={{ base: "10", md: "14", lg: "16" }}>
       <Container>
-        <VStack gap="6" textAlign="center">
+        <VStack gap={{ base: "5", md: "6", lg: "8" }} textAlign="center">
           <Text
             as="h2"
             textStyle="h2"
-            fontSize={{ base: "2xl", md: "3rem" }}
+            fontSize={{ base: "xl", md: "2xl", lg: "display.h2" }}
+            color="fg"
             textTransform="uppercase"
           >
             {heading}
           </Text>
           <Link
             href={href}
-            bg="fg"
-            color="white"
+            bg="dark"
+            color="grayLight"
             px="8"
             py="4"
-            fontSize="lg"
-            fontWeight="semibold"
+            textStyle="button"
+            fontSize={{ base: "md", lg: "body.lg" }}
             textTransform="uppercase"
             borderRadius="md"
-            _hover={{ bg: "gray.700", color: "white" }}
+            _hover={{ opacity: 0.9 }}
           >
             {buttonText}
           </Link>
