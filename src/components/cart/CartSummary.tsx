@@ -17,7 +17,7 @@ export interface CartSummaryProps {
 export function CartSummary({
   total,
   checkoutLabel = "FINALIZAR COMPRA",
-  checkoutHref = "/#reservas",
+  checkoutHref = "/checkout",
   mt = "6",
 }: CartSummaryProps) {
   return (
