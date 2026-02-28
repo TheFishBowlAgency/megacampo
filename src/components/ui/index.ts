@@ -4,5 +4,7 @@ export { EmptyState } from "./EmptyState";
 export type { EmptyStateProps } from "./EmptyState";
 export { FeatureItem } from "./FeatureItem";
 export { FormInput } from "./FormInput";
+export { InfoBar } from "./InfoBar";
+export type { InfoBarProps } from "./InfoBar";
 export { SelectionDot } from "./SelectionDot";
 export type { SelectionDotProps } from "./SelectionDot";
