@@ -6,5 +6,7 @@ export { FeatureItem } from "./FeatureItem";
 export { FormInput } from "./FormInput";
 export { InfoBar } from "./InfoBar";
 export type { InfoBarProps } from "./InfoBar";
+export { QuantitySelector } from "./QuantitySelector";
+export type { QuantitySelectorProps } from "./QuantitySelector";
 export { SelectionDot } from "./SelectionDot";
 export type { SelectionDotProps } from "./SelectionDot";
