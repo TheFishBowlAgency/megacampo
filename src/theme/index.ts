@@ -19,7 +19,6 @@ const fonts = defineTokens.fonts({
     value:
       "var(--font-molot, var(--font-anton)), sans-serif",
   },
-  // Add Molot via next/font/local and set --font-molot in layout when you have the font file
   body: { value: "var(--font-roboto), sans-serif" },
   mono: { value: "var(--font-roboto), monospace" },
 });

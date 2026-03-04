@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Anton, Roboto } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { StyleProvider } from "@/providers";
 
@@ -7,6 +8,12 @@ const anton = Anton({
   weight: "400",
   variable: "--font-anton",
   subsets: ["latin"],
+});
+
+const molot = localFont({
+  src: "../../public/fonts/martimmolina.ttf",
+  variable: "--font-molot",
+  display: "swap",
 });
 
 const roboto = Roboto({
@@ -27,8 +34,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${anton.variable} ${roboto.variable}`}>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${anton.variable} ${molot.variable} ${roboto.variable}`}
+    >
+      <body>
         <StyleProvider>{children}</StyleProvider>
       </body>
     </html>
