@@ -1,6 +1,7 @@
-"use client";
+'use client';
 
-import { Box, Text, VStack } from "@chakra-ui/react";
+import { Box, Text, VStack } from '@chakra-ui/react';
+import { bannerSectionUnderlayBefore } from '@/components/layout/bannerUnderlay';
 
 export interface PageHeroProps {
   /** Main title, can be multi-line (split by \n or pass array) */
@@ -16,21 +17,30 @@ export interface PageHeroProps {
 export function PageHero({ title, subtitle }: PageHeroProps) {
   const lines = Array.isArray(title)
     ? title
-    : title.split("\n").filter(Boolean);
+    : title.split('\n').filter(Boolean);
 
   return (
-    <Box bg="bg.dark" color="white" py={{ base: "12", md: "16", lg: "20" }}>
+    <Box
+      position="relative"
+      overflow="hidden"
+      bg="bg.dark"
+      color="white"
+      py={{ base: '12', md: '16', lg: '20' }}
+      _before={bannerSectionUnderlayBefore}
+    >
       <VStack
-        gap={{ base: "3", md: "4" }}
+        position="relative"
+        zIndex={1}
+        gap={{ base: '3', md: '4' }}
         textAlign="center"
         maxW="3xl"
         mx="auto"
-        px={{ base: "4", md: "6" }}
+        px={{ base: '4', md: '6' }}
       >
         <Text
           as="h1"
           fontFamily="heading"
-          fontSize={{ base: "2.5rem", sm: "3rem", md: "4rem", lg: "4.5rem" }}
+          fontSize={{ base: '2.5rem', sm: '3rem', md: '4rem', lg: '4.5rem' }}
           fontWeight="normal"
           lineHeight="1"
           textTransform="uppercase"
@@ -44,7 +54,7 @@ export function PageHero({ title, subtitle }: PageHeroProps) {
         </Text>
         {subtitle && (
           <Text
-            fontSize={{ base: "md", md: "lg" }}
+            fontSize={{ base: 'md', md: 'lg' }}
             color="whiteAlpha.900"
             lineHeight="1.4"
           >
