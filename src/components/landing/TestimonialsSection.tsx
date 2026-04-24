@@ -1,7 +1,20 @@
 "use client";
 
 import { Box, Grid, HStack, Text, VStack } from "@chakra-ui/react";
+import Image from "next/image";
 import { Container, Section } from "@/components/layout";
+import {
+  ACTIVITY_CARD_IMAGE_AIRSOFT,
+  ACTIVITY_CARD_IMAGE_LASERTAG,
+  ACTIVITY_CARD_IMAGE_PAINTBALL,
+} from "@/data/activityCardMedia";
+
+const TESTIMONIAL_GALLERY_IMAGES = [
+  { src: ACTIVITY_CARD_IMAGE_PAINTBALL, alt: "Jogador de paintball no Megacampo" },
+  { src: ACTIVITY_CARD_IMAGE_AIRSOFT, alt: "Participante de airsoft no Megacampo" },
+  { src: ACTIVITY_CARD_IMAGE_LASERTAG, alt: "Lasertag ao ar livre no Megacampo" },
+  { src: ACTIVITY_CARD_IMAGE_PAINTBALL, alt: "Experiência paintball no Megacampo" },
+];
 
 const DEFAULT_HEADING = "MILHARES DE CLIENTES APROVAM O MEGACAMPO";
 const DEFAULT_SUBHEADING =
@@ -49,19 +62,32 @@ export function TestimonialsSection({
               gap={{ base: "4", md: "5" }}
               w="full"
             >
-              {[1, 2, 3, 4].map((i) => (
-                <Box
-                  key={i}
-                  bg="gray.300"
-                  w="full"
-                  aspectRatio="315/428"
-                  display={{
-                    base: i > 1 ? "none" : "block",
-                    md: i > 2 ? "none" : "block",
-                    lg: "block",
-                  }}
-                />
-              ))}
+              {[1, 2, 3, 4].map((i) => {
+                const { src, alt } = TESTIMONIAL_GALLERY_IMAGES[i - 1];
+                return (
+                  <Box
+                    key={i}
+                    position="relative"
+                    w="full"
+                    aspectRatio="315/428"
+                    bg="gray.300"
+                    overflow="hidden"
+                    display={{
+                      base: i > 1 ? "none" : "block",
+                      md: i > 2 ? "none" : "block",
+                      lg: "block",
+                    }}
+                  >
+                    <Image
+                      src={src}
+                      alt={alt}
+                      fill
+                      sizes="(max-width: 767px) 100vw, (max-width: 991px) 50vw, 25vw"
+                      style={{ objectFit: "cover" }}
+                    />
+                  </Box>
+                );
+              })}
             </Grid>
 
             <HStack

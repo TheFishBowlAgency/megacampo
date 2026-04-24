@@ -1,6 +1,7 @@
-"use client";
+'use client';
 
-import { Box, Link, Text, VStack } from "@chakra-ui/react";
+import { Box, Link, Text, VStack } from '@chakra-ui/react';
+import Image from 'next/image';
 
 export interface ScenarioCardProps {
   /** Scenario/map name (e.g. "IRAQUE", "WILD WEST") */
@@ -18,7 +19,7 @@ export interface ScenarioCardProps {
 export function ScenarioCard({
   name,
   imageSrc,
-  href = "#",
+  href = '#',
 }: ScenarioCardProps) {
   return (
     <VStack align="stretch" gap="3" as="article">
@@ -30,13 +31,15 @@ export function ScenarioCard({
         overflow="hidden"
       >
         {imageSrc ? (
-          <img
+          <Image
             src={imageSrc}
             alt={name}
-            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            fill
+            sizes="(max-width: 767px) 100vw, (max-width: 991px) 50vw, 33vw"
+            style={{ objectFit: 'cover' }}
           />
         ) : (
-          <Box width="100%" height="100%" bg="gray.200" />
+          <Box position="absolute" inset="0" bg="gray.200" />
         )}
         <Box
           position="absolute"
@@ -49,7 +52,7 @@ export function ScenarioCard({
           borderBottomRightRadius="md"
           textTransform="uppercase"
           fontWeight="bold"
-          fontSize={{ base: "sm", md: "md" }}
+          fontSize={{ base: 'sm', md: 'md' }}
           letterSpacing="wider"
         >
           {name}
@@ -69,7 +72,7 @@ export function ScenarioCard({
           href={href}
           fontSize="sm"
           color="fg.muted"
-          _hover={{ color: "primary" }}
+          _hover={{ color: 'primary' }}
           alignSelf="flex-start"
         >
           Ver mais
