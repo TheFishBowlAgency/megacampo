@@ -69,6 +69,11 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
+    activities: Activity;
+    'package-categories': PackageCategory;
+    'option-groups': OptionGroup;
+    options: Option;
+    packages: Package;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -78,6 +83,11 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    activities: ActivitiesSelect<false> | ActivitiesSelect<true>;
+    'package-categories': PackageCategoriesSelect<false> | PackageCategoriesSelect<true>;
+    'option-groups': OptionGroupsSelect<false> | OptionGroupsSelect<true>;
+    options: OptionsSelect<false> | OptionsSelect<true>;
+    packages: PackagesSelect<false> | PackagesSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -163,6 +173,143 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "activities".
+ */
+export interface Activity {
+  id: string;
+  title: string;
+  /**
+   * Auto-generated from title.
+   */
+  slug: string;
+  image?: (string | null) | Media;
+  sort?: number | null;
+  isActive?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "package-categories".
+ */
+export interface PackageCategory {
+  id: string;
+  activity: string | Activity;
+  title: string;
+  /**
+   * Auto-generated from activity and title.
+   */
+  slug: string;
+  image?: (string | null) | Media;
+  sort?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "option-groups".
+ */
+export interface OptionGroup {
+  id: string;
+  title: string;
+  selectionType: 'single' | 'multi';
+  sort?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "options".
+ */
+export interface Option {
+  id: string;
+  group: string | OptionGroup;
+  label: string;
+  /**
+   * Optional fallback price. Package-specific pricing in Packages usually overrides this.
+   */
+  defaultPriceCents?: number | null;
+  pricingUnit: 'per_person' | 'per_booking';
+  cartBehavior: 'inline' | 'separate_line_item';
+  /**
+   * Maximum quantity per booking (e.g. 1 for Private Lounge).
+   */
+  maxPerBooking?: number | null;
+  sort?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "packages".
+ */
+export interface Package {
+  id: string;
+  activity: string | Activity;
+  /**
+   * Optional middle layer (e.g. Paintball Group, Birthday Party). Leave empty when not used.
+   */
+  category?: (string | null) | PackageCategory;
+  name: string;
+  /**
+   * Auto-generated from activity, category, and name.
+   */
+  slug: string;
+  image?: (string | null) | Media;
+  /**
+   * Base package price in cents (EUR).
+   */
+  basePriceCents: number;
+  isActive?: boolean | null;
+  sort?: number | null;
+  /**
+   * Inherit extra configuration from another package (e.g. Commando Party → Commando). Apply overrides below.
+   */
+  templatePackage?: (string | null) | Package;
+  /**
+   * Mutations applied on top of the template package configuration.
+   */
+  templateOverrides?:
+    | {
+        type: 'replaceOption' | 'excludeOption' | 'addOption' | 'setDefault' | 'priceOverride';
+        group: string | OptionGroup;
+        fromOption?: (string | null) | Option;
+        toOption?: (string | null) | Option;
+        isDefault?: boolean | null;
+        /**
+         * Package-specific price in cents for the added or replaced option.
+         */
+        priceCents?: number | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Full extra configuration for this package. Not used when a template package is set.
+   */
+  extraGroupConfigs?:
+    | {
+        group: string | OptionGroup;
+        sort?: number | null;
+        options: {
+          option: string | Option;
+          /**
+           * Pre-selected choice for this package in this group.
+           */
+          isDefault?: boolean | null;
+          /**
+           * Add-on price for this package (0 = included with the default selection).
+           */
+          priceCents: number;
+          id?: string | null;
+        }[];
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -192,6 +339,26 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: string | Media;
+      } | null)
+    | ({
+        relationTo: 'activities';
+        value: string | Activity;
+      } | null)
+    | ({
+        relationTo: 'package-categories';
+        value: string | PackageCategory;
+      } | null)
+    | ({
+        relationTo: 'option-groups';
+        value: string | OptionGroup;
+      } | null)
+    | ({
+        relationTo: 'options';
+        value: string | Option;
+      } | null)
+    | ({
+        relationTo: 'packages';
+        value: string | Package;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -274,6 +441,101 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "activities_select".
+ */
+export interface ActivitiesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  image?: T;
+  sort?: T;
+  isActive?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "package-categories_select".
+ */
+export interface PackageCategoriesSelect<T extends boolean = true> {
+  activity?: T;
+  title?: T;
+  slug?: T;
+  image?: T;
+  sort?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "option-groups_select".
+ */
+export interface OptionGroupsSelect<T extends boolean = true> {
+  title?: T;
+  selectionType?: T;
+  sort?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "options_select".
+ */
+export interface OptionsSelect<T extends boolean = true> {
+  group?: T;
+  label?: T;
+  defaultPriceCents?: T;
+  pricingUnit?: T;
+  cartBehavior?: T;
+  maxPerBooking?: T;
+  sort?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "packages_select".
+ */
+export interface PackagesSelect<T extends boolean = true> {
+  activity?: T;
+  category?: T;
+  name?: T;
+  slug?: T;
+  image?: T;
+  basePriceCents?: T;
+  isActive?: T;
+  sort?: T;
+  templatePackage?: T;
+  templateOverrides?:
+    | T
+    | {
+        type?: T;
+        group?: T;
+        fromOption?: T;
+        toOption?: T;
+        isDefault?: T;
+        priceCents?: T;
+        id?: T;
+      };
+  extraGroupConfigs?:
+    | T
+    | {
+        group?: T;
+        sort?: T;
+        options?:
+          | T
+          | {
+              option?: T;
+              isDefault?: T;
+              priceCents?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

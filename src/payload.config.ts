@@ -1,4 +1,5 @@
 import { mongooseAdapter } from "@payloadcms/db-mongodb";
+import { cloudStoragePlugin } from "@payloadcms/plugin-cloud-storage";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import path from "path";
 import { buildConfig } from "payload";
@@ -7,9 +8,21 @@ import sharp from "sharp";
 
 import { Users } from "./collections/Users";
 import { Media } from "./collections/Media";
+import { Activities } from "./collections/Activities";
+import { PackageCategories } from "./collections/PackageCategories";
+import { OptionGroups } from "./collections/OptionGroups";
+import { Options } from "./collections/Options";
+import { Packages } from "./collections/Packages";
+import {
+  buildCloudinaryFileURL,
+  cloudinaryAdapter,
+  isCloudinaryConfigured,
+} from "./storage/cloudinaryAdapter";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
+
+const cloudinaryFolder = process.env.CLOUDINARY_FOLDER || "megacampo";
 
 export default buildConfig({
   admin: {
@@ -18,7 +31,15 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media],
+  collections: [
+    Users,
+    Media,
+    Activities,
+    PackageCategories,
+    OptionGroups,
+    Options,
+    Packages,
+  ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || "",
   typescript: {
@@ -28,5 +49,21 @@ export default buildConfig({
     url: process.env.DATABASE_URL || "",
   }),
   sharp,
-  plugins: [],
+  plugins: [
+    ...(isCloudinaryConfigured()
+      ? [
+          cloudStoragePlugin({
+            collections: {
+              media: {
+                adapter: cloudinaryAdapter,
+                disableLocalStorage: true,
+                prefix: cloudinaryFolder,
+                generateFileURL: ({ filename, prefix }) =>
+                  buildCloudinaryFileURL(filename, prefix),
+              },
+            },
+          }),
+        ]
+      : []),
+  ],
 });
