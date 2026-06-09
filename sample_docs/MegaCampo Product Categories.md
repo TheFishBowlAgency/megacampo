@@ -1,0 +1,212 @@
+**Paintball**
+
+- Paintball Group
+  - **Commando (29.95€)**
+    - Paintballs
+      - 200 Paintballs (Default)
+      - 500 Paintballs (13€)
+      - 1000 Paintballs (31€)
+      - Unlimited (56€)
+    - Apparel
+      - Not Included (Default)
+      - Vest (2€)
+      - Cammo Overalls (6€)
+      - Cammo Overalls & Vest (8€)
+    - Marker
+      - Classic Marker (Default)
+      - Pro Marker (7€)
+    - Goggles
+      - Classic Goggles (Default)
+      - Pro Goggles (9€)
+    - Gloves
+      - Not Included (Default)
+      - Gloves (3€)
+    - Meal
+      - Not Included (Default)
+      - Coffee Break (8.95 €)
+      - Lunch (15€)
+  - **SWAT (49.95€)**
+    - Paintballs
+      - 500 Paintballs (Default)
+      - 1000 Paintballs (18€)
+      - Unlimited (43€)
+    - Apparel
+      - Cammo Overalls & Vest (Default)
+    - Marker
+      - Classic Marker (Default)
+      - Pro Marker (7€)
+    - Goggles
+      - Classic Goggles (Default)
+      - Pro Goggles (9€)
+    - Gloves
+      - Not Included (Default)
+      - Gloves (3€)
+    - Meal
+      - Not Included (Default)
+      - Coffee Break (8.95 €)
+      - Lunch (15€)
+  - **Elite (69.95€)**
+    - Paintballs
+      - 1000 Paintballs (Default)
+      - Unlimited (25€)
+    - Apparel
+      - Cammo Overalls & Vest (Default)
+    - Marker
+      - Classic Marker (Default)
+      - Pro Marker (7€)
+    - Goggles
+      - Classic Goggles (Default)
+      - Pro Goggles (9€)
+    - Gloves
+      - Not Included (Default)
+      - Gloves (3€)
+    - Meal
+      - Not Included (Default)
+      - Lunch (15€)
+      - Coffee Break (8.95 €)
+  - **Immortal (99.95€)**
+    - Paintballs
+      - Unlimited (Default)
+    - Apparel
+      - Cammo Overalls & Vest (Default)
+    - Marker
+      - Pro Marker (Default)
+    - Goggles
+      - Pro Goggles (Default)
+    - Gloves
+      - Gloves (Default)
+    - Meal
+      - Coffee Break (Default)
+      - Lunch (15€)
+- Birthday Party
+  - Commando Party (30.95€)
+    - (Same as Commando, but replace Coffee Break 8.95 with Snack 9.95)
+  - SWAT Party (50.95€)
+    - (Same as SWAT, but replace Coffee Break 8.95 with Snack 9.95)
+  - Elite Party (70.95€)
+    - (Same as Elite, but replace Coffee Break 8.95 with Snack 9.95)
+  - Immortal Party (100.95€)
+    - (Same as Immortal, but replace Coffee Break with Snack)
+- Stag-Hen Party
+  - Commando Stag-Hen (34.95€)
+    - (Same as Commando)
+  - SWAT Stag-Hen (54.95€)
+    - (Same as SWAT)
+  - Elite Stag-Hen (74.95€)
+    - (Same as Elite)
+  - Immortal Stag-Hen (104.95€)
+    - (Same as Immortal)
+
+**Soft Paintball** (_Same extras options/prices as Paintball, just different pack names with “Soft”_)
+
+- Paintball Group
+  - Commando Soft (29.95€)
+  - SWAT Soft (49.95€)
+  - Elite Soft (69.95€)
+  - Immortal Soft (99.95€)
+- Birthday Party
+  - Commando Soft Party (30.95€)
+  - SWAT Soft Party (50.95€)
+  - Elite Soft Party (70.95€)
+  - Immortal Soft Party (100.95€)
+- Stag-Hen Party
+  - Commando Soft Stag-Hen (34.95€)
+  - SWAT Soft Stag-Hen (54.95€)
+  - Elite Soft Stag-Hen (74.95€)
+  - Immortal Soft Stag-Hen (104.95€)
+
+**Mini Paintball**
+
+- No Intermediate Group
+  - Terminator (25.95€)
+    - Paintballs
+      - 80 Paintballs (Default)
+      - 250 Paintballs (2€)
+      - Unlimited (5€)
+    - Apparel
+      - Vest (Default)
+      - Cammo Overalls & Vest (6€)
+    - Meal
+      - Not Included (Default)
+      - Snack (9.95€)
+      - Lunch (10.95€)
+    - Private Lounge
+      - Not Included (Default)
+      - Private Lounge (_Adds 1 Private Lounge to Cart \-_ 45€)
+  - Terminator Elite (27.95€)
+    - Paintballs
+      - 250 Paintballs (Default)
+      - Unlimited (5€)
+    - Apparel
+      - Vest (Default)
+      - Cammo Overalls & Vest (6€)
+    - Meal
+      - Not Included (Default)
+      - Snack (9.95€)
+      - Lunch (10.95€)
+    - Private Lounge
+      - Not Included (Default)
+      - Private Lounge (_Adds 1 Private Lounge to Cart \-_ 45€)
+
+**Airsoft**
+
+- No Intermediate Group
+  - Airsoft (10€)
+    - Biodegradable BBs
+      - Bring My Own (Default)
+      - 1000 BBs 0.20 G (4.95€)
+      - 1000 BBs 0.25 G (5.95€)
+      - 4000 BBs 0.28 G (23.95€)
+    - Apparel
+      - Not Included (Default)
+      - Vest (2€)
+      - Camo Overalls (6€)
+      - Camo Overalls and Vest (8€)
+    - Goggles
+      - Not Included (Default)
+      - Classic goggles (5€)
+      - Pro goggles (10€)
+    - Gloves
+      - Not included (Default)
+      - Gloves (3€)
+    - Meal
+      - Not Included (Default)
+      - Coffee Break (8.95€)
+      - Lunch (14.95€)
+    - Private Lounge
+      - Not Included (Default)
+      - Private Lounge (_Adds 1 Private Lounge to Cart \-_ 45€)
+
+**Laser Tag**
+
+- No Intermediate Group
+  - Laser Tag (27.95€)
+    - Games
+      - 5 Games (Default)
+      - 6 Games (3€)
+      - 7 Games (5.50€)
+    - Meal
+      - Not Included (Default)
+      - Snack (9.95€)
+      - Lunch (14.95€)
+    - Private Lounge
+      - Not Included (Default)
+      - Private Lounge (_Adds 1 Private Lounge to Cart \-_ 45€)
+
+**Multi-Activities**
+
+- No Intermediate Group
+  - Multi-Activities (29.95€)
+    - Activities
+      - 4 Activities (Default)
+      - 5 Activities (3€)
+      - 6 Activities (5.50€)
+    - Meal
+      - Not Included (Default)
+      - Snack (9.95€)
+      - Lunch (14.95€)
+    - Private Lounge
+      - Not Included (Default)
+      - Private Lounge (_Adds 1 Private Lounge to Cart \-_ 45€)
+
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
