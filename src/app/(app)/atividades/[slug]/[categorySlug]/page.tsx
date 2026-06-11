@@ -12,6 +12,7 @@ import {
   getAllPackageCategoryParams,
   getPackageCategoryByActivitySlug,
 } from '@/lib/package-categories/getPackageCategories';
+import { getCategoryPathSlug } from '@/lib/package-categories/slugHelpers';
 import { getPackagesByCategoryId } from '@/lib/catalog/getPackagesByCategory';
 
 export interface PackageCategoryPageProps {
@@ -32,7 +33,14 @@ export default async function PackageCategoryPage({
   const product = getProductBySlug(slug);
   if (!product) notFound();
 
-  const packages = await getPackagesByCategoryId(category.id, product.packages);
+  const packages = await getPackagesByCategoryId(
+    category.id,
+    product.packages,
+    {
+      activitySlug: slug,
+      categoryPathSlug: getCategoryPathSlug(slug, category.slug),
+    },
+  );
 
   return (
     <>
@@ -49,6 +57,8 @@ export default async function PackageCategoryPage({
           sectionTitle={product.sectionTitle}
           sectionDescription={product.sectionDescription}
           packages={packages}
+          activitySlug={slug}
+          categorySlug={getCategoryPathSlug(slug, category.slug)}
         />
         <ProductTestimonialsSection
           heading={product.testimonialsHeading}

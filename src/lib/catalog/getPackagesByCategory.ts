@@ -6,6 +6,7 @@ import type { Package } from "@/payload-types";
 import { slugify } from "@/lib/slugify";
 
 import { formatPriceFromCents } from "./formatPrice";
+import { getPackagePathSlug } from "./packageSlugHelpers";
 
 function findFallbackPackage(
   fallbackPackages: ProductPackage[],
@@ -24,12 +25,24 @@ function findFallbackPackage(
 export function mapPackageToProductPackage(
   pkg: Package,
   fallbackPackages: ProductPackage[] = [],
+  slugContext?: {
+    activitySlug: string;
+    categoryPathSlug: string;
+  },
 ): ProductPackage {
   const fallback =
     findFallbackPackage(fallbackPackages, pkg) ?? fallbackPackages[0];
+  const pathSlug = slugContext
+    ? getPackagePathSlug(
+        slugContext.activitySlug,
+        slugContext.categoryPathSlug,
+        pkg.slug,
+      )
+    : fallback?.slug ?? slugify(pkg.name);
 
   return {
     id: pkg.id,
+    slug: pathSlug,
     name: pkg.name.toUpperCase(),
     price: formatPriceFromCents(pkg.basePriceCents),
     perPersonLabel: fallback?.perPersonLabel,
@@ -42,6 +55,10 @@ export function mapPackageToProductPackage(
 export async function getPackagesByCategoryId(
   categoryId: string,
   fallbackPackages: ProductPackage[] = [],
+  slugContext?: {
+    activitySlug: string;
+    categoryPathSlug: string;
+  },
 ): Promise<ProductPackage[]> {
   const payload = await getPayload({ config });
 
@@ -71,5 +88,7 @@ export async function getPackagesByCategoryId(
     return fallbackPackages;
   }
 
-  return docs.map((doc) => mapPackageToProductPackage(doc, fallbackPackages));
+  return docs.map((doc) =>
+    mapPackageToProductPackage(doc, fallbackPackages, slugContext),
+  );
 }

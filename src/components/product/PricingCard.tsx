@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { Box, Text, VStack } from "@chakra-ui/react";
-import { Link } from "@/components/ui";
-import type { ProductPackage } from "@/data/products";
+import { Box, Text, VStack } from '@chakra-ui/react';
+import { Link } from '@/components/ui';
+import type { ProductPackage } from '@/data/products';
 
 export interface PricingCardProps {
   pkg: ProductPackage;
-  reserveHref?: string;
+  detailHref?: string;
 }
 
 /**
@@ -15,7 +15,7 @@ export interface PricingCardProps {
  */
 export function PricingCard({
   pkg,
-  reserveHref = "/#reservas",
+  detailHref = '/#reservas',
 }: PricingCardProps) {
   return (
     <Box
@@ -28,24 +28,24 @@ export function PricingCard({
       justifyContent="space-between"
       w="full"
       h="full"
-      pt={{ base: "4", lg: "8" }}
-      pb={{ base: "8", lg: "16" }}
-      px={{ base: "2.5", lg: "8" }}
+      pt={{ base: '4', lg: '8' }}
+      pb={{ base: '8', lg: '16' }}
+      px={{ base: '2.5', lg: '8' }}
       overflow="hidden"
     >
-      <VStack gap={{ base: "6", lg: "12" }} align="center" w="full">
+      <VStack gap={{ base: '6', lg: '12' }} align="center" w="full">
         {/* Orange ribbon banner with rotated package name */}
-        <Box py={{ base: "2", lg: "3" }}>
+        <Box py={{ base: '2', lg: '3' }}>
           <Box
             bg="primary"
-            px={{ base: "4", lg: "8" }}
-            py={{ base: "1.5", lg: "3" }}
+            px={{ base: '4', lg: '8' }}
+            py={{ base: '1.5', lg: '3' }}
             borderRadius="md"
             transform="rotate(-5.22deg)"
           >
             <Text
               fontFamily="heading.molot"
-              fontSize={{ base: "xl", lg: "3rem" }}
+              fontSize={{ base: 'xl', lg: '3rem' }}
               color="dark"
               textAlign="center"
               whiteSpace="nowrap"
@@ -59,7 +59,7 @@ export function PricingCard({
         {/* Price */}
         <VStack gap="2" align="center">
           <Text
-            fontSize={{ base: "2xl", lg: "3rem" }}
+            fontSize={{ base: '2xl', lg: '3rem' }}
             fontWeight="black"
             color="white"
             lineHeight="1"
@@ -67,11 +67,11 @@ export function PricingCard({
             {pkg.price}€
           </Text>
           <Text
-            fontSize={{ base: "sm", lg: "body.lg" }}
+            fontSize={{ base: 'sm', lg: 'body.lg' }}
             color="white"
             opacity={0.5}
           >
-            {pkg.perPersonLabel ?? "Por pessoa"}
+            {pkg.perPersonLabel ?? 'Por pessoa'}
           </Text>
         </VStack>
 
@@ -84,16 +84,16 @@ export function PricingCard({
         />
 
         {/* Popular badge + features */}
-        <VStack gap={{ base: "4", lg: "6" }} align="center" w="full">
+        <VStack gap={{ base: '4', lg: '6' }} align="center" w="full">
           {pkg.popular && (
             <Box
-              bg={{ base: "primary.muted", lg: "bg.subtle" }}
-              px={{ base: "4", lg: "8" }}
+              bg={{ base: 'primary.muted', lg: 'bg.subtle' }}
+              px={{ base: '4', lg: '8' }}
               py="2"
               borderRadius="md"
             >
               <Text
-                fontSize={{ base: "sm", lg: "body.lg" }}
+                fontSize={{ base: 'sm', lg: 'body.lg' }}
                 fontWeight="medium"
                 color="primary"
                 textTransform="uppercase"
@@ -106,7 +106,7 @@ export function PricingCard({
           {pkg.features.map((feature) => (
             <Text
               key={feature}
-              fontSize={{ base: "sm", lg: "body.lg" }}
+              fontSize={{ base: 'sm', lg: 'body.lg' }}
               fontWeight="extrabold"
               color="white"
               opacity={0.5}
@@ -121,23 +121,23 @@ export function PricingCard({
 
       {/* CTA button */}
       <Link
-        href={reserveHref}
+        href={detailHref}
         bg="primary"
         color="white"
         fontWeight="medium"
         textTransform="uppercase"
-        fontSize={{ base: "sm", lg: "body.lg" }}
+        fontSize={{ base: 'sm', lg: 'body.lg' }}
         px="8"
         py="4"
         borderRadius="md"
         boxShadow="0px 5px 16px 0px rgba(0,0,0,0.22)"
-        mt={{ base: "8", lg: "12" }}
+        mt={{ base: '8', lg: '12' }}
         _hover={{ opacity: 0.9 }}
         display="inline-flex"
         alignItems="center"
         justifyContent="center"
       >
-        {pkg.ctaLabel ?? "RESERVA JÁ"}
+        {pkg.ctaLabel ?? 'RESERVA JÁ'}
       </Link>
     </Box>
   );
