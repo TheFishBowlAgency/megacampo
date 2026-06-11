@@ -1,4 +1,4 @@
-import { Header } from "@/components/header";
+import { Header } from '@/components/header';
 import {
   AdventureSection,
   CTASection,
@@ -11,16 +11,19 @@ import {
   MoreThanPaintballSection,
   SafetySection,
   TestimonialsSection,
-} from "@/components/landing";
+} from '@/components/landing';
+import { getActivities } from '@/lib/activities/getActivities';
 
-export default function Home() {
+export default async function Home() {
+  const activities = await getActivities();
+
   return (
     <>
       <Header />
       <main>
         <Hero />
         <KeyFeatures />
-        <AdventureSection />
+        <AdventureSection activities={activities} />
         <MapsSection />
         <EventTypesSection />
         <MoreThanPaintballSection />

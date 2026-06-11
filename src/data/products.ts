@@ -1,6 +1,6 @@
 /**
- * Product (activity) data for detail pages.
- * Used by /atividades/[slug].
+ * Product (activity) data for package category detail pages.
+ * Used by /atividades/[slug]/[categorySlug].
  */
 
 export interface ProductHighlight {

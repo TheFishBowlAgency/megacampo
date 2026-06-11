@@ -22,6 +22,13 @@ export const Activities: CollectionConfig = {
       type: "text",
       required: true,
     },
+    {
+      name: "description",
+      type: "textarea",
+      admin: {
+        description: "Short summary shown on activity cards.",
+      },
+    },
     autoSlugField("title"),
     mediaImageField(),
     {

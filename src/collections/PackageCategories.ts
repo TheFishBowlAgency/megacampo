@@ -28,6 +28,20 @@ export const PackageCategories: CollectionConfig = {
       type: "text",
       required: true,
     },
+    {
+      name: "description",
+      type: "textarea",
+      admin: {
+        description: "Short summary shown on category cards.",
+      },
+    },
+    {
+      name: "minAge",
+      type: "text",
+      admin: {
+        description: 'Age requirement label (e.g. "+12 Anos").',
+      },
+    },
     autoSlugField("activity and title"),
     mediaImageField(),
     {
