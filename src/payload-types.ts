@@ -159,6 +159,7 @@ export interface User {
 export interface Media {
   id: string;
   alt: string;
+  prefix?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -179,6 +180,10 @@ export interface Activity {
   id: string;
   title: string;
   /**
+   * Short summary shown on activity cards.
+   */
+  description?: string | null;
+  /**
    * Auto-generated from title.
    */
   slug: string;
@@ -196,6 +201,14 @@ export interface PackageCategory {
   id: string;
   activity: string | Activity;
   title: string;
+  /**
+   * Short summary shown on category cards.
+   */
+  description?: string | null;
+  /**
+   * Age requirement label (e.g. "+12 Anos").
+   */
+  minAge?: string | null;
   /**
    * Auto-generated from activity and title.
    */
@@ -430,6 +443,7 @@ export interface UsersSelect<T extends boolean = true> {
  */
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
+  prefix?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
@@ -448,6 +462,7 @@ export interface MediaSelect<T extends boolean = true> {
  */
 export interface ActivitiesSelect<T extends boolean = true> {
   title?: T;
+  description?: T;
   slug?: T;
   image?: T;
   sort?: T;
@@ -462,6 +477,8 @@ export interface ActivitiesSelect<T extends boolean = true> {
 export interface PackageCategoriesSelect<T extends boolean = true> {
   activity?: T;
   title?: T;
+  description?: T;
+  minAge?: T;
   slug?: T;
   image?: T;
   sort?: T;

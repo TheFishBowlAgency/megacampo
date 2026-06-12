@@ -1,6 +1,6 @@
 /**
- * Product (activity) data for detail pages.
- * Used by /atividades/[slug].
+ * Product (activity) data for package category detail pages.
+ * Used by /atividades/[slug]/[categorySlug].
  */
 
 export interface ProductHighlight {
@@ -9,6 +9,8 @@ export interface ProductHighlight {
 
 export interface ProductPackage {
   id: string;
+  /** URL segment for the package detail page, e.g. "commando". */
+  slug?: string;
   name: string;
   price: string;
   perPersonLabel?: string;
@@ -47,6 +49,7 @@ export interface ProductData {
 const PAINTBALL_PACKAGES: ProductPackage[] = [
   {
     id: "commando",
+    slug: "commando",
     name: "COMMANDO",
     price: "29,95",
     perPersonLabel: "Por pessoa",
@@ -64,6 +67,7 @@ const PAINTBALL_PACKAGES: ProductPackage[] = [
   },
   {
     id: "ranger",
+    slug: "ranger",
     name: "RANGER",
     price: "34,95",
     perPersonLabel: "Por pessoa",
@@ -81,6 +85,7 @@ const PAINTBALL_PACKAGES: ProductPackage[] = [
   },
   {
     id: "swat",
+    slug: "swat",
     name: "SWAT",
     price: "49,95",
     perPersonLabel: "Por pessoa",
@@ -98,6 +103,7 @@ const PAINTBALL_PACKAGES: ProductPackage[] = [
   },
   {
     id: "elite",
+    slug: "elite",
     name: "ELITE",
     price: "69,95",
     perPersonLabel: "Por pessoa",
