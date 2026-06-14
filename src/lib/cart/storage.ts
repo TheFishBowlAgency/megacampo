@@ -12,24 +12,48 @@ export const EMPTY_CART_STATE: CartState = {
   observations: '',
 };
 
-export function loadCartState(): CartState {
-  if (typeof window === 'undefined') {
-    return EMPTY_CART_STATE;
-  }
+let cachedSnapshot: CartState = EMPTY_CART_STATE;
+let isSnapshotHydrated = false;
 
+function readCartStateFromStorage(): CartState {
   try {
     const raw = localStorage.getItem(CART_STORAGE_KEY);
     if (!raw) return EMPTY_CART_STATE;
 
     const parsed = JSON.parse(raw) as CartState;
-    return {
-      items: Array.isArray(parsed.items) ? parsed.items : [],
-      observations:
-        typeof parsed.observations === 'string' ? parsed.observations : '',
-    };
+    const items = Array.isArray(parsed.items) ? parsed.items : [];
+    const observations =
+      typeof parsed.observations === 'string' ? parsed.observations : '';
+
+    if (items.length === 0 && observations === '') {
+      return EMPTY_CART_STATE;
+    }
+
+    return { items, observations };
   } catch {
     return EMPTY_CART_STATE;
   }
+}
+
+function hydrateCartSnapshot(): void {
+  if (typeof window === 'undefined' || isSnapshotHydrated) return;
+  cachedSnapshot = readCartStateFromStorage();
+  isSnapshotHydrated = true;
+}
+
+function refreshCartSnapshot(): void {
+  if (typeof window === 'undefined') return;
+  cachedSnapshot = readCartStateFromStorage();
+  isSnapshotHydrated = true;
+}
+
+export function loadCartState(): CartState {
+  if (typeof window === 'undefined') {
+    return EMPTY_CART_STATE;
+  }
+
+  hydrateCartSnapshot();
+  return cachedSnapshot;
 }
 
 export function saveCartState(state: CartState): void {
@@ -49,7 +73,10 @@ export function subscribeToCart(onStoreChange: () => void): () => void {
     return () => {};
   }
 
-  const handler = () => onStoreChange();
+  const handler = () => {
+    refreshCartSnapshot();
+    onStoreChange();
+  };
   window.addEventListener('storage', handler);
   window.addEventListener(CART_CHANGE_EVENT, handler);
   return () => {
@@ -66,6 +93,8 @@ export function updateCartState(
   updater: (prev: CartState) => CartState,
 ): void {
   const next = updater(loadCartState());
+  cachedSnapshot = next;
+  isSnapshotHydrated = true;
   saveCartState(next);
   notifyCartChange();
 }
