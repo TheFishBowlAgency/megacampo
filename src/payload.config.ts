@@ -13,6 +13,7 @@ import { PackageCategories } from "./collections/PackageCategories";
 import { OptionGroups } from "./collections/OptionGroups";
 import { Options } from "./collections/Options";
 import { Packages } from "./collections/Packages";
+import { Orders } from "./collections/Orders";
 import {
   buildCloudinaryFileURL,
   cloudinaryAdapter,
@@ -39,6 +40,7 @@ export default buildConfig({
     OptionGroups,
     Options,
     Packages,
+    Orders,
   ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || "",

@@ -7,3 +7,5 @@ export { TermsSection } from "./TermsSection";
 export type { TermsSectionProps } from "./TermsSection";
 export { CheckoutOrderSummary } from "./CheckoutOrderSummary";
 export type { CheckoutOrderSummaryProps } from "./CheckoutOrderSummary";
+export { CheckoutSubmitSection } from "./CheckoutSubmitSection";
+export { useCheckout } from "./CheckoutPayment";
