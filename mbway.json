@@ -1,0 +1,224 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "version": "v.1.0",
+    "title": "MULTIBANCO - REST",
+    "description": "<img src=\"../../assets/images/ifthenpay-w.png\" style=\"text-align: left;\" id=\"logotipo\">\n<br>\nWelcome to the MULTIBANCO REST API documentation. This API allows you to easily generate MULTIBANCO references.\n\nTo integrate with this API, you will need an <b>'MB KEY'</b> provided by <b>ifthenpay</b>, assigned to your merchant account. If you do not have this 'MB KEY', please contact <b>ifthenpay</b>.\n\n<br>\n\nBefore implementation, please verify if an existing integration is already available for your platform, whether developed by Ifthenpay, the platform provider, or a third party.\n\nYou can check the list of available plugins and their corresponding e-commerce platforms [here](https://helpdesk.ifthenpay.com/pt-PT/support/solutions/articles/79000086132-plugins-para-plataformas-de-ecommerce).  \n\n<br>\n\n<b>ifthenpay</b> offers free technical support to all customers through the following channels:\n- Email: [suporte@ifthenpay.com](suporte@ifthenpay.com)\n- Phone: <a href='tel:808222777'>808 222 777</a> | <a href='tel:+351256245560'>+351 256 245 560</a>\n- Helpdesk: [submit a ticket](https://helpdesk.ifthenpay.com)    \n- Site: [www.ifthenpay.com](https://ifthenpay.com)    \n\n<br><br>\n[« go to index](../../index.html#multibanco)",
+    "termsOfService": "https://www.ifthenpay.com/politica-de-privacidade/?lang=en",
+    "contact": {
+      "email": "suporte@ifthenpay.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://api.ifthenpay.com/multibanco/reference"
+    }
+  ],
+  "tags": [
+    {
+      "name": "MULTIBANCO",
+      "description": "For responsible use of the service, we recommend ALWAYS using the sandbox for testing. Abuse of the production API may generate a lock on the account.\n\nThere are 2 methods available for this API.\n- <b>/init</b><br>request a new payment​ reference\n- <b>/sandbox</b><br>request a new payment​ reference in sandbox mode"
+    }
+  ],
+  "paths": {
+    "/init": {
+      "post": {
+        "tags": ["MULTIBANCO"],
+        "summary": "Request New Payment Reference",
+        "description": "Request a new MULTIBANCO payment reference",
+        "operationId": "init",
+        "requestBody": {
+          "description": null,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Request-Reference"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response-Reference"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sandbox": {
+      "post": {
+        "tags": ["MULTIBANCO"],
+        "summary": "Request New Payment Reference in sandbox mode",
+        "description": "Request a new MULTIBANCO payment reference in sandbox mode",
+        "operationId": "sandbox",
+        "requestBody": {
+          "description": null,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Request-Reference"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response-Reference"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Request-Reference": {
+        "required": ["mbKey", "orderId", "amount"],
+        "type": "object",
+        "properties": {
+          "mbKey": {
+            "type": "string",
+            "example": "MB_KEY",
+            "description": "assigned by ifthenpay"
+          },
+          "orderId": {
+            "type": "string",
+            "example": "1887",
+            "maxLength": 25,
+            "description": "order/invoice number, with a maximum length of 25 characters"
+          },
+          "amount": {
+            "type": "string",
+            "example": "10.99",
+            "description": "must contain exactly two decimal places using \".\" as the decimal separator"
+          },
+          "description": {
+            "type": "string",
+            "example": "order 1 payment",
+            "maxLength": 200,
+            "description": "maximum length of 200 characters"
+          },
+          "url": {
+            "type": "string",
+            "example": "https://www.empresa.com",
+            "maxLength": 100,
+            "description": "url address, with a maximum length of 200 characters"
+          },
+          "clientCode": {
+            "type": "string",
+            "example": 123,
+            "maxLength": 200,
+            "description": "client's code, with a maximum length of 200 characters"
+          },
+          "clientName": {
+            "type": "string",
+            "example": "John Doe",
+            "maxLength": 200,
+            "description": "client's name, with a maximum length of 200 characters"
+          },
+          "clientEmail": {
+            "type": "string",
+            "example": "empresa@empresa.com",
+            "maxLength": 200,
+            "description": "client's email address, with a maximum length of 200 characters"
+          },
+          "clientUsername": {
+            "type": "string",
+            "example": "johndoe",
+            "maxLength": 200,
+            "description": "client's username, with a maximum length of 200 characters"
+          },
+          "clientPhone": {
+            "type": "string",
+            "example": 351976543210,
+            "maxLength": 200,
+            "description": "client's cell phone or phone number, with a maximum length of 200 characters"
+          },
+          "expiryDays": {
+            "type": "number",
+            "enum": [
+              "0 - Expires at midnight on the same day",
+              "1 - Expires in 1 day",
+              "2 - Expires in 2 days",
+              "3 - Expires in 3 days",
+              "... - Up tp 31 days",
+              "31 - Expires in 31 days",
+              "45 - Expires in 45 days",
+              "60 - Expires in 60 days",
+              "90 - Expires in 90 days",
+              "120 - Expires in 120 days",
+              "180 - Expires in 180 days",
+              "365 - Expires in 365 days",
+              "730 - Expires in 730 days"
+            ],
+            "example": "0",
+            "description": "all references expire at 11:59 PM.<br><br>If the number of days provided differs from the available options, the next closest available duration will be assigned. (For example: If 155 days are requested, 180 days will be assigned until expiration).<br><br>If you prefer the reference to have no expiration date, omit the 'expiryDays' parameter in the request.<br><br>For the expiration days, use the following:"
+          }
+        }
+      },
+      "Response-Reference": {
+        "type": "object",
+        "properties": {
+          "Amount": {
+            "type": "number",
+            "format": "double",
+            "example": 10.99
+          },
+          "Entity": {
+            "type": "number",
+            "example": 11990,
+            "description": "multibanco entity"
+          },
+          "ExpiryDate": {
+            "type": "date",
+            "example": "30-10-2021",
+            "description": "expiration date"
+          },
+          "Message": {
+            "type": "string",
+            "example": "Success",
+            "description": "message associated with the Status"
+          },
+          "OrderId": {
+            "type": "string",
+            "example": 1887,
+            "description": "order/invoice number"
+          },
+          "Reference": {
+            "type": "string",
+            "example": "000000291",
+            "description": "generated multibanco reference"
+          },
+          "RequestId": {
+            "type": "string",
+            "example": "5Qd8gtWLAEUJ6n0lkS5g",
+            "description": "token associated with the request. It is essential to always store the RequestId from the response, as it serves to uniquely identify the transaction."
+          },
+          "Status": {
+            "type": "string",
+            "enum": [
+              "0 - Success.",
+              "In case of parameter \"Status\" <> \"0\", check the reason in the parameter \"Message\"."
+            ],
+            "example": "0",
+            "description": "Below are the response codes you may receive when requesting a payment reference:"
+          }
+        }
+      }
+    }
+  }
+}

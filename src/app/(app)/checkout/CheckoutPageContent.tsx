@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   Box,
-  Button,
   Flex,
   Grid,
   IconButton,
@@ -22,6 +21,9 @@ import {
   INITIAL_FORM_DATA,
   type CheckoutFormData,
 } from '@/components/checkout';
+import { CheckoutSubmitSection } from '@/components/checkout/CheckoutSubmitSection';
+import { useCheckout } from '@/components/checkout/CheckoutPayment';
+import { validateCheckoutInput } from '@/lib/checkout/validation';
 import { useCart } from '@/providers';
 
 const BREADCRUMB_ITEMS = [
@@ -68,7 +70,7 @@ function ArrowRightIcon() {
 
 export function CheckoutPageContent() {
   const router = useRouter();
-  const { items, isHydrated } = useCart();
+  const { items, observations, isHydrated, clearCart } = useCart();
   const [formData, setFormData] = useState<CheckoutFormData>(INITIAL_FORM_DATA);
   const [paymentMethod, setPaymentMethod] = useState('multibanco');
   const [acceptTerms, setAcceptTerms] = useState(false);
@@ -76,6 +78,25 @@ export function CheckoutPageContent() {
   const [mobileStep, setMobileStep] = useState(0);
 
   const isMobile = useBreakpointValue({ base: true, md: false }) ?? true;
+
+  const checkout = useCheckout({
+    formData,
+    items,
+    observations,
+    paymentMethod: paymentMethod as 'multibanco' | 'paypal',
+    acceptTerms,
+    acceptMarketing,
+    clearCart,
+  });
+
+  const validation = validateCheckoutInput({
+    formData,
+    items,
+    paymentMethod: paymentMethod as 'multibanco' | 'paypal',
+    acceptTerms,
+  });
+
+  const canSubmit = validation.valid;
 
   useEffect(() => {
     if (isHydrated && items.length === 0) {
@@ -152,18 +173,16 @@ export function CheckoutPageContent() {
                   </Box>
 
                   {/* Submit button */}
-                  <Button
-                    w="full"
-                    bg="primary"
-                    color="white"
-                    borderRadius="6px"
-                    h="56px"
-                    textStyle="button"
-                    textTransform="uppercase"
-                    _hover={{ bg: 'primary.muted', color: 'fg' }}
-                  >
-                    Reservar
-                  </Button>
+                  <CheckoutSubmitSection
+                    paymentMethod={paymentMethod}
+                    disabled={!canSubmit}
+                    isSubmitting={checkout.isSubmitting}
+                    error={checkout.error}
+                    onMultibancoSubmit={() => void checkout.submitMultibanco()}
+                    onPreparePayPal={checkout.preparePayPalOrder}
+                    onPaymentSuccess={checkout.handlePaymentSuccess}
+                    onPaymentFailure={checkout.handlePaymentFailure}
+                  />
                 </Box>
 
                 {/* Right column: order summary */}
@@ -203,18 +222,18 @@ export function CheckoutPageContent() {
                 {mobileStep === 3 && (
                   <Box display="flex" flexDirection="column" gap="6">
                     <CheckoutOrderSummary items={items} />
-                    <Button
-                      w="full"
-                      bg="primary"
-                      color="white"
-                      borderRadius="6px"
-                      h="56px"
-                      textStyle="button"
-                      textTransform="uppercase"
-                      _hover={{ bg: 'primary.muted', color: 'fg' }}
-                    >
-                      Reservar
-                    </Button>
+                    <CheckoutSubmitSection
+                      paymentMethod={paymentMethod}
+                      disabled={!canSubmit}
+                      isSubmitting={checkout.isSubmitting}
+                      error={checkout.error}
+                      onMultibancoSubmit={() =>
+                        void checkout.submitMultibanco()
+                      }
+                      onPreparePayPal={checkout.preparePayPalOrder}
+                      onPaymentSuccess={checkout.handlePaymentSuccess}
+                      onPaymentFailure={checkout.handlePaymentFailure}
+                    />
                   </Box>
                 )}
 

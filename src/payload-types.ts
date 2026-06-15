@@ -74,6 +74,7 @@ export interface Config {
     'option-groups': OptionGroup;
     options: Option;
     packages: Package;
+    orders: Order;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -88,6 +89,7 @@ export interface Config {
     'option-groups': OptionGroupsSelect<false> | OptionGroupsSelect<true>;
     options: OptionsSelect<false> | OptionsSelect<true>;
     packages: PackagesSelect<false> | PackagesSelect<true>;
+    orders: OrdersSelect<false> | OrdersSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -323,6 +325,67 @@ export interface Package {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "orders".
+ */
+export interface Order {
+  id: string;
+  /**
+   * Order identifier (max 25 chars for Multibanco).
+   */
+  orderNumber: string;
+  /**
+   * Multibanco: marca como Paid manualmente no dia da visita. PayPal: atualizado automaticamente.
+   */
+  status: 'pending' | 'awaiting_payment' | 'paid' | 'failed' | 'expired' | 'cancelled';
+  paymentMethod: 'multibanco' | 'paypal';
+  customerFirstName: string;
+  customerLastName: string;
+  customerEmail: string;
+  customerPhone?: string | null;
+  customerAddress: string;
+  customerPostalCode: string;
+  customerCity: string;
+  customerCountry: string;
+  customerNif?: string | null;
+  acceptMarketing?: boolean | null;
+  observations?: string | null;
+  items:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  /**
+   * Order total in EUR.
+   */
+  totalAmount: number;
+  multibancoEntity?: string | null;
+  /**
+   * Referência Multibanco apresentada ao cliente.
+   */
+  multibancoReference?: string | null;
+  multibancoRequestId?: string | null;
+  paypalOrderId?: string | null;
+  /**
+   * Raw payment provider response metadata.
+   */
+  paymentDetails?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -372,6 +435,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'packages';
         value: string | Package;
+      } | null)
+    | ({
+        relationTo: 'orders';
+        value: string | Order;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -551,6 +618,35 @@ export interface PackagesSelect<T extends boolean = true> {
             };
         id?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "orders_select".
+ */
+export interface OrdersSelect<T extends boolean = true> {
+  orderNumber?: T;
+  status?: T;
+  paymentMethod?: T;
+  customerFirstName?: T;
+  customerLastName?: T;
+  customerEmail?: T;
+  customerPhone?: T;
+  customerAddress?: T;
+  customerPostalCode?: T;
+  customerCity?: T;
+  customerCountry?: T;
+  customerNif?: T;
+  acceptMarketing?: T;
+  observations?: T;
+  items?: T;
+  totalAmount?: T;
+  multibancoEntity?: T;
+  multibancoReference?: T;
+  multibancoRequestId?: T;
+  paypalOrderId?: T;
+  paymentDetails?: T;
   updatedAt?: T;
   createdAt?: T;
 }
