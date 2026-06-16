@@ -70,7 +70,7 @@ function ArrowRightIcon() {
 
 export function CheckoutPageContent() {
   const router = useRouter();
-  const { items, observations, isHydrated, clearCart } = useCart();
+  const { items, observations, isHydrated } = useCart();
   const [formData, setFormData] = useState<CheckoutFormData>(INITIAL_FORM_DATA);
   const [paymentMethod, setPaymentMethod] = useState('multibanco');
   const [acceptTerms, setAcceptTerms] = useState(false);
@@ -86,7 +86,6 @@ export function CheckoutPageContent() {
     paymentMethod: paymentMethod as 'multibanco' | 'paypal',
     acceptTerms,
     acceptMarketing,
-    clearCart,
   });
 
   const validation = validateCheckoutInput({
