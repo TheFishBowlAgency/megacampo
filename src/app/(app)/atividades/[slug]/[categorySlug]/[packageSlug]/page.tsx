@@ -33,6 +33,7 @@ export default async function PackagePage({ params }: PackagePageProps) {
 
   return (
     <PackageDetailContent
+      key={packageData.id}
       packageId={packageData.id}
       name={packageData.name}
       basePriceCents={packageData.config.basePriceCents}

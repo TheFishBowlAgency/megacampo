@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Box, Flex, Text, VStack } from '@chakra-ui/react';
 import { Header } from '@/components/header';
@@ -74,6 +74,31 @@ function calculateTotalPriceCents(
   return total;
 }
 
+function PackagePrice({
+  unitPriceCents,
+  variant = 'desktop',
+}: {
+  unitPriceCents: number;
+  variant?: 'mobile' | 'desktop';
+}) {
+  const displayPrice = formatPriceFromCents(unitPriceCents);
+
+  const sharedProps = {
+    key: unitPriceCents,
+    color: 'primary' as const,
+    lineHeight: '1' as const,
+    'aria-live': 'polite' as const,
+    'aria-atomic': true as const,
+    children: `${displayPrice}€`,
+  };
+
+  if (variant === 'mobile') {
+    return <Text {...sharedProps} fontWeight="extrabold" fontSize="md" />;
+  }
+
+  return <Text {...sharedProps} textStyle="h5" />;
+}
+
 export function PackageDetailContent({
   packageId,
   name,
@@ -94,15 +119,10 @@ export function PackageDetailContent({
   );
   const [bookingError, setBookingError] = useState<string | null>(null);
 
-  const unitPriceCents = useMemo(
-    () =>
-      calculateTotalPriceCents(basePriceCents, extraGroups, selectedOptions),
-    [basePriceCents, extraGroups, selectedOptions],
-  );
-
-  const displayPrice = useMemo(
-    () => formatPriceFromCents(unitPriceCents),
-    [unitPriceCents],
+  const unitPriceCents = calculateTotalPriceCents(
+    basePriceCents,
+    extraGroups,
+    selectedOptions,
   );
 
   const handleOptionChange = (groupId: string, optionId: string) => {
@@ -176,14 +196,10 @@ export function PackageDetailContent({
                 <Text textStyle="h5" color="fg" fontSize="xl">
                   {name.toUpperCase()}
                 </Text>
-                <Text
-                  fontWeight="extrabold"
-                  fontSize="md"
-                  color="primary"
-                  lineHeight="1"
-                >
-                  {displayPrice}€
-                </Text>
+                <PackagePrice
+                  unitPriceCents={unitPriceCents}
+                  variant="mobile"
+                />
               </VStack>
             </Box>
 
@@ -195,9 +211,10 @@ export function PackageDetailContent({
                   <Text textStyle="h3" color="fg">
                     {name.toUpperCase()}
                   </Text>
-                  <Text textStyle="h5" color="primary" lineHeight="1">
-                    {displayPrice}€
-                  </Text>
+                  <PackagePrice
+                    unitPriceCents={unitPriceCents}
+                    variant="desktop"
+                  />
                   <Box h="1px" bg="dark" w="full" />
                 </VStack>
               </Box>
