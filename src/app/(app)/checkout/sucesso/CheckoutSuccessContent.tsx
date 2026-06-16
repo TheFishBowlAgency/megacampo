@@ -4,8 +4,10 @@ import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Box, Button, Text } from '@chakra-ui/react';
 import { Link } from '@/components/ui';
+import { useCart } from '@/providers';
 
 export function CheckoutSuccessContent() {
+  const { clearCart } = useCart();
   const searchParams = useSearchParams();
   const orderNumber = searchParams.get('order');
   const paypalToken = searchParams.get('token');
@@ -13,6 +15,10 @@ export function CheckoutSuccessContent() {
     Boolean(paypalToken && orderNumber),
   );
   const [finalizeError, setFinalizeError] = useState<string | null>(null);
+
+  useEffect(() => {
+    clearCart();
+  }, [clearCart]);
 
   useEffect(() => {
     if (!paypalToken || !orderNumber) return;

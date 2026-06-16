@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Box, Button, Text } from '@chakra-ui/react';
 import { Link } from '@/components/ui';
+import { useCart } from '@/providers';
 
 interface OrderPaymentInfo {
   orderNumber: string;
@@ -22,11 +23,16 @@ function formatPrice(value: number): string {
 }
 
 export function OrderConfirmationContent() {
+  const { clearCart } = useCart();
   const searchParams = useSearchParams();
   const orderNumber = searchParams.get('order');
   const [order, setOrder] = useState<OrderPaymentInfo | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    clearCart();
+  }, [clearCart]);
 
   useEffect(() => {
     if (!orderNumber) {

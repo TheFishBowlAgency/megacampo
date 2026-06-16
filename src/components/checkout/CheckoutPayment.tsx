@@ -97,7 +97,6 @@ export interface UseCheckoutOptions {
   paymentMethod: PaymentMethod;
   acceptTerms: boolean;
   acceptMarketing: boolean;
-  clearCart: () => void;
 }
 
 export function useCheckout({
@@ -107,7 +106,6 @@ export function useCheckout({
   paymentMethod,
   acceptTerms,
   acceptMarketing,
-  clearCart,
 }: UseCheckoutOptions) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -118,10 +116,9 @@ export function useCheckout({
 
   const handlePaymentSuccess = useCallback(
     (orderNumber: string) => {
-      clearCart();
-      router.push(`/checkout/sucesso?order=${orderNumber}`);
+      router.replace(`/checkout/sucesso?order=${orderNumber}`);
     },
-    [clearCart, router],
+    [router],
   );
 
   const handlePaymentFailure = useCallback((message: string) => {
@@ -184,8 +181,7 @@ export function useCheckout({
         );
       }
 
-      clearCart();
-      router.push(`/checkout/encomenda?order=${orderNumber}`);
+      router.replace(`/checkout/encomenda?order=${orderNumber}`);
     } catch (err) {
       setError(
         err instanceof Error
@@ -194,7 +190,7 @@ export function useCheckout({
       );
       setIsSubmitting(false);
     }
-  }, [clearCart, createOrder, router]);
+  }, [createOrder, router]);
 
   const preparePayPalOrder = useCallback(async () => {
     setError(null);
