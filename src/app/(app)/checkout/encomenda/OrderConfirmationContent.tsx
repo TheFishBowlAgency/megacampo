@@ -9,17 +9,24 @@ import { useCart } from '@/providers';
 interface OrderPaymentInfo {
   orderNumber: string;
   status: string;
-  totalAmount: number;
+  totalAmount: number | string;
   multibanco?: {
     entity: string;
     reference: string;
-    amount: number;
+    amount: number | string;
     expiryDate: string;
   };
 }
 
-function formatPrice(value: number): string {
-  return value.toFixed(2).replace('.', ',') + '€';
+function parseAmount(value: number | string): number {
+  if (typeof value === 'number') return value;
+  return Number.parseFloat(String(value).replace(',', '.'));
+}
+
+function formatPrice(value: number | string): string {
+  const amount = parseAmount(value);
+  if (!Number.isFinite(amount)) return '—';
+  return amount.toFixed(2).replace('.', ',') + '€';
 }
 
 export function OrderConfirmationContent() {

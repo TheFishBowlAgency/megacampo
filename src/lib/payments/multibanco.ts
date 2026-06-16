@@ -73,7 +73,7 @@ export async function createMultibancoReference(input: {
   return {
     requestId: data.RequestId,
     orderId: data.OrderId || input.orderId,
-    amount: data.Amount ?? Number(input.amount),
+    amount: Number(data.Amount ?? input.amount),
     entity: String(data.Entity),
     reference: data.Reference,
     expiryDate: data.ExpiryDate || '',

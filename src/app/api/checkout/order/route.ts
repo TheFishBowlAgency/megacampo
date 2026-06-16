@@ -35,15 +35,20 @@ export async function GET(request: Request) {
       | null;
 
     if (order.paymentMethod === 'multibanco' && paymentDetails) {
+      const totalAmount = Number(order.totalAmount);
+      const multibancoAmount = Number(
+        paymentDetails.amount ?? order.totalAmount,
+      );
+
       return NextResponse.json({
         orderNumber: order.orderNumber,
         status: order.status,
         paymentMethod: order.paymentMethod,
-        totalAmount: order.totalAmount,
+        totalAmount,
         multibanco: {
           entity: paymentDetails.entity,
           reference: paymentDetails.reference,
-          amount: paymentDetails.amount ?? order.totalAmount,
+          amount: multibancoAmount,
           expiryDate: paymentDetails.expiryDate,
         },
       });
@@ -53,7 +58,7 @@ export async function GET(request: Request) {
       orderNumber: order.orderNumber,
       status: order.status,
       paymentMethod: order.paymentMethod,
-      totalAmount: order.totalAmount,
+      totalAmount: Number(order.totalAmount),
     });
   } catch (error) {
     console.error('Order lookup error:', error);
