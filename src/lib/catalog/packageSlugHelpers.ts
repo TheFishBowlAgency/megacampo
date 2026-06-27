@@ -30,6 +30,23 @@ export function getPackagePathSlug(
   return fullPackageSlug;
 }
 
+/**
+ * URL path segment for packages without a category.
+ * CMS slug `airsoft-airsoft` → `airsoft`.
+ */
+export function getFlatPackagePathSlug(
+  activitySlug: string,
+  fullPackageSlug: string,
+): string {
+  const prefix = `${activitySlug}-`;
+
+  if (fullPackageSlug.startsWith(prefix)) {
+    return fullPackageSlug.slice(prefix.length);
+  }
+
+  return fullPackageSlug;
+}
+
 /** Reconstruct the CMS package slug for database lookups. */
 export function buildFullPackageSlug(
   activitySlug: string,
@@ -43,10 +60,25 @@ export function buildFullPackageSlug(
   );
 }
 
+/** CMS slug for packages without a category, e.g. `airsoft-airsoft`. */
+export function buildFlatFullPackageSlug(
+  activitySlug: string,
+  packagePathSlug: string,
+): string {
+  return joinSlugParts(activitySlug, packagePathSlug);
+}
+
 export function buildPackagePath(
   activitySlug: string,
   categoryPathSlug: string,
   packagePathSlug: string,
 ): string {
   return `/atividades/${activitySlug}/${categoryPathSlug}/${packagePathSlug}`;
+}
+
+export function buildFlatPackagePath(
+  activitySlug: string,
+  packagePathSlug: string,
+): string {
+  return `/atividades/${activitySlug}/${packagePathSlug}`;
 }

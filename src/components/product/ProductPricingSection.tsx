@@ -4,14 +4,17 @@ import { Grid } from '@chakra-ui/react';
 import { Container } from '@/components/layout';
 import { SectionHeading } from '@/components/cenarios';
 import { PricingCard } from './PricingCard';
-import { buildPackagePath } from '@/lib/catalog/packageSlugHelpers';
+import {
+  buildFlatPackagePath,
+  buildPackagePath,
+} from '@/lib/catalog/packageSlugHelpers';
 
-import type { ProductData } from '@/data/products';
+import type { PackageCardItem } from '@/lib/catalog/types';
 
 export interface ProductPricingSectionProps {
   sectionTitle: string;
   sectionDescription: string;
-  packages: ProductData['packages'];
+  packages: PackageCardItem[];
   activitySlug?: string;
   categorySlug?: string;
   reserveHref?: string;
@@ -39,10 +42,12 @@ export function ProductPricingSection({
         gap={{ base: '2.5', md: '4', lg: '5' }}
       >
         {packages.map((pkg) => {
-          const detailHref =
-            activitySlug && categorySlug
-              ? buildPackagePath(activitySlug, categorySlug, pkg.slug ?? pkg.id)
-              : reserveHref;
+          const packageSlug = pkg.slug ?? pkg.id;
+          const detailHref = activitySlug
+            ? categorySlug
+              ? buildPackagePath(activitySlug, categorySlug, packageSlug)
+              : buildFlatPackagePath(activitySlug, packageSlug)
+            : reserveHref;
 
           return <PricingCard key={pkg.id} pkg={pkg} detailHref={detailHref} />;
         })}

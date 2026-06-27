@@ -1,5 +1,5 @@
 import type { CartItemDetail, CartLineItem } from '@/components/cart/types';
-import { TIME_PERIODS } from '@/data/categories';
+import { TIME_PERIODS } from '@/lib/booking/constants';
 import type { ResolvedExtraGroup } from '@/lib/catalog';
 
 import { getGroupTitlePt } from './optionGroupLabels';

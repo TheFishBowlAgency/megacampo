@@ -2,19 +2,21 @@ import config from "@payload-config";
 import { getPayload } from "payload";
 
 import type { Media, Package, PackageCategory } from "@/payload-types";
-import { getProductBySlug } from "@/data/products";
-import { slugify } from "@/lib/slugify";
+import { getActivityBySlug } from "@/lib/activities/getActivityBySlug";
 import { getPackageCategoryByActivitySlug } from "@/lib/package-categories/getPackageCategories";
 import { getCategoryPathSlug } from "@/lib/package-categories/slugHelpers";
 
 import { formatPriceFromCents } from "./formatPrice";
+import { loadPackageTemplates } from "./loadPackageTemplates";
+import { toPackageDoc } from "./packageDoc";
 import {
+  buildFlatFullPackageSlug,
   buildFullPackageSlug,
+  getFlatPackagePathSlug,
   getPackagePathSlug,
 } from "./packageSlugHelpers";
 import {
   resolvePackageConfig,
-  type PackageDoc,
   type ResolvedPackageConfig,
 } from "./resolvePackageConfig";
 
@@ -25,7 +27,7 @@ export type PackageDetailData = {
   price: string;
   imageSrc?: string;
   config: ResolvedPackageConfig;
-  category: PackageCategory;
+  category?: PackageCategory | null;
 };
 
 function resolveMediaUrl(image: Package["image"]): string | undefined {
@@ -36,91 +38,81 @@ function resolveMediaUrl(image: Package["image"]): string | undefined {
   return (image as Media).url ?? undefined;
 }
 
-function toPackageDoc(pkg: Package): PackageDoc {
+async function buildPackageDetailData(
+  pkg: Package,
+  activitySlug: string,
+  pathSlug: string,
+  category?: PackageCategory | null,
+): Promise<PackageDetailData> {
+  const templates = await loadPackageTemplates(pkg);
+  const resolvedConfig = resolvePackageConfig(toPackageDoc(pkg), (templateId) =>
+    templates.get(templateId),
+  );
+
   return {
     id: pkg.id,
     name: pkg.name,
-    slug: pkg.slug,
-    basePriceCents: pkg.basePriceCents,
-    templatePackage: pkg.templatePackage ?? null,
-    templateOverrides: pkg.templateOverrides ?? null,
-    extraGroupConfigs: pkg.extraGroupConfigs ?? null,
-  };
-}
-
-async function loadPackageTemplates(
-  rootPackage: Package,
-): Promise<Map<string, PackageDoc>> {
-  const payload = await getPayload({ config });
-  const byId = new Map<string, PackageDoc>();
-  const pending = new Set<string>();
-
-  const queueTemplate = (value: Package["templatePackage"]) => {
-    if (!value) return;
-    const id = typeof value === "string" ? value : value.id;
-    pending.add(id);
-  };
-
-  queueTemplate(rootPackage.templatePackage);
-
-  while (pending.size > 0) {
-    const batch = [...pending];
-    pending.clear();
-
-    const { docs } = await payload.find({
-      collection: "packages",
-      where: {
-        id: {
-          in: batch,
-        },
-      },
-      depth: 3,
-      limit: batch.length,
-      pagination: false,
-    });
-
-    for (const doc of docs) {
-      byId.set(doc.id, toPackageDoc(doc));
-      queueTemplate(doc.templatePackage);
-    }
-  }
-
-  return byId;
-}
-
-function parsePriceToCents(price: string): number {
-  const normalized = price.replace(",", ".");
-  return Math.round(Number.parseFloat(normalized) * 100);
-}
-
-function buildFallbackPackageDetail(
-  activitySlug: string,
-  categoryPathSlug: string,
-  packagePathSlug: string,
-  category: PackageCategory,
-): PackageDetailData | null {
-  const product = getProductBySlug(activitySlug);
-  if (!product) return null;
-
-  const fallbackPackage = product.packages.find(
-    (pkg) => (pkg.slug ?? pkg.id) === packagePathSlug,
-  );
-  if (!fallbackPackage) return null;
-
-  return {
-    id: fallbackPackage.id,
-    name: fallbackPackage.name,
-    slug: packagePathSlug,
-    price: fallbackPackage.price,
-    config: {
-      packageId: fallbackPackage.id,
-      name: fallbackPackage.name,
-      slug: packagePathSlug,
-      basePriceCents: parsePriceToCents(fallbackPackage.price),
-      extraGroups: [],
-    },
+    slug: pathSlug,
+    price: formatPriceFromCents(pkg.basePriceCents),
+    imageSrc: resolveMediaUrl(pkg.image),
+    config: resolvedConfig,
     category,
   };
+}
+
+export async function getPackageByActivitySlug(
+  activitySlug: string,
+  packagePathSlug: string,
+): Promise<PackageDetailData | null> {
+  const activity = await getActivityBySlug(activitySlug);
+  if (!activity) return null;
+
+  const fullPackageSlug = buildFlatFullPackageSlug(
+    activitySlug,
+    packagePathSlug,
+  );
+
+  const payload = await getPayload({ config });
+  const { docs } = await payload.find({
+    collection: "packages",
+    where: {
+      and: [
+        {
+          activity: {
+            equals: activity.id,
+          },
+        },
+        {
+          slug: {
+            equals: fullPackageSlug,
+          },
+        },
+        {
+          isActive: {
+            equals: true,
+          },
+        },
+      ],
+    },
+    depth: 3,
+    limit: 1,
+    pagination: false,
+  });
+
+  const pkg = docs[0];
+  if (!pkg) return null;
+
+  const hasCategory =
+    pkg.category != null &&
+    (typeof pkg.category === "string" ? pkg.category.length > 0 : true);
+  if (hasCategory) return null;
+
+  return buildPackageDetailData(
+    pkg,
+    activitySlug,
+    getFlatPackagePathSlug(activitySlug, pkg.slug),
+    null,
+  );
 }
 
 export async function getPackageByActivityCategorySlug(
@@ -163,36 +155,116 @@ export async function getPackageByActivityCategorySlug(
   });
 
   const pkg = docs[0];
-  if (!pkg) {
-    return buildFallbackPackageDetail(
-      activitySlug,
-      categoryPathSlug,
-      packagePathSlug,
-      category,
-    );
+  if (!pkg) return null;
+
+  return buildPackageDetailData(
+    pkg,
+    activitySlug,
+    getPackagePathSlug(activitySlug, categoryPathSlug, pkg.slug),
+    category,
+  );
+}
+
+export type ActivitySegmentResolution =
+  | { type: "category"; category: PackageCategory }
+  | { type: "package"; package: PackageDetailData };
+
+export async function resolveActivitySegment(
+  activitySlug: string,
+  segment: string,
+): Promise<ActivitySegmentResolution | null> {
+  const activity = await getActivityBySlug(activitySlug);
+  if (!activity) return null;
+
+  const category = await getPackageCategoryByActivitySlug(activitySlug, segment);
+  if (category) {
+    return { type: "category", category };
   }
 
-  const templates = await loadPackageTemplates(pkg);
-  const resolvedConfig = resolvePackageConfig(toPackageDoc(pkg), (templateId) =>
-    templates.get(templateId),
-  );
+  const pkg = await getPackageByActivitySlug(activitySlug, segment);
+  if (pkg) {
+    return { type: "package", package: pkg };
+  }
 
-  return {
-    id: pkg.id,
-    name: pkg.name,
-    slug: getPackagePathSlug(activitySlug, categoryPathSlug, pkg.slug),
-    price: formatPriceFromCents(pkg.basePriceCents),
-    imageSrc: resolveMediaUrl(pkg.image),
-    config: resolvedConfig,
-    category,
-  };
+  return null;
+}
+
+export async function getAllFlatPackageParams(): Promise<
+  Array<{ slug: string; categorySlug: string }>
+> {
+  const payload = await getPayload({ config });
+
+  const { docs } = await payload.find({
+    collection: "packages",
+    where: {
+      isActive: {
+        equals: true,
+      },
+    },
+    depth: 1,
+    limit: 500,
+    pagination: false,
+  });
+
+  return docs.flatMap((pkg) => {
+    if (pkg.category) return [];
+
+    const activity =
+      pkg.activity && typeof pkg.activity === "object" ? pkg.activity : null;
+    if (!activity?.slug) return [];
+
+    const packagePathSlug = getFlatPackagePathSlug(activity.slug, pkg.slug);
+
+    return [
+      {
+        slug: activity.slug,
+        categorySlug: packagePathSlug,
+      },
+    ];
+  });
+}
+
+export async function getAllActivitySegmentParams(): Promise<
+  Array<{ slug: string; categorySlug: string }>
+> {
+  const payload = await getPayload({ config });
+
+  const { docs: categories } = await payload.find({
+    collection: "package-categories",
+    limit: 100,
+    depth: 1,
+    pagination: false,
+  });
+
+  const categoryParams = categories.flatMap((category) => {
+    const activity =
+      category.activity && typeof category.activity === "object"
+        ? category.activity
+        : null;
+
+    if (!activity?.slug) return [];
+
+    return [
+      {
+        slug: activity.slug,
+        categorySlug: getCategoryPathSlug(activity.slug, category.slug),
+      },
+    ];
+  });
+
+  const flatParams = await getAllFlatPackageParams();
+
+  return [...categoryParams, ...flatParams];
 }
 
 export async function getAllPackageParams(): Promise<
   Array<{ slug: string; categorySlug: string; packageSlug: string }>
 > {
   const payload = await getPayload({ config });
-  const params = new Map<string, { slug: string; categorySlug: string; packageSlug: string }>();
+  const params = new Map<
+    string,
+    { slug: string; categorySlug: string; packageSlug: string }
+  >();
 
   const { docs } = await payload.find({
     collection: "packages",
@@ -231,41 +303,5 @@ export async function getAllPackageParams(): Promise<
     });
   }
 
-  const { docs: categories } = await payload.find({
-    collection: "package-categories",
-    depth: 1,
-    limit: 100,
-    pagination: false,
-  });
-
-  for (const category of categories) {
-    const activity =
-      category.activity && typeof category.activity === "object"
-        ? category.activity
-        : null;
-    if (!activity?.slug) continue;
-
-    const product = getProductBySlug(activity.slug);
-    if (!product) continue;
-
-    const categoryPathSlug = getCategoryPathSlug(activity.slug, category.slug);
-
-    for (const pkg of product.packages) {
-      const packageSlug = pkg.slug ?? slugify(pkg.id);
-      const key = `${activity.slug}/${categoryPathSlug}/${packageSlug}`;
-      if (!params.has(key)) {
-        params.set(key, {
-          slug: activity.slug,
-          categorySlug: categoryPathSlug,
-          packageSlug,
-        });
-      }
-    }
-  }
-
   return [...params.values()];
-}
-
-export function getFallbackPackagePathSlug(packageId: string, name: string): string {
-  return slugify(packageId) || slugify(name);
 }

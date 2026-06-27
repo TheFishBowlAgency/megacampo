@@ -12,15 +12,12 @@ import {
   AddToCartButton,
   CheckoutButton,
   DateInput,
-  ExtrasSection,
   PeriodSelect,
   ProductImage,
   ChevronLeftIcon,
 } from '@/components/product/detail/shared';
-import type { ProductExtra } from '@/data/categories';
-import { TIME_PERIODS } from '@/data/categories';
+import { TIME_PERIODS } from '@/lib/booking/constants';
 import {
-  buildExtraCartLineItem,
   buildPackageCartLineItem,
 } from '@/lib/cart/buildCartLineItem';
 import { formatPriceFromCents } from '@/lib/catalog/formatPrice';
@@ -33,7 +30,6 @@ export interface PackageDetailContentProps {
   basePriceCents: number;
   imageSrc?: string;
   extraGroups: ResolvedExtraGroup[];
-  extras?: ProductExtra[];
   backHref: string;
   backLabel?: string;
 }
@@ -105,7 +101,6 @@ export function PackageDetailContent({
   basePriceCents,
   imageSrc,
   extraGroups,
-  extras = [],
   backHref,
   backLabel = 'Voltar às Reservas',
 }: PackageDetailContentProps) {
@@ -151,29 +146,6 @@ export function PackageDetailContent({
     setBookingError(null);
     addItem(buildCurrentLineItem());
     router.push(redirectTo);
-  };
-
-  const handleAddExtra = (extraId: string, extraQuantity: number) => {
-    const extra = extras.find((item) => item.id === extraId);
-    if (!extra) return;
-
-    addItem(
-      buildExtraCartLineItem({
-        extraId: extra.id,
-        name: extra.name,
-        quantity: extraQuantity,
-        price: extra.price,
-        imageUrl: extra.imageSrc,
-      }),
-    );
-    router.push('/carrinho');
-  };
-
-  const handleExtrasCheckout = () => {
-    if (date) {
-      addItem(buildCurrentLineItem());
-    }
-    router.push('/checkout');
   };
 
   return (
@@ -271,35 +243,23 @@ export function PackageDetailContent({
           </Flex>
         </Container>
 
-        {extras.length > 0 && (
-          <ExtrasSection
-            extras={extras}
-            backHref={backHref}
-            backLabel={backLabel}
-            onAddExtra={handleAddExtra}
-            onCheckout={handleExtrasCheckout}
-          />
-        )}
-
-        {extras.length === 0 && (
-          <Container pb={{ base: '10', lg: '16' }}>
-            <Flex justify={{ base: 'center', lg: 'flex-start' }}>
-              <Link
-                href={backHref}
-                display="flex"
-                alignItems="center"
-                gap="3"
-                color="fg.muted"
-                _hover={{ color: 'primary' }}
-              >
-                <ChevronLeftIcon />
-                <Text fontSize={{ base: 'md', lg: 'body.lg' }}>
-                  {backLabel}
-                </Text>
-              </Link>
-            </Flex>
-          </Container>
-        )}
+        <Container pb={{ base: '10', lg: '16' }}>
+          <Flex justify={{ base: 'center', lg: 'flex-start' }}>
+            <Link
+              href={backHref}
+              display="flex"
+              alignItems="center"
+              gap="3"
+              color="fg.muted"
+              _hover={{ color: 'primary' }}
+            >
+              <ChevronLeftIcon />
+              <Text fontSize={{ base: 'md', lg: 'body.lg' }}>
+                {backLabel}
+              </Text>
+            </Link>
+          </Flex>
+        </Container>
 
         <Footer />
       </main>

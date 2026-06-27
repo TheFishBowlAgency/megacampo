@@ -2,10 +2,10 @@
 
 import { Box, Text, VStack } from '@chakra-ui/react';
 import { Link } from '@/components/ui';
-import type { ProductPackage } from '@/data/products';
+import type { PackageCardItem } from '@/lib/catalog/types';
 
 export interface PricingCardProps {
-  pkg: ProductPackage;
+  pkg: PackageCardItem;
   detailHref?: string;
 }
 
@@ -105,7 +105,7 @@ export function PricingCard({
           )}
           {pkg.features.map((feature) => (
             <Text
-              key={feature}
+              key={feature.id}
               fontSize={{ base: 'sm', lg: 'body.lg' }}
               fontWeight="extrabold"
               color="white"
@@ -113,7 +113,7 @@ export function PricingCard({
               textAlign="center"
               textTransform="uppercase"
             >
-              {feature}
+              {feature.label}
             </Text>
           ))}
         </VStack>

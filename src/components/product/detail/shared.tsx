@@ -4,8 +4,14 @@ import { useState } from 'react';
 import { Box, Flex, HStack, Text, VStack } from '@chakra-ui/react';
 import { Container } from '@/components/layout';
 import { Link, QuantitySelector } from '@/components/ui';
-import type { ProductExtra } from '@/data/categories';
-import { TIME_PERIODS } from '@/data/categories';
+import { TIME_PERIODS } from '@/lib/booking/constants';
+
+export interface ProductExtra {
+  id: string;
+  name: string;
+  price: string;
+  imageSrc?: string;
+}
 
 export function ProductImage({
   name,

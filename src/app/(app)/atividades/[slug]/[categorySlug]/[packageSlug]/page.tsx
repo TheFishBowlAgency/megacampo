@@ -1,6 +1,5 @@
 import { notFound } from 'next/navigation';
 import { PackageDetailContent } from '@/components/product/PackageDetailContent';
-import { getCategoryBySlug } from '@/data/categories';
 import {
   getPackageByActivityCategorySlug,
   getAllPackageParams,
@@ -28,9 +27,6 @@ export default async function PackagePage({ params }: PackagePageProps) {
   const category = await getPackageCategoryByActivitySlug(slug, categorySlug);
   if (!category) notFound();
 
-  const paintballCategory = getCategoryBySlug('paintball');
-  const extras = paintballCategory?.extras ?? [];
-
   return (
     <PackageDetailContent
       key={packageData.id}
@@ -39,7 +35,6 @@ export default async function PackagePage({ params }: PackagePageProps) {
       basePriceCents={packageData.config.basePriceCents}
       imageSrc={packageData.imageSrc}
       extraGroups={packageData.config.extraGroups}
-      extras={extras}
       backHref={buildPackageCategoryPath(slug, category.slug)}
       backLabel="Voltar às Reservas"
     />

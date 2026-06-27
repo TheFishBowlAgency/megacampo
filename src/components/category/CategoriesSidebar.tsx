@@ -2,17 +2,18 @@
 
 import { Box, HStack, Text, VStack } from "@chakra-ui/react";
 import { Link } from "@/components/ui";
-import { CATEGORIES } from "@/data/categories";
+import type { ReservasSidebarItem } from "@/lib/reservas/getReservasProducts";
 
 export interface CategoriesSidebarProps {
   activeSlug: string;
+  items: ReservasSidebarItem[];
 }
 
 /**
  * Left sidebar listing all product categories with chevron icons.
  * Hidden on mobile (products display without sidebar).
  */
-export function CategoriesSidebar({ activeSlug }: CategoriesSidebarProps) {
+export function CategoriesSidebar({ activeSlug, items }: CategoriesSidebarProps) {
   return (
     <VStack align="stretch" gap="8" w={{ lg: "346px" }} flexShrink={0}>
       <Text textStyle="h3" color="fg">
@@ -20,7 +21,7 @@ export function CategoriesSidebar({ activeSlug }: CategoriesSidebarProps) {
       </Text>
 
       <VStack align="stretch" gap="0">
-        {CATEGORIES.map((cat) => (
+        {items.map((cat) => (
           <Box key={cat.slug}>
             <Box h="1px" bg="dark" />
             <Link

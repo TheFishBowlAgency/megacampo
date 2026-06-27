@@ -2,11 +2,19 @@
 
 import { Box, Grid, Text, VStack } from "@chakra-ui/react";
 import { Container, Section } from "@/components/layout";
-import type { ProductTestimonial as ProductTestimonialType } from "@/data/products";
+
+export interface ProductTestimonial {
+  id: string;
+  clientName: string;
+  rating: number;
+  text: string;
+  /** Desktop: use as large featured card when true */
+  featured?: boolean;
+}
 
 export interface ProductTestimonialsSectionProps {
   heading: string;
-  testimonials: ProductTestimonialType[];
+  testimonials: ProductTestimonial[];
 }
 
 /** Stars in dark gray/black per Figma. size: "sm" for small cards, "md" for large. */
@@ -82,7 +90,7 @@ function LargeTestimonialCard({
   clientName,
   rating,
   text,
-}: ProductTestimonialType) {
+}: ProductTestimonial) {
   return (
     <Box
       bg="bg"
@@ -124,7 +132,7 @@ function SmallTestimonialCard({
   text,
   variant = "square",
   fillHeight = false,
-}: ProductTestimonialType & {
+}: ProductTestimonial & {
   variant?: "square" | "landscape";
   fillHeight?: boolean;
 }) {

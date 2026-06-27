@@ -4,10 +4,12 @@ import { Header } from '@/components/header';
 import { Footer } from '@/components/landing';
 import { ActivityCategoriesGrid } from '@/components/activity';
 import { Container } from '@/components/layout';
+import { ActivityPackagesPageContent } from '@/components/product';
 import {
   getActivityBySlug,
   getAllActivitySlugs,
 } from '@/lib/activities/getActivityBySlug';
+import { getUncategorizedPackagesByActivityId } from '@/lib/catalog/getPackagesByCategory';
 import { getPackageCategoriesByActivityId } from '@/lib/package-categories/getPackageCategories';
 
 export interface ActivityPageProps {
@@ -25,6 +27,22 @@ export default async function ActivityPage({ params }: ActivityPageProps) {
   if (!activity) notFound();
 
   const categories = await getPackageCategoriesByActivityId(activity.id);
+
+  if (categories.length === 0) {
+    const packages = await getUncategorizedPackagesByActivityId(
+      activity.id,
+      slug,
+    );
+
+    return (
+      <ActivityPackagesPageContent
+        title={activity.title}
+        description={activity.description}
+        packages={packages}
+        activitySlug={slug}
+      />
+    );
+  }
 
   return (
     <>
