@@ -1,6 +1,8 @@
 import { mongooseAdapter } from "@payloadcms/db-mongodb";
 import { cloudStoragePlugin } from "@payloadcms/plugin-cloud-storage";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
+import { en } from "@payloadcms/translations/languages/en";
+import { pt } from "@payloadcms/translations/languages/pt";
 import path from "path";
 import { buildConfig } from "payload";
 import { fileURLToPath } from "url";
@@ -43,6 +45,10 @@ export default buildConfig({
     Orders,
   ],
   editor: lexicalEditor(),
+  i18n: {
+    fallbackLanguage: "pt",
+    supportedLanguages: { pt, en },
+  },
   secret: process.env.PAYLOAD_SECRET || "",
   typescript: {
     outputFile: path.resolve(dirname, "payload-types.ts"),

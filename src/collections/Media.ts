@@ -1,7 +1,17 @@
 import type { CollectionConfig } from "payload";
 
+import { adminGroups } from "@/i18n/adminGroups";
+import { bl, common } from "@/i18n/labels";
+
 export const Media: CollectionConfig = {
   slug: "media",
+  labels: {
+    singular: { pt: "Multimédia", en: "Media" },
+    plural: { pt: "Multimédia", en: "Media" },
+  },
+  admin: {
+    group: adminGroups.content,
+  },
   access: {
     read: () => true,
   },
@@ -19,7 +29,14 @@ export const Media: CollectionConfig = {
     {
       name: "alt",
       type: "text",
+      label: common.alt,
       required: true,
+      admin: {
+        description: bl(
+          "Descrição da imagem para acessibilidade e SEO.",
+          "Image description for accessibility and SEO.",
+        ),
+      },
     },
   ],
 };
