@@ -35,14 +35,21 @@ export async function mapPackageToCardItem(
       )
     : getFlatPackagePathSlug(slugContext.activitySlug, pkg.slug);
 
+  const highlights = pkg.highlights?.filter((item) => item.label?.trim());
+
   return {
     id: pkg.id,
     slug: pathSlug,
     name: pkg.name.toUpperCase(),
     price: formatPriceFromCents(pkg.basePriceCents),
-    perPersonLabel: "Por pessoa",
-    features: derivePackageFeatures(resolvedConfig),
-    ctaLabel: "RESERVA JÁ",
+    popular: pkg.isMostPopular ?? false,
+    features:
+      highlights && highlights.length > 0
+        ? highlights.map((item, index) => ({
+            id: item.id ?? String(index),
+            label: item.label.trim().toUpperCase(),
+          }))
+        : derivePackageFeatures(resolvedConfig),
   };
 }
 

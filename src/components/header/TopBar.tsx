@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   Box,
@@ -10,38 +10,38 @@ import {
   MenuRoot,
   MenuTrigger,
   Text,
-} from "@chakra-ui/react";
-import { useState } from "react";
+} from '@chakra-ui/react';
+import { useSiteLocale } from '@/providers';
+import type { SiteLocale } from '@/i18n/site';
 
-const PHONE = "+351 913 402 013";
+const PHONE = '+351 913 402 013';
 
-const LANGUAGES = [
-  { code: "pt", label: "Português" },
-  { code: "en", label: "English" },
-  { code: "es", label: "Español" },
-] as const;
+const LANGUAGES: { code: SiteLocale; label: string }[] = [
+  { code: 'pt', label: 'Português' },
+  { code: 'en', label: 'English' },
+  { code: 'es', label: 'Español' },
+];
 
 export function TopBar() {
-  const [locale, setLocale] =
-    useState<(typeof LANGUAGES)[number]["code"]>("pt");
-  const currentLabel = LANGUAGES.find((l) => l.code === locale)?.label ?? "PT";
+  const { locale, setLocale } = useSiteLocale();
+  const currentLabel = LANGUAGES.find((l) => l.code === locale)?.label ?? 'PT';
 
   return (
     <Box bg="primary" color="white" py="2">
-      <Box px={{ base: "4", md: "6", lg: "8" }} maxW="1280px" mx="auto">
+      <Box px={{ base: '4', md: '6', lg: '8' }} maxW="1280px" mx="auto">
         <HStack gap="4">
           <Text
             // fontSize={{ base: "sm", md: "md" }}
             // fontWeight="medium"
             flex="1"
-            fontSize={{ lgDown: "1rem" }}
+            fontSize={{ lgDown: '1rem' }}
             letterSpacing="wide"
             textAlign="center"
             textStyle="h5"
           >
             Contacta-nos: {PHONE}
           </Text>
-          <MenuRoot positioning={{ placement: "bottom-end" }}>
+          <MenuRoot positioning={{ placement: 'bottom-end' }}>
             <MenuTrigger
               type="button"
               aria-label="Selecionar idioma"
@@ -55,10 +55,10 @@ export function TopBar() {
               alignItems="center"
               gap="2"
               color="white"
-              _hover={{ bg: "whiteAlpha.200" }}
-              _expanded={{ bg: "whiteAlpha.200" }}
+              _hover={{ bg: 'whiteAlpha.200' }}
+              _expanded={{ bg: 'whiteAlpha.200' }}
             >
-              <Icon asChild size={{ base: "lg", md: "2xl" }}>
+              <Icon asChild size={{ base: 'lg', md: '2xl' }}>
                 <svg
                   // width="32"
                   // height="32"
@@ -95,8 +95,8 @@ export function TopBar() {
                     py="2"
                     px="3"
                     fontSize="sm"
-                    _hover={{ bg: "gray.100" }}
-                    _focus={{ bg: "gray.100" }}
+                    _hover={{ bg: 'gray.100' }}
+                    _focus={{ bg: 'gray.100' }}
                   >
                     {lang.label}
                   </MenuItem>

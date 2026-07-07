@@ -160,6 +160,9 @@ export interface User {
  */
 export interface Media {
   id: string;
+  /**
+   * Image description for accessibility and SEO.
+   */
   alt: string;
   prefix?: string | null;
   updatedAt: string;
@@ -278,6 +281,19 @@ export interface Package {
   isActive?: boolean | null;
   sort?: number | null;
   /**
+   * Shows "(MOST POPULAR)" prominently as the first list item on the card.
+   */
+  isMostPopular?: boolean | null;
+  /**
+   * Included items shown on the pricing card (e.g. paintballs, gear, insurance).
+   */
+  highlights?:
+    | {
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
    * Inherit extra configuration from another package (e.g. Commando Party → Commando). Apply overrides below.
    */
   templatePackage?: (string | null) | Package;
@@ -334,7 +350,7 @@ export interface Order {
    */
   orderNumber: string;
   /**
-   * Multibanco: marca como Paid manualmente no dia da visita. PayPal: atualizado automaticamente.
+   * Multibanco: mark as Paid manually on visit day. PayPal: updated automatically.
    */
   status: 'pending' | 'awaiting_payment' | 'paid' | 'failed' | 'expired' | 'cancelled';
   paymentMethod: 'multibanco' | 'paypal';
@@ -364,7 +380,7 @@ export interface Order {
   totalAmount: number;
   multibancoEntity?: string | null;
   /**
-   * Referência Multibanco apresentada ao cliente.
+   * Multibanco reference shown to the customer.
    */
   multibancoReference?: string | null;
   multibancoRequestId?: string | null;
@@ -591,6 +607,13 @@ export interface PackagesSelect<T extends boolean = true> {
   basePriceCents?: T;
   isActive?: T;
   sort?: T;
+  isMostPopular?: T;
+  highlights?:
+    | T
+    | {
+        label?: T;
+        id?: T;
+      };
   templatePackage?: T;
   templateOverrides?:
     | T

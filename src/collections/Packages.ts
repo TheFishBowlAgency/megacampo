@@ -96,6 +96,37 @@ export const Packages: CollectionConfig = {
       defaultValue: 0,
     },
     {
+      name: "isMostPopular",
+      type: "checkbox",
+      label: common.mostPopular,
+      defaultValue: false,
+      admin: {
+        description: bl(
+          'Mostra "O MAIS POPULAR" em destaque no cartão de preço.',
+          'Shows "MOST POPULAR" badge on the pricing card.',
+        ),
+      },
+    },
+    {
+      name: "highlights",
+      type: "array",
+      label: common.highlights,
+      admin: {
+        description: bl(
+          "Itens incluídos mostrados no cartão de preço (ex.: bolas, equipamento, seguro).",
+          "Included items shown on the pricing card (e.g. paintballs, gear, insurance).",
+        ),
+      },
+      fields: [
+        {
+          name: "label",
+          type: "text",
+          label: common.label,
+          required: true,
+        },
+      ],
+    },
+    {
       name: "templatePackage",
       type: "relationship",
       relationTo: "packages",

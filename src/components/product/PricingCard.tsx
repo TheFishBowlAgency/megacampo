@@ -2,6 +2,7 @@
 
 import { Box, Text, VStack } from '@chakra-ui/react';
 import { Link } from '@/components/ui';
+import { useSiteLocale } from '@/providers';
 import type { PackageCardItem } from '@/lib/catalog/types';
 
 export interface PricingCardProps {
@@ -17,6 +18,8 @@ export function PricingCard({
   pkg,
   detailHref = '/#reservas',
 }: PricingCardProps) {
+  const { copy } = useSiteLocale();
+
   return (
     <Box
       as="article"
@@ -67,11 +70,13 @@ export function PricingCard({
             {pkg.price}€
           </Text>
           <Text
+            className="notranslate"
+            translate="no"
             fontSize={{ base: 'sm', lg: 'body.lg' }}
             color="white"
             opacity={0.5}
           >
-            {pkg.perPersonLabel ?? 'Por pessoa'}
+            {pkg.perPersonLabel ?? copy.package.perPerson}
           </Text>
         </VStack>
 
@@ -83,7 +88,7 @@ export function PricingCard({
           borderColor="whiteAlpha.400"
         />
 
-        {/* Popular badge + features */}
+        {/* Popular badge + highlights */}
         <VStack gap={{ base: '4', lg: '6' }} align="center" w="full">
           {pkg.popular && (
             <Box
@@ -93,13 +98,15 @@ export function PricingCard({
               borderRadius="md"
             >
               <Text
+                className="notranslate"
+                translate="no"
                 fontSize={{ base: 'sm', lg: 'body.lg' }}
                 fontWeight="medium"
                 color="primary"
                 textTransform="uppercase"
                 whiteSpace="nowrap"
               >
-                O MAIS POPULAR
+                {copy.package.mostPopular}
               </Text>
             </Box>
           )}
@@ -121,6 +128,8 @@ export function PricingCard({
 
       {/* CTA button */}
       <Link
+        className="notranslate"
+        translate="no"
         href={detailHref}
         bg="primary"
         color="white"
@@ -137,7 +146,7 @@ export function PricingCard({
         alignItems="center"
         justifyContent="center"
       >
-        {pkg.ctaLabel ?? 'RESERVA JÁ'}
+        {pkg.ctaLabel ?? copy.package.reserve}
       </Link>
     </Box>
   );
