@@ -6,9 +6,14 @@ import {
 } from "@/fields/extraGroupConfigFields";
 import { autoSlugField } from "@/fields/autoSlugField";
 import { mediaImageField } from "@/fields/mediaImageField";
+import { basePriceFields } from "@/fields/priceFields";
 import { generatePackageSlug } from "@/hooks/generateSlug";
 import { adminGroups } from "@/i18n/adminGroups";
 import { bl, common } from "@/i18n/labels";
+import {
+  syncPackagePriceFieldsOnChange,
+  syncPackagePriceFieldsOnRead,
+} from "@/lib/pricing/syncPriceFieldPairs";
 
 export const Packages: CollectionConfig = {
   slug: "packages",
@@ -18,7 +23,7 @@ export const Packages: CollectionConfig = {
   },
   admin: {
     useAsTitle: "name",
-    defaultColumns: ["name", "activity", "category", "basePriceCents", "isActive"],
+    defaultColumns: ["name", "activity", "category", "basePriceEur", "isActive"],
     group: adminGroups.catalog,
   },
   access: {
@@ -37,9 +42,17 @@ export const Packages: CollectionConfig = {
           );
         }
 
+        syncPackagePriceFieldsOnChange(data);
+
         return data;
       },
       generatePackageSlug,
+    ],
+    afterRead: [
+      ({ doc }) => {
+        syncPackagePriceFieldsOnRead(doc);
+        return doc;
+      },
     ],
   },
   fields: [
@@ -70,19 +83,7 @@ export const Packages: CollectionConfig = {
     },
     autoSlugField(bl("atividade, categoria e nome", "activity, category, and name")),
     mediaImageField(),
-    {
-      name: "basePriceCents",
-      type: "number",
-      label: bl("Preço base (cêntimos)", "Base price (cents)"),
-      required: true,
-      min: 0,
-      admin: {
-        description: bl(
-          "Preço base do pacote em cêntimos (EUR).",
-          "Base package price in cents (EUR).",
-        ),
-      },
-    },
+    ...basePriceFields(),
     {
       name: "isActive",
       type: "checkbox",

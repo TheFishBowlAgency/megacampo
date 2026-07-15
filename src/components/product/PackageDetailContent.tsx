@@ -12,12 +12,15 @@ import {
   AddToCartButton,
   CheckoutButton,
   DateInput,
+  ExtrasSection,
   PeriodSelect,
   ProductImage,
   ChevronLeftIcon,
+  type ProductExtra,
 } from '@/components/product/detail/shared';
 import { TIME_PERIODS } from '@/lib/booking/constants';
 import {
+  buildExtraCartLineItem,
   buildPackageCartLineItem,
 } from '@/lib/cart/buildCartLineItem';
 import { formatPriceFromCents } from '@/lib/catalog/formatPrice';
@@ -30,6 +33,8 @@ export interface PackageDetailContentProps {
   basePriceCents: number;
   imageSrc?: string;
   extraGroups: ResolvedExtraGroup[];
+  extras?: ProductExtra[];
+  showGroupExtrasSection?: boolean;
   backHref: string;
   backLabel?: string;
 }
@@ -80,19 +85,19 @@ function PackagePrice({
   const displayPrice = formatPriceFromCents(unitPriceCents);
 
   const sharedProps = {
-    key: unitPriceCents,
     color: 'primary' as const,
     lineHeight: '1' as const,
     'aria-live': 'polite' as const,
     'aria-atomic': true as const,
     children: `${displayPrice}€`,
   };
+  
 
   if (variant === 'mobile') {
-    return <Text {...sharedProps} fontWeight="extrabold" fontSize="md" />;
+    return <Text key={unitPriceCents} {...sharedProps} fontWeight="extrabold" fontSize="md" />;
   }
 
-  return <Text {...sharedProps} textStyle="h5" />;
+  return <Text key={unitPriceCents} {...sharedProps} textStyle="h5" />;
 }
 
 export function PackageDetailContent({
@@ -101,6 +106,8 @@ export function PackageDetailContent({
   basePriceCents,
   imageSrc,
   extraGroups,
+  extras = [],
+  showGroupExtrasSection = false,
   backHref,
   backLabel = 'Voltar às Reservas',
 }: PackageDetailContentProps) {
@@ -146,6 +153,29 @@ export function PackageDetailContent({
     setBookingError(null);
     addItem(buildCurrentLineItem());
     router.push(redirectTo);
+  };
+
+  const handleAddExtra = (extraId: string, extraQuantity: number) => {
+    const extra = extras.find((item) => item.id === extraId);
+    if (!extra) return;
+
+    addItem(
+      buildExtraCartLineItem({
+        extraId: extra.id,
+        name: extra.name,
+        quantity: extraQuantity,
+        price: extra.price,
+        imageUrl: extra.imageSrc,
+      }),
+    );
+    router.push('/carrinho');
+  };
+
+  const handleExtrasCheckout = () => {
+    if (date) {
+      addItem(buildCurrentLineItem());
+    }
+    router.push('/checkout');
   };
 
   return (
@@ -243,23 +273,33 @@ export function PackageDetailContent({
           </Flex>
         </Container>
 
-        <Container pb={{ base: '10', lg: '16' }}>
-          <Flex justify={{ base: 'center', lg: 'flex-start' }}>
-            <Link
-              href={backHref}
-              display="flex"
-              alignItems="center"
-              gap="3"
-              color="fg.muted"
-              _hover={{ color: 'primary' }}
-            >
-              <ChevronLeftIcon />
-              <Text fontSize={{ base: 'md', lg: 'body.lg' }}>
-                {backLabel}
-              </Text>
-            </Link>
-          </Flex>
-        </Container>
+        {showGroupExtrasSection ? (
+          <ExtrasSection
+            extras={extras}
+            backHref={backHref}
+            backLabel={backLabel}
+            onAddExtra={handleAddExtra}
+            onCheckout={handleExtrasCheckout}
+          />
+        ) : (
+          <Container pb={{ base: '10', lg: '16' }}>
+            <Flex justify={{ base: 'center', lg: 'flex-start' }}>
+              <Link
+                href={backHref}
+                display="flex"
+                alignItems="center"
+                gap="3"
+                color="fg.muted"
+                _hover={{ color: 'primary' }}
+              >
+                <ChevronLeftIcon />
+                <Text fontSize={{ base: 'md', lg: 'body.lg' }}>
+                  {backLabel}
+                </Text>
+              </Link>
+            </Flex>
+          </Container>
+        )}
 
         <Footer />
       </main>

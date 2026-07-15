@@ -1,5 +1,6 @@
 import type { Field } from "payload";
 
+import { priceCentsEuroFields } from "@/fields/priceFields";
 import { bl, common } from "@/i18n/labels";
 
 export const packageOptionRowFields: Field[] = [
@@ -22,19 +23,13 @@ export const packageOptionRowFields: Field[] = [
       ),
     },
   },
-  {
-    name: "priceCents",
-    type: "number",
-    label: common.priceCents,
+  ...priceCentsEuroFields({
     required: true,
-    min: 0,
-    admin: {
-      description: bl(
-        "Preço adicional para este pacote (0 = incluído na seleção predefinida).",
-        "Add-on price for this package (0 = included with the default selection).",
-      ),
-    },
-  },
+    description: bl(
+      "Preço adicional para este pacote (0 = incluído na seleção predefinida).",
+      "Add-on price for this package (0 = included with the default selection).",
+    ),
+  }),
 ];
 
 export const extraGroupConfigFields: Field[] = [
@@ -126,20 +121,14 @@ export const templateOverrideFields: Field[] = [
         siblingData?.type === "addOption" || siblingData?.type === "replaceOption",
     },
   },
-  {
-    name: "priceCents",
-    type: "number",
-    label: common.priceCents,
-    min: 0,
-    admin: {
-      condition: (_, siblingData) =>
-        siblingData?.type === "addOption" ||
-        siblingData?.type === "replaceOption" ||
-        siblingData?.type === "priceOverride",
-      description: bl(
-        "Preço específico do pacote em cêntimos para a opção adicionada ou substituída.",
-        "Package-specific price in cents for the added or replaced option.",
-      ),
-    },
-  },
+  ...priceCentsEuroFields({
+    description: bl(
+      "Preço específico do pacote em euros para a opção adicionada ou substituída.",
+      "Package-specific price in euros for the added or replaced option.",
+    ),
+    condition: (_, siblingData) =>
+      siblingData?.type === "addOption" ||
+      siblingData?.type === "replaceOption" ||
+      siblingData?.type === "priceOverride",
+  }),
 ];

@@ -9,6 +9,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import type { CartLineItem } from "./types";
+import { formatPriceWithCurrency } from "@/lib/catalog/formatPrice";
 import { QuantityStepper } from "./QuantityStepper";
 
 export interface CartItemRowProps {
@@ -59,14 +60,6 @@ function DeleteIcon() {
       <path d="M10 11v6M14 11v6" />
     </svg>
   );
-}
-
-function formatPrice(price: number): string {
-  return new Intl.NumberFormat("pt-PT", {
-    style: "currency",
-    currency: "EUR",
-    minimumFractionDigits: 2,
-  }).format(price);
 }
 
 export function CartItemRow({
@@ -133,7 +126,7 @@ export function CartItemRow({
           aria-label={`Quantidade de ${item.productName}`}
         />
         <Text fontWeight="medium" color="fg">
-          {formatPrice(item.unitPrice)}
+          {formatPriceWithCurrency(item.unitPrice)}
         </Text>
         <IconButton
           aria-label={`Remover ${item.productName}`}
@@ -228,7 +221,7 @@ export function CartItemRow({
         aria-label={`Quantidade de ${item.productName}`}
       />
       <Text fontWeight="medium" color="fg" fontSize="sm" whiteSpace="nowrap">
-        {formatPrice(item.unitPrice)}
+        {formatPriceWithCurrency(item.unitPrice)}
       </Text>
       <IconButton
         aria-label={`Remover ${item.productName}`}

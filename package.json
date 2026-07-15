@@ -9,16 +9,17 @@
     "lint": "eslint",
     "generate:types": "cross-env NODE_OPTIONS=--no-deprecation tsx node_modules/payload/bin.js generate:types",
     "payload": "cross-env NODE_OPTIONS=--no-deprecation tsx node_modules/payload/bin.js",
-    "seed": "cross-env NODE_OPTIONS=--no-deprecation PAYLOAD_DISABLE_DEPENDENCY_CHECKER=true tsx --env-file=.env src/seed/index.ts"
+    "seed": "cross-env NODE_OPTIONS=--no-deprecation PAYLOAD_DISABLE_DEPENDENCY_CHECKER=true tsx --env-file=.env src/seed/index.ts",
+    "migrate:prices": "cross-env NODE_OPTIONS=--no-deprecation tsx --env-file=.env src/seed/migratePriceFields.ts"
   },
   "dependencies": {
     "@chakra-ui/react": "^3.33.0",
     "@emotion/react": "^11.14.0",
     "@payloadcms/db-mongodb": "^3.84.1",
     "@payloadcms/next": "^3.84.1",
-    "@payloadcms/plugin-cloud-storage": "^3.85.0",
+    "@payloadcms/plugin-cloud-storage": "3.84.1",
     "@payloadcms/richtext-lexical": "^3.84.1",
-    "@payloadcms/translations": "^3.85.0",
+    "@payloadcms/translations": "3.84.1",
     "@paypal/react-paypal-js": "^10.0.0",
     "cloudinary": "^2.10.0",
     "graphql": "^16.14.0",

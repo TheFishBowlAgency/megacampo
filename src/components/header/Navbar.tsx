@@ -39,6 +39,7 @@ export function Navbar({ onOpenMenu }: { onOpenMenu: () => void }) {
               alt="Megacampo"
               width={139}
               height={80}
+                loading="eager"
               style={{ height: "auto", width: "auto", maxWidth: "100px" }}
               priority
             />

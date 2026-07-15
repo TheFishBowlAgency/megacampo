@@ -3,14 +3,11 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
 import { Link } from "@/components/ui";
 import type { CartLineItem } from "@/components/cart/types";
+import { formatPriceWithCurrency } from "@/lib/catalog/formatPrice";
 
 export interface CheckoutOrderSummaryProps {
   items: CartLineItem[];
   editCartHref?: string;
-}
-
-function formatPrice(value: number): string {
-  return value.toFixed(2).replace(".", ",") + "€";
 }
 
 function getDisplayInfo(item: CartLineItem) {
@@ -74,7 +71,7 @@ export function CheckoutOrderSummary({
                     {itemName}
                   </Text>
                   <Text textStyle="h5" color="fg">
-                    {formatPrice(lineTotal)}
+                    {formatPriceWithCurrency(lineTotal)}
                   </Text>
                 </Flex>
                 <Box display="flex" flexDirection="column" gap="3">
@@ -98,7 +95,7 @@ export function CheckoutOrderSummary({
             Total
           </Text>
           <Text textStyle="h5" color="grayLight">
-            {formatPrice(total)}
+            {formatPriceWithCurrency(total)}
           </Text>
         </Flex>
       </Box>

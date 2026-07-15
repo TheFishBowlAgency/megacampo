@@ -1,6 +1,4 @@
-export function euroToCents(amount: number): number {
-  return Math.round(amount * 100);
-}
+export { euroToCents } from "@/lib/pricing/cents";
 
 export type OptionRef = {
   optionKey: string;

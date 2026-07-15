@@ -5,6 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import { Box, Button, Text } from '@chakra-ui/react';
 import { Link } from '@/components/ui';
 import { useCart } from '@/providers';
+import { formatPriceWithCurrency } from '@/lib/catalog/formatPrice';
 
 interface OrderPaymentInfo {
   orderNumber: string;
@@ -26,7 +27,7 @@ function parseAmount(value: number | string): number {
 function formatPrice(value: number | string): string {
   const amount = parseAmount(value);
   if (!Number.isFinite(amount)) return '—';
-  return amount.toFixed(2).replace('.', ',') + '€';
+  return formatPriceWithCurrency(amount);
 }
 
 export function OrderConfirmationContent() {

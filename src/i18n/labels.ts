@@ -21,6 +21,7 @@ export const common = {
   option: bl("Opção", "Option"),
   options: bl("Opções", "Options"),
   priceCents: bl("Preço (cêntimos)", "Price (cents)"),
+  priceEur: bl("Preço (EUR)", "Price (EUR)"),
   slug: bl("Identificador", "Slug"),
   sort: bl("Ordem", "Sort order"),
   title: bl("Título", "Title"),

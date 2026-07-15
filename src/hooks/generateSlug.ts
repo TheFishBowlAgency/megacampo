@@ -73,3 +73,8 @@ export const generatePackageSlug = generateSlugBeforeValidate({
       name: typeof data.name === "string" ? data.name : null,
     }),
 });
+
+export const generateGroupExtraSlug = generateSlugBeforeValidate({
+  collectionSlug: "group-extras",
+  sourceField: "name",
+});

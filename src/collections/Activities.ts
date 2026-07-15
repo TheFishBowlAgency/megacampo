@@ -50,6 +50,24 @@ export const Activities: CollectionConfig = {
       defaultValue: 0,
     },
     {
+      name: "groupExtras",
+      type: "relationship",
+      relationTo: "group-extras",
+      hasMany: true,
+      label: bl("Extras de grupo", "Group extras"),
+      admin: {
+        description: bl(
+          "Extras opcionais para o grupo mostrados no separador «Melhora a tua atividade».",
+          "Optional group add-ons shown in the «Improve your activity» tab.",
+        ),
+      },
+      filterOptions: {
+        isActive: {
+          equals: true,
+        },
+      },
+    },
+    {
       name: "isActive",
       type: "checkbox",
       label: common.isActive,

@@ -11,6 +11,7 @@ import { Container } from "@/components/layout";
 import type { CartLineItem } from "./types";
 import { CartItemRow } from "./CartItemRow";
 import { CartSummary } from "./CartSummary";
+import { formatPriceWithCurrency } from "@/lib/catalog/formatPrice";
 
 export interface CartWithItemsViewProps {
   items: CartLineItem[];
@@ -22,11 +23,7 @@ export interface CartWithItemsViewProps {
 
 function formatTotal(items: CartLineItem[]): string {
   const total = items.reduce((sum, i) => sum + i.unitPrice * i.quantity, 0);
-  return new Intl.NumberFormat("pt-PT", {
-    style: "currency",
-    currency: "EUR",
-    minimumFractionDigits: 2,
-  }).format(total);
+  return formatPriceWithCurrency(total);
 }
 
 export function CartWithItemsView({

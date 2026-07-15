@@ -241,6 +241,16 @@ function ExtraImagePlaceholder() {
   );
 }
 
+function ExtrasEmptyState() {
+  return (
+    <Box py="8" textAlign="center">
+      <Text textStyle="body" color="fg.muted">
+        Não existem extras de grupo disponíveis neste momento.
+      </Text>
+    </Box>
+  );
+}
+
 function ExtrasListDesktop({
   extras,
   quantities,
@@ -252,6 +262,10 @@ function ExtrasListDesktop({
   onQuantityChange: (id: string, qty: number) => void;
   onAddExtra?: (extraId: string, quantity: number) => void;
 }) {
+  if (extras.length === 0) {
+    return <ExtrasEmptyState />;
+  }
+
   return (
     <VStack align="stretch" gap="8">
       {extras.map((extra, i) => (
@@ -313,6 +327,10 @@ function ExtrasListMobile({
   onQuantityChange: (id: string, qty: number) => void;
   onAddExtra?: (extraId: string, quantity: number) => void;
 }) {
+  if (extras.length === 0) {
+    return <ExtrasEmptyState />;
+  }
+
   return (
     <VStack align="stretch" gap="4">
       {extras.map((extra, i) => (

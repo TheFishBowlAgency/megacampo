@@ -74,6 +74,7 @@ export interface Config {
     'option-groups': OptionGroup;
     options: Option;
     packages: Package;
+    'group-extras': GroupExtra;
     orders: Order;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
@@ -89,6 +90,7 @@ export interface Config {
     'option-groups': OptionGroupsSelect<false> | OptionGroupsSelect<true>;
     options: OptionsSelect<false> | OptionsSelect<true>;
     packages: PackagesSelect<false> | PackagesSelect<true>;
+    'group-extras': GroupExtrasSelect<false> | GroupExtrasSelect<true>;
     orders: OrdersSelect<false> | OrdersSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -194,6 +196,31 @@ export interface Activity {
   slug: string;
   image?: (string | null) | Media;
   sort?: number | null;
+  /**
+   * Optional group add-ons shown in the «Improve your activity» tab.
+   */
+  groupExtras?: (string | GroupExtra)[] | null;
+  isActive?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "group-extras".
+ */
+export interface GroupExtra {
+  id: string;
+  name: string;
+  /**
+   * Auto-generated from name.
+   */
+  slug: string;
+  /**
+   * Group extra price in cents (EUR).
+   */
+  priceCents: number;
+  image?: (string | null) | Media;
+  sort?: number | null;
   isActive?: boolean | null;
   updatedAt: string;
   createdAt: string;
@@ -220,6 +247,10 @@ export interface PackageCategory {
   slug: string;
   image?: (string | null) | Media;
   sort?: number | null;
+  /**
+   * Optional group add-ons shown in the «Improve your activity» tab.
+   */
+  groupExtras?: (string | GroupExtra)[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -453,6 +484,10 @@ export interface PayloadLockedDocument {
         value: string | Package;
       } | null)
     | ({
+        relationTo: 'group-extras';
+        value: string | GroupExtra;
+      } | null)
+    | ({
         relationTo: 'orders';
         value: string | Order;
       } | null);
@@ -549,6 +584,7 @@ export interface ActivitiesSelect<T extends boolean = true> {
   slug?: T;
   image?: T;
   sort?: T;
+  groupExtras?: T;
   isActive?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -565,6 +601,21 @@ export interface PackageCategoriesSelect<T extends boolean = true> {
   slug?: T;
   image?: T;
   sort?: T;
+  groupExtras?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "group-extras_select".
+ */
+export interface GroupExtrasSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  priceCents?: T;
+  image?: T;
+  sort?: T;
+  isActive?: T;
   updatedAt?: T;
   createdAt?: T;
 }

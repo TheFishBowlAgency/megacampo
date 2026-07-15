@@ -8,12 +8,15 @@ import {
   getAllActivitySegmentParams,
   resolveActivitySegment,
 } from '@/lib/catalog/getPackageBySlug';
+import { getGroupExtras } from '@/lib/catalog';
 import { getPackagesByCategoryId } from '@/lib/catalog/getPackagesByCategory';
 import { getCategoryPathSlug } from '@/lib/package-categories/slugHelpers';
 
 export interface ActivitySegmentPageProps {
   params: Promise<{ slug: string; categorySlug: string }>;
 }
+
+export const dynamic = 'force-dynamic';
 
 export async function generateStaticParams() {
   return getAllActivitySegmentParams();
@@ -28,6 +31,7 @@ export default async function ActivitySegmentPage({
 
   if (resolution.type === 'package') {
     const { package: packageData } = resolution;
+    const { extras, showSection } = await getGroupExtras(slug);
 
     return (
       <PackageDetailContent
@@ -37,6 +41,8 @@ export default async function ActivitySegmentPage({
         basePriceCents={packageData.config.basePriceCents}
         imageSrc={packageData.imageSrc}
         extraGroups={packageData.config.extraGroups}
+        extras={extras}
+        showGroupExtrasSection={showSection}
         backHref={`/atividades/${slug}`}
         backLabel="Voltar às Reservas"
       />

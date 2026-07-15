@@ -15,6 +15,7 @@ import { PackageCategories } from "./collections/PackageCategories";
 import { OptionGroups } from "./collections/OptionGroups";
 import { Options } from "./collections/Options";
 import { Packages } from "./collections/Packages";
+import { GroupExtras } from "./collections/GroupExtras";
 import { Orders } from "./collections/Orders";
 import {
   buildCloudinaryFileURL,
@@ -42,6 +43,7 @@ export default buildConfig({
     OptionGroups,
     Options,
     Packages,
+    GroupExtras,
     Orders,
   ],
   editor: lexicalEditor(),

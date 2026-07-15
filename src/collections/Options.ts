@@ -2,6 +2,11 @@ import type { CollectionConfig } from "payload";
 
 import { adminGroups } from "@/i18n/adminGroups";
 import { bl, common } from "@/i18n/labels";
+import { defaultPriceFields } from "@/fields/priceFields";
+import {
+  syncCentsToEuroDisplay,
+  syncEuroInputToCents,
+} from "@/lib/pricing/syncPriceFieldPairs";
 
 export const Options: CollectionConfig = {
   slug: "options",
@@ -17,6 +22,20 @@ export const Options: CollectionConfig = {
   access: {
     read: () => true,
   },
+  hooks: {
+    beforeValidate: [
+      ({ data }) => {
+        syncEuroInputToCents(data, "defaultPriceEur", "defaultPriceCents");
+        return data;
+      },
+    ],
+    afterRead: [
+      ({ doc }) => {
+        syncCentsToEuroDisplay(doc, "defaultPriceEur", "defaultPriceCents");
+        return doc;
+      },
+    ],
+  },
   fields: [
     {
       name: "group",
@@ -31,18 +50,7 @@ export const Options: CollectionConfig = {
       label: common.label,
       required: true,
     },
-    {
-      name: "defaultPriceCents",
-      type: "number",
-      label: bl("Preço predefinido (cêntimos)", "Default price (cents)"),
-      min: 0,
-      admin: {
-        description: bl(
-          "Preço de recurso opcional. O preço específico do pacote em Pacotes substitui normalmente este valor.",
-          "Optional fallback price. Package-specific pricing in Packages usually overrides this.",
-        ),
-      },
-    },
+    ...defaultPriceFields(),
     {
       name: "pricingUnit",
       type: "select",

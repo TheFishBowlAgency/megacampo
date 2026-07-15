@@ -15,7 +15,13 @@ export {
   type TemplateOverride,
   type TemplateOverrideType,
 } from "./resolvePackageConfig";
-export { formatPriceFromCents } from "./formatPrice";
+export {
+  formatPriceAmount,
+  formatPriceFromCents,
+  formatPriceFromEur,
+  formatPriceWithCurrency,
+} from "./formatPrice";
+export { getGroupExtras, type GroupExtrasResult } from "./groupExtras";
 export {
   getAllActivitySegmentParams,
   getAllFlatPackageParams,
