@@ -1,35 +1,36 @@
-import type { Metadata } from 'next';
-import { cookies, headers } from 'next/headers';
-import { Anton, Roboto } from 'next/font/google';
-import localFont from 'next/font/local';
-import './globals.css';
-import { detectSiteLocale, SITE_LOCALE_COOKIE } from '@/i18n/site';
-import { StyleProvider } from '@/providers';
+import type { Metadata } from "next";
+import { cookies, headers } from "next/headers";
+import { Anton, Roboto } from "next/font/google";
+import localFont from "next/font/local";
+import "./globals.css";
+import { detectSiteLocale, SITE_LOCALE_COOKIE } from "@/i18n/site";
+import { getSiteShell } from "@/lib/site/getSiteShell";
+import { StyleProvider } from "@/providers";
 
 const anton = Anton({
-  weight: '400',
-  variable: '--font-anton',
-  subsets: ['latin'],
+  weight: "400",
+  variable: "--font-anton",
+  subsets: ["latin"],
 });
 
 const molot = localFont({
-  src: '../../../public/fonts/martimmolina.ttf',
-  variable: '--font-molot',
-  display: 'swap',
+  src: "../../../public/fonts/martimmolina.ttf",
+  variable: "--font-molot",
+  display: "swap",
 });
 
 const roboto = Roboto({
-  weight: ['400', '500', '600', '800'],
-  variable: '--font-roboto',
-  subsets: ['latin'],
+  weight: ["400", "500", "600", "800"],
+  variable: "--font-roboto",
+  subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: 'Megacampo | O maior parque de paintball da Península Ibérica',
+  title: "Megacampo | O maior parque de paintball da Península Ibérica",
   description:
-    'Experiência 12 mapas em 60 hectares. Paintball, airsoft, lasertag. Reservas e eventos.',
+    "Experiência 12 mapas em 60 hectares. Paintball, airsoft, lasertag. Reservas e eventos.",
   other: {
-    google: 'notranslate',
+    google: "notranslate",
   },
 };
 
@@ -42,8 +43,9 @@ export default async function RootLayout({
   const headerStore = await headers();
   const locale = detectSiteLocale({
     cookie: cookieStore.get(SITE_LOCALE_COOKIE)?.value,
-    acceptLanguage: headerStore.get('accept-language'),
+    acceptLanguage: headerStore.get("accept-language"),
   });
+  const { header, footer } = await getSiteShell();
 
   return (
     <html
@@ -53,7 +55,9 @@ export default async function RootLayout({
       className={`${anton.variable} ${molot.variable} ${roboto.variable} notranslate`}
     >
       <body>
-        <StyleProvider initialLocale={locale}>{children}</StyleProvider>
+        <StyleProvider initialLocale={locale} header={header} footer={footer}>
+          {children}
+        </StyleProvider>
       </body>
     </html>
   );

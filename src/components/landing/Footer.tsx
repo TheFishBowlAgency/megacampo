@@ -1,14 +1,16 @@
+"use client";
+
 import { Box, Flex, Grid, HStack, Text, VStack } from "@chakra-ui/react";
 import { Link } from "@/components/ui";
 import Image from "next/image";
-
-const PHONE_FIXED = "+351 214 876 088";
-const PHONE_MOBILE = "+351 913 402 013";
-const EMAIL = "info@megacampo.com";
-const ADDRESS_LINE_1 = "Avenida do Megacampo, Lugar da Romã";
-const ADDRESS_LINE_2 = "Sobral da Abalheira, 2640-615 Mafra";
+import { getCopyrightText } from "@/lib/site/defaults";
+import { useFooterContent } from "@/providers";
 
 export function Footer() {
+  const { logoSrc, logoAlt, contact, hours, social, legalLinks } =
+    useFooterContent();
+  const copyright = getCopyrightText();
+
   return (
     <Box as="footer" id="contactos" bg="bg.subtle">
       <Box h="1px" bg="dark" />
@@ -25,8 +27,8 @@ export function Footer() {
             {/* Logo */}
             <Box>
               <Image
-                src="/logo.png"
-                alt="Megacampo"
+                src={logoSrc}
+                alt={logoAlt}
                 width={139}
                 height={80}
                 loading="eager"
@@ -46,7 +48,7 @@ export function Footer() {
                 color="fg"
                 textTransform="uppercase"
               >
-                CONTACTA-NOS
+                {contact.title}
               </Text>
 
               <VStack align="stretch" gap={{ base: "4", lg: "6" }}>
@@ -57,20 +59,20 @@ export function Footer() {
                   </Box>
                   <VStack align="stretch" gap="1">
                     <Link
-                      href={`tel:${PHONE_FIXED.replace(/\s/g, "")}`}
+                      href={`tel:${contact.phoneFixed.replace(/\s/g, "")}`}
                       color="fg"
                       fontSize={{ base: "sm", lg: "body.lg" }}
                       _hover={{ color: "primary" }}
                     >
-                      {PHONE_FIXED}*
+                      {contact.phoneFixed}*
                     </Link>
                     <Link
-                      href={`tel:${PHONE_MOBILE.replace(/\s/g, "")}`}
+                      href={`tel:${contact.phoneMobile.replace(/\s/g, "")}`}
                       color="fg"
                       fontSize={{ base: "sm", lg: "body.lg" }}
                       _hover={{ color: "primary" }}
                     >
-                      {PHONE_MOBILE}**
+                      {contact.phoneMobile}**
                     </Link>
                   </VStack>
                 </HStack>
@@ -85,9 +87,9 @@ export function Footer() {
                     fontSize={{ base: "sm", lg: "body.lg" }}
                     lineHeight="1.5"
                   >
-                    {ADDRESS_LINE_1}
+                    {contact.addressLine1}
                     <br />
-                    {ADDRESS_LINE_2}
+                    {contact.addressLine2}
                   </Text>
                 </HStack>
 
@@ -97,12 +99,12 @@ export function Footer() {
                     <EmailIcon />
                   </Box>
                   <Link
-                    href={`mailto:${EMAIL}`}
+                    href={`mailto:${contact.email}`}
                     color="fg"
                     fontSize={{ base: "sm", lg: "body.lg" }}
                     _hover={{ color: "primary" }}
                   >
-                    {EMAIL}
+                    {contact.email}
                   </Link>
                 </HStack>
               </VStack>
@@ -110,10 +112,10 @@ export function Footer() {
               {/* Phone notes */}
               <VStack align="stretch" gap="1">
                 <Text color="fg.muted" fontSize={{ base: "xs", lg: "body.lg" }}>
-                  *Chamada para rede fixa nacional
+                  {contact.phoneFixedNote}
                 </Text>
                 <Text color="fg.muted" fontSize={{ base: "xs", lg: "body.lg" }}>
-                  **Chamada para rede móvel nacional
+                  {contact.phoneMobileNote}
                 </Text>
               </VStack>
             </VStack>
@@ -130,21 +132,21 @@ export function Footer() {
                 color="fg"
                 textTransform="uppercase"
               >
-                HORÁRIO
+                {hours.title}
               </Text>
               <VStack align="stretch" gap="1">
-                <Text color="fg" fontSize={{ base: "sm", lg: "body.lg" }}>
-                  <Text as="span" fontWeight="extrabold">
-                    Manhã:
-                  </Text>{" "}
-                  9h30 - 13h00
-                </Text>
-                <Text color="fg" fontSize={{ base: "sm", lg: "body.lg" }}>
-                  <Text as="span" fontWeight="extrabold">
-                    Tarde:
-                  </Text>{" "}
-                  14h00 - 17h30
-                </Text>
+                {hours.rows.map((row) => (
+                  <Text
+                    key={`${row.label}-${row.value}`}
+                    color="fg"
+                    fontSize={{ base: "sm", lg: "body.lg" }}
+                  >
+                    <Text as="span" fontWeight="extrabold">
+                      {row.label}
+                    </Text>{" "}
+                    {row.value}
+                  </Text>
+                ))}
               </VStack>
             </VStack>
 
@@ -160,27 +162,27 @@ export function Footer() {
                 color="fg"
                 textTransform="uppercase"
               >
-                SEGUE-NOS
+                {social.title}
               </Text>
               <HStack gap="4">
-                <Link
-                  href="https://facebook.com"
-                  external
-                  aria-label="Facebook"
-                  color="fg"
-                  _hover={{ color: "primary" }}
-                >
-                  <FacebookIcon />
-                </Link>
-                <Link
-                  href="https://instagram.com"
-                  external
-                  aria-label="Instagram"
-                  color="fg"
-                  _hover={{ color: "primary" }}
-                >
-                  <InstagramIcon />
-                </Link>
+                {social.links.map((link) => (
+                  <Link
+                    key={`${link.platform}-${link.url}`}
+                    href={link.url}
+                    external
+                    aria-label={
+                      link.platform === "facebook" ? "Facebook" : "Instagram"
+                    }
+                    color="fg"
+                    _hover={{ color: "primary" }}
+                  >
+                    {link.platform === "facebook" ? (
+                      <FacebookIcon />
+                    ) : (
+                      <InstagramIcon />
+                    )}
+                  </Link>
+                ))}
               </HStack>
             </VStack>
           </Grid>
@@ -197,28 +199,21 @@ export function Footer() {
             align={{ base: "flex-start", lg: "center" }}
             gap={{ base: "3", lg: "0" }}
           >
-            <Link
-              href="/termos"
-              fontWeight="extrabold"
-              textTransform="uppercase"
-              fontSize={{ base: "sm", lg: "body.lg" }}
-              color="fg"
-              _hover={{ color: "primary" }}
-            >
-              TERMOS DE UTILIZAÇÃO
-            </Link>
-            <Link
-              href="/privacidade"
-              fontWeight="extrabold"
-              textTransform="uppercase"
-              fontSize={{ base: "sm", lg: "body.lg" }}
-              color="fg"
-              _hover={{ color: "primary" }}
-            >
-              POLÍTICA DE PRIVACIDADE
-            </Link>
+            {legalLinks.map((link) => (
+              <Link
+                key={`${link.href}-${link.label}`}
+                href={link.href}
+                fontWeight="extrabold"
+                textTransform="uppercase"
+                fontSize={{ base: "sm", lg: "body.lg" }}
+                color="fg"
+                _hover={{ color: "primary" }}
+              >
+                {link.label}
+              </Link>
+            ))}
             <Text color="fg.muted" fontSize={{ base: "xs", lg: "body.lg" }}>
-              © Copyright 2025 by Megacampo
+              {copyright}
             </Text>
           </Flex>
         </Box>

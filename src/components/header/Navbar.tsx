@@ -4,27 +4,18 @@ import { Box, HStack, IconButton, useBreakpointValue } from "@chakra-ui/react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Link } from "@/components/ui";
-
-const NAV_LINKS = [
-  { label: "ACTIVIDADES", href: "/#actividades" },
-  { label: "O PARQUE", href: "/cenarios" },
-  { label: "COMO", href: "/como" },
-  { label: "EVENTOS", href: "/eventos" },
-  { label: "LOJA", href: "#loja" },
-  { label: "RESERVAS", href: "/#reservas" },
-  { label: "CONTACTOS", href: "/#contactos" },
-] as const;
+import { useHeaderContent } from "@/providers";
 
 export function Navbar({ onOpenMenu }: { onOpenMenu: () => void }) {
   const pathname = usePathname();
+  const { logoSrc, logoAlt, navLinks } = useHeaderContent();
   const showMobileNav = useBreakpointValue({ base: true, lg: false }) ?? true;
 
-  const isActive = (item: (typeof NAV_LINKS)[number]) => {
-    if (item.href === "/cenarios") return pathname === "/cenarios";
-    if (item.href === "/como") return pathname === "/como";
-    if (item.href === "/eventos") return pathname === "/eventos";
-    if (item.href === "/#actividades")
-      return pathname.startsWith("/atividades");
+  const isActive = (href: string) => {
+    if (href === "/cenarios") return pathname === "/cenarios";
+    if (href === "/como") return pathname === "/como";
+    if (href === "/eventos") return pathname === "/eventos";
+    if (href === "/#actividades") return pathname.startsWith("/atividades");
     return false;
   };
 
@@ -35,11 +26,11 @@ export function Navbar({ onOpenMenu }: { onOpenMenu: () => void }) {
           {/* Logo */}
           <Link href="/" _hover={{ opacity: 0.9 }}>
             <Image
-              src="/logo.png"
-              alt="Megacampo"
+              src={logoSrc}
+              alt={logoAlt}
               width={139}
               height={80}
-                loading="eager"
+              loading="eager"
               style={{ height: "auto", width: "auto", maxWidth: "100px" }}
               priority
             />
@@ -73,11 +64,11 @@ export function Navbar({ onOpenMenu }: { onOpenMenu: () => void }) {
             </HStack>
           ) : (
             <HStack gap="6" flex="1" justify="center">
-              {NAV_LINKS.map((item) => {
-                const active = isActive(item);
+              {navLinks.map((item) => {
+                const active = isActive(item.href);
                 return (
                   <Link
-                    key={item.href}
+                    key={`${item.href}-${item.label}`}
                     href={item.href}
                     fontWeight="semibold"
                     textTransform="uppercase"

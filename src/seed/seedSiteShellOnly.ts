@@ -2,7 +2,6 @@ import { getPayload } from "payload";
 
 import config from "@payload-config";
 
-import { runCatalogSeed } from "./seedCatalog";
 import { runSiteShellSeed } from "./seedSiteShell";
 
 async function main(): Promise<void> {
@@ -10,10 +9,9 @@ async function main(): Promise<void> {
 
   try {
     await runSiteShellSeed(payload);
-    await runCatalogSeed(payload);
     process.exit(0);
   } catch (error) {
-    console.error("Seed failed:", error);
+    console.error("Site shell seed failed:", error);
     process.exit(1);
   }
 }

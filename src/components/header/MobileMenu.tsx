@@ -11,18 +11,8 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import Image from "next/image";
-
-const NAV_LINKS = [
-  { label: "ATIVIDADES", href: "/#actividades" },
-  { label: "O PARQUE", href: "/cenarios" },
-  { label: "COMO", href: "/como" },
-  { label: "EVENTOS", href: "/eventos" },
-  { label: "LOJA", href: "/#loja" },
-  { label: "RESERVAS", href: "/#reservas" },
-  { label: "CONTACTOS", href: "/#contactos" },
-];
-
-const PHONE = "+351 913 402 013";
+import { getCopyrightText } from "@/lib/site/defaults";
+import { useFooterContent, useHeaderContent } from "@/providers";
 
 export function MobileMenu({
   isOpen,
@@ -31,6 +21,10 @@ export function MobileMenu({
   isOpen: boolean;
   onClose: () => void;
 }) {
+  const { logoSrc, logoAlt, topBar, navLinks } = useHeaderContent();
+  const footer = useFooterContent();
+  const phone = topBar.phone;
+
   if (!isOpen) return null;
 
   return (
@@ -48,7 +42,7 @@ export function MobileMenu({
       <Box bg="primary" color="white" py="2" px="4">
         <Flex justify="space-between" align="center" maxW="1280px" mx="auto">
           <Text fontSize="sm" fontWeight="medium">
-            Contacta-nos: {PHONE}
+            {topBar.contactLabel} {phone}
           </Text>
           <HStack gap="2">
             <IconButton
@@ -72,15 +66,22 @@ export function MobileMenu({
         borderBottomWidth="1px"
         borderColor="gray.200"
       >
-        <Logo />
+        <Image
+          src={logoSrc}
+          alt={logoAlt}
+          width={139}
+          height={80}
+          loading="eager"
+          style={{ height: "auto", width: "auto", maxWidth: "80px" }}
+        />
         <CloseButton size="lg" onClick={onClose} aria-label="Fechar menu" />
       </Flex>
 
       {/* Nav links */}
       <VStack align="stretch" gap="0" px="4" py="6">
-        {NAV_LINKS.map((item, i) => (
+        {navLinks.map((item, i) => (
           <Link
-            key={item.href}
+            key={`${item.href}-${item.label}`}
             href={item.href}
             onClick={onClose}
             py="4"
@@ -91,7 +92,7 @@ export function MobileMenu({
             textTransform="uppercase"
             fontSize="md"
             color={i === 0 ? "primary" : "fg"}
-            borderBottom={i < NAV_LINKS.length - 1 ? "1px solid" : undefined}
+            borderBottom={i < navLinks.length - 1 ? "1px solid" : undefined}
             borderColor="gray.200"
             _hover={{ color: "primary" }}
           >
@@ -117,11 +118,11 @@ export function MobileMenu({
           <HStack gap="3">
             <PhoneIcon />
             <Link
-              href={`tel:${PHONE.replace(/\s/g, "")}`}
+              href={`tel:${phone.replace(/\s/g, "")}`}
               color="primary"
               fontWeight="semibold"
             >
-              {PHONE.replace(/\s/g, " ")}
+              {phone.replace(/\s/g, " ")}
             </Link>
           </HStack>
         </VStack>
@@ -130,52 +131,43 @@ export function MobileMenu({
       {/* Segue-nos + legal */}
       <Box px="4" py="8">
         <Text fontWeight="bold" textTransform="uppercase" mb="4" fontSize="sm">
-          Segue-nos
+          {footer.social.title}
         </Text>
         <HStack gap="4" mb="6">
-          <Link href="#" aria-label="Facebook">
-            <FacebookIcon />
-          </Link>
-          <Link href="#" aria-label="Instagram">
-            <InstagramIcon />
-          </Link>
+          {footer.social.links.map((link) => (
+            <Link
+              key={`${link.platform}-${link.url}`}
+              href={link.url}
+              aria-label={
+                link.platform === "facebook" ? "Facebook" : "Instagram"
+              }
+            >
+              {link.platform === "facebook" ? (
+                <FacebookIcon />
+              ) : (
+                <InstagramIcon />
+              )}
+            </Link>
+          ))}
         </HStack>
         <VStack align="stretch" gap="2" mb="6">
-          <Link
-            href="#"
-            fontWeight="bold"
-            textTransform="uppercase"
-            fontSize="sm"
-          >
-            Termos de utilização
-          </Link>
-          <Link
-            href="#"
-            fontWeight="bold"
-            textTransform="uppercase"
-            fontSize="sm"
-          >
-            Política de privacidade
-          </Link>
+          {footer.legalLinks.map((link) => (
+            <Link
+              key={`${link.href}-${link.label}`}
+              href={link.href}
+              fontWeight="bold"
+              textTransform="uppercase"
+              fontSize="sm"
+            >
+              {link.label}
+            </Link>
+          ))}
         </VStack>
         <Text fontSize="xs" color="fg.muted">
-          © Copyright 2025 by Megacampo
+          {getCopyrightText()}
         </Text>
       </Box>
     </Box>
-  );
-}
-
-function Logo() {
-  return (
-    <Image
-      src="/logo.png"
-      alt="Megacampo"
-      width={139}
-      height={80}
-      loading="eager"
-      style={{ height: "auto", width: "auto", maxWidth: "80px" }}
-    />
   );
 }
 

@@ -17,6 +17,8 @@ import { Options } from "./collections/Options";
 import { Packages } from "./collections/Packages";
 import { GroupExtras } from "./collections/GroupExtras";
 import { Orders } from "./collections/Orders";
+import { Footer } from "./globals/Footer";
+import { Header } from "./globals/Header";
 import {
   buildCloudinaryFileURL,
   cloudinaryAdapter,
@@ -46,6 +48,7 @@ export default buildConfig({
     GroupExtras,
     Orders,
   ],
+  globals: [Header, Footer],
   editor: lexicalEditor(),
   i18n: {
     fallbackLanguage: "pt",
