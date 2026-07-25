@@ -12,12 +12,14 @@ import { Users } from "./collections/Users";
 import { Media } from "./collections/Media";
 import { Activities } from "./collections/Activities";
 import { Events } from "./collections/Events";
+import { Scenarios } from "./collections/Scenarios";
 import { PackageCategories } from "./collections/PackageCategories";
 import { OptionGroups } from "./collections/OptionGroups";
 import { Options } from "./collections/Options";
 import { Packages } from "./collections/Packages";
 import { GroupExtras } from "./collections/GroupExtras";
 import { Orders } from "./collections/Orders";
+import { Cenarios } from "./globals/Cenarios";
 import { Como } from "./globals/Como";
 import { Footer } from "./globals/Footer";
 import { Header } from "./globals/Header";
@@ -45,6 +47,7 @@ export default buildConfig({
     Media,
     Activities,
     Events,
+    Scenarios,
     PackageCategories,
     OptionGroups,
     Options,
@@ -52,7 +55,7 @@ export default buildConfig({
     GroupExtras,
     Orders,
   ],
-  globals: [Header, Footer, Home, Como],
+  globals: [Header, Footer, Home, Como, Cenarios],
   editor: lexicalEditor(),
   i18n: {
     fallbackLanguage: "pt",

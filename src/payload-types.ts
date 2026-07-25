@@ -13,53 +13,53 @@
  * via the `definition` "supportedTimezones".
  */
 export type SupportedTimezones =
-  | "Pacific/Midway"
-  | "Pacific/Niue"
-  | "Pacific/Honolulu"
-  | "Pacific/Rarotonga"
-  | "America/Anchorage"
-  | "Pacific/Gambier"
-  | "America/Los_Angeles"
-  | "America/Tijuana"
-  | "America/Denver"
-  | "America/Phoenix"
-  | "America/Chicago"
-  | "America/Guatemala"
-  | "America/New_York"
-  | "America/Bogota"
-  | "America/Caracas"
-  | "America/Santiago"
-  | "America/Buenos_Aires"
-  | "America/Sao_Paulo"
-  | "Atlantic/South_Georgia"
-  | "Atlantic/Azores"
-  | "Atlantic/Cape_Verde"
-  | "Europe/London"
-  | "Europe/Berlin"
-  | "Africa/Lagos"
-  | "Europe/Athens"
-  | "Africa/Cairo"
-  | "Europe/Moscow"
-  | "Asia/Riyadh"
-  | "Asia/Dubai"
-  | "Asia/Baku"
-  | "Asia/Karachi"
-  | "Asia/Tashkent"
-  | "Asia/Calcutta"
-  | "Asia/Dhaka"
-  | "Asia/Almaty"
-  | "Asia/Jakarta"
-  | "Asia/Bangkok"
-  | "Asia/Shanghai"
-  | "Asia/Singapore"
-  | "Asia/Tokyo"
-  | "Asia/Seoul"
-  | "Australia/Brisbane"
-  | "Australia/Sydney"
-  | "Pacific/Guam"
-  | "Pacific/Noumea"
-  | "Pacific/Auckland"
-  | "Pacific/Fiji";
+  | 'Pacific/Midway'
+  | 'Pacific/Niue'
+  | 'Pacific/Honolulu'
+  | 'Pacific/Rarotonga'
+  | 'America/Anchorage'
+  | 'Pacific/Gambier'
+  | 'America/Los_Angeles'
+  | 'America/Tijuana'
+  | 'America/Denver'
+  | 'America/Phoenix'
+  | 'America/Chicago'
+  | 'America/Guatemala'
+  | 'America/New_York'
+  | 'America/Bogota'
+  | 'America/Caracas'
+  | 'America/Santiago'
+  | 'America/Buenos_Aires'
+  | 'America/Sao_Paulo'
+  | 'Atlantic/South_Georgia'
+  | 'Atlantic/Azores'
+  | 'Atlantic/Cape_Verde'
+  | 'Europe/London'
+  | 'Europe/Berlin'
+  | 'Africa/Lagos'
+  | 'Europe/Athens'
+  | 'Africa/Cairo'
+  | 'Europe/Moscow'
+  | 'Asia/Riyadh'
+  | 'Asia/Dubai'
+  | 'Asia/Baku'
+  | 'Asia/Karachi'
+  | 'Asia/Tashkent'
+  | 'Asia/Calcutta'
+  | 'Asia/Dhaka'
+  | 'Asia/Almaty'
+  | 'Asia/Jakarta'
+  | 'Asia/Bangkok'
+  | 'Asia/Shanghai'
+  | 'Asia/Singapore'
+  | 'Asia/Tokyo'
+  | 'Asia/Seoul'
+  | 'Australia/Brisbane'
+  | 'Australia/Sydney'
+  | 'Pacific/Guam'
+  | 'Pacific/Noumea'
+  | 'Pacific/Auckland'
+  | 'Pacific/Fiji';
 
 export interface Config {
   auth: {
@@ -71,16 +71,17 @@ export interface Config {
     media: Media;
     activities: Activity;
     events: Event;
-    "package-categories": PackageCategory;
-    "option-groups": OptionGroup;
+    scenarios: Scenario;
+    'package-categories': PackageCategory;
+    'option-groups': OptionGroup;
     options: Option;
     packages: Package;
-    "group-extras": GroupExtra;
+    'group-extras': GroupExtra;
     orders: Order;
-    "payload-kv": PayloadKv;
-    "payload-locked-documents": PayloadLockedDocument;
-    "payload-preferences": PayloadPreference;
-    "payload-migrations": PayloadMigration;
+    'payload-kv': PayloadKv;
+    'payload-locked-documents': PayloadLockedDocument;
+    'payload-preferences': PayloadPreference;
+    'payload-migrations': PayloadMigration;
   };
   collectionsJoins: {};
   collectionsSelect: {
@@ -88,24 +89,17 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     activities: ActivitiesSelect<false> | ActivitiesSelect<true>;
     events: EventsSelect<false> | EventsSelect<true>;
-    "package-categories":
-      | PackageCategoriesSelect<false>
-      | PackageCategoriesSelect<true>;
-    "option-groups": OptionGroupsSelect<false> | OptionGroupsSelect<true>;
+    scenarios: ScenariosSelect<false> | ScenariosSelect<true>;
+    'package-categories': PackageCategoriesSelect<false> | PackageCategoriesSelect<true>;
+    'option-groups': OptionGroupsSelect<false> | OptionGroupsSelect<true>;
     options: OptionsSelect<false> | OptionsSelect<true>;
     packages: PackagesSelect<false> | PackagesSelect<true>;
-    "group-extras": GroupExtrasSelect<false> | GroupExtrasSelect<true>;
+    'group-extras': GroupExtrasSelect<false> | GroupExtrasSelect<true>;
     orders: OrdersSelect<false> | OrdersSelect<true>;
-    "payload-kv": PayloadKvSelect<false> | PayloadKvSelect<true>;
-    "payload-locked-documents":
-      | PayloadLockedDocumentsSelect<false>
-      | PayloadLockedDocumentsSelect<true>;
-    "payload-preferences":
-      | PayloadPreferencesSelect<false>
-      | PayloadPreferencesSelect<true>;
-    "payload-migrations":
-      | PayloadMigrationsSelect<false>
-      | PayloadMigrationsSelect<true>;
+    'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
+    'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
+    'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
+    'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
   };
   db: {
     defaultIDType: string;
@@ -116,12 +110,14 @@ export interface Config {
     footer: Footer;
     home: Home;
     como: Como;
+    cenarios: Cenario;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
     home: HomeSelect<false> | HomeSelect<true>;
     como: ComoSelect<false> | ComoSelect<true>;
+    cenarios: CenariosSelect<false> | CenariosSelect<true>;
   };
   locale: null;
   widgets: {
@@ -174,7 +170,7 @@ export interface User {
       }[]
     | null;
   password?: string | null;
-  collection: "users";
+  collection: 'users';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -186,7 +182,6 @@ export interface Media {
    * Image description for accessibility and SEO.
    */
   alt: string;
-  prefix?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -226,6 +221,28 @@ export interface Activity {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "group-extras".
+ */
+export interface GroupExtra {
+  id: string;
+  name: string;
+  /**
+   * Auto-generated from name.
+   */
+  slug: string;
+  priceCents: number;
+  /**
+   * Group extra price in euros (e.g. 30 for €30).
+   */
+  priceEur: number;
+  image?: (string | null) | Media;
+  sort?: number | null;
+  isActive?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "events".
  */
 export interface Event {
@@ -243,19 +260,15 @@ export interface Event {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "group-extras".
+ * via the `definition` "scenarios".
  */
-export interface GroupExtra {
+export interface Scenario {
   id: string;
-  name: string;
+  title: string;
   /**
-   * Auto-generated from name.
+   * Auto-generated from title.
    */
   slug: string;
-  /**
-   * Group extra price in cents (EUR).
-   */
-  priceCents: number;
   image?: (string | null) | Media;
   sort?: number | null;
   isActive?: boolean | null;
@@ -298,7 +311,7 @@ export interface PackageCategory {
 export interface OptionGroup {
   id: string;
   title: string;
-  selectionType: "single" | "multi";
+  selectionType: 'single' | 'multi';
   sort?: number | null;
   updatedAt: string;
   createdAt: string;
@@ -311,12 +324,13 @@ export interface Option {
   id: string;
   group: string | OptionGroup;
   label: string;
+  defaultPriceCents?: number | null;
   /**
    * Optional fallback price. Package-specific pricing in Packages usually overrides this.
    */
-  defaultPriceCents?: number | null;
-  pricingUnit: "per_person" | "per_booking";
-  cartBehavior: "inline" | "separate_line_item";
+  defaultPriceEur?: number | null;
+  pricingUnit: 'per_person' | 'per_booking';
+  cartBehavior: 'inline' | 'separate_line_item';
   /**
    * Maximum quantity per booking (e.g. 1 for Private Lounge).
    */
@@ -342,14 +356,15 @@ export interface Package {
    */
   slug: string;
   image?: (string | null) | Media;
-  /**
-   * Base package price in cents (EUR).
-   */
   basePriceCents: number;
+  /**
+   * Base package price in euros.
+   */
+  basePriceEur: number;
   isActive?: boolean | null;
   sort?: number | null;
   /**
-   * Shows "(MOST POPULAR)" prominently as the first list item on the card.
+   * Shows "MOST POPULAR" badge on the pricing card.
    */
   isMostPopular?: boolean | null;
   /**
@@ -370,20 +385,16 @@ export interface Package {
    */
   templateOverrides?:
     | {
-        type:
-          | "replaceOption"
-          | "excludeOption"
-          | "addOption"
-          | "setDefault"
-          | "priceOverride";
+        type: 'replaceOption' | 'excludeOption' | 'addOption' | 'setDefault' | 'priceOverride';
         group: string | OptionGroup;
         fromOption?: (string | null) | Option;
         toOption?: (string | null) | Option;
         isDefault?: boolean | null;
-        /**
-         * Package-specific price in cents for the added or replaced option.
-         */
         priceCents?: number | null;
+        /**
+         * Package-specific price in euros for the added or replaced option.
+         */
+        priceEur?: number | null;
         id?: string | null;
       }[]
     | null;
@@ -400,10 +411,11 @@ export interface Package {
            * Pre-selected choice for this package in this group.
            */
           isDefault?: boolean | null;
+          priceCents: number;
           /**
            * Add-on price for this package (0 = included with the default selection).
            */
-          priceCents: number;
+          priceEur: number;
           id?: string | null;
         }[];
         id?: string | null;
@@ -425,14 +437,8 @@ export interface Order {
   /**
    * Multibanco: mark as Paid manually on visit day. PayPal: updated automatically.
    */
-  status:
-    | "pending"
-    | "awaiting_payment"
-    | "paid"
-    | "failed"
-    | "expired"
-    | "cancelled";
-  paymentMethod: "multibanco" | "paypal";
+  status: 'pending' | 'awaiting_payment' | 'paid' | 'failed' | 'expired' | 'cancelled';
+  paymentMethod: 'multibanco' | 'paypal';
   customerFirstName: string;
   customerLastName: string;
   customerEmail: string;
@@ -504,44 +510,52 @@ export interface PayloadLockedDocument {
   id: string;
   document?:
     | ({
-        relationTo: "users";
+        relationTo: 'users';
         value: string | User;
       } | null)
     | ({
-        relationTo: "media";
+        relationTo: 'media';
         value: string | Media;
       } | null)
     | ({
-        relationTo: "activities";
+        relationTo: 'activities';
         value: string | Activity;
       } | null)
     | ({
-        relationTo: "package-categories";
+        relationTo: 'events';
+        value: string | Event;
+      } | null)
+    | ({
+        relationTo: 'scenarios';
+        value: string | Scenario;
+      } | null)
+    | ({
+        relationTo: 'package-categories';
         value: string | PackageCategory;
       } | null)
     | ({
-        relationTo: "option-groups";
+        relationTo: 'option-groups';
         value: string | OptionGroup;
       } | null)
     | ({
-        relationTo: "options";
+        relationTo: 'options';
         value: string | Option;
       } | null)
     | ({
-        relationTo: "packages";
+        relationTo: 'packages';
         value: string | Package;
       } | null)
     | ({
-        relationTo: "group-extras";
+        relationTo: 'group-extras';
         value: string | GroupExtra;
       } | null)
     | ({
-        relationTo: "orders";
+        relationTo: 'orders';
         value: string | Order;
       } | null);
   globalSlug?: string | null;
   user: {
-    relationTo: "users";
+    relationTo: 'users';
     value: string | User;
   };
   updatedAt: string;
@@ -554,7 +568,7 @@ export interface PayloadLockedDocument {
 export interface PayloadPreference {
   id: string;
   user: {
-    relationTo: "users";
+    relationTo: 'users';
     value: string | User;
   };
   key?: string | null;
@@ -609,7 +623,6 @@ export interface UsersSelect<T extends boolean = true> {
  */
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
-  prefix?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
@@ -652,6 +665,19 @@ export interface EventsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "scenarios_select".
+ */
+export interface ScenariosSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  image?: T;
+  sort?: T;
+  isActive?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "package-categories_select".
  */
 export interface PackageCategoriesSelect<T extends boolean = true> {
@@ -663,20 +689,6 @@ export interface PackageCategoriesSelect<T extends boolean = true> {
   image?: T;
   sort?: T;
   groupExtras?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "group-extras_select".
- */
-export interface GroupExtrasSelect<T extends boolean = true> {
-  name?: T;
-  slug?: T;
-  priceCents?: T;
-  image?: T;
-  sort?: T;
-  isActive?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -699,6 +711,7 @@ export interface OptionsSelect<T extends boolean = true> {
   group?: T;
   label?: T;
   defaultPriceCents?: T;
+  defaultPriceEur?: T;
   pricingUnit?: T;
   cartBehavior?: T;
   maxPerBooking?: T;
@@ -717,6 +730,7 @@ export interface PackagesSelect<T extends boolean = true> {
   slug?: T;
   image?: T;
   basePriceCents?: T;
+  basePriceEur?: T;
   isActive?: T;
   sort?: T;
   isMostPopular?: T;
@@ -736,6 +750,7 @@ export interface PackagesSelect<T extends boolean = true> {
         toOption?: T;
         isDefault?: T;
         priceCents?: T;
+        priceEur?: T;
         id?: T;
       };
   extraGroupConfigs?:
@@ -749,10 +764,26 @@ export interface PackagesSelect<T extends boolean = true> {
               option?: T;
               isDefault?: T;
               priceCents?: T;
+              priceEur?: T;
               id?: T;
             };
         id?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "group-extras_select".
+ */
+export interface GroupExtrasSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  priceCents?: T;
+  priceEur?: T;
+  image?: T;
+  sort?: T;
+  isActive?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -840,6 +871,9 @@ export interface Header {
   navLinks?:
     | {
         label: string;
+        /**
+         * Internal path (e.g. /como) or anchor (e.g. /#contactos).
+         */
         href: string;
         id?: string | null;
       }[]
@@ -879,7 +913,7 @@ export interface Footer {
     title: string;
     links?:
       | {
-          platform: "facebook" | "instagram";
+          platform: 'facebook' | 'instagram';
           url: string;
           id?: string | null;
         }[]
@@ -933,6 +967,9 @@ export interface Home {
     heading: string;
     description: string;
     cardLinkLabel: string;
+    /**
+     * Choose and order the events shown in this section.
+     */
     events?: (string | Event)[] | null;
   };
   moreThanPaintball: {
@@ -942,7 +979,7 @@ export interface Home {
     features?:
       | {
           label: string;
-          icon: "tree" | "grill" | "shower" | "parking" | "coffee";
+          icon: 'tree' | 'grill' | 'shower' | 'parking' | 'coffee';
           id?: string | null;
         }[]
       | null;
@@ -954,7 +991,7 @@ export interface Home {
     items?:
       | {
           label: string;
-          icon: "briefing" | "shield" | "person" | "rules";
+          icon: 'briefing' | 'shield' | 'person' | 'rules';
           id?: string | null;
         }[]
       | null;
@@ -1008,6 +1045,9 @@ export interface Como {
     heading: string;
     steps?:
       | {
+          /**
+           * e.g. «First step».
+           */
           stepLabel: string;
           title: string;
           description: string;
@@ -1015,7 +1055,7 @@ export interface Como {
             label: string;
             href: string;
           };
-          icon: "hand" | "checklist" | "calendar";
+          icon: 'hand' | 'checklist' | 'calendar';
           id?: string | null;
         }[]
       | null;
@@ -1036,6 +1076,26 @@ export interface Como {
           id?: string | null;
         }[]
       | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "cenarios".
+ */
+export interface Cenario {
+  id: string;
+  hero: {
+    /**
+     * One line per title line (e.g. MAPAS / MUNDIALMENTE / FAMOSOS).
+     */
+    heading: string;
+    description: string;
+  };
+  section: {
+    heading: string;
+    description: string;
   };
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -1305,13 +1365,34 @@ export interface ComoSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "cenarios_select".
+ */
+export interface CenariosSelect<T extends boolean = true> {
+  hero?:
+    | T
+    | {
+        heading?: T;
+        description?: T;
+      };
+  section?:
+    | T
+    | {
+        heading?: T;
+        description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "collections_widget".
  */
 export interface CollectionsWidget {
   data?: {
     [k: string]: unknown;
   };
-  width: "full";
+  width: 'full';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1321,6 +1402,7 @@ export interface Auth {
   [k: string]: unknown;
 }
 
-declare module "payload" {
+
+declare module 'payload' {
   export interface GeneratedTypes extends Config {}
 }

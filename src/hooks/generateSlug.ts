@@ -57,6 +57,11 @@ export const generateEventSlug = generateSlugBeforeValidate({
   sourceField: "title",
 });
 
+export const generateScenarioSlug = generateSlugBeforeValidate({
+  collectionSlug: "scenarios",
+  sourceField: "title",
+});
+
 export const generatePackageCategorySlug = generateSlugBeforeValidate({
   collectionSlug: "package-categories",
   sourceField: "title",
