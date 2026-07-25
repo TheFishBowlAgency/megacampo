@@ -1,4 +1,4 @@
-import { Header } from '@/components/header';
+import { Header } from "@/components/header";
 import {
   AdventureSection,
   CTASection,
@@ -11,26 +11,44 @@ import {
   MoreThanPaintballSection,
   SafetySection,
   TestimonialsSection,
-} from '@/components/landing';
-import { getActivities } from '@/lib/activities/getActivities';
+} from "@/components/landing";
+import { getActivities } from "@/lib/activities/getActivities";
+import { getHome } from "@/lib/home/getHome";
 
-export default async function Home() {
-  const activities = await getActivities();
+export default async function HomePage() {
+  const [home, activities] = await Promise.all([getHome(), getActivities()]);
 
   return (
     <>
       <Header />
       <main>
-        <Hero />
-        <KeyFeatures />
-        <AdventureSection activities={activities} />
-        <MapsSection />
-        <EventTypesSection />
-        <MoreThanPaintballSection />
-        <SafetySection />
-        <TestimonialsSection />
-        <CTASection />
-        <FAQSection />
+        <Hero content={home.hero} />
+        <KeyFeatures items={home.keyFeatures.items} />
+        <AdventureSection
+          heading={home.adventure.heading}
+          showAllLabel={home.adventure.showAllLabel}
+          activities={activities}
+        />
+        <MapsSection content={home.maps} />
+        <EventTypesSection
+          heading={home.eventTypes.heading}
+          description={home.eventTypes.description}
+          cardLinkLabel={home.eventTypes.cardLinkLabel}
+          events={home.eventTypes.events}
+        />
+        <MoreThanPaintballSection content={home.moreThanPaintball} />
+        <SafetySection content={home.safety} />
+        <TestimonialsSection
+          heading={home.testimonials.heading}
+          subheading={home.testimonials.description}
+          images={home.testimonials.images}
+        />
+        <CTASection
+          heading={home.cta.heading}
+          buttonText={home.cta.button.label}
+          href={home.cta.button.href}
+        />
+        <FAQSection heading={home.faq.heading} items={home.faq.items} />
         <Footer />
       </main>
     </>

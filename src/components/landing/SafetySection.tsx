@@ -1,62 +1,60 @@
-import { Box, Grid, Text, VStack } from '@chakra-ui/react';
-import Image from 'next/image';
-import { Container, Section } from '@/components/layout';
-import { FeatureItem } from '@/components/ui/FeatureItem';
-import { ACTIVITY_CARD_IMAGE_PAINTBALL } from '@/data/activityCardMedia';
+import { Box, Grid, Text, VStack } from "@chakra-ui/react";
+import Image from "next/image";
+import { Container, Section } from "@/components/layout";
+import { FeatureItem } from "@/components/ui/FeatureItem";
+import type { HomeContent, SafetyIcon } from "@/lib/home/types";
+import type { ReactNode } from "react";
 
-const HEADING = 'DESIGNED FOR YOUR SAFETY';
-const SUBHEADING =
-  '30 anos de experiência a receber milhares de jogadores seguindo regras claras, equipamento certificado e monitores profissionais.';
+type SafetySectionProps = {
+  content: HomeContent["safety"];
+};
 
-const ITEMS = [
-  { label: 'BRIEFING DE SEGURANÇA', icon: <BriefingIcon /> },
-  { label: 'EQUIPAMENTO DE PROTEÇÃO VERIFICADO', icon: <ShieldIcon /> },
-  { label: 'MONITORES EXPERIENTES', icon: <PersonIcon /> },
-  {
-    label: 'REGRAS AJUSTADAS À IDADE E EXPERIÊNCIA',
-    icon: <RulesIcon />,
-  },
-];
+const SAFETY_ICONS: Record<SafetyIcon, ReactNode> = {
+  briefing: <BriefingIcon />,
+  shield: <ShieldIcon />,
+  person: <PersonIcon />,
+  rules: <RulesIcon />,
+};
 
-export function SafetySection() {
+export function SafetySection({ content }: SafetySectionProps) {
   return (
     <Section>
       <Container>
-        <VStack gap={{ base: '6', md: '8', lg: '16' }}>
-          <VStack gap={{ base: '3', md: '4', lg: '8' }} textAlign="center">
+        <VStack gap={{ base: "6", md: "8", lg: "16" }}>
+          <VStack gap={{ base: "3", md: "4", lg: "8" }} textAlign="center">
             <Text
               as="h2"
               textStyle="h2"
-              fontSize={{ base: 'xl', md: '2xl', lg: 'display.h2' }}
+              fontSize={{ base: "xl", md: "2xl", lg: "display.h2" }}
               color="fg"
               textTransform="uppercase"
             >
-              {HEADING}
+              {content.heading}
             </Text>
             <Text
               textStyle="h5"
-              fontSize={{ base: 'sm', md: 'md', lg: 'body.lg' }}
+              fontSize={{ base: "sm", md: "md", lg: "body.lg" }}
               color="fg"
             >
-              {SUBHEADING}
+              {content.description}
             </Text>
           </VStack>
 
           <Grid
-            templateColumns={{ base: '1fr', lg: '1fr 1fr' }}
-            gap={{ base: '6', lg: '5' }}
+            templateColumns={{ base: "1fr", lg: "1fr 1fr" }}
+            gap={{ base: "6", lg: "5" }}
             w="full"
             alignItems="start"
           >
             <VStack
-              gap={{ base: '3', lg: '8' }}
+              gap={{ base: "3", lg: "8" }}
               align="stretch"
               order={{ base: 2, lg: 1 }}
             >
-              {ITEMS.map((item) => (
+              {content.items.map((item) => (
                 <FeatureItem
                   key={item.label}
-                  icon={item.icon}
+                  icon={SAFETY_ICONS[item.icon]}
                   label={item.label}
                 />
               ))}
@@ -64,18 +62,18 @@ export function SafetySection() {
             <Box
               position="relative"
               w="full"
-              minH={{ base: '220px', lg: '398px' }}
-              aspectRatio={{ base: '16/10', lg: 'auto' }}
+              minH={{ base: "220px", lg: "398px" }}
+              aspectRatio={{ base: "16/10", lg: "auto" }}
               bg="gray.300"
               overflow="hidden"
               order={{ base: 1, lg: 2 }}
             >
               <Image
-                src={ACTIVITY_CARD_IMAGE_PAINTBALL}
-                alt={HEADING}
+                src={content.imageSrc}
+                alt={content.heading}
                 fill
                 sizes="(max-width: 991px) 100vw, 50vw"
-                style={{ objectFit: 'cover' }}
+                style={{ objectFit: "cover" }}
               />
             </Box>
           </Grid>

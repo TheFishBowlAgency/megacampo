@@ -1,15 +1,12 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
 import { Container } from "@/components/layout";
+import type { HomeContent } from "@/lib/home/types";
 
-const FEATURES = [
-  "+30 ANOS DE EXPERIÊNCIA",
-  "12 MAPAS",
-  "30 MINUTOS DE LISBOA",
-  "+20.000 VISITANTES",
-  "40 HECTARES",
-];
+type KeyFeaturesProps = {
+  items: HomeContent["keyFeatures"]["items"];
+};
 
-export function KeyFeatures() {
+export function KeyFeatures({ items }: KeyFeaturesProps) {
   return (
     <Box py={{ base: "8", md: "10" }}>
       <Container>
@@ -18,7 +15,7 @@ export function KeyFeatures() {
           gap={{ base: "3", md: "4", lg: "5" }}
           justifyContent="center"
         >
-          {FEATURES.map((label) => (
+          {items.map((label) => (
             <Box
               key={label}
               position="relative"

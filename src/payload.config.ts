@@ -11,6 +11,7 @@ import sharp from "sharp";
 import { Users } from "./collections/Users";
 import { Media } from "./collections/Media";
 import { Activities } from "./collections/Activities";
+import { Events } from "./collections/Events";
 import { PackageCategories } from "./collections/PackageCategories";
 import { OptionGroups } from "./collections/OptionGroups";
 import { Options } from "./collections/Options";
@@ -19,6 +20,7 @@ import { GroupExtras } from "./collections/GroupExtras";
 import { Orders } from "./collections/Orders";
 import { Footer } from "./globals/Footer";
 import { Header } from "./globals/Header";
+import { Home } from "./globals/Home";
 import {
   buildCloudinaryFileURL,
   cloudinaryAdapter,
@@ -41,6 +43,7 @@ export default buildConfig({
     Users,
     Media,
     Activities,
+    Events,
     PackageCategories,
     OptionGroups,
     Options,
@@ -48,7 +51,7 @@ export default buildConfig({
     GroupExtras,
     Orders,
   ],
-  globals: [Header, Footer],
+  globals: [Header, Footer, Home],
   editor: lexicalEditor(),
   i18n: {
     fallbackLanguage: "pt",

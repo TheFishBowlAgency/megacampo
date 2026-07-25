@@ -70,6 +70,7 @@ export interface Config {
     users: User;
     media: Media;
     activities: Activity;
+    events: Event;
     "package-categories": PackageCategory;
     "option-groups": OptionGroup;
     options: Option;
@@ -86,6 +87,7 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     activities: ActivitiesSelect<false> | ActivitiesSelect<true>;
+    events: EventsSelect<false> | EventsSelect<true>;
     "package-categories":
       | PackageCategoriesSelect<false>
       | PackageCategoriesSelect<true>;
@@ -112,10 +114,12 @@ export interface Config {
   globals: {
     header: Header;
     footer: Footer;
+    home: Home;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
+    home: HomeSelect<false> | HomeSelect<true>;
   };
   locale: null;
   widgets: {
@@ -214,6 +218,23 @@ export interface Activity {
    * Optional group add-ons shown in the «Improve your activity» tab.
    */
   groupExtras?: (string | GroupExtra)[] | null;
+  isActive?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events".
+ */
+export interface Event {
+  id: string;
+  title: string;
+  /**
+   * Auto-generated from title.
+   */
+  slug: string;
+  image?: (string | null) | Media;
+  sort?: number | null;
   isActive?: boolean | null;
   updatedAt: string;
   createdAt: string;
@@ -616,6 +637,19 @@ export interface ActivitiesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events_select".
+ */
+export interface EventsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  image?: T;
+  sort?: T;
+  isActive?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "package-categories_select".
  */
 export interface PackageCategoriesSelect<T extends boolean = true> {
@@ -861,6 +895,101 @@ export interface Footer {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "home".
+ */
+export interface Home {
+  id: string;
+  hero: {
+    heading: string;
+    description: string;
+    cta: {
+      label: string;
+      href: string;
+    };
+  };
+  keyFeatures?: {
+    items?:
+      | {
+          label: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  adventure: {
+    heading: string;
+    showAllLabel: string;
+  };
+  maps: {
+    heading: string;
+    description: string;
+    cta: {
+      label: string;
+      href: string;
+    };
+  };
+  eventTypes: {
+    heading: string;
+    description: string;
+    cardLinkLabel: string;
+    events?: (string | Event)[] | null;
+  };
+  moreThanPaintball: {
+    heading: string;
+    description: string;
+    image?: (string | null) | Media;
+    features?:
+      | {
+          label: string;
+          icon: "tree" | "grill" | "shower" | "parking" | "coffee";
+          id?: string | null;
+        }[]
+      | null;
+  };
+  safety: {
+    heading: string;
+    description: string;
+    image?: (string | null) | Media;
+    items?:
+      | {
+          label: string;
+          icon: "briefing" | "shield" | "person" | "rules";
+          id?: string | null;
+        }[]
+      | null;
+  };
+  testimonials: {
+    heading: string;
+    description: string;
+    images?:
+      | {
+          image: string | Media;
+          alt?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  cta: {
+    heading: string;
+    button: {
+      label: string;
+      href: string;
+    };
+  };
+  faq: {
+    heading: string;
+    items?:
+      | {
+          question: string;
+          answer: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
@@ -932,6 +1061,127 @@ export interface FooterSelect<T extends boolean = true> {
         label?: T;
         href?: T;
         id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "home_select".
+ */
+export interface HomeSelect<T extends boolean = true> {
+  hero?:
+    | T
+    | {
+        heading?: T;
+        description?: T;
+        cta?:
+          | T
+          | {
+              label?: T;
+              href?: T;
+            };
+      };
+  keyFeatures?:
+    | T
+    | {
+        items?:
+          | T
+          | {
+              label?: T;
+              id?: T;
+            };
+      };
+  adventure?:
+    | T
+    | {
+        heading?: T;
+        showAllLabel?: T;
+      };
+  maps?:
+    | T
+    | {
+        heading?: T;
+        description?: T;
+        cta?:
+          | T
+          | {
+              label?: T;
+              href?: T;
+            };
+      };
+  eventTypes?:
+    | T
+    | {
+        heading?: T;
+        description?: T;
+        cardLinkLabel?: T;
+        events?: T;
+      };
+  moreThanPaintball?:
+    | T
+    | {
+        heading?: T;
+        description?: T;
+        image?: T;
+        features?:
+          | T
+          | {
+              label?: T;
+              icon?: T;
+              id?: T;
+            };
+      };
+  safety?:
+    | T
+    | {
+        heading?: T;
+        description?: T;
+        image?: T;
+        items?:
+          | T
+          | {
+              label?: T;
+              icon?: T;
+              id?: T;
+            };
+      };
+  testimonials?:
+    | T
+    | {
+        heading?: T;
+        description?: T;
+        images?:
+          | T
+          | {
+              image?: T;
+              alt?: T;
+              id?: T;
+            };
+      };
+  cta?:
+    | T
+    | {
+        heading?: T;
+        button?:
+          | T
+          | {
+              label?: T;
+              href?: T;
+            };
+      };
+  faq?:
+    | T
+    | {
+        heading?: T;
+        items?:
+          | T
+          | {
+              question?: T;
+              answer?: T;
+              id?: T;
+            };
       };
   updatedAt?: T;
   createdAt?: T;
