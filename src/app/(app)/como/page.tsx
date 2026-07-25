@@ -8,66 +8,55 @@ import {
   CalendarCheckIcon,
 } from "@/components/como";
 import type { HowItWorksStep } from "@/components/como";
+import { getComo } from "@/lib/como/getComo";
+import type { ComoStepIcon } from "@/lib/como/types";
+import type { ReactNode } from "react";
 
-const HERO_TITLE = "Visita o Megacampo";
-const HERO_SUBTITLE =
-  "Vem jogar em 12 mapas cinematográficos. Quer sejas iniciante ou profissional, temos atividades para todas as idades e níveis de experiência.";
+const STEP_ICONS: Record<ComoStepIcon, ReactNode> = {
+  hand: <HandPointingIcon />,
+  checklist: <ChecklistIcon />,
+  calendar: <CalendarCheckIcon />,
+};
 
-const STEPS: HowItWorksStep[] = [
-  {
-    stepNumber: 1,
-    stepLabel: "Primeiro passo",
-    title: "Escolhe a tua experiência",
-    description:
-      "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud.",
-    linkText: "Ver mais",
-    href: "/eventos",
-    icon: <HandPointingIcon />,
-  },
-  {
-    stepNumber: 2,
-    stepLabel: "Segundo passo",
-    title: "Planeia a tua visita",
-    description:
-      "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud.",
-    linkText: "Ver mais",
-    href: "/cenarios",
-    icon: <ChecklistIcon />,
-  },
-  {
-    stepNumber: 3,
-    stepLabel: "Terceiro passo",
-    title: "Marca a tua visita",
-    description:
-      "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud.",
-    linkText: "Ver mais",
-    href: "/#reservas",
-    icon: <CalendarCheckIcon />,
-  },
-];
+export default async function ComoPage() {
+  const como = await getComo();
 
-export default function ComoPage() {
+  const steps: HowItWorksStep[] = como.howItWorks.steps.map((step, index) => ({
+    stepNumber: index + 1,
+    stepLabel: step.stepLabel,
+    title: step.title,
+    description: step.description,
+    linkText: step.link.label,
+    href: step.link.href,
+    icon: STEP_ICONS[step.icon],
+  }));
+
   return (
     <>
       <Header />
       <main>
         <PageHero
-          title={HERO_TITLE}
-          subtitle={HERO_SUBTITLE}
-          cta={{ label: "Reserva já", href: "/#reservas" }}
+          title={como.hero.heading}
+          subtitle={como.hero.description}
+          cta={{ label: como.hero.cta.label, href: como.hero.cta.href }}
           heroBg="bg.hero"
           titleTextStyle="h1.molot"
         />
 
-        <HowItWorksSection steps={STEPS} />
+        <HowItWorksSection heading={como.howItWorks.heading} steps={steps} />
 
         <CTASection
-          heading="Pronto para uma aventura?"
-          buttonText="Reserva já"
-          href="/#reservas"
+          heading={como.cta.heading}
+          buttonText={como.cta.button.label}
+          href={como.cta.button.href}
         />
 
-        <FAQSection id="faq" heading="Perguntas frequentes" variant="subtle" />
+        <FAQSection
+          id="faq"
+          heading={como.faq.heading}
+          variant="subtle"
+          items={como.faq.items}
+        />
         <Footer />
       </main>
     </>

@@ -115,11 +115,13 @@ export interface Config {
     header: Header;
     footer: Footer;
     home: Home;
+    como: Como;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
     home: HomeSelect<false> | HomeSelect<true>;
+    como: ComoSelect<false> | ComoSelect<true>;
   };
   locale: null;
   widgets: {
@@ -990,6 +992,56 @@ export interface Home {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "como".
+ */
+export interface Como {
+  id: string;
+  hero: {
+    heading: string;
+    description: string;
+    cta: {
+      label: string;
+      href: string;
+    };
+  };
+  howItWorks: {
+    heading: string;
+    steps?:
+      | {
+          stepLabel: string;
+          title: string;
+          description: string;
+          link: {
+            label: string;
+            href: string;
+          };
+          icon: "hand" | "checklist" | "calendar";
+          id?: string | null;
+        }[]
+      | null;
+  };
+  cta: {
+    heading: string;
+    button: {
+      label: string;
+      href: string;
+    };
+  };
+  faq: {
+    heading: string;
+    items?:
+      | {
+          question: string;
+          answer: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
@@ -1157,6 +1209,70 @@ export interface HomeSelect<T extends boolean = true> {
           | {
               image?: T;
               alt?: T;
+              id?: T;
+            };
+      };
+  cta?:
+    | T
+    | {
+        heading?: T;
+        button?:
+          | T
+          | {
+              label?: T;
+              href?: T;
+            };
+      };
+  faq?:
+    | T
+    | {
+        heading?: T;
+        items?:
+          | T
+          | {
+              question?: T;
+              answer?: T;
+              id?: T;
+            };
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "como_select".
+ */
+export interface ComoSelect<T extends boolean = true> {
+  hero?:
+    | T
+    | {
+        heading?: T;
+        description?: T;
+        cta?:
+          | T
+          | {
+              label?: T;
+              href?: T;
+            };
+      };
+  howItWorks?:
+    | T
+    | {
+        heading?: T;
+        steps?:
+          | T
+          | {
+              stepLabel?: T;
+              title?: T;
+              description?: T;
+              link?:
+                | T
+                | {
+                    label?: T;
+                    href?: T;
+                  };
+              icon?: T;
               id?: T;
             };
       };
