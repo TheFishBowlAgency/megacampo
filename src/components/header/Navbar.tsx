@@ -14,8 +14,12 @@ export function Navbar({ onOpenMenu }: { onOpenMenu: () => void }) {
   const isActive = (href: string) => {
     if (href === "/cenarios") return pathname === "/cenarios";
     if (href === "/como") return pathname === "/como";
-    if (href === "/eventos") return pathname === "/eventos";
-    if (href === "/#actividades") return pathname.startsWith("/atividades");
+    if (href === "/eventos")
+      return pathname === "/eventos" || pathname.startsWith("/eventos/");
+    if (href === "/blog")
+      return pathname === "/blog" || pathname.startsWith("/blog/");
+    if (href === "/#actividades" || href === "/atividades")
+      return pathname.startsWith("/atividades");
     return false;
   };
 

@@ -12,7 +12,7 @@ export function KeyFeatures({ items }: KeyFeaturesProps) {
       <Container>
         <Flex
           flexWrap="wrap"
-          gap={{ base: "3", md: "4", lg: "5" }}
+          gap={{ base: "3", md: "4", lg: "4", xl: "5" }}
           justifyContent="center"
         >
           {items.map((label) => (
@@ -24,8 +24,8 @@ export function KeyFeatures({ items }: KeyFeaturesProps) {
               justifyContent="center"
               px={{ base: "5", md: "4", lg: "3" }}
               py={{ base: "2", md: "3" }}
-              minW={{ base: "160px", md: "180px", lg: "200px" }}
-              minH={{ base: "50px", md: "60px", lg: "70px" }}
+              minW={{ base: "160px", md: "180px", lg: "180px", xl: "200px" }}
+              minH={{ base: "50px", md: "60px", lg: "60px", xl: "70px" }}
             >
               <Box
                 position="absolute"
@@ -37,7 +37,7 @@ export function KeyFeatures({ items }: KeyFeaturesProps) {
               />
               <Text
                 fontFamily="heading.molot"
-                fontSize={{ base: "xs", md: "sm", lg: "body.lg" }}
+                fontSize={{ base: "xs", md: "sm", lg: "md", xl: "body.lg" }}
                 fontWeight="normal"
                 textAlign="center"
                 color="dark"

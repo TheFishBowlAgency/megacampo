@@ -23,20 +23,23 @@ export function TestimonialsSection({
   return (
     <Section variant="default">
       <Container>
-        <VStack gap={{ base: "6", md: "8", lg: "16" }}>
-          <VStack gap={{ base: "3", md: "4", lg: "8" }} textAlign="center">
+        <VStack gap={{ base: "6", md: "8", lg: "12", xl: "16" }}>
+          <VStack
+            gap={{ base: "3", md: "4", lg: "6", xl: "8" }}
+            textAlign="center"
+          >
             <Text
               as="h2"
               textStyle="h2"
-              fontSize={{ base: "xl", md: "2xl", lg: "display.h2" }}
+              fontSize="display.h2"
               color="fg"
               textTransform="uppercase"
             >
               {heading}
             </Text>
             <Text
-              textStyle="h5"
-              fontSize={{ base: "sm", md: "md", lg: "body.lg" }}
+              textStyle="lead"
+              fontSize={{ base: "sm", md: "md", lg: "body.md", xl: "body.lg" }}
               color="fg"
             >
               {subheading}
@@ -96,8 +99,8 @@ export function TestimonialsSection({
               <Box
                 as="button"
                 aria-label="Anterior"
-                w={{ base: "40px", lg: "60px" }}
-                h={{ base: "40px", lg: "60px" }}
+                w={{ base: "40px", lg: "48px", xl: "60px" }}
+                h={{ base: "40px", lg: "48px", xl: "60px" }}
                 border="2px solid"
                 borderColor="dark"
                 display="flex"
@@ -112,8 +115,8 @@ export function TestimonialsSection({
               <Box
                 as="button"
                 aria-label="Seguinte"
-                w={{ base: "40px", lg: "60px" }}
-                h={{ base: "40px", lg: "60px" }}
+                w={{ base: "40px", lg: "48px", xl: "60px" }}
+                h={{ base: "40px", lg: "48px", xl: "60px" }}
                 border="2px solid"
                 borderColor="dark"
                 display="flex"

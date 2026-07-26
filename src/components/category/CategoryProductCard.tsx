@@ -60,7 +60,7 @@ export function CategoryProductCard({
             >
               <Text
                 fontFamily="heading.molot"
-                fontSize={{ base: "lg", lg: "2xl" }}
+                fontSize={{ base: "lg", lg: "xl", xl: "2xl" }}
                 color="dark"
                 textAlign="center"
                 whiteSpace="nowrap"
@@ -76,7 +76,7 @@ export function CategoryProductCard({
         <VStack bg="primary" py={{ base: "3", lg: "4" }} gap="1">
           <Text
             fontWeight="extrabold"
-            fontSize={{ base: "md", lg: "body.lg" }}
+            fontSize={{ base: "md", lg: "body.md", xl: "body.lg" }}
             color="grayLight"
             lineHeight="1"
           >
@@ -84,7 +84,7 @@ export function CategoryProductCard({
           </Text>
           <Text
             fontWeight="normal"
-            fontSize={{ base: "sm", lg: "body.lg" }}
+            fontSize={{ base: "sm", lg: "body.md", xl: "body.lg" }}
             color="offset"
             lineHeight="1"
           >

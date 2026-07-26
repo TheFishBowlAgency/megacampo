@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { Box, Text, VStack } from '@chakra-ui/react';
-import Image from 'next/image';
-import { useState } from 'react';
-import { Link } from './Link';
+import { Box, Text, VStack } from "@chakra-ui/react";
+import Image from "next/image";
+import { useState } from "react";
+import { Link } from "./Link";
 
 export interface ActivityHoverCardProps {
   /** Shown as the card background; use a path under `public/` or any URL */
@@ -31,17 +31,17 @@ export function ActivityHoverCard({
   subtitle,
   description,
   href,
-  ctaLabel = 'SABER MAIS',
+  ctaLabel = "SABER MAIS",
 }: ActivityHoverCardProps) {
   const [hovered, setHovered] = useState(false);
   const alt = imageAlt ?? title;
 
   return (
-    <VStack gap={{ base: '3', lg: '6' }}>
+    <VStack gap={{ base: "3", lg: "6" }}>
       <Box
         position="relative"
         w="full"
-        aspectRatio={{ base: '195/265', lg: '315/428' }}
+        aspectRatio={{ base: "195/265", lg: "315/428" }}
         bg="gray.300"
         overflow="hidden"
         cursor="pointer"
@@ -55,7 +55,7 @@ export function ActivityHoverCard({
               alt={alt}
               fill
               sizes="(max-width: 991px) 50vw, 25vw"
-              style={{ objectFit: 'cover' }}
+              style={{ objectFit: "cover" }}
             />
           </Box>
         ) : null}
@@ -73,7 +73,7 @@ export function ActivityHoverCard({
         >
           <Text
             fontFamily="heading.molot"
-            fontSize={{ base: 'xs', lg: 'md' }}
+            fontSize={{ base: "xs", lg: "md" }}
             color="dark"
             textTransform="uppercase"
             transform="skewX(5deg)"
@@ -96,7 +96,7 @@ export function ActivityHoverCard({
         >
           <Text
             color="grayLight"
-            fontSize={{ base: 'sm', lg: 'md' }}
+            fontSize={{ base: "sm", lg: "md" }}
             lineHeight="1.6"
           >
             {description}
@@ -108,7 +108,7 @@ export function ActivityHoverCard({
             px="8"
             py="4"
             textStyle="button"
-            fontSize={{ base: 'sm', lg: 'body.lg' }}
+            fontSize={{ base: "sm", lg: "body.md", xl: "body.lg" }}
             textTransform="uppercase"
             borderRadius="md"
             textAlign="center"
@@ -123,7 +123,7 @@ export function ActivityHoverCard({
       <VStack gap="1">
         <Text
           textStyle="h3"
-          fontSize={{ base: 'md', lg: 'display.h3' }}
+          fontSize={{ base: "md", lg: "xl", xl: "display.h3" }}
           color="fg"
           textAlign="center"
           textTransform="uppercase"
@@ -132,7 +132,7 @@ export function ActivityHoverCard({
         </Text>
         <Text
           textStyle="body"
-          fontSize={{ base: 'sm', lg: 'body.lg' }}
+          fontSize={{ base: "sm", lg: "body.md", xl: "body.lg" }}
           color="fg.muted"
           textAlign="center"
         >

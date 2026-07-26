@@ -12,7 +12,10 @@ import {
   Pagination,
   ProductSearchBar,
 } from "@/components/category";
-import type { ReservasProductItem, ReservasSidebarItem } from "@/lib/reservas/getReservasProducts";
+import type {
+  ReservasProductItem,
+  ReservasSidebarItem,
+} from "@/lib/reservas/getReservasProducts";
 
 const PRODUCTS_PER_PAGE = 8;
 
@@ -65,7 +68,7 @@ export function CategoryPageContent({
             {/* Breadcrumb */}
             <HStack
               gap={{ base: "1.5", lg: "3" }}
-              fontSize={{ base: "sm", lg: "body.lg" }}
+              fontSize={{ base: "sm", lg: "body.md", xl: "body.lg" }}
               flexWrap="wrap"
               overflow="hidden"
             >

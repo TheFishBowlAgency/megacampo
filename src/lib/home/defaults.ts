@@ -3,6 +3,7 @@ import {
   ACTIVITY_CARD_IMAGE_LASERTAG,
   ACTIVITY_CARD_IMAGE_PAINTBALL,
 } from "@/data/activityCardMedia";
+import { DEFAULT_EVENTS } from "@/lib/events/defaults";
 
 import type { HomeContent } from "./types";
 
@@ -42,32 +43,7 @@ export const DEFAULT_HOME: HomeContent = {
     description:
       "De aniversários a grandes eventos de empresa, temos experiências à medida para o teu grupo!",
     cardLinkLabel: "Ver pacotes",
-    events: [
-      {
-        id: "festas-de-aniversario",
-        title: "FESTAS DE ANIVERSÁRIO",
-        href: "/eventos/festas-de-aniversario",
-        imageSrc: ACTIVITY_CARD_IMAGE_LASERTAG,
-      },
-      {
-        id: "despedida-de-solteiro-a",
-        title: "DESPEDIDA DE SOLTEIRO(A)",
-        href: "/eventos/despedida-de-solteiro-a",
-        imageSrc: ACTIVITY_CARD_IMAGE_PAINTBALL,
-      },
-      {
-        id: "evento-de-empresa",
-        title: "EVENTO DE EMPRESA",
-        href: "/eventos/evento-de-empresa",
-        imageSrc: ACTIVITY_CARD_IMAGE_AIRSOFT,
-      },
-      {
-        id: "grupos-e-escolas",
-        title: "GRUPOS E ESCOLAS",
-        href: "/eventos/grupos-e-escolas",
-        imageSrc: ACTIVITY_CARD_IMAGE_PAINTBALL,
-      },
-    ],
+    events: DEFAULT_EVENTS,
   },
   moreThanPaintball: {
     heading: "MUCH MORE THAN A PAINTBALL FIELD",

@@ -22,7 +22,7 @@ export function SectionHeading({ title, description }: SectionHeadingProps) {
       <Text
         as="h2"
         textStyle="h2"
-        fontSize={{ base: "xl", md: "2rem", lg: "3rem" }}
+        fontSize="display.h2"
         color="fg"
         textTransform="uppercase"
       >
@@ -30,7 +30,7 @@ export function SectionHeading({ title, description }: SectionHeadingProps) {
       </Text>
       {description && (
         <Text
-          fontSize={{ base: "md", md: "lg" }}
+          fontSize={{ base: "md", md: "lg", lg: "body.md", xl: "body.lg" }}
           color="fg.muted"
           lineHeight="1.5"
         >

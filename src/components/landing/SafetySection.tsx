@@ -20,20 +20,23 @@ export function SafetySection({ content }: SafetySectionProps) {
   return (
     <Section>
       <Container>
-        <VStack gap={{ base: "6", md: "8", lg: "16" }}>
-          <VStack gap={{ base: "3", md: "4", lg: "8" }} textAlign="center">
+        <VStack gap={{ base: "6", md: "8", lg: "12", xl: "16" }}>
+          <VStack
+            gap={{ base: "3", md: "4", lg: "6", xl: "8" }}
+            textAlign="center"
+          >
             <Text
               as="h2"
               textStyle="h2"
-              fontSize={{ base: "xl", md: "2xl", lg: "display.h2" }}
+              fontSize="display.h2"
               color="fg"
               textTransform="uppercase"
             >
               {content.heading}
             </Text>
             <Text
-              textStyle="h5"
-              fontSize={{ base: "sm", md: "md", lg: "body.lg" }}
+              textStyle="lead"
+              fontSize={{ base: "sm", md: "md", lg: "body.md", xl: "body.lg" }}
               color="fg"
             >
               {content.description}
@@ -47,7 +50,7 @@ export function SafetySection({ content }: SafetySectionProps) {
             alignItems="start"
           >
             <VStack
-              gap={{ base: "3", lg: "8" }}
+              gap={{ base: "3", lg: "5", xl: "8" }}
               align="stretch"
               order={{ base: 2, lg: 1 }}
             >
@@ -62,7 +65,7 @@ export function SafetySection({ content }: SafetySectionProps) {
             <Box
               position="relative"
               w="full"
-              minH={{ base: "220px", lg: "398px" }}
+              minH={{ base: "220px", lg: "320px", xl: "398px" }}
               aspectRatio={{ base: "16/10", lg: "auto" }}
               bg="gray.300"
               overflow="hidden"

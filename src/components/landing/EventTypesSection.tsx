@@ -20,20 +20,23 @@ export function EventTypesSection({
   return (
     <Section id="eventos">
       <Container>
-        <VStack gap={{ base: "6", md: "8", lg: "16" }}>
-          <VStack gap={{ base: "3", md: "4", lg: "8" }} textAlign="center">
+        <VStack gap={{ base: "6", md: "8", lg: "12", xl: "16" }}>
+          <VStack
+            gap={{ base: "3", md: "4", lg: "6", xl: "8" }}
+            textAlign="center"
+          >
             <Text
               as="h2"
               textStyle="h2"
-              fontSize={{ base: "xl", md: "2xl", lg: "display.h2" }}
+              fontSize="display.h2"
               color="fg"
               textTransform="uppercase"
             >
               {heading}
             </Text>
             <Text
-              textStyle="h5"
-              fontSize={{ base: "sm", md: "md", lg: "body.lg" }}
+              textStyle="lead"
+              fontSize={{ base: "sm", md: "md", lg: "body.md", xl: "body.lg" }}
               color="fg"
             >
               {description}
@@ -49,7 +52,7 @@ export function EventTypesSection({
             w="full"
           >
             {events.map((item) => (
-              <VStack key={item.id} gap={{ base: "3", lg: "6" }}>
+              <VStack key={item.id} gap={{ base: "3", lg: "4", xl: "6" }}>
                 <Box
                   position="relative"
                   w="full"
@@ -70,7 +73,7 @@ export function EventTypesSection({
                 <VStack gap="1">
                   <Text
                     textStyle="h5"
-                    fontSize={{ base: "xs", md: "sm", lg: "body.lg" }}
+                    fontSize={{ base: "xs", md: "sm", lg: "md", xl: "body.lg" }}
                     color="fg"
                     textAlign="center"
                     textTransform="uppercase"
@@ -78,8 +81,8 @@ export function EventTypesSection({
                     {item.title}
                   </Text>
                   <Link
-                    href={item.href}
-                    fontSize={{ base: "xs", md: "sm", lg: "body.lg" }}
+                    href={item.packagesHref ?? item.href}
+                    fontSize={{ base: "xs", md: "sm", lg: "md", xl: "body.lg" }}
                     color="fg.muted"
                     _hover={{ color: "primary" }}
                   >

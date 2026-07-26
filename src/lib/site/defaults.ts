@@ -15,6 +15,7 @@ export const DEFAULT_HEADER: HeaderContent = {
     { label: "COMO", href: "/como" },
     { label: "EVENTOS", href: "/eventos" },
     { label: "LOJA", href: "#loja" },
+    { label: "BLOG", href: "/blog" },
     { label: "RESERVAS", href: "/#reservas" },
     { label: "CONTACTOS", href: "/#contactos" },
   ],

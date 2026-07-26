@@ -92,7 +92,7 @@ function StepNumberBadge({ number }: { number: number }) {
   return (
     <Text
       fontFamily="heading"
-      fontSize={{ base: "6rem", md: "8rem", lg: "11rem" }}
+      fontSize={{ base: "6rem", md: "7rem", lg: "8rem", xl: "11rem" }}
       fontWeight="400"
       color="fg"
       lineHeight="1"

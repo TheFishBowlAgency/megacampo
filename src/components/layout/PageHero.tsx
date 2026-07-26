@@ -1,7 +1,7 @@
-import { Box, Text, VStack } from '@chakra-ui/react';
-import { Link } from '@/components/ui';
-import { bannerSectionUnderlayBefore } from './bannerUnderlay';
-import { Container } from './Container';
+import { Box, Text, VStack } from "@chakra-ui/react";
+import { Link } from "@/components/ui";
+import { bannerSectionUnderlayBefore } from "./bannerUnderlay";
+import { Container } from "./Container";
 
 export type PageHeroCta = {
   label: string;
@@ -17,7 +17,7 @@ type PageHeroProps = {
   /** Override the title text style — defaults to "h1.anton" */
   titleTextStyle?: string;
   /** Minimum height for the hero — when set, content is vertically centered */
-  minH?: React.ComponentProps<typeof Box>['minH'];
+  minH?: React.ComponentProps<typeof Box>["minH"];
 };
 
 /**
@@ -27,8 +27,8 @@ export function PageHero({
   title,
   subtitle,
   cta,
-  heroBg = 'bg.dark',
-  titleTextStyle = 'h1.anton',
+  heroBg = "bg.dark",
+  titleTextStyle = "h1.anton",
   minH,
 }: PageHeroProps) {
   return (
@@ -37,20 +37,20 @@ export function PageHero({
       overflow="hidden"
       bg={heroBg}
       color="white"
-      py={{ base: '12', md: '16', lg: '20' }}
+      py={{ base: "12", md: "16", lg: "18", xl: "20" }}
       _before={bannerSectionUnderlayBefore}
       {...(minH
         ? {
             minH,
-            display: 'flex',
-            flexDirection: 'column' as const,
-            justifyContent: 'center',
+            display: "flex",
+            flexDirection: "column" as const,
+            justifyContent: "center",
           }
         : {})}
     >
       <Container position="relative" zIndex={1}>
         <VStack
-          gap={{ base: '4', md: '8' }}
+          gap={{ base: "4", md: "6", xl: "8" }}
           textAlign="center"
           maxW="4xl"
           mx="auto"
@@ -58,7 +58,7 @@ export function PageHero({
           <Text
             as="h1"
             textStyle={titleTextStyle}
-            fontSize={{ base: '2.5rem', md: '4rem', lg: '5rem' }}
+            fontSize="display.h1"
             lineHeight="1"
             textTransform="uppercase"
           >
@@ -66,8 +66,8 @@ export function PageHero({
           </Text>
           {subtitle && (
             <Text
-              textStyle="h5"
-              fontSize={{ base: 'md', md: 'lg' }}
+              textStyle="lead"
+              fontSize={{ base: "md", md: "lg", lg: "body.md", xl: "body.lg" }}
               color="whiteAlpha.900"
               maxW="2xl"
             >
@@ -79,12 +79,13 @@ export function PageHero({
               href={cta.href}
               bg="primary"
               color="white"
-              px={{ base: '8', md: '10' }}
-              py={{ base: '3', md: '4' }}
+              px={{ base: "8", md: "10" }}
+              py={{ base: "3", md: "4" }}
               textStyle="button"
+              fontSize={{ base: "md", lg: "body.md", xl: "body.lg" }}
               textTransform="uppercase"
               borderRadius="md"
-              _hover={{ bg: 'primary', opacity: 0.9 }}
+              _hover={{ bg: "primary", opacity: 0.9 }}
             >
               {cta.label}
             </Link>

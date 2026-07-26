@@ -1,21 +1,27 @@
 import { Header } from "@/components/header";
-import { ActivityChoiceSection, PricingSection } from "@/components/eventos";
-import { FAQSection, Footer, TestimonialsSection } from "@/components/landing";
+import { EventsListingSection } from "@/components/eventos";
+import { Footer } from "@/components/landing";
 import { PageHero } from "@/components/layout";
+import { DEFAULT_EVENT_LISTING } from "@/lib/events/defaults";
+import { getEvents } from "@/lib/events/getEvents";
 
-export default function EventosPage() {
+export default async function EventosPage() {
+  const events = await getEvents();
+
   return (
     <>
       <Header />
       <main>
-        <PageHero title="Evento de empresa" />
-        <ActivityChoiceSection />
-        <PricingSection />
-        <TestimonialsSection
-          heading="O que dizem os nossos clientes?"
-          subheading="Descubra o que dizem quem já viveu a aventura."
+        <PageHero
+          title={DEFAULT_EVENT_LISTING.heroTitle}
+          titleTextStyle="h1.molot"
+          minH={{ base: "320px", md: "480px", xl: "800px" }}
         />
-        <FAQSection id="faq-eventos" heading="Perguntas frequentes" />
+        <EventsListingSection
+          heading={DEFAULT_EVENT_LISTING.sectionHeading}
+          cardLinkLabel={DEFAULT_EVENT_LISTING.cardLinkLabel}
+          events={events}
+        />
         <Footer />
       </main>
     </>

@@ -11,17 +11,17 @@ export function FeatureItem({ icon, label }: FeatureItemProps) {
   return (
     <HStack
       bg="bg"
-      gap={{ base: "4", lg: "8" }}
-      px={{ base: "4", lg: "8" }}
+      gap={{ base: "4", lg: "6", xl: "8" }}
+      px={{ base: "4", lg: "6", xl: "8" }}
       py="3"
       w="full"
     >
-      <Box flexShrink={0} boxSize={{ base: "8", lg: "50px" }}>
+      <Box flexShrink={0} boxSize={{ base: "8", lg: "40px", xl: "50px" }}>
         {icon}
       </Box>
       <Text
         textStyle="h5"
-        fontSize={{ base: "sm", lg: "body.lg" }}
+        fontSize={{ base: "sm", lg: "body.md", xl: "body.lg" }}
         color="fg"
         textTransform="uppercase"
       >

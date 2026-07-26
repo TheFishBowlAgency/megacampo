@@ -14,13 +14,13 @@ export function MapsSection({ content }: MapsSectionProps) {
       overflow="hidden"
       bg="bg.hero"
       color="grayLight"
-      py={{ base: "16", md: "20", lg: "28" }}
+      py={{ base: "16", md: "20", lg: "24", xl: "28" }}
       _before={bannerSectionUnderlayBefore}
     >
       <VStack
         position="relative"
         zIndex={1}
-        gap={{ base: "6", md: "8", lg: "16" }}
+        gap={{ base: "6", md: "8", lg: "12", xl: "16" }}
         align={{ base: "center", lg: "flex-end" }}
         maxW={{ base: "100%", md: "900px", lg: "1320px" }}
         mx="auto"
@@ -34,21 +34,17 @@ export function MapsSection({ content }: MapsSectionProps) {
           <Text
             as="h2"
             textStyle="h1.molot"
-            fontSize={{
-              base: "display.h1.mobile",
-              md: "5rem",
-              lg: "display.h1",
-            }}
+            fontSize="display.h1"
             lineHeight="1"
             textTransform="uppercase"
             color="grayLight"
-            maxW={{ base: "400px", lg: "815px" }}
+            maxW={{ base: "400px", xl: "815px" }}
           >
             {content.heading}
           </Text>
           <Text
             textStyle="h4"
-            fontSize={{ base: "sm", md: "lg", lg: "display.h3" }}
+            fontSize={{ base: "sm", md: "lg", lg: "xl", xl: "display.h3" }}
             color="grayLight"
           >
             {content.description}
@@ -61,7 +57,7 @@ export function MapsSection({ content }: MapsSectionProps) {
           px="8"
           py="4"
           textStyle="button"
-          fontSize={{ base: "md", lg: "body.lg" }}
+          fontSize={{ base: "md", lg: "body.md", xl: "body.lg" }}
           textTransform="uppercase"
           borderRadius="md"
           _hover={{ opacity: 0.9 }}

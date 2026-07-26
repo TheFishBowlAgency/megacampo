@@ -1,8 +1,11 @@
-import { Header } from '@/components/header';
-import { Footer } from '@/components/landing';
-import { PageHero } from '@/components/layout';
-import { ProductPricingSection } from '@/components/product/ProductPricingSection';
-import type { PackageCardItem } from '@/lib/catalog/types';
+import { Box } from "@chakra-ui/react";
+import { Header } from "@/components/header";
+import { EventQuoteTestimonials } from "@/components/eventos";
+import { FAQSection, Footer, KeyFeatures } from "@/components/landing";
+import { PageHero } from "@/components/layout";
+import { ProductPricingSection } from "@/components/product/ProductPricingSection";
+import { getActivityFeatures } from "@/lib/activities/landingDefaults";
+import type { PackageCardItem } from "@/lib/catalog/types";
 
 export interface ActivityPackagesPageContentProps {
   title: string;
@@ -13,10 +16,6 @@ export interface ActivityPackagesPageContentProps {
   categorySlug?: string;
 }
 
-/**
- * Package listing layout shared by category pages (e.g. Paintball Group)
- * and flat activities without an intermediate category (e.g. Airsoft).
- */
 export function ActivityPackagesPageContent({
   title,
   description,
@@ -27,19 +26,27 @@ export function ActivityPackagesPageContent({
   return (
     <>
       <Header />
-      <main style={{ backgroundColor: 'var(--chakra-colors-gray-light)' }}>
+      <main>
         <PageHero
           title={title}
           heroBg="bg.hero"
           titleTextStyle="h1.molot"
-          minH={{ base: '300px', md: '400px', lg: '560px' }}
+          minH={{ base: "320px", md: "480px", xl: "800px" }}
         />
-        <ProductPricingSection
-          sectionTitle={title}
-          sectionDescription={description ?? ''}
-          packages={packages}
-          activitySlug={activitySlug}
-          categorySlug={categorySlug}
+        <KeyFeatures items={getActivityFeatures(activitySlug)} />
+        <Box bg="bg.subtle">
+          <ProductPricingSection
+            sectionTitle={title}
+            sectionDescription={description ?? ""}
+            packages={packages}
+            activitySlug={activitySlug}
+            categorySlug={categorySlug}
+          />
+        </Box>
+        <EventQuoteTestimonials />
+        <FAQSection
+          id={`faq-${activitySlug}${categorySlug ? `-${categorySlug}` : ""}`}
+          heading="Perguntas frequentes"
         />
         <Footer />
       </main>

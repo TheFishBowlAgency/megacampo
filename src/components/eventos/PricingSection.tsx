@@ -1,9 +1,9 @@
 "use client";
 
-import { Box, Button, Grid, Text, VStack } from "@chakra-ui/react";
+import { Box, Grid, Text, VStack } from "@chakra-ui/react";
 import { useState } from "react";
-import { Container, Section } from "@/components/layout";
-import { Link } from "../ui";
+import { Section } from "@/components/layout";
+import { Link } from "@/components/ui";
 
 const TABS = [
   { id: "paintball", label: "PAINTBALL" },
@@ -18,28 +18,27 @@ const PACKAGES = [
     price: "29,95",
     popular: true,
     features: [
-      "200 bolas",
-      "Marcador de paintball",
-      "Botija de ar comprimido",
-      "Máscara de proteção",
-      "Farda camuflada",
-      "Acessos aos 12 cenários",
-      "Mínimo 8 pessoas",
+      "200 BOLAS",
+      "MARCADOR DE PAINTBALL",
+      "BOTIJA DE AR COMPRIMIDO",
+      "MÁSCARA DE PROTEÇÃO",
+      "ACESSO AOS 12 CENÁRIOS",
+      "MÍNIMO 8 PESSOAS",
     ],
   },
   {
     id: "ranger",
     name: "RANGER",
-    price: "39,95",
+    price: "34,95",
     popular: false,
     features: [
-      "500 bolas",
-      "Marcador de paintball",
-      "Botija de ar comprimido",
-      "Máscara de proteção",
-      "Farda camuflada",
-      "Acessos aos 12 cenários",
-      "Mínimo 8 pessoas",
+      "200 BOLAS",
+      "MARCADOR DE PAINTBALL",
+      "BOTIJA DE AR COMPRIMIDO",
+      "MÁSCARA DE PROTEÇÃO",
+      "FARDA CAMUFLADA",
+      "ACESSO AOS 12 CENÁRIOS",
+      "MÍNIMO 8 PESSOAS",
     ],
   },
   {
@@ -48,13 +47,13 @@ const PACKAGES = [
     price: "49,95",
     popular: false,
     features: [
-      "1000 bolas",
-      "Marcador de paintball",
-      "Botija de ar comprimido",
-      "Máscara de proteção",
-      "Farda camuflada",
-      "Acessos aos 12 cenários",
-      "Mínimo 8 pessoas",
+      "500 BOLAS",
+      "MARCADOR DE PAINTBALL",
+      "BOTIJA DE AR COMPRIMIDO",
+      "MÁSCARA DE PROTEÇÃO",
+      "FARDA CAMUFLADA",
+      "ACESSO AOS 12 CENÁRIOS",
+      "MÍNIMO 8 PESSOAS",
     ],
   },
   {
@@ -63,13 +62,14 @@ const PACKAGES = [
     price: "69,95",
     popular: false,
     features: [
-      "1500 bolas",
-      "Marcador de paintball",
-      "Botija de ar comprimido",
-      "Máscara de proteção",
-      "Farda camuflada",
-      "Acessos aos 12 cenários",
-      "Mínimo 8 pessoas",
+      "1000 BOLAS",
+      "MARCADOR DE PAINTBALL",
+      "BOTIJA DE AR COMPRIMIDO",
+      "MÁSCARA DE PROTEÇÃO",
+      "FARDA CAMUFLADA",
+      "CARREGADOR DE POTES",
+      "ACESSO AOS 12 CENÁRIOS",
+      "MÍNIMO 8 PESSOAS",
     ],
   },
 ];
@@ -78,142 +78,161 @@ export function PricingSection() {
   const [activeTab, setActiveTab] = useState<string>("paintball");
 
   return (
-    <Section variant="dark" id="pacotes">
-      <Container>
-        <VStack gap={{ base: "8", md: "10", lg: "12" }} align="stretch">
+    <Section variant="subtle" id="pacotes" bg="bg.subtle">
+      <Box maxW="1768px" mx="auto" px={{ base: "5", md: "6", lg: "8" }}>
+        <VStack gap={{ base: "8", md: "10", xl: "12" }} align="stretch">
           <Box
             display="flex"
             flexWrap="wrap"
-            gap="2"
+            gap={{ base: "4", md: "8" }}
             justifyContent="center"
             role="tablist"
             aria-label="Tipo de atividade"
           >
-            {TABS.map((tab) => (
-              <Button
-                key={tab.id}
-                variant={activeTab === tab.id ? "solid" : "ghost"}
-                colorPalette={activeTab === tab.id ? "primary" : "gray"}
-                size="sm"
-                textTransform="uppercase"
-                fontWeight="semibold"
-                onClick={() => setActiveTab(tab.id)}
-                role="tab"
-                aria-selected={activeTab === tab.id}
-              >
-                {tab.label}
-              </Button>
-            ))}
+            {TABS.map((tab) => {
+              const active = activeTab === tab.id;
+              return (
+                <Box
+                  key={tab.id}
+                  as="button"
+                  role="tab"
+                  aria-selected={active}
+                  onClick={() => setActiveTab(tab.id)}
+                  fontSize={{ base: "sm", md: "md", xl: "body.lg" }}
+                  fontWeight="medium"
+                  textTransform="uppercase"
+                  color={active ? "primary" : "fg.muted"}
+                  borderBottomWidth="2px"
+                  borderBottomColor={active ? "primary" : "transparent"}
+                  pb="1"
+                  cursor="pointer"
+                  _hover={{ color: "primary" }}
+                >
+                  {tab.label}
+                </Box>
+              );
+            })}
           </Box>
+
           <Grid
             templateColumns={{
-              // base: "1fr",
-              base: "repeat(2, 1fr)",
-              lg: "repeat(4, 1fr)",
+              base: "1fr",
+              md: "repeat(2, 1fr)",
+              xl: "repeat(4, 1fr)",
             }}
-            gap={{ base: "4", md: "6" }}
+            gap={{ base: "4", md: "5" }}
             w="full"
           >
             {PACKAGES.map((pkg) => (
               <Box
                 key={pkg.id}
                 as="article"
-                bg="bg.dark"
-                borderRadius="lg"
-                overflow="hidden"
-                borderWidth="1px"
-                borderColor="whiteAlpha.200"
-                position="relative"
+                bg="dark"
+                color="grayLight"
+                px={{ base: "5", md: "8" }}
+                pt={{ base: "6", md: "8" }}
+                pb={{ base: "8", md: "16" }}
                 display="flex"
                 flexDirection="column"
-                minH={{ base: "auto", md: "420px" }}
+                gap={{ base: "8", md: "12" }}
+                minH={{ base: "auto", xl: "900px" }}
               >
-                {pkg.popular && (
+                <VStack align="stretch" gap={{ base: "8", md: "12" }} flex="1">
                   <Box
-                    position="absolute"
-                    top="0"
-                    left="0"
-                    right="0"
-                    bg="primary.muted"
-                    color="fg"
-                    py="1"
-                    px="3"
-                    fontSize="xs"
-                    fontWeight="bold"
-                    textTransform="uppercase"
-                    textAlign="center"
-                    zIndex="1"
+                    position="relative"
+                    display="inline-flex"
+                    alignSelf="flex-start"
                   >
-                    O mais popular
+                    <Box
+                      position="absolute"
+                      inset="0"
+                      bg="primary"
+                      transform="skewX(-8deg)"
+                      borderRadius="sm"
+                    />
+                    <Text
+                      position="relative"
+                      fontFamily="heading.molot"
+                      fontSize={{ base: "2xl", md: "3rem" }}
+                      lineHeight="1"
+                      color="dark"
+                      textTransform="uppercase"
+                      px="3"
+                      py="1"
+                    >
+                      {pkg.name}
+                    </Text>
                   </Box>
-                )}
-                <Box
-                  bg="primary"
-                  color="white"
-                  py="3"
-                  px="4"
-                  textAlign="center"
-                  mt={pkg.popular ? "6" : "0"}
-                >
-                  <Text
-                    fontWeight="bold"
-                    textTransform="uppercase"
-                    fontSize="lg"
-                    letterSpacing="wider"
-                  >
-                    {pkg.name}
-                  </Text>
-                </Box>
-                <VStack
-                  p="6"
-                  flex="1"
-                  align="stretch"
-                  gap="4"
-                  justifyContent="space-between"
-                >
+
                   <Box>
                     <Text
-                      fontSize={{ base: "2xl", md: "3xl" }}
-                      fontWeight="bold"
-                      color="white"
+                      fontSize={{ base: "2xl", md: "3rem" }}
+                      fontWeight="extrabold"
+                      color="grayLight"
+                      lineHeight="1"
                     >
                       {pkg.price}€
                     </Text>
-                    <Text fontSize="sm" color="whiteAlpha.800">
+                    <Text
+                      fontSize={{ base: "md", lg: "body.md", xl: "body.lg" }}
+                      color="grayLight"
+                      mt="2"
+                    >
                       Por pessoa
                     </Text>
                   </Box>
-                  <VStack align="stretch" gap="2" flex="1">
+
+                  <Box h="1px" bg="whiteAlpha.300" />
+
+                  <VStack align="stretch" gap="4" flex="1">
+                    {pkg.popular ? (
+                      <Box alignSelf="flex-start" bg="offset" px="8" py="2">
+                        <Text
+                          fontSize={{ base: "sm", md: "md", xl: "body.lg" }}
+                          fontWeight="medium"
+                          color="primary"
+                          textTransform="uppercase"
+                        >
+                          O mais popular
+                        </Text>
+                      </Box>
+                    ) : null}
                     {pkg.features.map((feature) => (
                       <Text
                         key={feature}
-                        fontSize="sm"
-                        color="whiteAlpha.900"
-                        lineHeight="tall"
+                        fontSize={{ base: "sm", md: "md", xl: "body.lg" }}
+                        fontWeight="extrabold"
+                        color="grayLight"
+                        textTransform="uppercase"
+                        lineHeight="1.2"
                       >
                         {feature}
                       </Text>
                     ))}
                   </VStack>
-                  <Button
-                    asChild
-                    width="full"
-                    colorPalette="primary"
-                    bg="primary"
-                    color="white"
-                    fontWeight="bold"
-                    textTransform="uppercase"
-                    size="lg"
-                    _hover={{ bg: "primary.muted", color: "fg" }}
-                  >
-                    <Link href="/#reservas">Reserva já</Link>
-                  </Button>
                 </VStack>
+
+                <Link
+                  href="/#reservas"
+                  bg="primary"
+                  color="grayLight"
+                  px="8"
+                  py="4"
+                  textStyle="button"
+                  fontSize={{ base: "md", lg: "body.md", xl: "body.lg" }}
+                  fontWeight="medium"
+                  textTransform="uppercase"
+                  textAlign="center"
+                  alignSelf="flex-start"
+                  _hover={{ opacity: 0.9 }}
+                >
+                  Reserva já
+                </Link>
               </Box>
             ))}
           </Grid>
         </VStack>
-      </Container>
+      </Box>
     </Section>
   );
 }

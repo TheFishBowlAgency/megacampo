@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { Box, Flex, Text, VStack } from '@chakra-ui/react';
-import type { ResolvedExtraGroup } from '@/lib/catalog';
-import { getGroupTitlePt } from '@/lib/cart/optionGroupLabels';
+import { Box, Flex, Text, VStack } from "@chakra-ui/react";
+import type { ResolvedExtraGroup } from "@/lib/catalog";
+import { getGroupTitlePt } from "@/lib/cart/optionGroupLabels";
 
 export interface OptionGroupSelectorProps {
   groups: ResolvedExtraGroup[];
@@ -18,10 +18,13 @@ export function OptionGroupSelector({
   if (groups.length === 0) return null;
 
   return (
-    <VStack align="stretch" gap={{ base: '6', lg: '8' }}>
+    <VStack align="stretch" gap={{ base: "6", lg: "8" }}>
       {groups.map((group) => (
         <VStack key={group.groupId} align="stretch" gap="2">
-          <Text fontSize={{ base: 'sm', lg: 'body.lg' }} color="fg.muted">
+          <Text
+            fontSize={{ base: "sm", lg: "body.md", xl: "body.lg" }}
+            color="fg.muted"
+          >
             {getGroupTitlePt(group.title)}
           </Text>
           <Flex gap="2" flexWrap="wrap">
@@ -33,14 +36,14 @@ export function OptionGroupSelector({
                 <Box
                   key={option.optionId}
                   as="button"
-                  px={{ base: '4', lg: '5' }}
-                  py={{ base: '2.5', lg: '3' }}
+                  px={{ base: "4", lg: "5" }}
+                  py={{ base: "2.5", lg: "3" }}
                   borderRadius="md"
                   border="1px solid"
-                  borderColor={isSelected ? 'dark' : 'grayMid'}
-                  bg={isSelected ? 'dark' : 'white'}
-                  color={isSelected ? 'white' : 'fg'}
-                  fontSize={{ base: 'sm', lg: 'body.lg' }}
+                  borderColor={isSelected ? "dark" : "grayMid"}
+                  bg={isSelected ? "dark" : "white"}
+                  color={isSelected ? "white" : "fg"}
+                  fontSize={{ base: "sm", lg: "body.md", xl: "body.lg" }}
                   fontWeight="medium"
                   cursor="pointer"
                   transition="all 0.15s"

@@ -14,15 +14,15 @@ export function Hero({ content }: HeroProps) {
       overflow="hidden"
       bg="bg.hero"
       color="grayLight"
-      py={{ base: "16", md: "20", lg: "28" }}
+      py={{ base: "16", md: "20", lg: "24", xl: "28" }}
       _before={bannerSectionUnderlayBefore}
     >
       <VStack
         position="relative"
         zIndex={1}
-        gap={{ base: "8", md: "10", lg: "16" }}
+        gap={{ base: "8", md: "10", lg: "12", xl: "16" }}
         textAlign="center"
-        maxW={{ base: "100%", md: "900px", lg: "1758px" }}
+        maxW={{ base: "100%", md: "900px", xl: "1758px" }}
         mx="auto"
         px={{ base: "5", md: "8" }}
       >
@@ -30,11 +30,7 @@ export function Hero({ content }: HeroProps) {
           <Text
             as="h1"
             textStyle="h1.molot"
-            fontSize={{
-              base: "display.h1.mobile",
-              md: "5rem",
-              lg: "display.h1",
-            }}
+            fontSize="display.h1"
             lineHeight="1"
             textTransform="uppercase"
             color="grayLight"
@@ -42,10 +38,10 @@ export function Hero({ content }: HeroProps) {
             {content.heading}
           </Text>
           <Text
-            textStyle="h5"
-            fontSize={{ base: "sm", md: "md", lg: "body.lg" }}
+            textStyle="lead"
+            fontSize={{ base: "sm", md: "md", lg: "body.md", xl: "body.lg" }}
             color="grayLight"
-            maxW={{ base: "400px", md: "600px", lg: "800px" }}
+            maxW={{ base: "400px", md: "600px", xl: "800px" }}
           >
             {content.description}
           </Text>
@@ -57,7 +53,7 @@ export function Hero({ content }: HeroProps) {
           px="8"
           py="4"
           textStyle="button"
-          fontSize={{ base: "md", lg: "body.lg" }}
+          fontSize={{ base: "md", lg: "body.md", xl: "body.lg" }}
           textTransform="uppercase"
           borderRadius="md"
           _hover={{ opacity: 0.9 }}

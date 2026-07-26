@@ -11,23 +11,26 @@ import {
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Figma styles → design tokens
+// Artboard is 1920px; full sizes apply at xl/2xl/3xl, not at lg (~1024).
 // ─────────────────────────────────────────────────────────────────────────────
 
 const fonts = defineTokens.fonts({
   heading: { value: "var(--font-anton), sans-serif" },
   "heading.molot": {
-    value:
-      "var(--font-molot, var(--font-anton)), sans-serif",
+    value: "var(--font-molot, var(--font-anton)), sans-serif",
   },
   body: { value: "var(--font-roboto), sans-serif" },
   mono: { value: "var(--font-roboto), monospace" },
 });
 
 const fontSizes = defineTokens.fontSizes({
-  "display.h1": { value: "7.25rem" },
+  // Fluid display: mobile floor → scales with viewport → Figma ceiling at ~1920
+  "display.h1": { value: "clamp(2.75rem, 6vw, 7.25rem)" },
   "display.h1.mobile": { value: "2.75rem" },
-  "display.h2": { value: "3rem" },
-  "display.h3": { value: "2rem" },
+  "display.h2": { value: "clamp(1.5rem, 1.25rem + 1.5vw, 3rem)" },
+  "display.h3": { value: "clamp(1.25rem, 1rem + 0.75vw, 2rem)" },
+  // body.md = ordinary paragraphs; body.lg (24px) = lead / hero copy only
+  "body.md": { value: "1.125rem" },
   "body.lg": { value: "1.5rem" },
 });
 
@@ -122,7 +125,7 @@ const textStyles = defineTextStyles({
   h5: {
     value: {
       fontFamily: "body",
-      fontSize: "body.lg",
+      fontSize: "body.md",
       fontWeight: "extrabold",
       lineHeight: "1.3",
     },
@@ -130,7 +133,7 @@ const textStyles = defineTextStyles({
   body: {
     value: {
       fontFamily: "body",
-      fontSize: "body.lg",
+      fontSize: "body.md",
       fontWeight: "normal",
       lineHeight: "1.5",
     },
@@ -138,19 +141,30 @@ const textStyles = defineTextStyles({
   button: {
     value: {
       fontFamily: "body",
-      fontSize: "body.lg",
+      fontSize: "body.md",
       fontWeight: "medium",
       lineHeight: "1.3",
+    },
+  },
+  lead: {
+    value: {
+      fontFamily: "body",
+      fontSize: "body.lg",
+      fontWeight: "normal",
+      lineHeight: "1.5",
     },
   },
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
-// System – merged with Chakra defaults
+// System – merged with Chakra defaults (sm–2xl already present)
 // ─────────────────────────────────────────────────────────────────────────────
 
 const themeExtension = defineConfig({
   theme: {
+    breakpoints: {
+      "3xl": "1920px",
+    },
     tokens: {
       fonts,
       fontSizes,

@@ -40,7 +40,7 @@ export function TermsSection({
           textStyle="body"
           color="fg.muted"
           whiteSpace="pre-wrap"
-          fontSize={{ base: "md", md: "body.lg" }}
+          fontSize={{ base: "md", md: "body.md", xl: "body.lg" }}
         >
           {TERMS_TEXT}
         </Text>

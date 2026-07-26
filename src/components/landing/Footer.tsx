@@ -14,14 +14,14 @@ export function Footer() {
   return (
     <Box as="footer" id="contactos" bg="bg.subtle">
       <Box h="1px" bg="dark" />
-      <Box py={{ base: "6", md: "10", lg: "16" }}>
+      <Box py={{ base: "6", md: "10", lg: "12", xl: "16" }}>
         <Box maxW="1320px" mx="auto" px={{ base: "5", md: "6", lg: "8" }}>
           <Grid
             templateColumns={{
               base: "auto 1fr",
               lg: "auto 1fr auto auto",
             }}
-            gap={{ base: "6", lg: "24" }}
+            gap={{ base: "6", lg: "12", xl: "24" }}
             alignItems="start"
           >
             {/* Logo */}
@@ -44,7 +44,7 @@ export function Footer() {
             >
               <Text
                 textStyle="h4"
-                fontSize={{ base: "md", lg: "display.h3" }}
+                fontSize={{ base: "md", lg: "xl", xl: "display.h3" }}
                 color="fg"
                 textTransform="uppercase"
               >
@@ -61,7 +61,7 @@ export function Footer() {
                     <Link
                       href={`tel:${contact.phoneFixed.replace(/\s/g, "")}`}
                       color="fg"
-                      fontSize={{ base: "sm", lg: "body.lg" }}
+                      fontSize={{ base: "sm", lg: "body.md", xl: "body.lg" }}
                       _hover={{ color: "primary" }}
                     >
                       {contact.phoneFixed}*
@@ -69,7 +69,7 @@ export function Footer() {
                     <Link
                       href={`tel:${contact.phoneMobile.replace(/\s/g, "")}`}
                       color="fg"
-                      fontSize={{ base: "sm", lg: "body.lg" }}
+                      fontSize={{ base: "sm", lg: "body.md", xl: "body.lg" }}
                       _hover={{ color: "primary" }}
                     >
                       {contact.phoneMobile}**
@@ -84,7 +84,7 @@ export function Footer() {
                   </Box>
                   <Text
                     color="fg"
-                    fontSize={{ base: "sm", lg: "body.lg" }}
+                    fontSize={{ base: "sm", lg: "body.md", xl: "body.lg" }}
                     lineHeight="1.5"
                   >
                     {contact.addressLine1}
@@ -101,7 +101,7 @@ export function Footer() {
                   <Link
                     href={`mailto:${contact.email}`}
                     color="fg"
-                    fontSize={{ base: "sm", lg: "body.lg" }}
+                    fontSize={{ base: "sm", lg: "body.md", xl: "body.lg" }}
                     _hover={{ color: "primary" }}
                   >
                     {contact.email}
@@ -111,10 +111,16 @@ export function Footer() {
 
               {/* Phone notes */}
               <VStack align="stretch" gap="1">
-                <Text color="fg.muted" fontSize={{ base: "xs", lg: "body.lg" }}>
+                <Text
+                  color="fg.muted"
+                  fontSize={{ base: "xs", lg: "body.md", xl: "body.lg" }}
+                >
                   {contact.phoneFixedNote}
                 </Text>
-                <Text color="fg.muted" fontSize={{ base: "xs", lg: "body.lg" }}>
+                <Text
+                  color="fg.muted"
+                  fontSize={{ base: "xs", lg: "body.md", xl: "body.lg" }}
+                >
                   {contact.phoneMobileNote}
                 </Text>
               </VStack>
@@ -128,7 +134,7 @@ export function Footer() {
             >
               <Text
                 textStyle="h4"
-                fontSize={{ base: "md", lg: "display.h3" }}
+                fontSize={{ base: "md", lg: "xl", xl: "display.h3" }}
                 color="fg"
                 textTransform="uppercase"
               >
@@ -139,7 +145,7 @@ export function Footer() {
                   <Text
                     key={`${row.label}-${row.value}`}
                     color="fg"
-                    fontSize={{ base: "sm", lg: "body.lg" }}
+                    fontSize={{ base: "sm", lg: "body.md", xl: "body.lg" }}
                   >
                     <Text as="span" fontWeight="extrabold">
                       {row.label}
@@ -158,7 +164,7 @@ export function Footer() {
             >
               <Text
                 textStyle="h4"
-                fontSize={{ base: "md", lg: "display.h3" }}
+                fontSize={{ base: "md", lg: "xl", xl: "display.h3" }}
                 color="fg"
                 textTransform="uppercase"
               >
@@ -205,14 +211,17 @@ export function Footer() {
                 href={link.href}
                 fontWeight="extrabold"
                 textTransform="uppercase"
-                fontSize={{ base: "sm", lg: "body.lg" }}
+                fontSize={{ base: "sm", lg: "body.md", xl: "body.lg" }}
                 color="fg"
                 _hover={{ color: "primary" }}
               >
                 {link.label}
               </Link>
             ))}
-            <Text color="fg.muted" fontSize={{ base: "xs", lg: "body.lg" }}>
+            <Text
+              color="fg.muted"
+              fontSize={{ base: "xs", lg: "body.md", xl: "body.lg" }}
+            >
               {copyright}
             </Text>
           </Flex>

@@ -17,7 +17,7 @@ export function Section({
   return (
     <Box
       bg={variantBg[variant]}
-      py={{ base: "10", md: "14", lg: "16" }}
+      py={{ base: "10", md: "12", lg: "14", xl: "16" }}
       {...props}
     >
       {children}

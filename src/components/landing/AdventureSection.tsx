@@ -30,11 +30,11 @@ export function AdventureSection({
   return (
     <Section id="actividades">
       <Container>
-        <VStack gap={{ base: "6", md: "10", lg: "16" }}>
+        <VStack gap={{ base: "6", md: "8", lg: "12", xl: "16" }}>
           <Text
             as="h2"
             textStyle="h2"
-            fontSize={{ base: "xl", md: "2xl", lg: "display.h2" }}
+            fontSize="display.h2"
             textAlign="center"
             color="fg"
             textTransform="uppercase"
@@ -74,7 +74,7 @@ export function AdventureSection({
               py="4"
               h="auto"
               textStyle="button"
-              fontSize={{ base: "md", lg: "body.lg" }}
+              fontSize={{ base: "md", lg: "body.md", xl: "body.lg" }}
               textTransform="uppercase"
               borderRadius="md"
               _hover={{ opacity: 0.9 }}

@@ -27,7 +27,7 @@ function CartIconLarge() {
 
 export function CartEmptyView() {
   return (
-    <Container>
+    <Container py={{ base: "10", md: "14", xl: "16" }}>
       <EmptyState
         icon={<CartIconLarge />}
         title="O teu carrinho está vazio"
@@ -36,13 +36,17 @@ export function CartEmptyView() {
           <Button
             asChild
             bg="primary"
-            color="white"
+            color="grayLight"
             size="lg"
-            fontWeight="bold"
+            px="8"
+            py="4"
+            h="auto"
+            fontWeight="medium"
             textTransform="uppercase"
-            _hover={{ bg: "primary.muted", color: "fg" }}
+            fontSize={{ base: "md", lg: "body.md", xl: "body.lg" }}
+            _hover={{ opacity: 0.9 }}
           >
-            <Link href="/#reservas">Voltar às reservas</Link>
+            <Link href="/#reservas">voltar às reservas</Link>
           </Button>
         }
       />

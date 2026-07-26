@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Box, Flex, HStack, Text, VStack } from '@chakra-ui/react';
-import { Container } from '@/components/layout';
-import { Link, QuantitySelector } from '@/components/ui';
-import { TIME_PERIODS } from '@/lib/booking/constants';
+import { useState } from "react";
+import { Box, Flex, HStack, Text, VStack } from "@chakra-ui/react";
+import { Container } from "@/components/layout";
+import { Link, QuantitySelector } from "@/components/ui";
+import { TIME_PERIODS } from "@/lib/booking/constants";
 
 export interface ProductExtra {
   id: string;
@@ -23,26 +23,26 @@ export function ProductImage({
   return (
     <Box
       bg="#DADADA"
-      w={{ base: 'full', md: '280px', lg: '316px' }}
-      maxW={{ base: 'full', lg: '316px' }}
-      h={{ base: '320px', md: '350px', lg: '370px' }}
+      w={{ base: "full", md: "280px", lg: "316px" }}
+      maxW={{ base: "full", lg: "316px" }}
+      h={{ base: "320px", md: "350px", lg: "370px" }}
       flexShrink={0}
       display="flex"
       alignItems="flex-start"
       justifyContent="center"
       pt="5"
       position="relative"
-      mx={{ base: 'auto', lg: '0' }}
+      mx={{ base: "auto", lg: "0" }}
     >
       {imageSrc ? (
         <img
           src={imageSrc}
           alt={name}
           style={{
-            objectFit: 'cover',
-            width: '100%',
-            height: '100%',
-            position: 'absolute',
+            objectFit: "cover",
+            width: "100%",
+            height: "100%",
+            position: "absolute",
             inset: 0,
           }}
         />
@@ -90,19 +90,19 @@ export function AddToCartButton({
       py="4"
       borderRadius="6px"
       fontWeight="medium"
-      fontSize={{ base: 'md', lg: 'body.lg' }}
+      fontSize={{ base: "md", lg: "body.md", xl: "body.lg" }}
       fontFamily="body"
       textTransform="uppercase"
-      cursor={disabled ? 'not-allowed' : 'pointer'}
+      cursor={disabled ? "not-allowed" : "pointer"}
       opacity={disabled ? 0.5 : 1}
-      pointerEvents={disabled ? 'none' : 'auto'}
+      pointerEvents={disabled ? "none" : "auto"}
       _hover={{ opacity: disabled ? 0.5 : 0.9 }}
       transition="opacity 0.15s"
       boxShadow={{
-        base: '0px 5px 16px rgba(0,0,0,0.22)',
-        lg: 'none',
+        base: "0px 5px 16px rgba(0,0,0,0.22)",
+        lg: "none",
       }}
-      w={{ base: 'full', lg: 'auto' }}
+      w={{ base: "full", lg: "auto" }}
       textAlign="center"
     >
       Adicionar ao carrinho
@@ -111,42 +111,42 @@ export function AddToCartButton({
 }
 
 export function CheckoutButton({
-  variant = 'solid',
+  variant = "solid",
   onClick,
   disabled,
 }: {
-  variant?: 'solid' | 'outline';
+  variant?: "solid" | "outline";
   onClick?: () => void;
   disabled?: boolean;
 }) {
-  const isOutline = variant === 'outline';
+  const isOutline = variant === "outline";
 
   return (
     <Box
       as="button"
       onClick={disabled ? undefined : onClick}
       aria-disabled={disabled || undefined}
-      bg={isOutline ? { base: 'transparent', lg: 'grayLight' } : 'primary'}
-      color={isOutline ? 'primary' : 'grayLight'}
-      border={isOutline ? '3px solid' : undefined}
-      borderColor={isOutline ? 'primary' : undefined}
+      bg={isOutline ? { base: "transparent", lg: "grayLight" } : "primary"}
+      color={isOutline ? "primary" : "grayLight"}
+      border={isOutline ? "3px solid" : undefined}
+      borderColor={isOutline ? "primary" : undefined}
       px="8"
       py="4"
       borderRadius="6px"
       fontWeight="medium"
-      fontSize={{ base: 'md', lg: 'body.lg' }}
+      fontSize={{ base: "md", lg: "body.md", xl: "body.lg" }}
       fontFamily="body"
       textTransform="uppercase"
-      cursor={disabled ? 'not-allowed' : 'pointer'}
+      cursor={disabled ? "not-allowed" : "pointer"}
       opacity={disabled ? 0.5 : 1}
-      pointerEvents={disabled ? 'none' : 'auto'}
+      pointerEvents={disabled ? "none" : "auto"}
       _hover={{ opacity: disabled ? 0.5 : 0.9 }}
       transition="opacity 0.15s"
       boxShadow={{
-        base: '0px 5px 16px rgba(0,0,0,0.22)',
-        lg: isOutline ? 'none' : undefined,
+        base: "0px 5px 16px rgba(0,0,0,0.22)",
+        lg: isOutline ? "none" : undefined,
       }}
-      w={{ base: 'full', lg: 'auto' }}
+      w={{ base: "full", lg: "auto" }}
       textAlign="center"
     >
       Checkout
@@ -155,15 +155,15 @@ export function CheckoutButton({
 }
 
 const dateInputStyle: React.CSSProperties = {
-  width: '100%',
-  padding: '14px 18px',
-  border: '1px solid #939598',
-  borderRadius: '6px',
+  width: "100%",
+  padding: "14px 18px",
+  border: "1px solid #939598",
+  borderRadius: "6px",
   fontWeight: 800,
-  fontFamily: 'var(--font-roboto), sans-serif',
-  color: '#939598',
-  backgroundColor: 'white',
-  outline: 'none',
+  fontFamily: "var(--font-roboto), sans-serif",
+  color: "#939598",
+  backgroundColor: "white",
+  outline: "none",
 };
 
 export function DateInput({
@@ -185,20 +185,20 @@ export function DateInput({
 }
 
 const selectStyle: React.CSSProperties = {
-  width: '100%',
-  padding: '14px 48px 14px 18px',
-  border: '1px solid #939598',
-  borderRadius: '6px',
+  width: "100%",
+  padding: "14px 48px 14px 18px",
+  border: "1px solid #939598",
+  borderRadius: "6px",
   fontWeight: 800,
-  fontFamily: 'var(--font-roboto), sans-serif',
-  color: '#939598',
-  backgroundColor: 'white',
-  appearance: 'none',
-  outline: 'none',
+  fontFamily: "var(--font-roboto), sans-serif",
+  color: "#939598",
+  backgroundColor: "white",
+  appearance: "none",
+  outline: "none",
   backgroundImage: `url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6 9L12 15L18 9' stroke='%23939598' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")`,
-  backgroundRepeat: 'no-repeat',
-  backgroundPosition: 'right 14px center',
-  backgroundSize: '24px',
+  backgroundRepeat: "no-repeat",
+  backgroundPosition: "right 14px center",
+  backgroundSize: "24px",
 };
 
 export function PeriodSelect({
@@ -278,9 +278,9 @@ function ExtrasListDesktop({
                     src={extra.imageSrc}
                     alt={extra.name}
                     style={{
-                      objectFit: 'cover',
-                      width: '100%',
-                      height: '100%',
+                      objectFit: "cover",
+                      width: "100%",
+                      height: "100%",
                     }}
                   />
                 ) : (
@@ -288,7 +288,11 @@ function ExtrasListDesktop({
                 )}
               </Box>
               <VStack align="start" gap="2">
-                <Text fontSize="body.lg" color="fg.muted" lineHeight="1">
+                <Text
+                  fontSize={{ base: "body.md", xl: "body.lg" }}
+                  color="fg.muted"
+                  lineHeight="1"
+                >
                   {extra.name.toUpperCase()}
                 </Text>
                 <Text textStyle="h5" color="fg" lineHeight="1">
@@ -343,9 +347,9 @@ function ExtrasListMobile({
                     src={extra.imageSrc}
                     alt={extra.name}
                     style={{
-                      objectFit: 'cover',
-                      width: '100%',
-                      height: '100%',
+                      objectFit: "cover",
+                      width: "100%",
+                      height: "100%",
                     }}
                   />
                 ) : (
@@ -395,7 +399,7 @@ function TabButton({
     <Box
       as="button"
       borderBottom="3px solid"
-      borderColor={active ? 'primary' : 'fg.muted'}
+      borderColor={active ? "primary" : "fg.muted"}
       pb="1"
       cursor="pointer"
       onClick={onClick}
@@ -403,8 +407,8 @@ function TabButton({
     >
       <Text
         fontWeight="medium"
-        fontSize="body.lg"
-        color={active ? 'primary' : 'fg.muted'}
+        fontSize={{ base: "body.md", xl: "body.lg" }}
+        color={active ? "primary" : "fg.muted"}
         textTransform="uppercase"
         lineHeight="1"
       >
@@ -427,10 +431,10 @@ export function ExtrasSection({
   onAddExtra?: (extraId: string, quantity: number) => void;
   onCheckout?: () => void;
 }) {
-  const [activeTab, setActiveTab] = useState<'extras' | 'included'>('extras');
+  const [activeTab, setActiveTab] = useState<"extras" | "included">("extras");
   const [expandedMobile, setExpandedMobile] = useState<
-    'extras' | 'included' | null
-  >('extras');
+    "extras" | "included" | null
+  >("extras");
   const [extraQuantities, setExtraQuantities] = useState<
     Record<string, number>
   >({});
@@ -440,29 +444,29 @@ export function ExtrasSection({
   };
 
   return (
-    <Container pb={{ base: '10', lg: '16' }}>
-      <VStack align="stretch" gap={{ base: '8', lg: '16' }}>
+    <Container pb={{ base: "10", lg: "16" }}>
+      <VStack align="stretch" gap={{ base: "8", lg: "16" }}>
         <Flex
-          display={{ base: 'none', lg: 'flex' }}
+          display={{ base: "none", lg: "flex" }}
           gap="70px"
           justify="center"
         >
           <TabButton
-            active={activeTab === 'extras'}
-            onClick={() => setActiveTab('extras')}
+            active={activeTab === "extras"}
+            onClick={() => setActiveTab("extras")}
           >
             Melhora a tua atividade
           </TabButton>
           <TabButton
-            active={activeTab === 'included'}
-            onClick={() => setActiveTab('included')}
+            active={activeTab === "included"}
+            onClick={() => setActiveTab("included")}
           >
             Incluído na atividade
           </TabButton>
         </Flex>
 
-        <Box display={{ base: 'none', lg: 'block' }}>
-          {activeTab === 'extras' ? (
+        <Box display={{ base: "none", lg: "block" }}>
+          {activeTab === "extras" ? (
             <ExtrasListDesktop
               extras={extras}
               quantities={extraQuantities}
@@ -478,14 +482,14 @@ export function ExtrasSection({
           )}
         </Box>
 
-        <VStack display={{ base: 'flex', lg: 'none' }} align="stretch" gap="8">
+        <VStack display={{ base: "flex", lg: "none" }} align="stretch" gap="8">
           <VStack align="stretch" gap="8">
             <Flex
               justify="space-between"
               align="center"
               cursor="pointer"
               onClick={() =>
-                setExpandedMobile(expandedMobile === 'extras' ? null : 'extras')
+                setExpandedMobile(expandedMobile === "extras" ? null : "extras")
               }
             >
               <Box borderBottom="3px solid" borderColor="primary" pb="1">
@@ -499,10 +503,10 @@ export function ExtrasSection({
                 </Text>
               </Box>
               <ChevronIcon
-                direction={expandedMobile === 'extras' ? 'up' : 'down'}
+                direction={expandedMobile === "extras" ? "up" : "down"}
               />
             </Flex>
-            {expandedMobile === 'extras' && (
+            {expandedMobile === "extras" && (
               <ExtrasListMobile
                 extras={extras}
                 quantities={extraQuantities}
@@ -519,7 +523,7 @@ export function ExtrasSection({
               cursor="pointer"
               onClick={() =>
                 setExpandedMobile(
-                  expandedMobile === 'included' ? null : 'included',
+                  expandedMobile === "included" ? null : "included",
                 )
               }
             >
@@ -534,10 +538,10 @@ export function ExtrasSection({
                 </Text>
               </Box>
               <ChevronIcon
-                direction={expandedMobile === 'included' ? 'up' : 'down'}
+                direction={expandedMobile === "included" ? "up" : "down"}
               />
             </Flex>
-            {expandedMobile === 'included' && (
+            {expandedMobile === "included" && (
               <Box py="4" textAlign="center">
                 <Text fontSize="sm" color="fg.muted">
                   Informação sobre itens incluídos na atividade.
@@ -548,10 +552,10 @@ export function ExtrasSection({
         </VStack>
 
         <Flex
-          justify={{ base: 'center', lg: 'space-between' }}
+          justify={{ base: "center", lg: "space-between" }}
           align="center"
-          direction={{ base: 'column', lg: 'row' }}
-          gap={{ base: '7', lg: '0' }}
+          direction={{ base: "column", lg: "row" }}
+          gap={{ base: "7", lg: "0" }}
         >
           <Link
             href={backHref}
@@ -559,23 +563,27 @@ export function ExtrasSection({
             alignItems="center"
             gap="3"
             color="fg.muted"
-            _hover={{ color: 'primary' }}
+            _hover={{ color: "primary" }}
           >
             <ChevronLeftIcon />
-            <Text fontSize={{ base: 'md', lg: 'body.lg' }}>{backLabel}</Text>
+            <Text fontSize={{ base: "md", lg: "body.md", xl: "body.lg" }}>
+              {backLabel}
+            </Text>
           </Link>
 
           <CheckoutButton onClick={onCheckout} disabled={!onCheckout} />
 
           <Box
-            display={{ base: 'none', lg: 'flex' }}
+            display={{ base: "none", lg: "flex" }}
             alignItems="center"
             gap="3"
             opacity={0}
             pointerEvents="none"
           >
             <ChevronLeftIcon />
-            <Text fontSize="body.lg">{backLabel}</Text>
+            <Text fontSize={{ base: "body.md", xl: "body.lg" }}>
+              {backLabel}
+            </Text>
           </Box>
         </Flex>
       </VStack>
@@ -604,7 +612,7 @@ export function ChevronLeftIcon() {
   );
 }
 
-function ChevronIcon({ direction }: { direction: 'up' | 'down' }) {
+function ChevronIcon({ direction }: { direction: "up" | "down" }) {
   return (
     <svg
       width="24"
@@ -614,8 +622,8 @@ function ChevronIcon({ direction }: { direction: 'up' | 'down' }) {
       xmlns="http://www.w3.org/2000/svg"
       style={{
         flexShrink: 0,
-        transform: direction === 'up' ? 'rotate(180deg)' : 'none',
-        transition: 'transform 0.2s',
+        transform: direction === "up" ? "rotate(180deg)" : "none",
+        transition: "transform 0.2s",
       }}
     >
       <path

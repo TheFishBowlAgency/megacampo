@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { Box, HStack, Text, VStack } from '@chakra-ui/react';
-import Image from 'next/image';
-import { Link, type LinkProps } from './Link';
+import { Box, HStack, Text, VStack } from "@chakra-ui/react";
+import Image from "next/image";
+import { Link, type LinkProps } from "./Link";
 
 export interface ActivityLinkCardProps extends Pick<
   LinkProps,
-  'href' | 'prefetch' | 'replace' | 'scroll' | 'shallow'
+  "href" | "prefetch" | "replace" | "scroll" | "shallow"
 > {
   imageSrc: string;
   imageAlt: string;
@@ -16,7 +16,7 @@ export interface ActivityLinkCardProps extends Pick<
   /** List copy in the peach block. Omit (or pass empty) with no `ageNote` to hide that block. */
   features?: string[];
   ageNote?: string;
-  'aria-label'?: string;
+  "aria-label"?: string;
 }
 
 function hasDetailBlock(features?: string[], ageNote?: string) {
@@ -39,10 +39,10 @@ export function ActivityLinkCard({
   imageAlt,
   tag,
   footerTitle,
-  ctaLabel = 'Ver pacotes',
+  ctaLabel = "Ver pacotes",
   features,
   ageNote,
-  'aria-label': ariaLabel,
+  "aria-label": ariaLabel,
 }: ActivityLinkCardProps) {
   const showDetail = hasDetailBlock(features, ageNote);
   const defaultAria = `${footerTitle} — ${ctaLabel}`;
@@ -58,7 +58,7 @@ export function ActivityLinkCard({
       display="flex"
       flexDirection="column"
       alignItems="stretch"
-      gap={{ base: '4', md: '8' }}
+      gap={{ base: "4", md: "8" }}
       w="full"
       maxW="full"
       h="full"
@@ -67,10 +67,10 @@ export function ActivityLinkCard({
       textDecoration="none"
       color="inherit"
       _focusVisible={{
-        outline: '2px solid',
-        outlineColor: 'primary',
-        outlineOffset: '3px',
-        borderRadius: 'sm',
+        outline: "2px solid",
+        outlineColor: "primary",
+        outlineOffset: "3px",
+        borderRadius: "sm",
       }}
     >
       <Box
@@ -85,7 +85,7 @@ export function ActivityLinkCard({
           position="relative"
           w="full"
           flexShrink={0}
-          aspectRatio={{ base: '195/190', md: '427/310' }}
+          aspectRatio={{ base: "195/190", md: "427/310" }}
           bg="#DADADA"
         >
           <Image
@@ -93,23 +93,23 @@ export function ActivityLinkCard({
             alt={imageAlt}
             fill
             sizes="(max-width: 991px) 50vw, 33vw"
-            style={{ objectFit: 'cover' }}
+            style={{ objectFit: "cover" }}
           />
           <Box
             position="absolute"
             top="10px"
             left="10px"
             zIndex="1"
-            px={{ base: '2.5', md: '3' }}
-            py={{ base: '1.5', md: '2' }}
-            minW={{ base: '28', md: '32' }}
+            px={{ base: "2.5", md: "3" }}
+            py={{ base: "1.5", md: "2" }}
+            minW={{ base: "28", md: "32" }}
             bg="background"
             transform="rotate(-5.22deg)"
           >
             <Text
               fontFamily="heading.molot"
-              fontSize={{ base: '20px', md: '2xl' }}
-              lineHeight={{ base: '23px', md: '1' }}
+              fontSize={{ base: "20px", md: "2xl" }}
+              lineHeight={{ base: "23px", md: "1" }}
               color="dark"
               textTransform="uppercase"
               textAlign="center"
@@ -124,9 +124,9 @@ export function ActivityLinkCard({
             align="stretch"
             flex="1"
             minH="0"
-            gap={{ base: '8', md: '12' }}
-            px={{ base: '2.5', md: '8' }}
-            py={{ base: '4', md: '8' }}
+            gap={{ base: "8", md: "12" }}
+            px={{ base: "2.5", md: "8" }}
+            py={{ base: "4", md: "8" }}
             bg="background"
           >
             <VStack
@@ -134,7 +134,7 @@ export function ActivityLinkCard({
               flex="1"
               minH="0"
               justifyContent="flex-start"
-              gap={{ base: '4', md: '6' }}
+              gap={{ base: "4", md: "6" }}
               w="full"
               maxW="full"
               mx="auto"
@@ -143,15 +143,15 @@ export function ActivityLinkCard({
                 <HStack
                   key={line}
                   align="flex-start"
-                  gap={{ base: '4', md: '8' }}
+                  gap={{ base: "4", md: "8" }}
                   w="full"
                 >
                   <FeatureTreeIcon />
                   <Text
                     flex="1"
                     textStyle="body"
-                    fontSize={{ base: 'sm', md: 'body.lg' }}
-                    lineHeight={{ base: '16px', md: '28px' }}
+                    fontSize={{ base: "sm", md: "body.md", xl: "body.lg" }}
+                    lineHeight={{ base: "16px", md: "24px", xl: "28px" }}
                     color="dark"
                   >
                     {line}
@@ -163,8 +163,8 @@ export function ActivityLinkCard({
               <Text
                 flexShrink={0}
                 textStyle="h5"
-                fontSize={{ base: 'xl', md: 'body.lg' }}
-                lineHeight={{ base: '23px', md: '28px' }}
+                fontSize={{ base: "xl", md: "body.md", xl: "body.lg" }}
+                lineHeight={{ base: "23px", md: "24px", xl: "28px" }}
                 color="dark"
                 textAlign="center"
               >
@@ -179,8 +179,8 @@ export function ActivityLinkCard({
         <Text
           as="span"
           textStyle="h5"
-          fontSize={{ base: 'xl', md: 'body.lg' }}
-          lineHeight={{ base: '23px', md: '28px' }}
+          fontSize={{ base: "xl", md: "body.md", xl: "body.lg" }}
+          lineHeight={{ base: "23px", md: "24px", xl: "28px" }}
           color="fg"
           textTransform="uppercase"
           textAlign="center"
@@ -190,8 +190,8 @@ export function ActivityLinkCard({
         <Text
           as="span"
           textStyle="body"
-          fontSize={{ base: 'xs', md: 'body.lg' }}
-          lineHeight={{ base: '14px', md: '28px' }}
+          fontSize={{ base: "xs", md: "body.md", xl: "body.lg" }}
+          lineHeight={{ base: "14px", md: "24px", xl: "28px" }}
           color="fg.muted"
           textAlign="center"
         >
@@ -206,7 +206,7 @@ function FeatureTreeIcon() {
   return (
     <Box
       flexShrink={0}
-      boxSize={{ base: '30px', md: '50px' }}
+      boxSize={{ base: "30px", md: "50px" }}
       position="relative"
       display="flex"
       alignItems="center"
