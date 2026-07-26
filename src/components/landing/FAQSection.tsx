@@ -113,7 +113,12 @@ export function FAQSection({
                     pb="4"
                     pr="8"
                     color="fg.muted"
-                    fontSize={{ base: "sm", md: "md", lg: "body.md" }}
+                    fontSize={{
+                      base: "sm",
+                      md: "md",
+                      lg: "body.md",
+                      xl: "body.lg",
+                    }}
                     lineHeight="1.6"
                   >
                     {item.answer}

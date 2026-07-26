@@ -71,6 +71,8 @@ export interface Config {
     media: Media;
     activities: Activity;
     events: Event;
+    posts: Post;
+    testimonials: Testimonial;
     scenarios: Scenario;
     "package-categories": PackageCategory;
     "option-groups": OptionGroup;
@@ -89,6 +91,8 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     activities: ActivitiesSelect<false> | ActivitiesSelect<true>;
     events: EventsSelect<false> | EventsSelect<true>;
+    posts: PostsSelect<false> | PostsSelect<true>;
+    testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
     scenarios: ScenariosSelect<false> | ScenariosSelect<true>;
     "package-categories":
       | PackageCategoriesSelect<false>
@@ -261,10 +265,111 @@ export interface Event {
   id: string;
   title: string;
   /**
+   * Short summary on event cards and detail lead copy.
+   */
+  description?: string | null;
+  /**
+   * Long-form copy on the simple event detail page.
+   */
+  body?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ("ltr" | "rtl") | null;
+      format: "left" | "start" | "center" | "right" | "end" | "justify" | "";
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  activityHeading?: string | null;
+  activityDescription?: string | null;
+  pricingTabs?:
+    | {
+        label: string;
+        packages?:
+          | {
+              name: string;
+              price: string;
+              popular?: boolean | null;
+              features?:
+                | {
+                    label: string;
+                    id?: string | null;
+                  }[]
+                | null;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  testimonialsHeading?: string | null;
+  testimonials?: (string | Testimonial)[] | null;
+  /**
    * Auto-generated from title.
    */
   slug: string;
   image?: (string | null) | Media;
+  sort?: number | null;
+  isActive?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "posts".
+ */
+export interface Post {
+  id: string;
+  title: string;
+  /**
+   * Short summary shown on blog listing cards.
+   */
+  excerpt: string;
+  /**
+   * Full article text on the detail page.
+   */
+  body: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ("ltr" | "rtl") | null;
+      format: "left" | "start" | "center" | "right" | "end" | "justify" | "";
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  /**
+   * Auto-generated from title.
+   */
+  slug: string;
+  image?: (string | null) | Media;
+  sort?: number | null;
+  isActive?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testimonials".
+ */
+export interface Testimonial {
+  id: string;
+  name: string;
+  quote: string;
+  image?: (string | null) | Media;
+  featured?: boolean | null;
+  stars?: number | null;
   sort?: number | null;
   isActive?: boolean | null;
   updatedAt: string;
@@ -549,6 +654,14 @@ export interface PayloadLockedDocument {
         value: string | Event;
       } | null)
     | ({
+        relationTo: "posts";
+        value: string | Post;
+      } | null)
+    | ({
+        relationTo: "testimonials";
+        value: string | Testimonial;
+      } | null)
+    | ({
         relationTo: "scenarios";
         value: string | Scenario;
       } | null)
@@ -680,8 +793,45 @@ export interface ActivitiesSelect<T extends boolean = true> {
  */
 export interface EventsSelect<T extends boolean = true> {
   title?: T;
+  description?: T;
+  body?: T;
+  activityHeading?: T;
+  activityDescription?: T;
+  pricingTabs?: T;
+  testimonialsHeading?: T;
+  testimonials?: T;
   slug?: T;
   image?: T;
+  sort?: T;
+  isActive?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "posts_select".
+ */
+export interface PostsSelect<T extends boolean = true> {
+  title?: T;
+  excerpt?: T;
+  body?: T;
+  slug?: T;
+  image?: T;
+  sort?: T;
+  isActive?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testimonials_select".
+ */
+export interface TestimonialsSelect<T extends boolean = true> {
+  name?: T;
+  quote?: T;
+  image?: T;
+  featured?: T;
+  stars?: T;
   sort?: T;
   isActive?: T;
   updatedAt?: T;

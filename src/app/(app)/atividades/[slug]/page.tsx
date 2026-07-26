@@ -7,6 +7,7 @@ import {
 } from "@/lib/activities/getActivityBySlug";
 import { getUncategorizedPackagesByActivityId } from "@/lib/catalog/getPackagesByCategory";
 import { getPackageCategoriesByActivityId } from "@/lib/package-categories/getPackageCategories";
+import { getTestimonials } from "@/lib/testimonials/getTestimonials";
 
 export interface ActivityPageProps {
   params: Promise<{ slug: string }>;
@@ -36,10 +37,10 @@ export default async function ActivityPage({ params }: ActivityPageProps) {
   }
 
   // Flat activities with no categories: go straight to packages marketing
-  const packages = await getUncategorizedPackagesByActivityId(
-    activity.id,
-    slug,
-  );
+  const [packages, testimonials] = await Promise.all([
+    getUncategorizedPackagesByActivityId(activity.id, slug),
+    getTestimonials(),
+  ]);
 
   return (
     <ActivityPackagesPageContent
@@ -47,6 +48,7 @@ export default async function ActivityPage({ params }: ActivityPageProps) {
       description={activity.description}
       packages={packages}
       activitySlug={slug}
+      testimonials={testimonials}
     />
   );
 }

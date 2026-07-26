@@ -26,6 +26,14 @@ function formatTotal(items: CartLineItem[]): string {
   return formatPriceWithCurrency(total);
 }
 
+const DESKTOP_COLS = "340px 1fr 240px 220px 70px";
+
+const headerTextProps = {
+  fontSize: { base: "md", xl: "body.lg" } as const,
+  fontWeight: "normal" as const,
+  color: "fg.muted" as const,
+};
+
 export function CartWithItemsView({
   items,
   onQuantityChange,
@@ -37,50 +45,22 @@ export function CartWithItemsView({
 
   return (
     <Container>
-      <Box py={{ base: "6", md: "8" }}>
+      <Box py={{ base: "6", md: "10", xl: "14" }}>
         {isTable && (
           <>
             <Grid
-              templateColumns="80px 1fr 140px 100px 40px"
-              gap="4"
+              templateColumns={DESKTOP_COLS}
+              gap="2.5"
               alignItems="center"
-              pb="3"
-              borderBottomWidth="2px"
-              borderColor="gray.300"
+              pb="5"
+              borderBottomWidth="1px"
+              borderColor="dark"
               mb="2"
             >
-              <Text
-                fontSize="xs"
-                fontWeight="bold"
-                textTransform="uppercase"
-                color="fg.muted"
-              >
-                Produto
-              </Text>
-              <Text
-                fontSize="xs"
-                fontWeight="bold"
-                textTransform="uppercase"
-                color="fg.muted"
-              >
-                Detalhes
-              </Text>
-              <Text
-                fontSize="xs"
-                fontWeight="bold"
-                textTransform="uppercase"
-                color="fg.muted"
-              >
-                Quantidade
-              </Text>
-              <Text
-                fontSize="xs"
-                fontWeight="bold"
-                textTransform="uppercase"
-                color="fg.muted"
-              >
-                Preço unitário
-              </Text>
+              <Text {...headerTextProps}>Produto</Text>
+              <Text {...headerTextProps}>Detalhes</Text>
+              <Text {...headerTextProps}>Quantidade</Text>
+              <Text {...headerTextProps}>Preço Unitário</Text>
               <Box />
             </Grid>
             {items.map((item) => (
@@ -103,23 +83,13 @@ export function CartWithItemsView({
               pb="2"
               mb="2"
               borderBottomWidth="1px"
-              borderColor="gray.300"
+              borderColor="dark"
             >
-              <Text
-                fontSize="xs"
-                fontWeight="bold"
-                textTransform="uppercase"
-                color="fg.muted"
-              >
+              <Text {...headerTextProps} fontSize="sm">
                 Produto / Detalhes / Quantidade
               </Text>
-              <Text
-                fontSize="xs"
-                fontWeight="bold"
-                textTransform="uppercase"
-                color="fg.muted"
-              >
-                Preço unitário
+              <Text {...headerTextProps} fontSize="sm">
+                Preço Unitário
               </Text>
             </Grid>
             <Box display="flex" flexDirection="column" gap="0">
@@ -132,16 +102,21 @@ export function CartWithItemsView({
                 />
               ))}
             </Box>
-            <CartSummary total={formatTotal(items)} mt="4" />
+            <CartSummary total={formatTotal(items)} mt="6" />
             <Box mt="4">
               <Textarea
                 id="cart-observations"
                 placeholder="Observações"
                 value={observations}
                 onChange={(e) => onObservationsChange?.(e.target.value)}
-                rows={3}
+                rows={5}
+                minH="180px"
                 bg="white"
-                borderColor="gray.200"
+                borderColor="fg.muted"
+                borderRadius="0"
+                px="4"
+                py="4"
+                fontSize={{ base: "md", xl: "body.lg" }}
                 _placeholder={{ color: "fg.muted" }}
               />
             </Box>
@@ -149,18 +124,27 @@ export function CartWithItemsView({
         )}
 
         {isTable && (
-          <Grid templateColumns="1fr 380px" gap="6" alignItems="stretch" mt="6">
+          <Grid
+            templateColumns={{ base: "1fr", lg: "1fr 369px" }}
+            gap={{ base: "6", lg: "12" }}
+            alignItems="stretch"
+            mt="10"
+          >
             <Box display="flex" flexDirection="column" minH="0">
               <Textarea
                 id="cart-observations-desktop"
-                placeholder="Notas para a tua reserva..."
+                placeholder="Observações"
                 value={observations}
                 onChange={(e) => onObservationsChange?.(e.target.value)}
                 flex="1"
-                minH="0"
+                minH="222px"
                 resize="none"
                 bg="white"
-                borderColor="gray.200"
+                borderColor="fg.muted"
+                borderRadius="0"
+                px="18px"
+                py="18px"
+                fontSize={{ base: "md", xl: "body.lg" }}
                 _placeholder={{ color: "fg.muted" }}
               />
             </Box>

@@ -1,22 +1,23 @@
-import { notFound } from 'next/navigation';
+import { notFound } from "next/navigation";
 import {
   ActivityPackagesPageContent,
   PackageDetailContent,
-} from '@/components/product';
-import { getActivityBySlug } from '@/lib/activities/getActivityBySlug';
+} from "@/components/product";
+import { getActivityBySlug } from "@/lib/activities/getActivityBySlug";
 import {
   getAllActivitySegmentParams,
   resolveActivitySegment,
-} from '@/lib/catalog/getPackageBySlug';
-import { getGroupExtras } from '@/lib/catalog';
-import { getPackagesByCategoryId } from '@/lib/catalog/getPackagesByCategory';
-import { getCategoryPathSlug } from '@/lib/package-categories/slugHelpers';
+} from "@/lib/catalog/getPackageBySlug";
+import { getGroupExtras } from "@/lib/catalog";
+import { getPackagesByCategoryId } from "@/lib/catalog/getPackagesByCategory";
+import { getCategoryPathSlug } from "@/lib/package-categories/slugHelpers";
+import { getTestimonials } from "@/lib/testimonials/getTestimonials";
 
 export interface ActivitySegmentPageProps {
   params: Promise<{ slug: string; categorySlug: string }>;
 }
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 export async function generateStaticParams() {
   return getAllActivitySegmentParams();
@@ -29,7 +30,7 @@ export default async function ActivitySegmentPage({
   const resolution = await resolveActivitySegment(slug, segment);
   if (!resolution) notFound();
 
-  if (resolution.type === 'package') {
+  if (resolution.type === "package") {
     const { package: packageData } = resolution;
     const { extras, showSection } = await getGroupExtras(slug);
 
@@ -54,10 +55,13 @@ export default async function ActivitySegmentPage({
   if (!activity) notFound();
 
   const categoryPathSlug = getCategoryPathSlug(slug, category.slug);
-  const packages = await getPackagesByCategoryId(category.id, {
-    activitySlug: slug,
-    categoryPathSlug,
-  });
+  const [packages, testimonials] = await Promise.all([
+    getPackagesByCategoryId(category.id, {
+      activitySlug: slug,
+      categoryPathSlug,
+    }),
+    getTestimonials(),
+  ]);
 
   return (
     <ActivityPackagesPageContent
@@ -66,6 +70,7 @@ export default async function ActivitySegmentPage({
       packages={packages}
       activitySlug={slug}
       categorySlug={categoryPathSlug}
+      testimonials={testimonials}
     />
   );
 }

@@ -1,15 +1,15 @@
-'use client';
+"use client";
 
-import { Grid } from '@chakra-ui/react';
-import { Container } from '@/components/layout';
-import { SectionHeading } from '@/components/cenarios';
-import { PricingCard } from './PricingCard';
+import { Grid } from "@chakra-ui/react";
+import { Container } from "@/components/layout";
+import { SectionHeading } from "@/components/cenarios";
+import { PricingCard } from "./PricingCard";
 import {
   buildFlatPackagePath,
   buildPackagePath,
-} from '@/lib/catalog/packageSlugHelpers';
+} from "@/lib/catalog/packageSlugHelpers";
 
-import type { PackageCardItem } from '@/lib/catalog/types';
+import type { PackageCardItem } from "@/lib/catalog/types";
 
 export interface ProductPricingSectionProps {
   sectionTitle: string;
@@ -29,17 +29,21 @@ export function ProductPricingSection({
   packages,
   activitySlug,
   categorySlug,
-  reserveHref = '/#reservas',
+  reserveHref = "/#reservas",
 }: ProductPricingSectionProps) {
   return (
-    <Container py={{ base: '10', md: '14', lg: '16' }}>
-      <SectionHeading title={sectionTitle} description={sectionDescription} />
+    <Container py={{ base: "10", md: "14", lg: "16" }}>
+      <SectionHeading
+        title={sectionTitle}
+        description={sectionDescription}
+        descriptionVariant="lead"
+      />
       <Grid
         templateColumns={{
-          base: 'repeat(2, 1fr)',
-          lg: 'repeat(4, 1fr)',
+          base: "repeat(2, 1fr)",
+          lg: "repeat(4, 1fr)",
         }}
-        gap={{ base: '2.5', md: '4', lg: '5' }}
+        gap={{ base: "2.5", md: "4", lg: "5" }}
       >
         {packages.map((pkg) => {
           const packageSlug = pkg.slug ?? pkg.id;

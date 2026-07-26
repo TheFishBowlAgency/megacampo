@@ -25,21 +25,17 @@ export function QuantityStepper({
   const handleIncrement = () => onChange(Math.min(max, value + 1));
 
   return (
-    <HStack
-      gap="0"
-      borderWidth="1px"
-      borderColor="gray.200"
-      borderRadius="md"
-      overflow="hidden"
-    >
+    <HStack gap="3" align="center">
       <IconButton
         aria-label="Diminuir quantidade"
         variant="ghost"
         size="sm"
-        borderRadius="0"
+        color="fg"
+        fontSize="xl"
+        fontWeight="normal"
+        minW="8"
         onClick={handleDecrement}
         disabled={value <= min}
-        fontSize="lg"
       >
         −
       </IconButton>
@@ -54,22 +50,24 @@ export function QuantityStepper({
         }}
         w="12"
         textAlign="center"
-        borderRadius="0"
         borderWidth="0"
-        borderLeftWidth="1px"
-        borderRightWidth="1px"
-        borderColor="gray.200"
+        bg="transparent"
+        fontWeight="extrabold"
+        fontSize={{ base: "md", xl: "body.lg" }}
+        p="0"
+        h="auto"
         aria-label={ariaLabel}
-        fontSize="sm"
       />
       <IconButton
         aria-label="Aumentar quantidade"
         variant="ghost"
         size="sm"
-        borderRadius="0"
+        color="fg"
+        fontSize="xl"
+        fontWeight="normal"
+        minW="8"
         onClick={handleIncrement}
         disabled={value >= max}
-        fontSize="lg"
       >
         +
       </IconButton>

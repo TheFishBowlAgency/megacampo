@@ -5,17 +5,22 @@ import { Text, VStack } from "@chakra-ui/react";
 export interface SectionHeadingProps {
   title: string;
   description?: string;
+  descriptionVariant?: "muted" | "lead";
 }
 
 /**
  * Reusable section heading block: centered title + optional description.
  */
-export function SectionHeading({ title, description }: SectionHeadingProps) {
+export function SectionHeading({
+  title,
+  description,
+  descriptionVariant = "muted",
+}: SectionHeadingProps) {
   return (
     <VStack
       gap={{ base: "2", md: "3" }}
       textAlign="center"
-      maxW="2xl"
+      maxW="3xl"
       mx="auto"
       mb={{ base: "8", md: "10" }}
     >
@@ -31,7 +36,8 @@ export function SectionHeading({ title, description }: SectionHeadingProps) {
       {description && (
         <Text
           fontSize={{ base: "md", md: "lg", lg: "body.md", xl: "body.lg" }}
-          color="fg.muted"
+          fontWeight={descriptionVariant === "lead" ? "extrabold" : "normal"}
+          color={descriptionVariant === "lead" ? "fg" : "fg.muted"}
           lineHeight="1.5"
         >
           {description}

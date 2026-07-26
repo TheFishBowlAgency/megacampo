@@ -6,8 +6,8 @@ import { Container, PageHero, Section } from "@/components/layout";
 import { Link } from "@/components/ui";
 import { getBlogCopy, getBlogPosts } from "@/lib/blog/getBlog";
 
-export default function BlogPage() {
-  const posts = getBlogPosts();
+export default async function BlogPage() {
+  const posts = await getBlogPosts();
   const copy = getBlogCopy();
 
   return (
@@ -61,17 +61,21 @@ export default function BlogPage() {
                     </Box>
                     <Text
                       as="h3"
-                      fontSize={{ base: "xl", md: "2rem" }}
-                      fontWeight="extrabold"
+                      textStyle="h4"
+                      fontSize={{ base: "xl", md: "2rem", xl: "display.h3" }}
                       color="fg"
                       textTransform="uppercase"
-                      lineHeight="1.2"
                     >
                       {post.title}
                     </Text>
                     <Text
                       color="fg.muted"
-                      fontSize={{ base: "sm", md: "md", lg: "body.md" }}
+                      fontSize={{
+                        base: "sm",
+                        md: "md",
+                        lg: "body.md",
+                        xl: "body.lg",
+                      }}
                       lineHeight="1.5"
                     >
                       {post.excerpt}
@@ -79,7 +83,12 @@ export default function BlogPage() {
                     <Link
                       href={post.href}
                       color="fg.muted"
-                      fontSize={{ base: "sm", md: "md", lg: "body.md" }}
+                      fontSize={{
+                        base: "sm",
+                        md: "md",
+                        lg: "body.md",
+                        xl: "body.lg",
+                      }}
                       _hover={{ color: "primary" }}
                       alignSelf="flex-start"
                     >

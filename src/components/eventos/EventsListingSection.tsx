@@ -35,7 +35,7 @@ export function EventsListingSection({
               base: "1fr",
               md: "repeat(2, 1fr)",
             }}
-            columnGap={{ base: "6", md: "8", xl: "10" }}
+            columnGap={{ base: "6", md: "5", xl: "5" }}
             rowGap={{ base: "10", md: "12", xl: "16" }}
             w="full"
           >
@@ -44,7 +44,7 @@ export function EventsListingSection({
                 <Box
                   position="relative"
                   w="full"
-                  aspectRatio="630/400"
+                  aspectRatio="650/490"
                   bg="gray.300"
                   overflow="hidden"
                 >
@@ -61,18 +61,22 @@ export function EventsListingSection({
                 <VStack align="stretch" gap="3">
                   <Text
                     as="h3"
-                    fontSize={{ base: "xl", md: "2rem" }}
-                    fontWeight="extrabold"
+                    textStyle="h4"
+                    fontSize={{ base: "xl", md: "2rem", xl: "display.h3" }}
                     color="fg"
                     textTransform="uppercase"
-                    lineHeight="1.2"
                   >
                     {event.title}
                   </Text>
                   {event.description ? (
                     <Text
                       color="fg"
-                      fontSize={{ base: "sm", md: "md", lg: "body.md" }}
+                      fontSize={{
+                        base: "sm",
+                        md: "md",
+                        lg: "body.md",
+                        xl: "body.lg",
+                      }}
                       lineHeight="1.5"
                     >
                       {event.description}

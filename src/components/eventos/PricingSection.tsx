@@ -4,78 +4,30 @@ import { Box, Grid, Text, VStack } from "@chakra-ui/react";
 import { useState } from "react";
 import { Section } from "@/components/layout";
 import { Link } from "@/components/ui";
+import { DEFAULT_EVENT_PRICING_TABS } from "@/lib/events/defaultPricing";
+import type { EventPricingTab } from "@/lib/events/types";
 
-const TABS = [
-  { id: "paintball", label: "PAINTBALL" },
-  { id: "soft-paintball", label: "SOFT PAINTBALL" },
-  { id: "cooperacao", label: "JOGOS DE COOPERAÇÃO" },
-] as const;
+export type PricingSectionProps = {
+  tabs?: EventPricingTab[];
+  reserveHref?: string;
+};
 
-const PACKAGES = [
-  {
-    id: "commando",
-    name: "COMMANDO",
-    price: "29,95",
-    popular: true,
-    features: [
-      "200 BOLAS",
-      "MARCADOR DE PAINTBALL",
-      "BOTIJA DE AR COMPRIMIDO",
-      "MÁSCARA DE PROTEÇÃO",
-      "ACESSO AOS 12 CENÁRIOS",
-      "MÍNIMO 8 PESSOAS",
-    ],
-  },
-  {
-    id: "ranger",
-    name: "RANGER",
-    price: "34,95",
-    popular: false,
-    features: [
-      "200 BOLAS",
-      "MARCADOR DE PAINTBALL",
-      "BOTIJA DE AR COMPRIMIDO",
-      "MÁSCARA DE PROTEÇÃO",
-      "FARDA CAMUFLADA",
-      "ACESSO AOS 12 CENÁRIOS",
-      "MÍNIMO 8 PESSOAS",
-    ],
-  },
-  {
-    id: "swat",
-    name: "SWAT",
-    price: "49,95",
-    popular: false,
-    features: [
-      "500 BOLAS",
-      "MARCADOR DE PAINTBALL",
-      "BOTIJA DE AR COMPRIMIDO",
-      "MÁSCARA DE PROTEÇÃO",
-      "FARDA CAMUFLADA",
-      "ACESSO AOS 12 CENÁRIOS",
-      "MÍNIMO 8 PESSOAS",
-    ],
-  },
-  {
-    id: "elite",
-    name: "ELITE",
-    price: "69,95",
-    popular: false,
-    features: [
-      "1000 BOLAS",
-      "MARCADOR DE PAINTBALL",
-      "BOTIJA DE AR COMPRIMIDO",
-      "MÁSCARA DE PROTEÇÃO",
-      "FARDA CAMUFLADA",
-      "CARREGADOR DE POTES",
-      "ACESSO AOS 12 CENÁRIOS",
-      "MÍNIMO 8 PESSOAS",
-    ],
-  },
-];
+export function PricingSection({
+  tabs = DEFAULT_EVENT_PRICING_TABS,
+  reserveHref = "/#reservas",
+}: PricingSectionProps) {
+  const safeTabs = tabs.length > 0 ? tabs : DEFAULT_EVENT_PRICING_TABS;
 
-export function PricingSection() {
-  const [activeTab, setActiveTab] = useState<string>("paintball");
+  const [activeTab, setActiveTab] = useState<string>(
+    safeTabs[0]?.id ?? "paintball",
+  );
+  const current =
+    safeTabs.find((tab) => tab.id === activeTab) ??
+    safeTabs[0] ??
+    DEFAULT_EVENT_PRICING_TABS[0];
+  const packages = current?.packages?.length
+    ? current.packages
+    : DEFAULT_EVENT_PRICING_TABS[0].packages;
 
   return (
     <Section variant="subtle" id="pacotes" bg="bg.subtle">
@@ -89,7 +41,7 @@ export function PricingSection() {
             role="tablist"
             aria-label="Tipo de atividade"
           >
-            {TABS.map((tab) => {
+            {safeTabs.map((tab) => {
               const active = activeTab === tab.id;
               return (
                 <Box
@@ -123,7 +75,7 @@ export function PricingSection() {
             gap={{ base: "4", md: "5" }}
             w="full"
           >
-            {PACKAGES.map((pkg) => (
+            {packages.map((pkg) => (
               <Box
                 key={pkg.id}
                 as="article"
@@ -213,7 +165,7 @@ export function PricingSection() {
                 </VStack>
 
                 <Link
-                  href="/#reservas"
+                  href={reserveHref}
                   bg="primary"
                   color="grayLight"
                   px="8"

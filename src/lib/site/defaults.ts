@@ -10,11 +10,11 @@ export const DEFAULT_HEADER: HeaderContent = {
     phone: "+351 913 402 013",
   },
   navLinks: [
-    { label: "ACTIVIDADES", href: "/#actividades" },
+    { label: "ATIVIDADES", href: "/#actividades" },
     { label: "O PARQUE", href: "/cenarios" },
     { label: "COMO", href: "/como" },
     { label: "EVENTOS", href: "/eventos" },
-    { label: "LOJA", href: "#loja" },
+    { label: "LOJA DE PAINTBALL", href: "#loja" },
     { label: "BLOG", href: "/blog" },
     { label: "RESERVAS", href: "/#reservas" },
     { label: "CONTACTOS", href: "/#contactos" },

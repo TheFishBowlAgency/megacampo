@@ -22,8 +22,14 @@ export function EventDetailContent({ event }: EventDetailContentProps) {
         heading={event.activityHeading}
         description={event.activityDescription}
       />
-      <PricingSection />
-      <EventQuoteTestimonials />
+      <PricingSection
+        tabs={event.pricingTabs}
+        reserveHref={event.reserveHref}
+      />
+      <EventQuoteTestimonials
+        heading={event.testimonialsHeading}
+        quotes={event.testimonials}
+      />
       <FAQSection id="faq-eventos" heading="Perguntas frequentes" />
       <Footer />
     </main>

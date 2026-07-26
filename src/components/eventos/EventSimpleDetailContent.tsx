@@ -3,6 +3,7 @@ import Image from "next/image";
 import { CTASection, FAQSection, Footer } from "@/components/landing";
 import { Container, Section } from "@/components/layout";
 import { Link } from "@/components/ui";
+import { RichTextContent } from "@/components/ui/RichTextContent";
 import type { EventDetail } from "@/lib/events/types";
 
 import { ShareButton } from "./ShareButton";
@@ -69,11 +70,10 @@ export function EventSimpleDetailContent({
                 >
                   <Text
                     as="h1"
-                    fontSize={{ base: "xl", md: "2rem" }}
-                    fontWeight="extrabold"
+                    textStyle="h4"
+                    fontSize={{ base: "xl", md: "2rem", xl: "display.h3" }}
                     color="fg"
                     textTransform="uppercase"
-                    lineHeight="1.2"
                   >
                     {event.title}
                   </Text>
@@ -93,7 +93,8 @@ export function EventSimpleDetailContent({
                   >
                     {event.description}
                   </Text>
-                  <Text
+                  <RichTextContent
+                    data={event.body}
                     color="fg"
                     fontSize={{
                       base: "sm",
@@ -102,9 +103,7 @@ export function EventSimpleDetailContent({
                       xl: "body.lg",
                     }}
                     lineHeight="1.6"
-                  >
-                    {event.body}
-                  </Text>
+                  />
                 </VStack>
 
                 <Link

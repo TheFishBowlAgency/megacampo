@@ -122,11 +122,12 @@ export function ActivityHoverCard({
 
       <VStack gap="1">
         <Text
-          textStyle="h3"
           fontSize={{ base: "md", lg: "xl", xl: "display.h3" }}
+          fontWeight="extrabold"
           color="fg"
           textAlign="center"
           textTransform="uppercase"
+          lineHeight="1.2"
         >
           {title}
         </Text>

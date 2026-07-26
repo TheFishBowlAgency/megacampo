@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { Box, Button, Text } from '@chakra-ui/react';
-import { useState } from 'react';
+import { Box, Button, Text } from "@chakra-ui/react";
+import { useState } from "react";
 
-import { PayPalCheckoutButtons } from './CheckoutPayment';
+import { PayPalCheckoutButtons } from "./CheckoutPayment";
 
 interface CheckoutSubmitSectionProps {
   paymentMethod: string;
@@ -31,7 +31,7 @@ export function CheckoutSubmitSection({
   );
 
   const activePaypalOrderNumber =
-    paymentMethod === 'paypal' ? paypalOrderNumber : null;
+    paymentMethod === "paypal" ? paypalOrderNumber : null;
 
   const handlePayPalClick = async () => {
     if (activePaypalOrderNumber) return;
@@ -49,7 +49,7 @@ export function CheckoutSubmitSection({
         </Text>
       )}
 
-      {paymentMethod === 'paypal' ? (
+      {paymentMethod === "paypal" ? (
         activePaypalOrderNumber ? (
           <PayPalCheckoutButtons
             orderNumber={activePaypalOrderNumber}
@@ -61,32 +61,34 @@ export function CheckoutSubmitSection({
           <Button
             w="full"
             bg="primary"
-            color="white"
-            borderRadius="6px"
-            h="56px"
-            textStyle="button"
+            color="grayLight"
+            borderRadius="0"
+            h="60px"
+            fontWeight="medium"
             textTransform="uppercase"
+            fontSize={{ base: "md", lg: "body.md", xl: "body.lg" }}
             disabled={disabled || isSubmitting}
-            _hover={{ bg: 'primary.muted', color: 'fg' }}
+            _hover={{ opacity: 0.9 }}
             onClick={() => void handlePayPalClick()}
           >
-            {isSubmitting ? 'A preparar...' : 'Continuar com PayPal'}
+            {isSubmitting ? "A preparar..." : "Continuar com PayPal"}
           </Button>
         )
       ) : (
         <Button
           w="full"
           bg="primary"
-          color="white"
-          borderRadius="6px"
-          h="56px"
-          textStyle="button"
+          color="grayLight"
+          borderRadius="0"
+          h="60px"
+          fontWeight="medium"
           textTransform="uppercase"
+          fontSize={{ base: "md", lg: "body.md", xl: "body.lg" }}
           disabled={disabled || isSubmitting}
-          _hover={{ bg: 'primary.muted', color: 'fg' }}
+          _hover={{ opacity: 0.9 }}
           onClick={onMultibancoSubmit}
         >
-          {isSubmitting ? 'A processar...' : 'Reservar'}
+          {isSubmitting ? "A processar..." : "Reservar"}
         </Button>
       )}
     </Box>

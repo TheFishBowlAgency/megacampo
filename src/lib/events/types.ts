@@ -10,6 +10,29 @@ export type EventCardItem = {
   description?: string;
 };
 
+export type EventPricingPackage = {
+  id: string;
+  name: string;
+  price: string;
+  popular?: boolean;
+  features: string[];
+};
+
+export type EventPricingTab = {
+  id: string;
+  label: string;
+  packages: EventPricingPackage[];
+};
+
+export type EventQuote = {
+  id: string;
+  name: string;
+  quote: string;
+  imageSrc?: string;
+  featured?: boolean;
+  stars?: number;
+};
+
 export type EventDetail = {
   id: string;
   slug: string;
@@ -17,10 +40,13 @@ export type EventDetail = {
   imageSrc?: string;
   /** Short blurb on listing cards + simple detail lead */
   description: string;
-  /** Longer body copy on simple detail */
-  body: string;
+  /** Longer body copy on simple detail (Lexical JSON or plain string) */
+  body: unknown;
   activityHeading: string;
   activityDescription: string;
   reserveHref: string;
   packagesHref: string;
+  pricingTabs: EventPricingTab[];
+  testimonialsHeading: string;
+  testimonials: EventQuote[];
 };

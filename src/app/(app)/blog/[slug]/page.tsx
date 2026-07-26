@@ -5,19 +5,21 @@ import { Header } from "@/components/header";
 import { CTASection, FAQSection, Footer } from "@/components/landing";
 import { Container, Section } from "@/components/layout";
 import { Link } from "@/components/ui";
+import { RichTextContent } from "@/components/ui/RichTextContent";
 import { getAllBlogSlugs, getBlogPostBySlug } from "@/lib/blog/getBlog";
 
 export interface BlogPostPageProps {
   params: Promise<{ slug: string }>;
 }
 
-export function generateStaticParams() {
-  return getAllBlogSlugs().map((slug) => ({ slug }));
+export async function generateStaticParams() {
+  const slugs = await getAllBlogSlugs();
+  return slugs.map((slug) => ({ slug }));
 }
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const { slug } = await params;
-  const post = getBlogPostBySlug(slug);
+  const post = await getBlogPostBySlug(slug);
   if (!post) notFound();
 
   return (
@@ -35,7 +37,12 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               <Link
                 href="/blog"
                 color="fg.muted"
-                fontSize={{ base: "sm", md: "md", lg: "body.md" }}
+                fontSize={{
+                  base: "sm",
+                  md: "md",
+                  lg: "body.md",
+                  xl: "body.lg",
+                }}
                 _hover={{ color: "primary" }}
                 alignSelf="flex-start"
               >
@@ -81,13 +88,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               >
                 {post.excerpt}
               </Text>
-              <Text
-                color="fg.muted"
-                fontSize={{ base: "sm", md: "md", lg: "body.md" }}
-                lineHeight="1.7"
-              >
-                {post.body}
-              </Text>
+              <RichTextContent data={post.body} />
             </VStack>
           </Container>
         </Section>

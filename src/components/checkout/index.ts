@@ -7,5 +7,11 @@ export { TermsSection } from "./TermsSection";
 export type { TermsSectionProps } from "./TermsSection";
 export { CheckoutOrderSummary } from "./CheckoutOrderSummary";
 export type { CheckoutOrderSummaryProps } from "./CheckoutOrderSummary";
+export { ReservationConfirmation } from "./ReservationConfirmation";
+export type {
+  ReservationConfirmationProps,
+  ReservationCustomer,
+  ReservationMultibanco,
+} from "./ReservationConfirmation";
 export { CheckoutSubmitSection } from "./CheckoutSubmitSection";
 export { useCheckout } from "./CheckoutPayment";

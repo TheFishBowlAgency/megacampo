@@ -1,39 +1,31 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
-import { Box, Button, Text } from '@chakra-ui/react';
-import { Link } from '@/components/ui';
-import { useCart } from '@/providers';
-import { formatPriceWithCurrency } from '@/lib/catalog/formatPrice';
+import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { Box, Button, Text } from "@chakra-ui/react";
+import { Link } from "@/components/ui";
+import type { CartLineItem } from "@/components/cart/types";
+import {
+  ReservationConfirmation,
+  type ReservationCustomer,
+  type ReservationMultibanco,
+} from "@/components/checkout/ReservationConfirmation";
+import { useCart } from "@/providers";
 
 interface OrderPaymentInfo {
   orderNumber: string;
   status: string;
+  paymentMethod?: string;
   totalAmount: number | string;
-  multibanco?: {
-    entity: string;
-    reference: string;
-    amount: number | string;
-    expiryDate: string;
-  };
-}
-
-function parseAmount(value: number | string): number {
-  if (typeof value === 'number') return value;
-  return Number.parseFloat(String(value).replace(',', '.'));
-}
-
-function formatPrice(value: number | string): string {
-  const amount = parseAmount(value);
-  if (!Number.isFinite(amount)) return '—';
-  return formatPriceWithCurrency(amount);
+  customer?: ReservationCustomer;
+  items?: CartLineItem[];
+  multibanco?: ReservationMultibanco;
 }
 
 export function OrderConfirmationContent() {
   const { clearCart } = useCart();
   const searchParams = useSearchParams();
-  const orderNumber = searchParams.get('order');
+  const orderNumber = searchParams.get("order");
   const [order, setOrder] = useState<OrderPaymentInfo | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -44,7 +36,7 @@ export function OrderConfirmationContent() {
 
   useEffect(() => {
     if (!orderNumber) {
-      setError('Referência de encomenda em falta.');
+      setError("Referência de encomenda em falta.");
       setIsLoading(false);
       return;
     }
@@ -61,7 +53,7 @@ export function OrderConfirmationContent() {
         };
 
         if (!response.ok) {
-          throw new Error(data.error || 'Não foi possível obter a encomenda.');
+          throw new Error(data.error || "Não foi possível obter a encomenda.");
         }
 
         if (!cancelled) {
@@ -72,7 +64,7 @@ export function OrderConfirmationContent() {
           setError(
             err instanceof Error
               ? err.message
-              : 'Não foi possível obter a encomenda.',
+              : "Não foi possível obter a encomenda.",
           );
         }
       } finally {
@@ -91,7 +83,7 @@ export function OrderConfirmationContent() {
 
   if (isLoading) {
     return (
-      <Box maxW="640px" mx="auto" textAlign="center">
+      <Box py="12">
         <Text textStyle="body" color="fg.muted">
           A carregar...
         </Text>
@@ -101,16 +93,16 @@ export function OrderConfirmationContent() {
 
   if (error || !order) {
     return (
-      <Box maxW="640px" mx="auto" textAlign="center">
+      <Box maxW="640px" mx="auto" textAlign="center" py="12">
         <Text textStyle="body" color="red.500" mb="6">
-          {error || 'Encomenda não encontrada.'}
+          {error || "Encomenda não encontrada."}
         </Text>
         <Button
           asChild
           bg="primary"
-          color="white"
-          borderRadius="6px"
-          h="56px"
+          color="grayLight"
+          borderRadius="0"
+          h="60px"
           px="8"
         >
           <Link href="/checkout">Voltar ao checkout</Link>
@@ -120,84 +112,13 @@ export function OrderConfirmationContent() {
   }
 
   return (
-    <Box maxW="640px" mx="auto">
-      <Text textStyle="h3" color="fg" mb="4" textAlign="center">
-        Reserva registada
-      </Text>
-      <Text textStyle="body" color="fg" mb="8" textAlign="center">
-        A tua reserva foi criada com a referência {order.orderNumber}. Utiliza
-        os dados abaixo para pagar por Multibanco.
-      </Text>
-
-      {order.multibanco ? (
-        <Box
-          bg="bg"
-          borderRadius="6px"
-          p="6"
-          borderWidth="1px"
-          borderColor="fg.muted"
-          display="flex"
-          flexDirection="column"
-          gap="4"
-          mb="8"
-        >
-          <Box>
-            <Text textStyle="body" color="fg.muted" mb="1">
-              Entidade
-            </Text>
-            <Text textStyle="h5" color="fg">
-              {order.multibanco.entity}
-            </Text>
-          </Box>
-          <Box>
-            <Text textStyle="body" color="fg.muted" mb="1">
-              Referência
-            </Text>
-            <Text textStyle="h5" color="fg">
-              {order.multibanco.reference}
-            </Text>
-          </Box>
-          <Box>
-            <Text textStyle="body" color="fg.muted" mb="1">
-              Montante
-            </Text>
-            <Text textStyle="h5" color="fg">
-              {formatPrice(order.multibanco.amount)}
-            </Text>
-          </Box>
-          {order.multibanco.expiryDate ? (
-            <Box>
-              <Text textStyle="body" color="fg.muted" mb="1">
-                Validade
-              </Text>
-              <Text textStyle="body" color="fg">
-                {order.multibanco.expiryDate}
-              </Text>
-            </Box>
-          ) : null}
-        </Box>
-      ) : null}
-
-      <Text textStyle="body" color="fg.muted" mb="8" textAlign="center">
-        Efetua o pagamento através do Multibanco com os dados acima. A reserva
-        será confirmada no dia da visita, no Megacampo.
-      </Text>
-
-      <Box textAlign="center">
-        <Button
-          asChild
-          bg="primary"
-          color="white"
-          borderRadius="6px"
-          h="56px"
-          px="8"
-          textStyle="button"
-          textTransform="uppercase"
-          _hover={{ bg: 'primary.muted', color: 'fg' }}
-        >
-          <Link href="/">Voltar ao início</Link>
-        </Button>
-      </Box>
-    </Box>
+    <ReservationConfirmation
+      orderNumber={order.orderNumber}
+      items={order.items ?? []}
+      totalAmount={order.totalAmount}
+      customer={order.customer}
+      paymentMethod={order.paymentMethod}
+      multibanco={order.multibanco}
+    />
   );
 }

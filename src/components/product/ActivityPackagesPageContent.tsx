@@ -6,6 +6,8 @@ import { PageHero } from "@/components/layout";
 import { ProductPricingSection } from "@/components/product/ProductPricingSection";
 import { getActivityFeatures } from "@/lib/activities/landingDefaults";
 import type { PackageCardItem } from "@/lib/catalog/types";
+import type { EventQuote } from "@/lib/events/types";
+import { DEFAULT_TESTIMONIALS_HEADING } from "@/lib/testimonials/defaults";
 
 export interface ActivityPackagesPageContentProps {
   title: string;
@@ -14,6 +16,8 @@ export interface ActivityPackagesPageContentProps {
   activitySlug: string;
   /** When set, package cards link to the 3-level atividades path. */
   categorySlug?: string;
+  testimonials?: EventQuote[];
+  testimonialsHeading?: string;
 }
 
 export function ActivityPackagesPageContent({
@@ -22,6 +26,8 @@ export function ActivityPackagesPageContent({
   packages,
   activitySlug,
   categorySlug,
+  testimonials,
+  testimonialsHeading = DEFAULT_TESTIMONIALS_HEADING,
 }: ActivityPackagesPageContentProps) {
   return (
     <>
@@ -43,7 +49,10 @@ export function ActivityPackagesPageContent({
             categorySlug={categorySlug}
           />
         </Box>
-        <EventQuoteTestimonials />
+        <EventQuoteTestimonials
+          heading={testimonialsHeading}
+          quotes={testimonials}
+        />
         <FAQSection
           id={`faq-${activitySlug}${categorySlug ? `-${categorySlug}` : ""}`}
           heading="Perguntas frequentes"

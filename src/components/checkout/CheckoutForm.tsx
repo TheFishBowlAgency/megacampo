@@ -105,7 +105,7 @@ export function CheckoutForm({ data, onChange }: CheckoutFormProps) {
           onChange={update("phone")}
         />
         <FormInput
-          placeholder="NIF"
+          placeholder="Número de Identificação Fiscal (NIF)"
           value={data.nif}
           onChange={update("nif")}
         />

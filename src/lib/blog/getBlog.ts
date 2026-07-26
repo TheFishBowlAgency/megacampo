@@ -1,27 +1,101 @@
-import { DEFAULT_BLOG, DEFAULT_BLOG_POSTS } from "./defaults";
+import config from "@payload-config";
+import { getPayload } from "payload";
+
+import {
+  DEFAULT_BLOG,
+  DEFAULT_BLOG_POSTS,
+  getDefaultBlogPost,
+  toBlogPostCard,
+} from "./defaults";
+import { mapPostToCard, mapPostToDetail } from "./mapPost";
 import type { BlogPostCard, BlogPostDetail } from "./types";
-
-const DEFAULT_BODY =
-  "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.";
-
-export function getBlogPosts(): BlogPostCard[] {
-  return DEFAULT_BLOG_POSTS;
-}
 
 export function getBlogCopy() {
   return DEFAULT_BLOG;
 }
 
-export function getBlogPostBySlug(slug: string): BlogPostDetail | null {
-  const post = DEFAULT_BLOG_POSTS.find((item) => item.slug === slug);
-  if (!post) return null;
+export async function getBlogPosts(): Promise<BlogPostCard[]> {
+  try {
+    const payload = await getPayload({ config });
+    const { docs } = await payload.find({
+      collection: "posts",
+      where: {
+        isActive: {
+          equals: true,
+        },
+      },
+      sort: "sort",
+      limit: 50,
+      depth: 1,
+      pagination: false,
+    });
 
-  return {
-    ...post,
-    body: DEFAULT_BODY,
-  };
+    if (docs.length === 0) {
+      return DEFAULT_BLOG_POSTS.map(toBlogPostCard);
+    }
+
+    return docs.map(mapPostToCard);
+  } catch {
+    return DEFAULT_BLOG_POSTS.map(toBlogPostCard);
+  }
 }
 
-export function getAllBlogSlugs(): string[] {
+export async function getBlogPostBySlug(
+  slug: string,
+): Promise<BlogPostDetail | null> {
+  try {
+    const payload = await getPayload({ config });
+    const { docs } = await payload.find({
+      collection: "posts",
+      where: {
+        and: [
+          {
+            slug: {
+              equals: slug,
+            },
+          },
+          {
+            isActive: {
+              equals: true,
+            },
+          },
+        ],
+      },
+      limit: 1,
+      depth: 1,
+      pagination: false,
+    });
+
+    if (docs[0]) {
+      return mapPostToDetail(docs[0]);
+    }
+  } catch {
+    // fall through to defaults
+  }
+
+  return getDefaultBlogPost(slug);
+}
+
+export async function getAllBlogSlugs(): Promise<string[]> {
+  try {
+    const payload = await getPayload({ config });
+    const { docs } = await payload.find({
+      collection: "posts",
+      where: {
+        isActive: {
+          equals: true,
+        },
+      },
+      limit: 100,
+      depth: 0,
+      pagination: false,
+    });
+
+    const slugs = docs.map((post) => post.slug);
+    if (slugs.length > 0) return slugs;
+  } catch {
+    // fall through to defaults
+  }
+
   return DEFAULT_BLOG_POSTS.map((post) => post.slug);
 }

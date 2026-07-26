@@ -12,7 +12,9 @@ import { Users } from "./collections/Users";
 import { Media } from "./collections/Media";
 import { Activities } from "./collections/Activities";
 import { Events } from "./collections/Events";
+import { Posts } from "./collections/Posts";
 import { Scenarios } from "./collections/Scenarios";
+import { Testimonials } from "./collections/Testimonials";
 import { PackageCategories } from "./collections/PackageCategories";
 import { OptionGroups } from "./collections/OptionGroups";
 import { Options } from "./collections/Options";
@@ -46,7 +48,9 @@ export default buildConfig({
     Users,
     Media,
     Activities,
+    Testimonials,
     Events,
+    Posts,
     Scenarios,
     PackageCategories,
     OptionGroups,

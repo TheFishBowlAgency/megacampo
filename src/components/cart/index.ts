@@ -6,4 +6,5 @@ export { CartWithItemsView } from "./CartWithItemsView";
 export { CartItemRow } from "./CartItemRow";
 export { CartSummary } from "./CartSummary";
 export { QuantityStepper } from "./QuantityStepper";
+export { getCartItemDisplay } from "./getCartItemDisplay";
 export type { CartLineItem, CartItemDetail } from "./types";

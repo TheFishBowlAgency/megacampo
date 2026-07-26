@@ -12,6 +12,8 @@
     "seed": "cross-env NODE_OPTIONS=--no-deprecation PAYLOAD_DISABLE_DEPENDENCY_CHECKER=true tsx --env-file=.env src/seed/index.ts",
     "seed:site": "cross-env NODE_OPTIONS=--no-deprecation PAYLOAD_DISABLE_DEPENDENCY_CHECKER=true tsx --env-file=.env src/seed/seedSiteShellOnly.ts",
     "seed:home": "cross-env NODE_OPTIONS=--no-deprecation PAYLOAD_DISABLE_DEPENDENCY_CHECKER=true tsx --env-file=.env src/seed/seedHomeOnly.ts",
+    "seed:blog": "cross-env NODE_OPTIONS=--no-deprecation PAYLOAD_DISABLE_DEPENDENCY_CHECKER=true tsx --env-file=.env src/seed/seedBlogOnly.ts",
+    "seed:testimonials": "cross-env NODE_OPTIONS=--no-deprecation PAYLOAD_DISABLE_DEPENDENCY_CHECKER=true tsx --env-file=.env src/seed/seedTestimonialsOnly.ts",
     "seed:como": "cross-env NODE_OPTIONS=--no-deprecation PAYLOAD_DISABLE_DEPENDENCY_CHECKER=true tsx --env-file=.env src/seed/seedComoOnly.ts",
     "seed:cenarios": "cross-env NODE_OPTIONS=--no-deprecation PAYLOAD_DISABLE_DEPENDENCY_CHECKER=true tsx --env-file=.env src/seed/seedCenariosOnly.ts",
     "migrate:prices": "cross-env NODE_OPTIONS=--no-deprecation tsx --env-file=.env src/seed/migratePriceFields.ts"

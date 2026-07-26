@@ -5,9 +5,9 @@ export type BlogPostCard = {
   excerpt: string;
   imageSrc?: string;
   href: string;
-  body?: string;
+  body?: unknown;
 };
 
 export type BlogPostDetail = BlogPostCard & {
-  body: string;
+  body: unknown;
 };

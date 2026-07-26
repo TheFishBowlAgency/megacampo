@@ -2,27 +2,71 @@ import type { Payload } from "payload";
 
 import { DEFAULT_FOOTER, DEFAULT_HEADER } from "@/lib/site/defaults";
 
+function headerNavNeedsSync(
+  navLinks:
+    | { label?: string | null; href?: string | null }[]
+    | null
+    | undefined,
+): boolean {
+  if (!navLinks?.length) return true;
+
+  const hrefs = navLinks.map((l) => l.href ?? "");
+  const labels = navLinks.map((l) => (l.label ?? "").toUpperCase());
+
+  const hasParqueRoute = hrefs.some(
+    (h) => h === "/parque" || h.startsWith("/parque/"),
+  );
+  const oParque = navLinks.find((l) =>
+    (l.label ?? "").toUpperCase().includes("PARQUE"),
+  );
+  const oParqueWrong =
+    Boolean(oParque) &&
+    oParque?.href !== "/cenarios" &&
+    oParque?.href !== "/cenarios/";
+  const missingBlog = !hrefs.includes("/blog") && !labels.includes("BLOG");
+  const hasOldActividadesSpelling = labels.includes("ACTIVIDADES");
+  const loja = navLinks.find((l) =>
+    (l.label ?? "").toUpperCase().includes("LOJA"),
+  );
+  const lojaLabelStale =
+    Boolean(loja) && (loja?.label ?? "").toUpperCase() !== "LOJA DE PAINTBALL";
+
+  return (
+    hasParqueRoute ||
+    oParqueWrong ||
+    missingBlog ||
+    hasOldActividadesSpelling ||
+    lojaLabelStale
+  );
+}
+
 export async function runSiteShellSeed(payload: Payload): Promise<void> {
   const existingHeader = await payload.findGlobal({
     slug: "header",
     depth: 0,
   });
 
-  if (!existingHeader.navLinks?.length) {
+  if (headerNavNeedsSync(existingHeader.navLinks)) {
     await payload.updateGlobal({
       slug: "header",
       data: {
-        logoAlt: DEFAULT_HEADER.logoAlt,
+        logoAlt: existingHeader.logoAlt || DEFAULT_HEADER.logoAlt,
         topBar: {
-          contactLabel: DEFAULT_HEADER.topBar.contactLabel,
-          phone: DEFAULT_HEADER.topBar.phone,
+          contactLabel:
+            existingHeader.topBar?.contactLabel ||
+            DEFAULT_HEADER.topBar.contactLabel,
+          phone: existingHeader.topBar?.phone || DEFAULT_HEADER.topBar.phone,
         },
         navLinks: DEFAULT_HEADER.navLinks,
       },
     });
-    payload.logger.info("Seeded header global");
+    payload.logger.info(
+      existingHeader.navLinks?.length
+        ? "Synced header navLinks to site defaults (O PARQUE→/cenarios, BLOG→/blog)"
+        : "Seeded header global",
+    );
   } else {
-    payload.logger.info("Header global already populated — skipped");
+    payload.logger.info("Header global already up to date — skipped");
   }
 
   const existingFooter = await payload.findGlobal({

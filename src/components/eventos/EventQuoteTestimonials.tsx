@@ -1,48 +1,16 @@
 import { Box, Flex, Grid, HStack, Text, VStack } from "@chakra-ui/react";
 import Image from "next/image";
 import { Container, Section } from "@/components/layout";
+import type { EventQuote } from "@/lib/events/types";
 import {
-  ACTIVITY_CARD_IMAGE_AIRSOFT,
-  ACTIVITY_CARD_IMAGE_LASERTAG,
-  ACTIVITY_CARD_IMAGE_PAINTBALL,
-} from "@/data/activityCardMedia";
+  DEFAULT_TESTIMONIALS,
+  DEFAULT_TESTIMONIALS_HEADING,
+} from "@/lib/testimonials/defaults";
 
-type Quote = {
-  name: string;
-  quote: string;
-  imageSrc: string;
-  featured?: boolean;
-  stars?: number;
+type EventQuoteTestimonialsProps = {
+  heading?: string;
+  quotes?: EventQuote[];
 };
-
-const QUOTES: Quote[] = [
-  {
-    name: "MARIANA",
-    quote:
-      "This paintball field is simply incredible! Everything is well thought out, incredible scenarios and plenty of space to run and hide. The vibe is top-notch, the staff is super chill and gets everyone into the game right from the start, even those who have never played before. 5/5 stars. I recommend it without a doubt!",
-    imageSrc: ACTIVITY_CARD_IMAGE_PAINTBALL,
-    featured: true,
-    stars: 5,
-  },
-  {
-    name: "JOÃO",
-    quote:
-      "Cenários sensacionais e uma equipa claramente focada em proporcionar uma experiência de paintball de alta qualidade.",
-    imageSrc: ACTIVITY_CARD_IMAGE_LASERTAG,
-  },
-  {
-    name: "SONDRE",
-    quote:
-      "Absolutely amazing stagparty! We were a group of 14 guys, and it couldn't have been better. 5/5 stars. Definitely coming back!",
-    imageSrc: ACTIVITY_CARD_IMAGE_AIRSOFT,
-  },
-  {
-    name: "MARJO",
-    quote:
-      "Cenários, material, staff, instalações incríveis. Tudo foi fantástico. Já joguei em muitos sítios e este é de outro planeta.",
-    imageSrc: ACTIVITY_CARD_IMAGE_PAINTBALL,
-  },
-];
 
 function Stars({ count = 5 }: { count?: number }) {
   return (
@@ -56,9 +24,15 @@ function Stars({ count = 5 }: { count?: number }) {
   );
 }
 
-export function EventQuoteTestimonials() {
-  const featured = QUOTES.find((q) => q.featured) ?? QUOTES[0];
-  const others = QUOTES.filter((q) => q !== featured);
+export function EventQuoteTestimonials({
+  heading = DEFAULT_TESTIMONIALS_HEADING,
+  quotes = DEFAULT_TESTIMONIALS,
+}: EventQuoteTestimonialsProps) {
+  const list = quotes.length > 0 ? quotes : DEFAULT_TESTIMONIALS;
+  const featured = list.find((q) => q.featured) ?? list[0];
+  const others = list.filter((q) => q !== featured);
+
+  if (!featured) return null;
 
   return (
     <Section>
@@ -72,7 +46,7 @@ export function EventQuoteTestimonials() {
             textTransform="uppercase"
             textAlign="center"
           >
-            O que dizem os nossos clientes?
+            {heading}
           </Text>
 
           <Grid
@@ -95,13 +69,15 @@ export function EventQuoteTestimonials() {
                 bg="gray.300"
                 overflow="hidden"
               >
-                <Image
-                  src={featured.imageSrc}
-                  alt={featured.name}
-                  fill
-                  sizes="(max-width: 991px) 100vw, 50vw"
-                  style={{ objectFit: "cover" }}
-                />
+                {featured.imageSrc ? (
+                  <Image
+                    src={featured.imageSrc}
+                    alt={featured.name}
+                    fill
+                    sizes="(max-width: 991px) 100vw, 50vw"
+                    style={{ objectFit: "cover" }}
+                  />
+                ) : null}
               </Box>
               <Text
                 fontSize={{ base: "2xl", md: "3rem" }}
@@ -126,7 +102,7 @@ export function EventQuoteTestimonials() {
             <VStack gap={{ base: "5", md: "6" }} align="stretch">
               {others.map((quote) => (
                 <Flex
-                  key={quote.name}
+                  key={quote.id}
                   bg="background"
                   p={{ base: "4", md: "5" }}
                   gap={{ base: "4", md: "6" }}
@@ -141,13 +117,15 @@ export function EventQuoteTestimonials() {
                     bg="gray.300"
                     overflow="hidden"
                   >
-                    <Image
-                      src={quote.imageSrc}
-                      alt={quote.name}
-                      fill
-                      sizes="190px"
-                      style={{ objectFit: "cover" }}
-                    />
+                    {quote.imageSrc ? (
+                      <Image
+                        src={quote.imageSrc}
+                        alt={quote.name}
+                        fill
+                        sizes="190px"
+                        style={{ objectFit: "cover" }}
+                      />
+                    ) : null}
                   </Box>
                   <VStack align="stretch" gap="2" justify="center" flex="1">
                     <Text

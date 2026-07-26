@@ -27,7 +27,7 @@ export async function getEventBySlug(
         ],
       },
       limit: 1,
-      depth: 1,
+      depth: 2,
       pagination: false,
     });
 
