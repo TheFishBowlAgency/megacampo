@@ -1,5 +1,6 @@
 import type { CollectionConfig } from "payload";
 
+import { anyone, hideFromNonOperations, operationsAdmin } from "@/access/roles";
 import { autoSlugField } from "@/fields/autoSlugField";
 import { mediaImageField } from "@/fields/mediaImageField";
 import { generateActivitySlug } from "@/hooks/generateSlug";
@@ -16,9 +17,13 @@ export const Activities: CollectionConfig = {
     useAsTitle: "title",
     defaultColumns: ["title", "slug", "sort", "isActive"],
     group: adminGroups.content,
+    hidden: hideFromNonOperations,
   },
   access: {
-    read: () => true,
+    read: anyone,
+    create: operationsAdmin,
+    update: operationsAdmin,
+    delete: operationsAdmin,
   },
   hooks: {
     beforeValidate: [generateActivitySlug],

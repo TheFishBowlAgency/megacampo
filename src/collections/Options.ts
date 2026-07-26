@@ -1,5 +1,6 @@
 import type { CollectionConfig } from "payload";
 
+import { anyone, hideFromNonOperations, operationsAdmin } from "@/access/roles";
 import { adminGroups } from "@/i18n/adminGroups";
 import { bl, common } from "@/i18n/labels";
 import { defaultPriceFields } from "@/fields/priceFields";
@@ -18,9 +19,13 @@ export const Options: CollectionConfig = {
     useAsTitle: "label",
     defaultColumns: ["label", "group", "pricingUnit", "cartBehavior"],
     group: adminGroups.catalog,
+    hidden: hideFromNonOperations,
   },
   access: {
-    read: () => true,
+    read: anyone,
+    create: operationsAdmin,
+    update: operationsAdmin,
+    delete: operationsAdmin,
   },
   hooks: {
     beforeValidate: [
@@ -70,7 +75,10 @@ export const Options: CollectionConfig = {
       defaultValue: "inline",
       options: [
         {
-          label: bl("Integrado (soma ao preço do pacote)", "Inline (adds to package price)"),
+          label: bl(
+            "Integrado (soma ao preço do pacote)",
+            "Inline (adds to package price)",
+          ),
           value: "inline",
         },
         {

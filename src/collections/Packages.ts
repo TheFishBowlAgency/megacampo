@@ -1,5 +1,6 @@
 import type { CollectionConfig } from "payload";
 
+import { anyone, hideFromNonOperations, operationsAdmin } from "@/access/roles";
 import {
   extraGroupConfigFields,
   templateOverrideFields,
@@ -23,11 +24,21 @@ export const Packages: CollectionConfig = {
   },
   admin: {
     useAsTitle: "name",
-    defaultColumns: ["name", "activity", "category", "basePriceEur", "isActive"],
+    defaultColumns: [
+      "name",
+      "activity",
+      "category",
+      "basePriceEur",
+      "isActive",
+    ],
     group: adminGroups.catalog,
+    hidden: hideFromNonOperations,
   },
   access: {
-    read: () => true,
+    read: anyone,
+    create: operationsAdmin,
+    update: operationsAdmin,
+    delete: operationsAdmin,
   },
   hooks: {
     beforeValidate: [
@@ -81,7 +92,9 @@ export const Packages: CollectionConfig = {
       label: common.name,
       required: true,
     },
-    autoSlugField(bl("atividade, categoria e nome", "activity, category, and name")),
+    autoSlugField(
+      bl("atividade, categoria e nome", "activity, category, and name"),
+    ),
     mediaImageField(),
     ...basePriceFields(),
     {

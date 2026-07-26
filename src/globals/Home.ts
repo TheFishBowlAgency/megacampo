@@ -1,5 +1,6 @@
 import type { GlobalConfig } from "payload";
 
+import { anyone, cmsEditor, hideFromNonCms } from "@/access/roles";
 import { mediaImageField } from "@/fields/mediaImageField";
 import { adminGroups } from "@/i18n/adminGroups";
 import { bl, common } from "@/i18n/labels";
@@ -24,9 +25,11 @@ export const Home: GlobalConfig = {
   label: { pt: "Página inicial", en: "Home page" },
   admin: {
     group: adminGroups.content,
+    hidden: hideFromNonCms,
   },
   access: {
-    read: () => true,
+    read: anyone,
+    update: cmsEditor,
   },
   fields: [
     {

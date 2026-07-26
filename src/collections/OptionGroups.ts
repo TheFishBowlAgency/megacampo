@@ -1,5 +1,6 @@
 import type { CollectionConfig } from "payload";
 
+import { anyone, hideFromNonOperations, operationsAdmin } from "@/access/roles";
 import { adminGroups } from "@/i18n/adminGroups";
 import { bl, common } from "@/i18n/labels";
 
@@ -13,9 +14,13 @@ export const OptionGroups: CollectionConfig = {
     useAsTitle: "title",
     defaultColumns: ["title", "selectionType", "sort"],
     group: adminGroups.catalog,
+    hidden: hideFromNonOperations,
   },
   access: {
-    read: () => true,
+    read: anyone,
+    create: operationsAdmin,
+    update: operationsAdmin,
+    delete: operationsAdmin,
   },
   fields: [
     {

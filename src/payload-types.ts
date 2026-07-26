@@ -13,53 +13,53 @@
  * via the `definition` "supportedTimezones".
  */
 export type SupportedTimezones =
-  | 'Pacific/Midway'
-  | 'Pacific/Niue'
-  | 'Pacific/Honolulu'
-  | 'Pacific/Rarotonga'
-  | 'America/Anchorage'
-  | 'Pacific/Gambier'
-  | 'America/Los_Angeles'
-  | 'America/Tijuana'
-  | 'America/Denver'
-  | 'America/Phoenix'
-  | 'America/Chicago'
-  | 'America/Guatemala'
-  | 'America/New_York'
-  | 'America/Bogota'
-  | 'America/Caracas'
-  | 'America/Santiago'
-  | 'America/Buenos_Aires'
-  | 'America/Sao_Paulo'
-  | 'Atlantic/South_Georgia'
-  | 'Atlantic/Azores'
-  | 'Atlantic/Cape_Verde'
-  | 'Europe/London'
-  | 'Europe/Berlin'
-  | 'Africa/Lagos'
-  | 'Europe/Athens'
-  | 'Africa/Cairo'
-  | 'Europe/Moscow'
-  | 'Asia/Riyadh'
-  | 'Asia/Dubai'
-  | 'Asia/Baku'
-  | 'Asia/Karachi'
-  | 'Asia/Tashkent'
-  | 'Asia/Calcutta'
-  | 'Asia/Dhaka'
-  | 'Asia/Almaty'
-  | 'Asia/Jakarta'
-  | 'Asia/Bangkok'
-  | 'Asia/Shanghai'
-  | 'Asia/Singapore'
-  | 'Asia/Tokyo'
-  | 'Asia/Seoul'
-  | 'Australia/Brisbane'
-  | 'Australia/Sydney'
-  | 'Pacific/Guam'
-  | 'Pacific/Noumea'
-  | 'Pacific/Auckland'
-  | 'Pacific/Fiji';
+  | "Pacific/Midway"
+  | "Pacific/Niue"
+  | "Pacific/Honolulu"
+  | "Pacific/Rarotonga"
+  | "America/Anchorage"
+  | "Pacific/Gambier"
+  | "America/Los_Angeles"
+  | "America/Tijuana"
+  | "America/Denver"
+  | "America/Phoenix"
+  | "America/Chicago"
+  | "America/Guatemala"
+  | "America/New_York"
+  | "America/Bogota"
+  | "America/Caracas"
+  | "America/Santiago"
+  | "America/Buenos_Aires"
+  | "America/Sao_Paulo"
+  | "Atlantic/South_Georgia"
+  | "Atlantic/Azores"
+  | "Atlantic/Cape_Verde"
+  | "Europe/London"
+  | "Europe/Berlin"
+  | "Africa/Lagos"
+  | "Europe/Athens"
+  | "Africa/Cairo"
+  | "Europe/Moscow"
+  | "Asia/Riyadh"
+  | "Asia/Dubai"
+  | "Asia/Baku"
+  | "Asia/Karachi"
+  | "Asia/Tashkent"
+  | "Asia/Calcutta"
+  | "Asia/Dhaka"
+  | "Asia/Almaty"
+  | "Asia/Jakarta"
+  | "Asia/Bangkok"
+  | "Asia/Shanghai"
+  | "Asia/Singapore"
+  | "Asia/Tokyo"
+  | "Asia/Seoul"
+  | "Australia/Brisbane"
+  | "Australia/Sydney"
+  | "Pacific/Guam"
+  | "Pacific/Noumea"
+  | "Pacific/Auckland"
+  | "Pacific/Fiji";
 
 export interface Config {
   auth: {
@@ -72,16 +72,16 @@ export interface Config {
     activities: Activity;
     events: Event;
     scenarios: Scenario;
-    'package-categories': PackageCategory;
-    'option-groups': OptionGroup;
+    "package-categories": PackageCategory;
+    "option-groups": OptionGroup;
     options: Option;
     packages: Package;
-    'group-extras': GroupExtra;
+    "group-extras": GroupExtra;
     orders: Order;
-    'payload-kv': PayloadKv;
-    'payload-locked-documents': PayloadLockedDocument;
-    'payload-preferences': PayloadPreference;
-    'payload-migrations': PayloadMigration;
+    "payload-kv": PayloadKv;
+    "payload-locked-documents": PayloadLockedDocument;
+    "payload-preferences": PayloadPreference;
+    "payload-migrations": PayloadMigration;
   };
   collectionsJoins: {};
   collectionsSelect: {
@@ -90,16 +90,24 @@ export interface Config {
     activities: ActivitiesSelect<false> | ActivitiesSelect<true>;
     events: EventsSelect<false> | EventsSelect<true>;
     scenarios: ScenariosSelect<false> | ScenariosSelect<true>;
-    'package-categories': PackageCategoriesSelect<false> | PackageCategoriesSelect<true>;
-    'option-groups': OptionGroupsSelect<false> | OptionGroupsSelect<true>;
+    "package-categories":
+      | PackageCategoriesSelect<false>
+      | PackageCategoriesSelect<true>;
+    "option-groups": OptionGroupsSelect<false> | OptionGroupsSelect<true>;
     options: OptionsSelect<false> | OptionsSelect<true>;
     packages: PackagesSelect<false> | PackagesSelect<true>;
-    'group-extras': GroupExtrasSelect<false> | GroupExtrasSelect<true>;
+    "group-extras": GroupExtrasSelect<false> | GroupExtrasSelect<true>;
     orders: OrdersSelect<false> | OrdersSelect<true>;
-    'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
-    'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
-    'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
-    'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
+    "payload-kv": PayloadKvSelect<false> | PayloadKvSelect<true>;
+    "payload-locked-documents":
+      | PayloadLockedDocumentsSelect<false>
+      | PayloadLockedDocumentsSelect<true>;
+    "payload-preferences":
+      | PayloadPreferencesSelect<false>
+      | PayloadPreferencesSelect<true>;
+    "payload-migrations":
+      | PayloadMigrationsSelect<false>
+      | PayloadMigrationsSelect<true>;
   };
   db: {
     defaultIDType: string;
@@ -153,6 +161,10 @@ export interface UserAuthOperations {
  */
 export interface User {
   id: string;
+  /**
+   * Controls what this user can see and edit in the admin panel.
+   */
+  role: "super-admin" | "admin" | "cms-manager";
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -170,7 +182,7 @@ export interface User {
       }[]
     | null;
   password?: string | null;
-  collection: 'users';
+  collection: "users";
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -311,7 +323,7 @@ export interface PackageCategory {
 export interface OptionGroup {
   id: string;
   title: string;
-  selectionType: 'single' | 'multi';
+  selectionType: "single" | "multi";
   sort?: number | null;
   updatedAt: string;
   createdAt: string;
@@ -329,8 +341,8 @@ export interface Option {
    * Optional fallback price. Package-specific pricing in Packages usually overrides this.
    */
   defaultPriceEur?: number | null;
-  pricingUnit: 'per_person' | 'per_booking';
-  cartBehavior: 'inline' | 'separate_line_item';
+  pricingUnit: "per_person" | "per_booking";
+  cartBehavior: "inline" | "separate_line_item";
   /**
    * Maximum quantity per booking (e.g. 1 for Private Lounge).
    */
@@ -385,7 +397,12 @@ export interface Package {
    */
   templateOverrides?:
     | {
-        type: 'replaceOption' | 'excludeOption' | 'addOption' | 'setDefault' | 'priceOverride';
+        type:
+          | "replaceOption"
+          | "excludeOption"
+          | "addOption"
+          | "setDefault"
+          | "priceOverride";
         group: string | OptionGroup;
         fromOption?: (string | null) | Option;
         toOption?: (string | null) | Option;
@@ -437,8 +454,14 @@ export interface Order {
   /**
    * Multibanco: mark as Paid manually on visit day. PayPal: updated automatically.
    */
-  status: 'pending' | 'awaiting_payment' | 'paid' | 'failed' | 'expired' | 'cancelled';
-  paymentMethod: 'multibanco' | 'paypal';
+  status:
+    | "pending"
+    | "awaiting_payment"
+    | "paid"
+    | "failed"
+    | "expired"
+    | "cancelled";
+  paymentMethod: "multibanco" | "paypal";
   customerFirstName: string;
   customerLastName: string;
   customerEmail: string;
@@ -510,52 +533,52 @@ export interface PayloadLockedDocument {
   id: string;
   document?:
     | ({
-        relationTo: 'users';
+        relationTo: "users";
         value: string | User;
       } | null)
     | ({
-        relationTo: 'media';
+        relationTo: "media";
         value: string | Media;
       } | null)
     | ({
-        relationTo: 'activities';
+        relationTo: "activities";
         value: string | Activity;
       } | null)
     | ({
-        relationTo: 'events';
+        relationTo: "events";
         value: string | Event;
       } | null)
     | ({
-        relationTo: 'scenarios';
+        relationTo: "scenarios";
         value: string | Scenario;
       } | null)
     | ({
-        relationTo: 'package-categories';
+        relationTo: "package-categories";
         value: string | PackageCategory;
       } | null)
     | ({
-        relationTo: 'option-groups';
+        relationTo: "option-groups";
         value: string | OptionGroup;
       } | null)
     | ({
-        relationTo: 'options';
+        relationTo: "options";
         value: string | Option;
       } | null)
     | ({
-        relationTo: 'packages';
+        relationTo: "packages";
         value: string | Package;
       } | null)
     | ({
-        relationTo: 'group-extras';
+        relationTo: "group-extras";
         value: string | GroupExtra;
       } | null)
     | ({
-        relationTo: 'orders';
+        relationTo: "orders";
         value: string | Order;
       } | null);
   globalSlug?: string | null;
   user: {
-    relationTo: 'users';
+    relationTo: "users";
     value: string | User;
   };
   updatedAt: string;
@@ -568,7 +591,7 @@ export interface PayloadLockedDocument {
 export interface PayloadPreference {
   id: string;
   user: {
-    relationTo: 'users';
+    relationTo: "users";
     value: string | User;
   };
   key?: string | null;
@@ -600,6 +623,7 @@ export interface PayloadMigration {
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
+  role?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -913,7 +937,7 @@ export interface Footer {
     title: string;
     links?:
       | {
-          platform: 'facebook' | 'instagram';
+          platform: "facebook" | "instagram";
           url: string;
           id?: string | null;
         }[]
@@ -979,7 +1003,7 @@ export interface Home {
     features?:
       | {
           label: string;
-          icon: 'tree' | 'grill' | 'shower' | 'parking' | 'coffee';
+          icon: "tree" | "grill" | "shower" | "parking" | "coffee";
           id?: string | null;
         }[]
       | null;
@@ -991,7 +1015,7 @@ export interface Home {
     items?:
       | {
           label: string;
-          icon: 'briefing' | 'shield' | 'person' | 'rules';
+          icon: "briefing" | "shield" | "person" | "rules";
           id?: string | null;
         }[]
       | null;
@@ -1055,7 +1079,7 @@ export interface Como {
             label: string;
             href: string;
           };
-          icon: 'hand' | 'checklist' | 'calendar';
+          icon: "hand" | "checklist" | "calendar";
           id?: string | null;
         }[]
       | null;
@@ -1392,7 +1416,7 @@ export interface CollectionsWidget {
   data?: {
     [k: string]: unknown;
   };
-  width: 'full';
+  width: "full";
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1402,7 +1426,6 @@ export interface Auth {
   [k: string]: unknown;
 }
 
-
-declare module 'payload' {
+declare module "payload" {
   export interface GeneratedTypes extends Config {}
 }

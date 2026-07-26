@@ -1,5 +1,6 @@
 import type { CollectionConfig } from "payload";
 
+import { anyone, staff } from "@/access/roles";
 import { adminGroups } from "@/i18n/adminGroups";
 import { bl, common } from "@/i18n/labels";
 
@@ -13,7 +14,10 @@ export const Media: CollectionConfig = {
     group: adminGroups.content,
   },
   access: {
-    read: () => true,
+    read: anyone,
+    create: staff,
+    update: staff,
+    delete: staff,
   },
   upload: {
     adminThumbnail: ({ doc }) => {

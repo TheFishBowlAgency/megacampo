@@ -1,5 +1,6 @@
 import type { CollectionConfig } from "payload";
 
+import { anyone, hideFromNonOperations, operationsAdmin } from "@/access/roles";
 import { autoSlugField } from "@/fields/autoSlugField";
 import { mediaImageField } from "@/fields/mediaImageField";
 import { priceCentsEuroFields } from "@/fields/priceFields";
@@ -21,9 +22,13 @@ export const GroupExtras: CollectionConfig = {
     useAsTitle: "name",
     defaultColumns: ["name", "priceEur", "sort", "isActive"],
     group: adminGroups.catalog,
+    hidden: hideFromNonOperations,
   },
   access: {
-    read: () => true,
+    read: anyone,
+    create: operationsAdmin,
+    update: operationsAdmin,
+    delete: operationsAdmin,
   },
   hooks: {
     beforeValidate: [
