@@ -1,15 +1,16 @@
-import type { CartLineItem } from '@/components/cart/types';
-import type { CheckoutFormData } from '@/components/checkout/CheckoutForm';
+import type { CartLineItem } from "@/components/cart/types";
+import type { CheckoutFormData } from "@/components/checkout/CheckoutForm";
 
-export type PaymentMethod = 'multibanco' | 'paypal';
+export type PaymentMethod = "multibanco" | "paypal";
 
 export type OrderStatus =
-  | 'pending'
-  | 'awaiting_payment'
-  | 'paid'
-  | 'failed'
-  | 'expired'
-  | 'cancelled';
+  | "pending"
+  | "awaiting_payment"
+  | "paid"
+  | "failed"
+  | "expired"
+  | "cancelled"
+  | "refunded";
 
 export interface CreateCheckoutPayload {
   formData: CheckoutFormData;

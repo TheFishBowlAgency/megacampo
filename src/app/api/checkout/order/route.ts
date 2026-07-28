@@ -1,18 +1,8 @@
 import { NextResponse } from "next/server";
 
-import type { CartLineItem } from "@/components/cart/types";
 import { getOrderByNumber } from "@/lib/orders/createOrder";
+import { orderItemsToCartItems } from "@/lib/orders/mapOrderItems";
 import type { MultibancoPaymentDetails } from "@/lib/payments/types";
-
-function asCartItems(value: unknown): CartLineItem[] {
-  if (!Array.isArray(value)) return [];
-  return value.filter(
-    (item): item is CartLineItem =>
-      Boolean(item) &&
-      typeof item === "object" &&
-      typeof (item as CartLineItem).productName === "string",
-  );
-}
 
 export async function GET(request: Request) {
   try {
@@ -62,23 +52,32 @@ export async function GET(request: Request) {
         country: order.customerCountry,
         nif: order.customerNif ?? "",
       },
-      items: asCartItems(order.items),
+      items: orderItemsToCartItems(order.items),
     };
 
-    if (order.paymentMethod === "multibanco" && paymentDetails) {
-      const multibancoAmount = Number(
-        paymentDetails.amount ?? order.totalAmount,
-      );
+    if (order.paymentMethod === "multibanco") {
+      const entity = order.multibancoEntity ?? paymentDetails?.entity;
+      const reference = order.multibancoReference ?? paymentDetails?.reference;
 
-      return NextResponse.json({
-        ...base,
-        multibanco: {
-          entity: paymentDetails.entity,
-          reference: paymentDetails.reference,
-          amount: multibancoAmount,
-          expiryDate: paymentDetails.expiryDate,
-        },
-      });
+      if (entity && reference) {
+        const multibancoAmount = Number(
+          paymentDetails?.amount ?? order.totalAmount,
+        );
+
+        return NextResponse.json({
+          ...base,
+          multibanco: {
+            entity,
+            reference,
+            amount: multibancoAmount,
+            expiryDate:
+              paymentDetails?.expiryDate ??
+              (order.paymentExpiresAt
+                ? new Date(order.paymentExpiresAt).toISOString()
+                : ""),
+          },
+        });
+      }
     }
 
     return NextResponse.json(base);

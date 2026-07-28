@@ -1,9 +1,9 @@
-import { NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
 
-import { validateCheckoutInput } from '@/lib/checkout/validation';
-import { formatAmountForPayment } from '@/lib/orders/calculateTotal';
-import { createOrderRecord } from '@/lib/orders/createOrder';
-import type { CreateCheckoutPayload } from '@/lib/payments/types';
+import { validateCheckoutInput } from "@/lib/checkout/validation";
+import { formatAmountForPayment } from "@/lib/orders/calculateTotal";
+import { createOrderRecord } from "@/lib/orders/createOrder";
+import type { CreateCheckoutPayload } from "@/lib/payments/types";
 
 export async function POST(request: Request) {
   try {
@@ -17,7 +17,10 @@ export async function POST(request: Request) {
     });
 
     if (!validation.valid) {
-      return NextResponse.json({ error: validation.errors[0] }, { status: 400 });
+      return NextResponse.json(
+        { error: validation.errors[0] },
+        { status: 400 },
+      );
     }
 
     const order = await createOrderRecord({
@@ -35,10 +38,11 @@ export async function POST(request: Request) {
       paymentMethod: order.paymentMethod,
     });
   } catch (error) {
-    console.error('Checkout create error:', error);
-    return NextResponse.json(
-      { error: 'Não foi possível criar a encomenda.' },
-      { status: 500 },
-    );
+    console.error("Checkout create error:", error);
+    const message =
+      error instanceof Error
+        ? error.message
+        : "Não foi possível criar a encomenda.";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

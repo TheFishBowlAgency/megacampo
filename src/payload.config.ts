@@ -21,6 +21,7 @@ import { Options } from "./collections/Options";
 import { Packages } from "./collections/Packages";
 import { GroupExtras } from "./collections/GroupExtras";
 import { Orders } from "./collections/Orders";
+import { Payments } from "./collections/Payments";
 import { Blog } from "./globals/Blog";
 import { Cenarios } from "./globals/Cenarios";
 import { Como } from "./globals/Como";
@@ -60,6 +61,7 @@ export default buildConfig({
     Packages,
     GroupExtras,
     Orders,
+    Payments,
   ],
   globals: [Header, Footer, Home, Como, Cenarios, Blog, Eventos],
   editor: lexicalEditor(),

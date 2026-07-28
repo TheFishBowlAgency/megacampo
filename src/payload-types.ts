@@ -80,12 +80,17 @@ export interface Config {
     packages: Package;
     "group-extras": GroupExtra;
     orders: Order;
+    payments: Payment;
     "payload-kv": PayloadKv;
     "payload-locked-documents": PayloadLockedDocument;
     "payload-preferences": PayloadPreference;
     "payload-migrations": PayloadMigration;
   };
-  collectionsJoins: {};
+  collectionsJoins: {
+    orders: {
+      paymentEvents: "payments";
+    };
+  };
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
@@ -102,6 +107,7 @@ export interface Config {
     packages: PackagesSelect<false> | PackagesSelect<true>;
     "group-extras": GroupExtrasSelect<false> | GroupExtrasSelect<true>;
     orders: OrdersSelect<false> | OrdersSelect<true>;
+    payments: PaymentsSelect<false> | PaymentsSelect<true>;
     "payload-kv": PayloadKvSelect<false> | PayloadKvSelect<true>;
     "payload-locked-documents":
       | PayloadLockedDocumentsSelect<false>
@@ -611,17 +617,19 @@ export interface Order {
    * Order identifier (max 25 chars for Multibanco).
    */
   orderNumber: string;
-  /**
-   * Multibanco: mark as Paid manually on visit day. PayPal: updated automatically.
-   */
   status:
     | "pending"
     | "awaiting_payment"
     | "paid"
     | "failed"
     | "expired"
-    | "cancelled";
+    | "cancelled"
+    | "refunded";
   paymentMethod: "multibanco" | "paypal";
+  totalAmount: number;
+  paidAt?: string | null;
+  paymentExpiresAt?: string | null;
+  observations?: string | null;
   customerFirstName: string;
   customerLastName: string;
   customerEmail: string;
@@ -632,8 +640,47 @@ export interface Order {
   customerCountry: string;
   customerNif?: string | null;
   acceptMarketing?: boolean | null;
-  observations?: string | null;
-  items:
+  items: {
+    lineId: string;
+    itemType?: ("package" | "extra") | null;
+    productName: string;
+    productSubtitle?: string | null;
+    quantity: number;
+    unitPrice: number;
+    packageId?: string | null;
+    date?: string | null;
+    period?: string | null;
+    imageUrl?: string | null;
+    details?:
+      | {
+          label: string;
+          value: string;
+          id?: string | null;
+        }[]
+      | null;
+    selections?:
+      | {
+          groupId: string;
+          optionId: string;
+          id?: string | null;
+        }[]
+      | null;
+    id?: string | null;
+  }[];
+  multibancoEntity?: string | null;
+  multibancoReference?: string | null;
+  multibancoRequestId?: string | null;
+  paypalOrderId?: string | null;
+  paypalCaptureId?: string | null;
+  paymentEvents?: {
+    docs: (string | Payment)[];
+    hasNextPage: boolean;
+    totalDocs?: number;
+  };
+  /**
+   * Raw provider metadata — support only.
+   */
+  paymentDetails?:
     | {
         [k: string]: unknown;
       }
@@ -642,21 +689,37 @@ export interface Order {
     | number
     | boolean
     | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Payment attempt and event audit log.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payments".
+ */
+export interface Payment {
+  id: string;
+  order: string | Order;
+  orderNumber: string;
+  provider: "multibanco" | "paypal";
+  type: "attempt" | "capture" | "callback" | "refund" | "cancellation";
+  status: "pending" | "succeeded" | "failed" | "refunded" | "cancelled";
   /**
-   * Order total in EUR.
+   * Amount in EUR.
    */
-  totalAmount: number;
-  multibancoEntity?: string | null;
+  amount: number;
+  currency: string;
+  attemptNumber: number;
   /**
-   * Multibanco reference shown to the customer.
+   * E.g. PayPal order/capture ID, Multibanco requestId/reference.
    */
-  multibancoReference?: string | null;
-  multibancoRequestId?: string | null;
-  paypalOrderId?: string | null;
+  providerPaymentId?: string | null;
   /**
-   * Raw payment provider response metadata.
+   * Idempotency key for the provider webhook/event.
    */
-  paymentDetails?:
+  providerEventId?: string | null;
+  rawPayload?:
     | {
         [k: string]: unknown;
       }
@@ -743,6 +806,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: "orders";
         value: string | Order;
+      } | null)
+    | ({
+        relationTo: "payments";
+        value: string | Payment;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -1045,6 +1112,10 @@ export interface OrdersSelect<T extends boolean = true> {
   orderNumber?: T;
   status?: T;
   paymentMethod?: T;
+  totalAmount?: T;
+  paidAt?: T;
+  paymentExpiresAt?: T;
+  observations?: T;
   customerFirstName?: T;
   customerLastName?: T;
   customerEmail?: T;
@@ -1055,14 +1126,61 @@ export interface OrdersSelect<T extends boolean = true> {
   customerCountry?: T;
   customerNif?: T;
   acceptMarketing?: T;
-  observations?: T;
-  items?: T;
-  totalAmount?: T;
+  items?:
+    | T
+    | {
+        lineId?: T;
+        itemType?: T;
+        productName?: T;
+        productSubtitle?: T;
+        quantity?: T;
+        unitPrice?: T;
+        packageId?: T;
+        date?: T;
+        period?: T;
+        imageUrl?: T;
+        details?:
+          | T
+          | {
+              label?: T;
+              value?: T;
+              id?: T;
+            };
+        selections?:
+          | T
+          | {
+              groupId?: T;
+              optionId?: T;
+              id?: T;
+            };
+        id?: T;
+      };
   multibancoEntity?: T;
   multibancoReference?: T;
   multibancoRequestId?: T;
   paypalOrderId?: T;
+  paypalCaptureId?: T;
+  paymentEvents?: T;
   paymentDetails?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payments_select".
+ */
+export interface PaymentsSelect<T extends boolean = true> {
+  order?: T;
+  orderNumber?: T;
+  provider?: T;
+  type?: T;
+  status?: T;
+  amount?: T;
+  currency?: T;
+  attemptNumber?: T;
+  providerPaymentId?: T;
+  providerEventId?: T;
+  rawPayload?: T;
   updatedAt?: T;
   createdAt?: T;
 }
