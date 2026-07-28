@@ -1,4 +1,3 @@
-/** Figma PAINTBALL key-feature chips; reused as defaults per activity. */
 export const DEFAULT_ACTIVITY_FEATURES: Record<string, string[]> = {
   paintball: ["12 MAPAS", "QUALIFIED MARSHALL", "3.5 HOURS"],
   "soft-paintball": ["12 MAPAS", "QUALIFIED MARSHALL", "3.5 HOURS"],
@@ -15,4 +14,21 @@ export const FALLBACK_ACTIVITY_FEATURES = [
 
 export function getActivityFeatures(slug: string): string[] {
   return DEFAULT_ACTIVITY_FEATURES[slug] ?? FALLBACK_ACTIVITY_FEATURES;
+}
+
+type HighlightRow = { label?: string | null } | null | undefined;
+
+/** Prefer CMS highlight labels; fall back to seed defaults for the activity slug. */
+export function resolveActivityHighlights(
+  slug: string,
+  ...sources: Array<HighlightRow[] | null | undefined>
+): string[] {
+  for (const source of sources) {
+    const labels =
+      source
+        ?.map((item) => item?.label?.trim())
+        .filter((label): label is string => Boolean(label)) ?? [];
+    if (labels.length > 0) return labels;
+  }
+  return getActivityFeatures(slug);
 }

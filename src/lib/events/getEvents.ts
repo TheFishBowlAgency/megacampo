@@ -1,9 +1,20 @@
 import config from "@payload-config";
 import { getPayload } from "payload";
 
-import { DEFAULT_EVENTS } from "./defaults";
+import { DEFAULT_EVENT_LISTING, DEFAULT_EVENTS } from "./defaults";
 import { mapEventToCardItem } from "./mapEvent";
-import type { EventCardItem } from "./types";
+import { mapEventosGlobal } from "./mapEventos";
+import type { EventCardItem, EventosCopy } from "./types";
+
+export async function getEventsCopy(): Promise<EventosCopy> {
+  try {
+    const payload = await getPayload({ config });
+    const doc = await payload.findGlobal({ slug: "eventos", depth: 1 });
+    return mapEventosGlobal(doc);
+  } catch {
+    return DEFAULT_EVENT_LISTING;
+  }
+}
 
 export async function getEvents(): Promise<EventCardItem[]> {
   try {

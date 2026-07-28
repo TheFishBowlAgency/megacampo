@@ -4,6 +4,7 @@ import {
   PackageDetailContent,
 } from "@/components/product";
 import { getActivityBySlug } from "@/lib/activities/getActivityBySlug";
+import { resolveActivityHighlights } from "@/lib/activities/landingDefaults";
 import {
   getAllActivitySegmentParams,
   resolveActivitySegment,
@@ -12,12 +13,20 @@ import { getGroupExtras } from "@/lib/catalog";
 import { getPackagesByCategoryId } from "@/lib/catalog/getPackagesByCategory";
 import { getCategoryPathSlug } from "@/lib/package-categories/slugHelpers";
 import { getTestimonials } from "@/lib/testimonials/getTestimonials";
+import type { Media } from "@/payload-types";
 
 export interface ActivitySegmentPageProps {
   params: Promise<{ slug: string; categorySlug: string }>;
 }
 
 export const dynamic = "force-dynamic";
+
+function resolveMediaUrl(
+  image: string | Media | null | undefined,
+): string | undefined {
+  if (!image || typeof image === "string") return undefined;
+  return image.url ?? undefined;
+}
 
 export async function generateStaticParams() {
   return getAllActivitySegmentParams();
@@ -29,6 +38,9 @@ export default async function ActivitySegmentPage({
   const { slug, categorySlug: segment } = await params;
   const resolution = await resolveActivitySegment(slug, segment);
   if (!resolution) notFound();
+
+  const activity = await getActivityBySlug(slug);
+  if (!activity) notFound();
 
   if (resolution.type === "package") {
     const { package: packageData } = resolution;
@@ -44,6 +56,9 @@ export default async function ActivitySegmentPage({
         extraGroups={packageData.config.extraGroups}
         extras={extras}
         showGroupExtrasSection={showSection}
+        categoryLabel={activity.title}
+        description={activity.description ?? undefined}
+        highlights={packageData.highlights}
         backHref={`/atividades/${slug}`}
         backLabel="Voltar às Reservas"
       />
@@ -51,8 +66,6 @@ export default async function ActivitySegmentPage({
   }
 
   const { category } = resolution;
-  const activity = await getActivityBySlug(slug);
-  if (!activity) notFound();
 
   const categoryPathSlug = getCategoryPathSlug(slug, category.slug);
   const [packages, testimonials] = await Promise.all([
@@ -65,8 +78,17 @@ export default async function ActivitySegmentPage({
 
   return (
     <ActivityPackagesPageContent
-      title={category.title}
+      title={activity.title}
+      heroTitle={category.title}
       description={category.description ?? activity.description}
+      highlights={resolveActivityHighlights(
+        slug,
+        category.highlights,
+        activity.highlights,
+      )}
+      heroBackgroundImageSrc={
+        resolveMediaUrl(category.image) ?? resolveMediaUrl(activity.image)
+      }
       packages={packages}
       activitySlug={slug}
       categorySlug={categoryPathSlug}

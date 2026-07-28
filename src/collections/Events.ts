@@ -58,6 +58,30 @@ export const Events: CollectionConfig = {
       },
     },
     {
+      name: "reserveLabel",
+      type: "text",
+      label: bl("Etiqueta do botão de reserva", "Reserve button label"),
+      defaultValue: "Reserva já",
+      admin: {
+        description: bl(
+          "Texto do CTA na página de detalhe simples.",
+          "CTA label on the simple event detail page.",
+        ),
+      },
+    },
+    {
+      name: "reserveHref",
+      type: "text",
+      label: bl("Ligação de reserva", "Reserve link"),
+      defaultValue: "/#reservas",
+      admin: {
+        description: bl(
+          "Destino do botão «Reserva já» (detalhe e CTA).",
+          "Destination for the Reserve CTA (detail and banner).",
+        ),
+      },
+    },
+    {
       name: "activityHeading",
       type: "text",
       label: bl("Título da escolha de atividade", "Activity choice heading"),
@@ -69,6 +93,73 @@ export const Events: CollectionConfig = {
         "Descrição da escolha de atividade",
         "Activity choice description",
       ),
+    },
+    {
+      name: "activityChoices",
+      type: "array",
+      label: bl("Cartões de atividade", "Activity cards"),
+      labels: {
+        singular: bl("Cartão", "Card"),
+        plural: bl("Cartões", "Cards"),
+      },
+      admin: {
+        description: bl(
+          "Cartões na secção «Qual a atividade certa…» da página /pacotes.",
+          "Cards in the activity choice section on the /pacotes page.",
+        ),
+        initCollapsed: true,
+      },
+      fields: [
+        {
+          name: "title",
+          type: "text",
+          label: common.title,
+          required: true,
+        },
+        mediaImageField(),
+        {
+          name: "imageAlt",
+          type: "text",
+          label: bl("Texto alternativo da imagem", "Image alt text"),
+        },
+        {
+          name: "features",
+          type: "array",
+          label: bl("Destaques", "Highlights"),
+          labels: {
+            singular: bl("Destaque", "Highlight"),
+            plural: bl("Destaques", "Highlights"),
+          },
+          fields: [
+            {
+              name: "label",
+              type: "text",
+              label: common.label,
+              required: true,
+            },
+          ],
+        },
+        {
+          name: "ageNote",
+          type: "text",
+          label: bl("Nota de idade", "Age note"),
+          admin: {
+            description: bl('Ex.: "+10 anos".', 'E.g. "+10 years".'),
+          },
+        },
+        {
+          name: "linkHref",
+          type: "text",
+          label: bl("Ligação", "Link"),
+          defaultValue: "#pacotes",
+          admin: {
+            description: bl(
+              "Destino ao clicar no cartão (predefinição: #pacotes).",
+              "Destination when the card is clicked (default: #pacotes).",
+            ),
+          },
+        },
+      ],
     },
     {
       name: "pricingTabs",

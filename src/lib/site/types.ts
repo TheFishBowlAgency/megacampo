@@ -1,6 +1,30 @@
+import type { SiteLocale } from "@/i18n/site";
+
 export type NavLink = {
   label: string;
   href: string;
+};
+
+export type LanguageOption = {
+  code: SiteLocale;
+  label: string;
+};
+
+export type HeaderLabels = {
+  languageSelectAria: string;
+  openMenuAria: string;
+  closeMenuAria: string;
+  menuAria: string;
+  searchAria: string;
+  cartAria: string;
+  bagLabel: string;
+  searchLabel: string;
+  cartHref: string;
+};
+
+export type HeaderSeo = {
+  title: string;
+  description: string;
 };
 
 export type HeaderContent = {
@@ -11,6 +35,11 @@ export type HeaderContent = {
     phone: string;
   };
   navLinks: NavLink[];
+  mobileNavLinks: NavLink[];
+  labels: HeaderLabels;
+  languages: LanguageOption[];
+  promoMessage: string;
+  seo: HeaderSeo;
 };
 
 export type HoursRow = {

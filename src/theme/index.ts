@@ -24,10 +24,9 @@ const fonts = defineTokens.fonts({
 });
 
 const fontSizes = defineTokens.fontSizes({
-  // Fluid display: mobile floor → scales with viewport → Figma ceiling at ~1920
   "display.h1": { value: "clamp(2.75rem, 6vw, 7.25rem)" },
   "display.h1.mobile": { value: "2.75rem" },
-  "display.h2": { value: "clamp(1.5rem, 1.25rem + 1.5vw, 3rem)" },
+  "display.h2": { value: "clamp(1.5rem, 1.20rem + 1.5vw, 3rem)" },
   "display.h3": { value: "clamp(1.25rem, 1rem + 0.75vw, 2rem)" },
   // body.md = ordinary paragraphs; body.lg (24px) = lead / hero copy only
   "body.md": { value: "1.125rem" },

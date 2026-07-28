@@ -1,7 +1,15 @@
 "use client";
 
-import { Box, Grid, HStack, Text, VStack } from "@chakra-ui/react";
+import {
+  Box,
+  Grid,
+  HStack,
+  Text,
+  VStack,
+  useBreakpointValue,
+} from "@chakra-ui/react";
 import Image from "next/image";
+import { useState, type ReactNode } from "react";
 import { Container, Section } from "@/components/layout";
 import { DEFAULT_HOME } from "@/lib/home/defaults";
 import type { GalleryImage } from "@/lib/home/types";
@@ -10,15 +18,43 @@ type TestimonialsSectionProps = {
   heading: string;
   subheading: string;
   images?: GalleryImage[];
+  prevLabel?: string;
+  nextLabel?: string;
 };
 
 export function TestimonialsSection({
   heading,
   subheading,
   images,
+  prevLabel = DEFAULT_HOME.testimonials.prevLabel,
+  nextLabel = DEFAULT_HOME.testimonials.nextLabel,
 }: TestimonialsSectionProps) {
   const gallery =
     images && images.length > 0 ? images : DEFAULT_HOME.testimonials.images;
+  const [index, setIndex] = useState(0);
+
+  const visibleCount = useBreakpointValue({ base: 1, md: 2, lg: 4 }) ?? 1;
+  const maxIndex = Math.max(0, gallery.length - visibleCount);
+  const safeIndex = Math.min(index, maxIndex);
+  const canGoPrev = safeIndex > 0;
+  const canGoNext = safeIndex < maxIndex;
+
+  const goPrev = () => {
+    if (!canGoPrev) return;
+    setIndex(safeIndex - 1);
+  };
+
+  const goNext = () => {
+    if (!canGoNext) return;
+    setIndex(safeIndex + 1);
+  };
+
+  const visibleImages = gallery
+    .slice(safeIndex, safeIndex + visibleCount)
+    .map((image, offset) => ({
+      image,
+      key: `${image.src}-${safeIndex + offset}`,
+    }));
 
   return (
     <Section variant="default">
@@ -41,12 +77,14 @@ export function TestimonialsSection({
               textStyle="lead"
               fontSize={{ base: "sm", md: "md", lg: "body.md", xl: "body.lg" }}
               color="fg"
+              maxW={{ base: "400px", md: "560px", xl: "720px" }}
+              mx="auto"
             >
               {subheading}
             </Text>
           </VStack>
 
-          <Box w="full" position="relative">
+          <VStack w="full" gap={{ base: "8", lg: "12", xl: "16" }}>
             <Grid
               templateColumns={{
                 base: "1fr",
@@ -56,97 +94,103 @@ export function TestimonialsSection({
               gap={{ base: "4", md: "5" }}
               w="full"
             >
-              {gallery.map((image, index) => {
-                const i = index + 1;
-                return (
-                  <Box
-                    key={`${image.src}-${index}`}
-                    position="relative"
-                    w="full"
-                    aspectRatio="315/428"
-                    bg="gray.300"
-                    overflow="hidden"
-                    display={{
-                      base: i > 1 ? "none" : "block",
-                      md: i > 2 ? "none" : "block",
-                      lg: "block",
-                    }}
-                  >
-                    <Image
-                      src={image.src}
-                      alt={image.alt}
-                      fill
-                      sizes="(max-width: 767px) 100vw, (max-width: 991px) 50vw, 25vw"
-                      style={{ objectFit: "cover" }}
-                    />
-                  </Box>
-                );
-              })}
+              {visibleImages.map(({ image, key }) => (
+                <Box
+                  key={key}
+                  position="relative"
+                  w="full"
+                  aspectRatio="315/428"
+                  bg="gray.300"
+                  overflow="hidden"
+                >
+                  <Image
+                    src={image.src}
+                    alt={image.alt}
+                    fill
+                    sizes="(max-width: 767px) 100vw, (max-width: 991px) 50vw, 25vw"
+                    style={{ objectFit: "cover" }}
+                  />
+                </Box>
+              ))}
             </Grid>
 
             <HStack
+              w="full"
               justify={{ base: "center", lg: "space-between" }}
-              mt={{ base: "6", lg: "0" }}
-              gap="4"
-              position={{ lg: "absolute" }}
-              top={{ lg: "50%" }}
-              left={{ lg: "0" }}
-              right={{ lg: "0" }}
-              transform={{ lg: "translateY(-50%)" }}
-              px={{ lg: "0" }}
-              pointerEvents="none"
+              gap={{ base: "10", lg: "0" }}
             >
-              <Box
-                as="button"
-                aria-label="Anterior"
-                w={{ base: "40px", lg: "48px", xl: "60px" }}
-                h={{ base: "40px", lg: "48px", xl: "60px" }}
-                border="2px solid"
-                borderColor="dark"
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-                cursor="pointer"
-                pointerEvents="auto"
-                _hover={{ bg: "gray.100" }}
+              <CarouselArrowButton
+                label={prevLabel}
+                onClick={goPrev}
+                disabled={!canGoPrev}
               >
                 <ChevronLeftIcon />
-              </Box>
-              <Box
-                as="button"
-                aria-label="Seguinte"
-                w={{ base: "40px", lg: "48px", xl: "60px" }}
-                h={{ base: "40px", lg: "48px", xl: "60px" }}
-                border="2px solid"
-                borderColor="dark"
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-                cursor="pointer"
-                pointerEvents="auto"
-                _hover={{ bg: "gray.100" }}
+              </CarouselArrowButton>
+              <CarouselArrowButton
+                label={nextLabel}
+                onClick={goNext}
+                disabled={!canGoNext}
               >
                 <ChevronRightIcon />
-              </Box>
+              </CarouselArrowButton>
             </HStack>
-          </Box>
+          </VStack>
         </VStack>
       </Container>
     </Section>
   );
 }
 
+function CarouselArrowButton({
+  label,
+  onClick,
+  disabled = false,
+  children,
+}: {
+  label: string;
+  onClick: () => void;
+  disabled?: boolean;
+  children: ReactNode;
+}) {
+  return (
+    <Box
+      as="button"
+      aria-label={label}
+      aria-disabled={disabled}
+      w={{ base: "40px", lg: "60px" }}
+      h={{ base: "40px", lg: "60px" }}
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      cursor={disabled ? "not-allowed" : "pointer"}
+      flexShrink={0}
+      bg={disabled ? "bg" : "primary"}
+      color="grayLight"
+      borderRadius="md"
+      pointerEvents={disabled ? "none" : "auto"}
+      _hover={disabled ? undefined : { opacity: 0.9 }}
+      onClick={onClick}
+    >
+      {children}
+    </Box>
+  );
+}
+
 function ChevronLeftIcon() {
   return (
     <svg
-      width="20"
-      height="12"
+      width="33"
+      height="20"
       viewBox="0 0 33 20"
       fill="none"
       stroke="currentColor"
-      strokeWidth="2"
+      strokeWidth="2.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+      style={{ width: "55%", height: "auto" }}
     >
-      <path d="M33 10H3M3 10L13 1M3 10L13 19" />
+      <path d="M31 10H3M3 10L12 2M3 10L12 18" />
     </svg>
   );
 }
@@ -154,14 +198,18 @@ function ChevronLeftIcon() {
 function ChevronRightIcon() {
   return (
     <svg
-      width="20"
-      height="12"
+      width="33"
+      height="20"
       viewBox="0 0 33 20"
       fill="none"
       stroke="currentColor"
-      strokeWidth="2"
+      strokeWidth="2.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+      style={{ width: "55%", height: "auto" }}
     >
-      <path d="M0 10H30M30 10L20 1M30 10L20 19" />
+      <path d="M2 10H30M30 10L21 2M30 10L21 18" />
     </svg>
   );
 }

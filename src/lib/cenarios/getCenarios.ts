@@ -8,7 +8,7 @@ export async function getCenarios(): Promise<CenariosContent> {
   const payload = await getPayload({ config });
 
   const [doc, { docs }] = await Promise.all([
-    payload.findGlobal({ slug: "cenarios", depth: 0 }),
+    payload.findGlobal({ slug: "cenarios", depth: 1 }),
     payload.find({
       collection: "scenarios",
       where: {

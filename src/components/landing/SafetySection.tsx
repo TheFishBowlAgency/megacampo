@@ -38,6 +38,8 @@ export function SafetySection({ content }: SafetySectionProps) {
               textStyle="lead"
               fontSize={{ base: "sm", md: "md", lg: "body.md", xl: "body.lg" }}
               color="fg"
+              maxW={{ xl: "850px" }}
+              mx="auto"
             >
               {content.description}
             </Text>

@@ -5,18 +5,13 @@ import { Link } from "@/components/ui";
 
 type ShareButtonProps = {
   title: string;
+  label?: string;
 };
 
 function FacebookIcon() {
   return (
-    <svg
-      width="20"
-      height="20"
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      aria-hidden
-    >
-      <path d="M14 8h3V5h-3c-2.2 0-4 1.8-4 4v2H7v3h3v7h3v-7h3l1-3h-4V9c0-.6.4-1 1-1z" />
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
     </svg>
   );
 }
@@ -30,11 +25,10 @@ function InstagramIcon() {
       fill="none"
       stroke="currentColor"
       strokeWidth="2"
-      aria-hidden
     >
-      <rect x="3" y="3" width="18" height="18" rx="5" />
-      <circle cx="12" cy="12" r="4" />
-      <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+      <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+      <path d="M17.5 6.5h.01" />
     </svg>
   );
 }
@@ -52,28 +46,32 @@ async function shareOrCopy(title: string) {
   }
 }
 
-/**
- * Share control matching Figma event detail: label + Facebook / Instagram.
- */
-export function ShareButton({ title }: ShareButtonProps) {
+export function ShareButton({ title, label = "Partilhar" }: ShareButtonProps) {
   return (
-    <HStack gap="4" align="center">
+    <HStack gap="4" align="center" flexShrink={0}>
       <Text
         as="button"
         fontSize={{ base: "sm", md: "md", lg: "body.md", xl: "body.lg" }}
-        color="fg"
+        color="fg.muted"
         cursor="pointer"
         _hover={{ color: "primary" }}
         onClick={() => void shareOrCopy(title)}
       >
-        Partilhar
+        {label}
       </Text>
       <Link
         href="#"
         aria-label={`Partilhar ${title} no Facebook`}
-        color="fg"
-        display="inline-flex"
-        _hover={{ color: "primary" }}
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        w="10"
+        h="10"
+        borderRadius="full"
+        bg="fg"
+        color="white"
+        flexShrink={0}
+        _hover={{ bg: "primary" }}
         onClick={(e) => {
           e.preventDefault();
           const url = encodeURIComponent(window.location.href);
@@ -89,9 +87,16 @@ export function ShareButton({ title }: ShareButtonProps) {
       <Link
         href="#"
         aria-label={`Partilhar ${title} no Instagram`}
-        color="fg"
-        display="inline-flex"
-        _hover={{ color: "primary" }}
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        w="10"
+        h="10"
+        borderRadius="full"
+        bg="fg"
+        color="white"
+        flexShrink={0}
+        _hover={{ bg: "primary" }}
         onClick={(e) => {
           e.preventDefault();
           void shareOrCopy(title);

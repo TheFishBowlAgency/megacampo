@@ -1,3 +1,24 @@
+export type EventosCopy = {
+  heroTitle: string;
+  heroBackgroundImageSrc?: string;
+  sectionHeading: string;
+  cardLinkLabel: string;
+  /** Back link on simple event detail */
+  backLabel: string;
+  /** Share row label on simple event detail */
+  shareLabel: string;
+};
+
+export type EventActivityChoice = {
+  id: string;
+  title: string;
+  imageSrc: string;
+  imageAlt: string;
+  features: string[];
+  ageNote?: string;
+  href: string;
+};
+
 export type EventCardItem = {
   id: string;
   slug: string;
@@ -44,7 +65,9 @@ export type EventDetail = {
   body: unknown;
   activityHeading: string;
   activityDescription: string;
+  activityChoices: EventActivityChoice[];
   reserveHref: string;
+  reserveLabel: string;
   packagesHref: string;
   pricingTabs: EventPricingTab[];
   testimonialsHeading: string;

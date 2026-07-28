@@ -46,6 +46,7 @@ function buildExtraGroupConfigs(
       option: optionIds.get(row.optionKey)!,
       isDefault: row.default ?? false,
       priceCents: euroToCents(row.priceEur),
+      priceEur: row.priceEur,
     })),
   }));
 }
@@ -67,7 +68,9 @@ function buildTemplateOverrides(
           ...base,
           fromOption: optionIds.get(override.fromOptionKey)!,
           toOption: optionIds.get(override.toOptionKey)!,
-          ...(override.isDefault != null ? { isDefault: override.isDefault } : {}),
+          ...(override.isDefault != null
+            ? { isDefault: override.isDefault }
+            : {}),
           ...(override.priceEur != null
             ? { priceCents: euroToCents(override.priceEur) }
             : {}),
@@ -81,7 +84,9 @@ function buildTemplateOverrides(
         return {
           ...base,
           toOption: optionIds.get(override.toOptionKey)!,
-          ...(override.isDefault != null ? { isDefault: override.isDefault } : {}),
+          ...(override.isDefault != null
+            ? { isDefault: override.isDefault }
+            : {}),
           ...(override.priceEur != null
             ? { priceCents: euroToCents(override.priceEur) }
             : {}),
@@ -196,6 +201,7 @@ async function seedCatalog(payload: Payload): Promise<void> {
         slug: slugify(activityDef.title),
         sort: activityDef.sort,
         isActive: true,
+        highlights: (activityDef.highlights ?? []).map((label) => ({ label })),
       },
       overrideAccess: true,
     });
@@ -215,6 +221,7 @@ async function seedCatalog(payload: Payload): Promise<void> {
         name: extraDef.name,
         slug: extraDef.key,
         priceCents: euroToCents(extraDef.priceEur),
+        priceEur: extraDef.priceEur,
         sort: extraDef.sort,
         isActive: true,
       },
@@ -242,6 +249,7 @@ async function seedCatalog(payload: Payload): Promise<void> {
           slugify(categoryDef.title),
         ),
         sort: categoryDef.sort,
+        highlights: (categoryDef.highlights ?? []).map((label) => ({ label })),
         groupExtras: resolveGroupExtraIds(
           CATEGORY_GROUP_EXTRA_KEYS[categoryDef.key] ?? [],
         ),
@@ -274,6 +282,7 @@ async function seedCatalog(payload: Payload): Promise<void> {
         slugify(pkg.name),
       ),
       basePriceCents: euroToCents(pkg.basePriceEur),
+      basePriceEur: pkg.basePriceEur,
       isActive: true,
       sort: pkg.sort,
     };

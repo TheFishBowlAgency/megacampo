@@ -15,8 +15,19 @@ export function FeatureItem({ icon, label }: FeatureItemProps) {
       px={{ base: "4", lg: "6", xl: "8" }}
       py="3"
       w="full"
+      borderRadius="lg"
     >
-      <Box flexShrink={0} boxSize={{ base: "8", lg: "40px", xl: "50px" }}>
+      <Box
+        flexShrink={0}
+        boxSize={{ base: "8", lg: "40px", xl: "50px" }}
+        borderWidth="1.5px"
+        borderColor="fg"
+        borderRadius="full"
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        overflow="hidden"
+      >
         {icon}
       </Box>
       <Text

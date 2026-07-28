@@ -3,6 +3,7 @@ import {
   ACTIVITY_CARD_IMAGE_LASERTAG,
   ACTIVITY_CARD_IMAGE_PAINTBALL,
 } from "@/data/activityCardMedia";
+import { BANNER_SECTION_UNDERLAY_URL } from "@/data/bannerMedia";
 import { DEFAULT_EVENTS } from "@/lib/events/defaults";
 
 import type { HomeContent } from "./types";
@@ -14,8 +15,9 @@ export const DEFAULT_HOME: HomeContent = {
       "Joga em 12 mapas cinematográficos. Quer sejas iniciante ou profissional, temos atividades para todas as idades e níveis de experiência.",
     cta: {
       label: "RESERVA JÁ",
-      href: "#reservas",
+      href: "#actividades",
     },
+    backgroundImageSrc: BANNER_SECTION_UNDERLAY_URL,
   },
   keyFeatures: {
     items: [
@@ -37,6 +39,7 @@ export const DEFAULT_HOME: HomeContent = {
       label: "VER MAPAS",
       href: "/cenarios",
     },
+    backgroundImageSrc: BANNER_SECTION_UNDERLAY_URL,
   },
   eventTypes: {
     heading: "WHAT TYPE OF EVENT DO YOU WANT TO ORGANIZE?",
@@ -94,13 +97,23 @@ export const DEFAULT_HOME: HomeContent = {
         src: ACTIVITY_CARD_IMAGE_PAINTBALL,
         alt: "Experiência paintball no Megacampo",
       },
+      {
+        src: ACTIVITY_CARD_IMAGE_AIRSOFT,
+        alt: "Equipa de airsoft no Megacampo",
+      },
+      {
+        src: ACTIVITY_CARD_IMAGE_LASERTAG,
+        alt: "Grupo de lasertag no Megacampo",
+      },
     ],
+    prevLabel: "Anterior",
+    nextLabel: "Seguinte",
   },
   cta: {
     heading: "PRONTO PARA UMA AVENTURA?",
     button: {
       label: "RESERVA JÁ",
-      href: "/#reservas",
+      href: "#actividades",
     },
   },
   faq: {

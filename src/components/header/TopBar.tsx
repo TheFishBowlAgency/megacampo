@@ -11,23 +11,19 @@ import {
   MenuTrigger,
   Text,
 } from "@chakra-ui/react";
-import type { SiteLocale } from "@/i18n/site";
 import { useHeaderContent, useSiteLocale } from "@/providers";
-
-const LANGUAGES: { code: SiteLocale; label: string }[] = [
-  { code: "pt", label: "Português" },
-  { code: "en", label: "English" },
-  { code: "es", label: "Español" },
-];
 
 export function TopBar() {
   const { locale, setLocale } = useSiteLocale();
-  const { topBar } = useHeaderContent();
-  const currentLabel = LANGUAGES.find((l) => l.code === locale)?.label ?? "PT";
+  const { topBar, labels, languages } = useHeaderContent();
+  const currentLabel =
+    languages.find((l) => l.code === locale)?.label ??
+    languages[0]?.label ??
+    "PT";
 
   return (
     <Box bg="primary" color="white" py="2">
-      <Box px={{ base: "4", md: "6", lg: "8" }} maxW="1280px" mx="auto">
+      <Box px={{ base: "4", md: "6", lg: "8" }} maxW="1320px" mx="auto">
         <HStack gap="4">
           <Text
             flex="1"
@@ -41,7 +37,7 @@ export function TopBar() {
           <MenuRoot positioning={{ placement: "bottom-end" }}>
             <MenuTrigger
               type="button"
-              aria-label="Selecionar idioma"
+              aria-label={labels.languageSelectAria}
               py="1"
               px="2"
               borderRadius="md"
@@ -81,7 +77,7 @@ export function TopBar() {
                 py="1"
                 minW="140px"
               >
-                {LANGUAGES.map((lang) => (
+                {languages.map((lang) => (
                   <MenuItem
                     key={lang.code}
                     value={lang.code}

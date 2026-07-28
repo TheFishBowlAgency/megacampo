@@ -3,14 +3,11 @@ export type CtaLink = {
   href: string;
 };
 
-export type ComoStepIcon = "hand" | "checklist" | "calendar";
-
 export type ComoStep = {
   stepLabel: string;
   title: string;
   description: string;
   link: CtaLink;
-  icon: ComoStepIcon;
 };
 
 export type FaqItem = {
@@ -22,6 +19,7 @@ export type ComoContent = {
   hero: {
     heading: string;
     description: string;
+    backgroundImageSrc?: string;
     cta: CtaLink;
   };
   howItWorks: {

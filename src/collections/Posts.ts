@@ -48,6 +48,29 @@ export const Posts: CollectionConfig = {
       },
     },
     {
+      name: "tags",
+      type: "array",
+      label: bl("Etiquetas", "Tags"),
+      labels: {
+        singular: bl("Etiqueta", "Tag"),
+        plural: bl("Etiquetas", "Tags"),
+      },
+      fields: [
+        {
+          name: "label",
+          type: "text",
+          label: common.label,
+          required: true,
+        },
+      ],
+      admin: {
+        description: bl(
+          "Categorias mostradas por baixo da imagem na listagem.",
+          "Categories shown below the image on listing cards.",
+        ),
+      },
+    },
+    {
       name: "body",
       type: "richText",
       label: bl("Corpo", "Body"),

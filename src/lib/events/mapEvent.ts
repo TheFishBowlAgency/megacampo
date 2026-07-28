@@ -2,11 +2,15 @@ import type { Event, Media, Testimonial } from "@/payload-types";
 
 import { DEFAULT_EVENT_PRICING_TABS } from "./defaultPricing";
 import {
+  DEFAULT_EVENT_ACTIVITY_CHOICES,
   DEFAULT_EVENT_BODY,
+  DEFAULT_EVENT_RESERVE_HREF,
+  DEFAULT_EVENT_RESERVE_LABEL,
   DEFAULT_EVENTS,
   getDefaultEventDetail,
 } from "./defaults";
 import type {
+  EventActivityChoice,
   EventCardItem,
   EventDetail,
   EventPricingPackage,
@@ -20,12 +24,14 @@ import {
 } from "@/lib/testimonials/defaults";
 import { mapTestimonialToQuote } from "@/lib/testimonials/mapTestimonial";
 
-function resolveMediaUrl(image: Event["image"]): string | undefined {
+function resolveMediaUrl(
+  image: (string | null) | Media | undefined,
+): string | undefined {
   if (!image || typeof image === "string") {
     return undefined;
   }
 
-  return (image as Media).url ?? undefined;
+  return image.url ?? undefined;
 }
 
 function fallbackImage(slug: string): string | undefined {
@@ -97,6 +103,37 @@ function resolveBody(event: Event, fallbackBody: string): unknown {
   return textToLexical(fallbackBody || DEFAULT_EVENT_BODY);
 }
 
+function mapActivityChoices(event: Event): EventActivityChoice[] {
+  const choices = event.activityChoices ?? [];
+  if (choices.length === 0) return DEFAULT_EVENT_ACTIVITY_CHOICES;
+
+  const mapped: EventActivityChoice[] = [];
+
+  choices.forEach((choice, index) => {
+    const title = choice.title?.trim();
+    const imageSrc = resolveMediaUrl(choice.image);
+    if (!title || !imageSrc) return;
+
+    const fallback =
+      DEFAULT_EVENT_ACTIVITY_CHOICES[index] ??
+      DEFAULT_EVENT_ACTIVITY_CHOICES[0];
+
+    mapped.push({
+      id: choice.id ?? `activity-${index}`,
+      title: title.toUpperCase(),
+      imageSrc,
+      imageAlt: choice.imageAlt?.trim() || fallback.imageAlt || title,
+      features: (choice.features ?? [])
+        .map((feature) => feature.label?.trim())
+        .filter((label): label is string => Boolean(label)),
+      ...(choice.ageNote?.trim() ? { ageNote: choice.ageNote.trim() } : {}),
+      href: choice.linkHref?.trim() || "#pacotes",
+    });
+  });
+
+  return mapped.length > 0 ? mapped : DEFAULT_EVENT_ACTIVITY_CHOICES;
+}
+
 export function mapEventToCardItem(event: Event): EventCardItem {
   const slug = event.slug;
   const cmsDescription = event.description?.trim();
@@ -131,7 +168,15 @@ export function mapEventToDetail(event: Event): EventDetail {
       event.activityDescription?.trim() ||
       fallback?.activityDescription ||
       "No Megacampo tens diferentes formatos para o teu evento. Escolhe a atividade e consulta os pacotes disponíveis.",
-    reserveHref: "/#reservas",
+    activityChoices: mapActivityChoices(event),
+    reserveHref:
+      event.reserveHref?.trim() ||
+      fallback?.reserveHref ||
+      DEFAULT_EVENT_RESERVE_HREF,
+    reserveLabel:
+      event.reserveLabel?.trim() ||
+      fallback?.reserveLabel ||
+      DEFAULT_EVENT_RESERVE_LABEL,
     packagesHref: card.packagesHref,
     pricingTabs: mapPricingTabs(event),
     testimonialsHeading:

@@ -38,6 +38,7 @@ export function EventTypesSection({
               textStyle="lead"
               fontSize={{ base: "sm", md: "md", lg: "body.md", xl: "body.lg" }}
               color="fg"
+              mx="auto"
             >
               {description}
             </Text>
@@ -52,7 +53,17 @@ export function EventTypesSection({
             w="full"
           >
             {events.map((item) => (
-              <VStack key={item.id} gap={{ base: "3", lg: "4", xl: "6" }}>
+              <Link
+                key={item.id}
+                href={item.packagesHref ?? item.href}
+                display="flex"
+                flexDirection="column"
+                alignItems="center"
+                gap={{ base: "3", lg: "4", xl: "6" }}
+                _hover={{
+                  "& .event-card-cta": { color: "primary" },
+                }}
+              >
                 <Box
                   position="relative"
                   w="full"
@@ -80,16 +91,15 @@ export function EventTypesSection({
                   >
                     {item.title}
                   </Text>
-                  <Link
-                    href={item.packagesHref ?? item.href}
+                  <Text
+                    className="event-card-cta"
                     fontSize={{ base: "xs", md: "sm", lg: "md", xl: "body.lg" }}
                     color="fg.muted"
-                    _hover={{ color: "primary" }}
                   >
                     {cardLinkLabel}
-                  </Link>
+                  </Text>
                 </VStack>
-              </VStack>
+              </Link>
             ))}
           </Grid>
         </VStack>

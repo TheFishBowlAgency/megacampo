@@ -1,6 +1,7 @@
 import type { GlobalConfig } from "payload";
 
 import { anyone, cmsEditor, hideFromNonCms } from "@/access/roles";
+import { mediaImageField } from "@/fields/mediaImageField";
 import { adminGroups } from "@/i18n/adminGroups";
 import { bl, common } from "@/i18n/labels";
 
@@ -45,6 +46,7 @@ export const Cenarios: GlobalConfig = {
                   label: common.description,
                   required: true,
                 },
+                mediaImageField(),
               ],
             },
           ],

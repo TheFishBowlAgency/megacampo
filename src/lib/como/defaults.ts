@@ -24,7 +24,6 @@ export const DEFAULT_COMO: ComoContent = {
           label: "Ver mais",
           href: "/eventos",
         },
-        icon: "hand",
       },
       {
         stepLabel: "Segundo passo",
@@ -35,7 +34,6 @@ export const DEFAULT_COMO: ComoContent = {
           label: "Ver mais",
           href: "/cenarios",
         },
-        icon: "checklist",
       },
       {
         stepLabel: "Terceiro passo",
@@ -46,7 +44,6 @@ export const DEFAULT_COMO: ComoContent = {
           label: "Ver mais",
           href: "/#reservas",
         },
-        icon: "calendar",
       },
     ],
   },

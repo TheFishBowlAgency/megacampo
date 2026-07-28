@@ -1,0 +1,52 @@
+---
+description: MANDATORY — Figma 1920px type scale; never apply full desktop sizes at lg/md
+alwaysApply: true
+---
+
+# Figma responsive type scale (mandatory)
+
+**Before implementing or restyling any UI from Figma**, apply this rule. Figma artboards are **1920px**; token values in [`src/theme/index.ts`](src/theme/index.ts) match that canvas. Applying full Figma sizes at Chakra `md`/`lg` (~768–1024px) makes the site oversized on laptops.
+
+## Pre-flight checklist (required)
+
+When touching `fontSize`, `textStyle`, spacing tokens, or layout breakpoints from a Figma spec:
+
+1. Map Figma **mobile** sizes to `base`/`sm`/`md`.
+2. Map **intermediate** sizes to `lg` only — not full desktop.
+3. Reserve **`body.lg` (24px)** and display tokens at full scale for `xl`/`2xl`/`3xl` unless the element is hero/lead copy.
+4. After coding, scan the diff for `lg: "body.lg"`, `md: "body.lg"`, `md: "2xl"`, raw desktop px at `md`/`lg` — fix before finishing.
+
+## Breakpoints
+
+| Token | Approx width        | Use for                                                     |
+| ----- | ------------------- | ----------------------------------------------------------- |
+| `lg`  | ~1024               | Layout grids / intermediate sizes — **not** full Figma type |
+| `xl`  | ~1280               | Near-desktop type and spacing                               |
+| `2xl` | ~1536               | Large desktop                                               |
+| `3xl` | **1920px** (custom) | True Figma artboard match                                   |
+
+## Typography rules
+
+1. Prefer theme tokens / `textStyle` over raw px. Display tokens already use `clamp(...)`.
+2. **Do not** jump to Figma desktop sizes at `md` or `lg`. Use `base` → `lg` intermediate → `xl+` for full scale.
+3. **`body.lg` (24px)** and `textStyle="lead"` = hero / lead copy only.
+4. **Ordinary paragraphs, buttons, card subtitles, feature bullets** = `body.md` at `lg`; escalate to `body.lg` at `xl+` only when Figma clearly uses 24px on desktop.
+5. Content column max width is **1320px** (`Container`).
+
+## Examples
+
+```tsx
+// ❌ BAD — full Figma body at lg or md
+fontSize={{ base: "sm", lg: "body.lg" }}
+fontSize={{ base: "xl", md: "2xl" }}
+
+// ✅ GOOD — intermediate at lg, Figma size at xl+
+fontSize={{ base: "sm", lg: "body.md", xl: "body.lg" }}
+fontSize={{ base: "xl", lg: "xl", xl: "2xl" }}
+
+// ✅ GOOD — display via token (already fluid)
+textStyle="h1.molot"
+fontSize={{ base: "display.h1.mobile", md: "5rem", xl: "display.h1" }}
+```
+
+When implementing from Figma, compare at **1280 and 1920**, not only at the artboard width.

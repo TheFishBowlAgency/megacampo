@@ -1,6 +1,7 @@
 import type { GlobalConfig } from "payload";
 
 import { anyone, cmsEditor, hideFromNonCms } from "@/access/roles";
+import { mediaImageField } from "@/fields/mediaImageField";
 import { adminGroups } from "@/i18n/adminGroups";
 import { bl, common } from "@/i18n/labels";
 
@@ -54,6 +55,7 @@ export const Como: GlobalConfig = {
                   label: common.description,
                   required: true,
                 },
+                mediaImageField(),
                 {
                   name: "cta",
                   type: "group",
@@ -86,6 +88,12 @@ export const Como: GlobalConfig = {
                     singular: bl("Passo", "Step"),
                     plural: bl("Passos", "Steps"),
                   },
+                  admin: {
+                    description: bl(
+                      "Ícones das ilustrações são definidos no código (ordem dos passos).",
+                      "Step illustration icons are defined in code (by step order).",
+                    ),
+                  },
                   fields: [
                     {
                       name: "stepLabel",
@@ -116,26 +124,6 @@ export const Como: GlobalConfig = {
                       type: "group",
                       label: bl("Ligação", "Link"),
                       fields: linkFields,
-                    },
-                    {
-                      name: "icon",
-                      type: "select",
-                      label: bl("Ícone", "Icon"),
-                      required: true,
-                      options: [
-                        {
-                          label: bl("Mão a apontar", "Pointing hand"),
-                          value: "hand",
-                        },
-                        {
-                          label: bl("Lista", "Checklist"),
-                          value: "checklist",
-                        },
-                        {
-                          label: bl("Calendário", "Calendar"),
-                          value: "calendar",
-                        },
-                      ],
                     },
                   ],
                 },

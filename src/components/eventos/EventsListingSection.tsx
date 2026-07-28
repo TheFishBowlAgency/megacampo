@@ -40,7 +40,13 @@ export function EventsListingSection({
             w="full"
           >
             {events.map((event) => (
-              <VStack key={event.id} as="article" align="stretch" gap="4">
+              <VStack
+                key={event.id}
+                as="article"
+                position="relative"
+                align="stretch"
+                gap="4"
+              >
                 <Box
                   position="relative"
                   w="full"
@@ -83,7 +89,8 @@ export function EventsListingSection({
                     </Text>
                   ) : null}
                   <Link
-                    href={event.href}
+                    href={event.href ?? event.packagesHref}
+                    aria-label={`${event.title} — ${cardLinkLabel}`}
                     fontSize={{
                       base: "sm",
                       md: "md",
@@ -91,7 +98,14 @@ export function EventsListingSection({
                       xl: "body.lg",
                     }}
                     color="fg.muted"
+                    textDecoration="underline"
+                    textUnderlineOffset="3px"
                     _hover={{ color: "primary" }}
+                    _after={{
+                      content: '""',
+                      position: "absolute",
+                      inset: 0,
+                    }}
                     alignSelf="flex-start"
                   >
                     {cardLinkLabel}

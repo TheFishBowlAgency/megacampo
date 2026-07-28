@@ -123,6 +123,8 @@ export interface Config {
     home: Home;
     como: Como;
     cenarios: Cenario;
+    blog: Blog;
+    eventos: Evento;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
@@ -130,6 +132,8 @@ export interface Config {
     home: HomeSelect<false> | HomeSelect<true>;
     como: ComoSelect<false> | ComoSelect<true>;
     cenarios: CenariosSelect<false> | CenariosSelect<true>;
+    blog: BlogSelect<false> | BlogSelect<true>;
+    eventos: EventosSelect<false> | EventosSelect<true>;
   };
   locale: null;
   widgets: {
@@ -226,6 +230,15 @@ export interface Activity {
    */
   slug: string;
   image?: (string | null) | Media;
+  /**
+   * Chips under the packages page hero.
+   */
+  highlights?:
+    | {
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
   sort?: number | null;
   /**
    * Optional group add-ons shown in the «Improve your activity» tab.
@@ -286,8 +299,32 @@ export interface Event {
     };
     [k: string]: unknown;
   } | null;
+  /**
+   * CTA label on the simple event detail page.
+   */
+  reserveLabel?: string | null;
+  /**
+   * Destination for the Reserve CTA (detail and banner).
+   */
+  reserveHref?: string | null;
   activityHeading?: string | null;
   activityDescription?: string | null;
+  activityChoices?:
+    | {
+        title: string;
+        image?: (string | null) | Media;
+        imageAlt?: string | null;
+        features?:
+          | {
+              label: string;
+              id?: string | null;
+            }[]
+          | null;
+        ageNote?: string | null;
+        linkHref?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   pricingTabs?:
     | {
         label: string;
@@ -331,6 +368,15 @@ export interface Post {
    * Short summary shown on blog listing cards.
    */
   excerpt: string;
+  /**
+   * Categories shown below the image on listing cards.
+   */
+  tags?:
+    | {
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
   /**
    * Full article text on the detail page.
    */
@@ -413,6 +459,15 @@ export interface PackageCategory {
    */
   slug: string;
   image?: (string | null) | Media;
+  /**
+   * Chips under the packages page hero.
+   */
+  highlights?:
+    | {
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
   sort?: number | null;
   /**
    * Optional group add-ons shown in the «Improve your activity» tab.
@@ -781,6 +836,7 @@ export interface ActivitiesSelect<T extends boolean = true> {
   description?: T;
   slug?: T;
   image?: T;
+  highlights?: T;
   sort?: T;
   groupExtras?: T;
   isActive?: T;
@@ -795,8 +851,26 @@ export interface EventsSelect<T extends boolean = true> {
   title?: T;
   description?: T;
   body?: T;
+  reserveLabel?: T;
+  reserveHref?: T;
   activityHeading?: T;
   activityDescription?: T;
+  activityChoices?:
+    | T
+    | {
+        title?: T;
+        image?: T;
+        imageAlt?: T;
+        features?:
+          | T
+          | {
+              label?: T;
+              id?: T;
+            };
+        ageNote?: T;
+        linkHref?: T;
+        id?: T;
+      };
   pricingTabs?: T;
   testimonialsHeading?: T;
   testimonials?: T;
@@ -814,6 +888,7 @@ export interface EventsSelect<T extends boolean = true> {
 export interface PostsSelect<T extends boolean = true> {
   title?: T;
   excerpt?: T;
+  tags?: T;
   body?: T;
   slug?: T;
   image?: T;
@@ -861,6 +936,7 @@ export interface PackageCategoriesSelect<T extends boolean = true> {
   minAge?: T;
   slug?: T;
   image?: T;
+  highlights?: T;
   sort?: T;
   groupExtras?: T;
   updatedAt?: T;
@@ -1052,6 +1128,45 @@ export interface Header {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Mobile menu links. If empty, falls back to desktop navigation.
+   */
+  mobileNavLinks?:
+    | {
+        label: string;
+        /**
+         * Internal path (e.g. /como) or anchor (e.g. /#contactos).
+         */
+        href: string;
+        id?: string | null;
+      }[]
+    | null;
+  labels: {
+    languageSelectAria: string;
+    openMenuAria: string;
+    closeMenuAria: string;
+    menuAria: string;
+    searchAria: string;
+    cartAria: string;
+    bagLabel: string;
+    searchLabel: string;
+    cartHref: string;
+  };
+  languages?:
+    | {
+        code: "pt" | "en" | "es";
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Dark bar below the header on cart/checkout pages.
+   */
+  promoMessage?: string | null;
+  seo: {
+    title: string;
+    description: string;
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1116,6 +1231,7 @@ export interface Home {
       label: string;
       href: string;
     };
+    image?: (string | null) | Media;
   };
   keyFeatures?: {
     items?:
@@ -1136,6 +1252,7 @@ export interface Home {
       label: string;
       href: string;
     };
+    image?: (string | null) | Media;
   };
   eventTypes: {
     heading: string;
@@ -1173,6 +1290,13 @@ export interface Home {
   testimonials: {
     heading: string;
     description: string;
+    /**
+     * Choose and order testimonials. Their images feed the gallery when the manual gallery is empty.
+     */
+    items?: (string | Testimonial)[] | null;
+    /**
+     * Overrides images from selected testimonials when set.
+     */
     images?:
       | {
           image: string | Media;
@@ -1180,6 +1304,8 @@ export interface Home {
           id?: string | null;
         }[]
       | null;
+    prevLabel: string;
+    nextLabel: string;
   };
   cta: {
     heading: string;
@@ -1210,6 +1336,7 @@ export interface Como {
   hero: {
     heading: string;
     description: string;
+    image?: (string | null) | Media;
     cta: {
       label: string;
       href: string;
@@ -1217,6 +1344,9 @@ export interface Como {
   };
   howItWorks: {
     heading: string;
+    /**
+     * Step illustration icons are defined in code (by step order).
+     */
     steps?:
       | {
           /**
@@ -1229,7 +1359,6 @@ export interface Como {
             label: string;
             href: string;
           };
-          icon: "hand" | "checklist" | "calendar";
           id?: string | null;
         }[]
       | null;
@@ -1266,10 +1395,49 @@ export interface Cenario {
      */
     heading: string;
     description: string;
+    image?: (string | null) | Media;
   };
   section: {
     heading: string;
     description: string;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blog".
+ */
+export interface Blog {
+  id: string;
+  hero: {
+    heading: string;
+    image?: (string | null) | Media;
+  };
+  section: {
+    heading: string;
+    cardLinkLabel: string;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "eventos".
+ */
+export interface Evento {
+  id: string;
+  hero: {
+    heading: string;
+    image?: (string | null) | Media;
+  };
+  section: {
+    heading: string;
+    cardLinkLabel: string;
+  };
+  detail?: {
+    backLabel: string;
+    shareLabel: string;
   };
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -1293,6 +1461,40 @@ export interface HeaderSelect<T extends boolean = true> {
         label?: T;
         href?: T;
         id?: T;
+      };
+  mobileNavLinks?:
+    | T
+    | {
+        label?: T;
+        href?: T;
+        id?: T;
+      };
+  labels?:
+    | T
+    | {
+        languageSelectAria?: T;
+        openMenuAria?: T;
+        closeMenuAria?: T;
+        menuAria?: T;
+        searchAria?: T;
+        cartAria?: T;
+        bagLabel?: T;
+        searchLabel?: T;
+        cartHref?: T;
+      };
+  languages?:
+    | T
+    | {
+        code?: T;
+        label?: T;
+        id?: T;
+      };
+  promoMessage?: T;
+  seo?:
+    | T
+    | {
+        title?: T;
+        description?: T;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -1368,6 +1570,7 @@ export interface HomeSelect<T extends boolean = true> {
               label?: T;
               href?: T;
             };
+        image?: T;
       };
   keyFeatures?:
     | T
@@ -1396,6 +1599,7 @@ export interface HomeSelect<T extends boolean = true> {
               label?: T;
               href?: T;
             };
+        image?: T;
       };
   eventTypes?:
     | T
@@ -1438,6 +1642,7 @@ export interface HomeSelect<T extends boolean = true> {
     | {
         heading?: T;
         description?: T;
+        items?: T;
         images?:
           | T
           | {
@@ -1445,6 +1650,8 @@ export interface HomeSelect<T extends boolean = true> {
               alt?: T;
               id?: T;
             };
+        prevLabel?: T;
+        nextLabel?: T;
       };
   cta?:
     | T
@@ -1483,6 +1690,7 @@ export interface ComoSelect<T extends boolean = true> {
     | {
         heading?: T;
         description?: T;
+        image?: T;
         cta?:
           | T
           | {
@@ -1506,7 +1714,6 @@ export interface ComoSelect<T extends boolean = true> {
                     label?: T;
                     href?: T;
                   };
-              icon?: T;
               id?: T;
             };
       };
@@ -1547,12 +1754,61 @@ export interface CenariosSelect<T extends boolean = true> {
     | {
         heading?: T;
         description?: T;
+        image?: T;
       };
   section?:
     | T
     | {
         heading?: T;
         description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blog_select".
+ */
+export interface BlogSelect<T extends boolean = true> {
+  hero?:
+    | T
+    | {
+        heading?: T;
+        image?: T;
+      };
+  section?:
+    | T
+    | {
+        heading?: T;
+        cardLinkLabel?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "eventos_select".
+ */
+export interface EventosSelect<T extends boolean = true> {
+  hero?:
+    | T
+    | {
+        heading?: T;
+        image?: T;
+      };
+  section?:
+    | T
+    | {
+        heading?: T;
+        cardLinkLabel?: T;
+      };
+  detail?:
+    | T
+    | {
+        backLabel?: T;
+        shareLabel?: T;
       };
   updatedAt?: T;
   createdAt?: T;

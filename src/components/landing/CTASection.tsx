@@ -10,7 +10,7 @@ export type CTASectionProps = {
 
 const DEFAULT_HEADING = "PRONTO PARA UMA AVENTURA?";
 const DEFAULT_BUTTON = "RESERVA JÁ";
-const DEFAULT_HREF = "/#reservas";
+const DEFAULT_HREF = "/#actividades";
 
 export function CTASection({
   heading = DEFAULT_HEADING,

@@ -1,9 +1,15 @@
 import { mapEventToCardItem } from "@/lib/events/mapEvent";
 import type { EventCardItem } from "@/lib/events/types";
-import type { Event, Home, Media } from "@/payload-types";
+import { mapTestimonialToQuote } from "@/lib/testimonials/mapTestimonial";
+import type { Event, Home, Media, Testimonial } from "@/payload-types";
 
 import { DEFAULT_HOME, EVENT_IMAGE_FALLBACKS } from "./defaults";
-import type { HomeContent, ParkFeatureIcon, SafetyIcon } from "./types";
+import type {
+  GalleryImage,
+  HomeContent,
+  ParkFeatureIcon,
+  SafetyIcon,
+} from "./types";
 
 function resolveMediaUrl(
   image: string | Media | null | undefined,
@@ -61,6 +67,45 @@ function isSafetyIcon(value: unknown): value is SafetyIcon {
   );
 }
 
+function mapGalleryImages(
+  images: Home["testimonials"]["images"] | undefined,
+  heading: string,
+): GalleryImage[] {
+  return (
+    images
+      ?.map((item) => {
+        const src = resolveMediaUrl(item?.image);
+        if (!src) return null;
+        return {
+          src,
+          alt: item?.alt?.trim() || heading || "Megacampo",
+        };
+      })
+      .filter((item): item is GalleryImage => item !== null) ?? []
+  );
+}
+
+function mapTestimonialImages(
+  items: Home["testimonials"]["items"] | undefined,
+): GalleryImage[] {
+  if (!Array.isArray(items)) return [];
+
+  return items
+    .filter(
+      (item): item is Testimonial =>
+        typeof item === "object" && item !== null && item.isActive !== false,
+    )
+    .map((item) => {
+      const quote = mapTestimonialToQuote(item);
+      if (!quote.imageSrc) return null;
+      return {
+        src: quote.imageSrc,
+        alt: quote.name,
+      };
+    })
+    .filter((item): item is GalleryImage => item !== null);
+}
+
 export function mapHomeGlobal(doc: Home | null | undefined): HomeContent {
   if (!doc) {
     return DEFAULT_HOME;
@@ -87,18 +132,19 @@ export function mapHomeGlobal(doc: Home | null | undefined): HomeContent {
         icon: item.icon as SafetyIcon,
       })) ?? [];
 
+  const testimonialsHeading =
+    doc.testimonials?.heading?.trim() || DEFAULT_HOME.testimonials.heading;
+  const manualGallery = mapGalleryImages(
+    doc.testimonials?.images,
+    testimonialsHeading,
+  );
+  const relationshipGallery = mapTestimonialImages(doc.testimonials?.items);
   const testimonialImages =
-    doc.testimonials?.images
-      ?.map((item) => {
-        const src = resolveMediaUrl(item?.image);
-        if (!src) return null;
-        return {
-          src,
-          alt: item?.alt?.trim() || doc.testimonials?.heading || "Megacampo",
-        };
-      })
-      .filter((item): item is { src: string; alt: string } => item !== null) ??
-    [];
+    manualGallery.length > 0
+      ? manualGallery
+      : relationshipGallery.length > 0
+        ? relationshipGallery
+        : DEFAULT_HOME.testimonials.images;
 
   const faqItems =
     doc.faq?.items
@@ -117,6 +163,9 @@ export function mapHomeGlobal(doc: Home | null | undefined): HomeContent {
         label: doc.hero?.cta?.label?.trim() || DEFAULT_HOME.hero.cta.label,
         href: doc.hero?.cta?.href?.trim() || DEFAULT_HOME.hero.cta.href,
       },
+      backgroundImageSrc:
+        resolveMediaUrl(doc.hero?.image) ||
+        DEFAULT_HOME.hero.backgroundImageSrc,
     },
     keyFeatures: {
       items:
@@ -138,6 +187,9 @@ export function mapHomeGlobal(doc: Home | null | undefined): HomeContent {
         label: doc.maps?.cta?.label?.trim() || DEFAULT_HOME.maps.cta.label,
         href: doc.maps?.cta?.href?.trim() || DEFAULT_HOME.maps.cta.href,
       },
+      backgroundImageSrc:
+        resolveMediaUrl(doc.maps?.image) ||
+        DEFAULT_HOME.maps.backgroundImageSrc,
     },
     eventTypes: {
       heading:
@@ -174,15 +226,17 @@ export function mapHomeGlobal(doc: Home | null | undefined): HomeContent {
       items: safetyItems.length > 0 ? safetyItems : DEFAULT_HOME.safety.items,
     },
     testimonials: {
-      heading:
-        doc.testimonials?.heading?.trim() || DEFAULT_HOME.testimonials.heading,
+      heading: testimonialsHeading,
       description:
         doc.testimonials?.description?.trim() ||
         DEFAULT_HOME.testimonials.description,
-      images:
-        testimonialImages.length > 0
-          ? testimonialImages
-          : DEFAULT_HOME.testimonials.images,
+      images: testimonialImages,
+      prevLabel:
+        doc.testimonials?.prevLabel?.trim() ||
+        DEFAULT_HOME.testimonials.prevLabel,
+      nextLabel:
+        doc.testimonials?.nextLabel?.trim() ||
+        DEFAULT_HOME.testimonials.nextLabel,
     },
     cta: {
       heading: doc.cta?.heading?.trim() || DEFAULT_HOME.cta.heading,

@@ -1,17 +1,23 @@
 import { Box } from "@chakra-ui/react";
 import { Header } from "@/components/header";
 import { EventQuoteTestimonials } from "@/components/eventos";
-import { FAQSection, Footer, KeyFeatures } from "@/components/landing";
+import { FAQSection, Footer } from "@/components/landing";
 import { PageHero } from "@/components/layout";
+import { ProductHighlightStrip } from "@/components/product/ProductHighlightStrip";
 import { ProductPricingSection } from "@/components/product/ProductPricingSection";
-import { getActivityFeatures } from "@/lib/activities/landingDefaults";
 import type { PackageCardItem } from "@/lib/catalog/types";
 import type { EventQuote } from "@/lib/events/types";
 import { DEFAULT_TESTIMONIALS_HEADING } from "@/lib/testimonials/defaults";
 
 export interface ActivityPackagesPageContentProps {
   title: string;
+  /** Banner title — defaults to `title` when there's no distinct category name (e.g. flat activities). */
+  heroTitle?: string;
   description?: string | null;
+  /** CMS highlight chips under the hero. */
+  highlights: string[];
+  /** CMS hero underlay (category → activity). Empty → solid `bg.hero` grey. */
+  heroBackgroundImageSrc?: string;
   packages: PackageCardItem[];
   activitySlug: string;
   /** When set, package cards link to the 3-level atividades path. */
@@ -22,7 +28,10 @@ export interface ActivityPackagesPageContentProps {
 
 export function ActivityPackagesPageContent({
   title,
+  heroTitle,
   description,
+  highlights,
+  heroBackgroundImageSrc,
   packages,
   activitySlug,
   categorySlug,
@@ -34,13 +43,13 @@ export function ActivityPackagesPageContent({
       <Header />
       <main>
         <PageHero
-          title={title}
-          heroBg="bg.hero"
-          titleTextStyle="h1.molot"
-          minH={{ base: "320px", md: "480px", xl: "800px" }}
+          title={heroTitle ?? title}
+          backgroundImageSrc={heroBackgroundImageSrc}
         />
-        <KeyFeatures items={getActivityFeatures(activitySlug)} />
-        <Box bg="bg.subtle">
+        <ProductHighlightStrip
+          highlights={highlights.map((label) => ({ label }))}
+        />
+        <Box bg="#fff">
           <ProductPricingSection
             sectionTitle={title}
             sectionDescription={description ?? ""}

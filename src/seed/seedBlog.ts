@@ -1,9 +1,35 @@
 import type { Payload } from "payload";
 
-import { DEFAULT_BLOG_POSTS } from "@/lib/blog/defaults";
+import { DEFAULT_BLOG, DEFAULT_BLOG_POSTS } from "@/lib/blog/defaults";
 import { isLexicalState, textToLexical } from "@/lib/richtext/textToLexical";
 
+async function ensureBlogGlobal(payload: Payload): Promise<void> {
+  const existing = await payload.findGlobal({ slug: "blog", depth: 0 });
+
+  if (existing.hero?.heading) {
+    payload.logger.info("Blog global already populated — skipped");
+    return;
+  }
+
+  await payload.updateGlobal({
+    slug: "blog",
+    data: {
+      hero: {
+        heading: DEFAULT_BLOG.heroTitle,
+      },
+      section: {
+        heading: DEFAULT_BLOG.sectionHeading,
+        cardLinkLabel: DEFAULT_BLOG.cardLinkLabel,
+      },
+    },
+  });
+
+  payload.logger.info("Seeded blog global");
+}
+
 export async function runBlogSeed(payload: Payload): Promise<void> {
+  await ensureBlogGlobal(payload);
+
   let created = 0;
   let updated = 0;
 
@@ -28,13 +54,17 @@ export async function runBlogSeed(payload: Payload): Promise<void> {
       const doc = existing.docs[0];
       const needsBody = !isLexicalState(doc.body);
       const needsExcerpt = !doc.excerpt?.trim();
+      const needsTags = !doc.tags?.length;
 
-      if (needsBody || needsExcerpt) {
+      if (needsBody || needsExcerpt || needsTags) {
         await payload.update({
           collection: "posts",
           id: doc.id,
           data: {
             excerpt: doc.excerpt?.trim() || seed.excerpt,
+            ...(needsTags && seed.tags
+              ? { tags: seed.tags.map((label) => ({ label })) }
+              : {}),
             ...(needsBody ? { body: lexicalBody } : {}),
           },
           overrideAccess: true,
@@ -53,6 +83,7 @@ export async function runBlogSeed(payload: Payload): Promise<void> {
         body: lexicalBody,
         sort: index,
         isActive: true,
+        ...(seed.tags ? { tags: seed.tags.map((label) => ({ label })) } : {}),
       },
       overrideAccess: true,
     });

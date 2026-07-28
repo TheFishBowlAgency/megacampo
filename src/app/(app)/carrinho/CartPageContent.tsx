@@ -2,6 +2,7 @@
 
 import { Header } from "@/components/header";
 import { Footer } from "@/components/landing";
+import { PromoInfoBar } from "@/components/ui";
 import {
   Breadcrumb,
   CartAlertBanner,
@@ -30,6 +31,7 @@ export function CartPageContent() {
   return (
     <>
       <Header />
+      <PromoInfoBar />
       <main>
         <Breadcrumb items={BREADCRUMB_ITEMS} />
         <CartAlertBanner

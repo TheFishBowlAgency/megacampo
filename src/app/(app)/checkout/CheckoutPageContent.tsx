@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   Box,
   Flex,
@@ -9,10 +9,11 @@ import {
   IconButton,
   Text,
   useBreakpointValue,
-} from '@chakra-ui/react';
-import { Header } from '@/components/header';
-import { Footer } from '@/components/landing';
-import { Breadcrumb, Container } from '@/components/layout';
+} from "@chakra-ui/react";
+import { Header } from "@/components/header";
+import { Footer } from "@/components/landing";
+import { PromoInfoBar } from "@/components/ui";
+import { Breadcrumb, Container } from "@/components/layout";
 import {
   CheckoutForm,
   CheckoutOrderSummary,
@@ -20,29 +21,29 @@ import {
   TermsSection,
   INITIAL_FORM_DATA,
   type CheckoutFormData,
-} from '@/components/checkout';
-import { CheckoutSubmitSection } from '@/components/checkout/CheckoutSubmitSection';
-import { useCheckout } from '@/components/checkout/CheckoutPayment';
-import { validateCheckoutInput } from '@/lib/checkout/validation';
-import { useCart } from '@/providers';
+} from "@/components/checkout";
+import { CheckoutSubmitSection } from "@/components/checkout/CheckoutSubmitSection";
+import { useCheckout } from "@/components/checkout/CheckoutPayment";
+import { validateCheckoutInput } from "@/lib/checkout/validation";
+import { useCart } from "@/providers";
 
 const BREADCRUMB_ITEMS = [
-  { label: 'Reservas', href: '/#reservas' },
-  { label: 'Carrinho', href: '/carrinho' },
-  { label: 'Checkout' },
+  { label: "Reservas", href: "/#reservas" },
+  { label: "Carrinho", href: "/carrinho" },
+  { label: "Checkout" },
 ];
 
 const MOBILE_STEP_BACK_LABELS = [
   null,
-  'Voltar aos teus dados',
-  'Voltar ao Método de Pagamento',
-  'Voltar aos Termos e Condições de Reserva',
+  "Voltar aos teus dados",
+  "Voltar ao Método de Pagamento",
+  "Voltar aos Termos e Condições de Reserva",
 ];
 
 const MOBILE_STEP_SUBTITLES = [
-  'Os teus dados',
-  'Método de Pagamento',
-  'Termos e Condições de Reserva',
+  "Os teus dados",
+  "Método de Pagamento",
+  "Termos e Condições de Reserva",
   null,
 ];
 
@@ -72,7 +73,7 @@ export function CheckoutPageContent() {
   const router = useRouter();
   const { items, observations, isHydrated } = useCart();
   const [formData, setFormData] = useState<CheckoutFormData>(INITIAL_FORM_DATA);
-  const [paymentMethod, setPaymentMethod] = useState('multibanco');
+  const [paymentMethod, setPaymentMethod] = useState("multibanco");
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [acceptMarketing, setAcceptMarketing] = useState(false);
   const [mobileStep, setMobileStep] = useState(0);
@@ -83,7 +84,7 @@ export function CheckoutPageContent() {
     formData,
     items,
     observations,
-    paymentMethod: paymentMethod as 'multibanco' | 'paypal',
+    paymentMethod: paymentMethod as "multibanco" | "paypal",
     acceptTerms,
     acceptMarketing,
   });
@@ -91,7 +92,7 @@ export function CheckoutPageContent() {
   const validation = validateCheckoutInput({
     formData,
     items,
-    paymentMethod: paymentMethod as 'multibanco' | 'paypal',
+    paymentMethod: paymentMethod as "multibanco" | "paypal",
     acceptTerms,
   });
 
@@ -99,7 +100,7 @@ export function CheckoutPageContent() {
 
   useEffect(() => {
     if (isHydrated && items.length === 0) {
-      router.replace('/carrinho');
+      router.replace("/carrinho");
     }
   }, [isHydrated, items.length, router]);
 
@@ -113,13 +114,14 @@ export function CheckoutPageContent() {
   return (
     <>
       <Header />
+      <PromoInfoBar />
       <main>
         <Breadcrumb items={BREADCRUMB_ITEMS} />
 
         <Box bg="bg.subtle" minH="60vh">
-          <Container py={{ base: '8', md: '10', lg: '12' }}>
+          <Container py={{ base: "8", md: "10", lg: "12" }}>
             {/* Page heading */}
-            <Box mb={{ base: '8', md: '16' }}>
+            <Box mb={{ base: "8", md: "16" }}>
               <Text textStyle="h3" color="fg" mb="4">
                 CHECKOUT
               </Text>
@@ -137,8 +139,8 @@ export function CheckoutPageContent() {
             {/* Desktop layout: 2 columns */}
             {!isMobile && (
               <Grid
-                templateColumns={{ md: '1fr 380px', lg: '1fr 440px' }}
-                gap={{ md: '8', lg: '12' }}
+                templateColumns={{ md: "1fr 380px", lg: "1fr 440px" }}
+                gap={{ md: "8", lg: "12" }}
                 alignItems="start"
               >
                 {/* Left column: form + sections */}
@@ -243,10 +245,10 @@ export function CheckoutPageContent() {
                       as="button"
                       textStyle="body"
                       color="fg.muted"
-                      fontSize={{ base: 'sm', sm: 'md' }}
+                      fontSize={{ base: "sm", sm: "md" }}
                       cursor="pointer"
                       onClick={() => setMobileStep((s) => s - 1)}
-                      _hover={{ color: 'fg' }}
+                      _hover={{ color: "fg" }}
                     >
                       ‹ {MOBILE_STEP_BACK_LABELS[mobileStep]}
                     </Text>
@@ -261,7 +263,7 @@ export function CheckoutPageContent() {
                       color="white"
                       borderRadius="full"
                       size="lg"
-                      _hover={{ bg: 'primary.muted', color: 'fg' }}
+                      _hover={{ bg: "primary.muted", color: "fg" }}
                       onClick={() => setMobileStep((s) => s + 1)}
                     >
                       <ArrowRightIcon />

@@ -42,6 +42,8 @@ export default async function HomePage() {
           heading={home.testimonials.heading}
           subheading={home.testimonials.description}
           images={home.testimonials.images}
+          prevLabel={home.testimonials.prevLabel}
+          nextLabel={home.testimonials.nextLabel}
         />
         <CTASection
           heading={home.cta.heading}

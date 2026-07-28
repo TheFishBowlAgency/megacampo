@@ -6,10 +6,6 @@ export interface SelectionDotProps {
   selected: boolean;
 }
 
-/**
- * Radio/checkbox visual indicator matching the Figma design.
- * Renders a circle with a filled inner dot when selected.
- */
 export function SelectionDot({ selected }: SelectionDotProps) {
   return (
     <Flex

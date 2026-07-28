@@ -15,7 +15,11 @@ export function Hero({ content }: HeroProps) {
       bg="bg.hero"
       color="grayLight"
       py={{ base: "16", md: "20", lg: "24", xl: "28" }}
-      _before={bannerSectionUnderlayBefore}
+      minH={{ base: "561px", md: "640px" }}
+      display="flex"
+      flexDirection="column"
+      justifyContent="center"
+      _before={bannerSectionUnderlayBefore(content.backgroundImageSrc)}
     >
       <VStack
         position="relative"

@@ -5,6 +5,27 @@ import { mediaImageField } from "@/fields/mediaImageField";
 import { adminGroups } from "@/i18n/adminGroups";
 import { bl, common } from "@/i18n/labels";
 
+const navLinkFields = [
+  {
+    name: "label",
+    type: "text" as const,
+    label: common.label,
+    required: true,
+  },
+  {
+    name: "href",
+    type: "text" as const,
+    label: bl("URL", "URL"),
+    required: true,
+    admin: {
+      description: bl(
+        "Caminho interno (ex.: /como) ou âncora (ex.: /#contactos).",
+        "Internal path (e.g. /como) or anchor (e.g. /#contactos).",
+      ),
+    },
+  },
+];
+
 export const Header: GlobalConfig = {
   slug: "header",
   label: { pt: "Cabeçalho", en: "Header" },
@@ -48,7 +69,7 @@ export const Header: GlobalConfig = {
     {
       name: "navLinks",
       type: "array",
-      label: bl("Ligações de navegação", "Navigation links"),
+      label: bl("Navegação (desktop)", "Navigation (desktop)"),
       labels: {
         singular: bl("Ligação", "Link"),
         plural: bl("Ligações", "Links"),
@@ -56,24 +77,156 @@ export const Header: GlobalConfig = {
       admin: {
         initCollapsed: false,
       },
+      fields: navLinkFields,
+    },
+    {
+      name: "mobileNavLinks",
+      type: "array",
+      label: bl("Navegação (mobile)", "Navigation (mobile)"),
+      labels: {
+        singular: bl("Ligação", "Link"),
+        plural: bl("Ligações", "Links"),
+      },
+      admin: {
+        description: bl(
+          "Ligações do menu mobile. Se vazio, usa a navegação desktop.",
+          "Mobile menu links. If empty, falls back to desktop navigation.",
+        ),
+        initCollapsed: false,
+      },
+      fields: navLinkFields,
+    },
+    {
+      name: "labels",
+      type: "group",
+      label: bl("Etiquetas da interface", "UI labels"),
       fields: [
+        {
+          name: "languageSelectAria",
+          type: "text",
+          label: bl("Aria: selecionar idioma", "Aria: select language"),
+          required: true,
+          defaultValue: "Selecionar idioma",
+        },
+        {
+          name: "openMenuAria",
+          type: "text",
+          label: bl("Aria: abrir menu", "Aria: open menu"),
+          required: true,
+          defaultValue: "Abrir menu",
+        },
+        {
+          name: "closeMenuAria",
+          type: "text",
+          label: bl("Aria: fechar menu", "Aria: close menu"),
+          required: true,
+          defaultValue: "Fechar menu",
+        },
+        {
+          name: "menuAria",
+          type: "text",
+          label: bl("Aria: menu", "Aria: menu"),
+          required: true,
+          defaultValue: "Menu",
+        },
+        {
+          name: "searchAria",
+          type: "text",
+          label: bl("Aria: pesquisar", "Aria: search"),
+          required: true,
+          defaultValue: "Pesquisar",
+        },
+        {
+          name: "cartAria",
+          type: "text",
+          label: bl("Aria: carrinho", "Aria: cart"),
+          required: true,
+          defaultValue: "Carrinho",
+        },
+        {
+          name: "bagLabel",
+          type: "text",
+          label: bl("Etiqueta do carrinho (mobile)", "Bag label (mobile)"),
+          required: true,
+          defaultValue: "Carrinho",
+        },
+        {
+          name: "searchLabel",
+          type: "text",
+          label: bl("Etiqueta de pesquisa (mobile)", "Search label (mobile)"),
+          required: true,
+          defaultValue: "Pesquisar",
+        },
+        {
+          name: "cartHref",
+          type: "text",
+          label: bl("URL do carrinho", "Cart URL"),
+          required: true,
+          defaultValue: "/carrinho",
+        },
+      ],
+    },
+    {
+      name: "languages",
+      type: "array",
+      label: bl("Idiomas", "Languages"),
+      labels: {
+        singular: bl("Idioma", "Language"),
+        plural: bl("Idiomas", "Languages"),
+      },
+      minRows: 1,
+      fields: [
+        {
+          name: "code",
+          type: "select",
+          label: bl("Código", "Code"),
+          required: true,
+          options: [
+            { label: "Português (pt)", value: "pt" },
+            { label: "English (en)", value: "en" },
+            { label: "Español (es)", value: "es" },
+          ],
+        },
         {
           name: "label",
           type: "text",
           label: common.label,
           required: true,
         },
+      ],
+    },
+    {
+      name: "promoMessage",
+      type: "text",
+      label: bl("Mensagem promocional", "Promo message"),
+      admin: {
+        description: bl(
+          "Barra escura abaixo do cabeçalho em páginas de carrinho/checkout.",
+          "Dark bar below the header on cart/checkout pages.",
+        ),
+      },
+      defaultValue: "Desconto online de 20% em todos os extras",
+    },
+    {
+      name: "seo",
+      type: "group",
+      label: bl("SEO do site", "Site SEO"),
+      fields: [
         {
-          name: "href",
+          name: "title",
           type: "text",
-          label: bl("URL", "URL"),
+          label: bl("Título", "Title"),
           required: true,
-          admin: {
-            description: bl(
-              "Caminho interno (ex.: /como) ou âncora (ex.: /#contactos).",
-              "Internal path (e.g. /como) or anchor (e.g. /#contactos).",
-            ),
-          },
+          defaultValue:
+            "Megacampo | O maior parque de paintball da Península Ibérica",
+        },
+        {
+          name: "description",
+          type: "textarea",
+          label: common.description,
+          required: true,
+          defaultValue:
+            "Experiência 12 mapas em 60 hectares. Paintball, airsoft, lasertag. Reservas e eventos.",
         },
       ],
     },

@@ -5,6 +5,7 @@ import { DEFAULT_TESTIMONIALS } from "@/lib/testimonials/defaults";
 export async function runTestimonialsSeed(payload: Payload): Promise<string[]> {
   const ids: string[] = [];
   let created = 0;
+  let updated = 0;
 
   for (const [index, seed] of DEFAULT_TESTIMONIALS.entries()) {
     const existing = await payload.find({
@@ -18,8 +19,23 @@ export async function runTestimonialsSeed(payload: Payload): Promise<string[]> {
       depth: 0,
     });
 
+    const stars = seed.stars ?? 5;
+
     if (existing.docs[0]) {
+      await payload.update({
+        collection: "testimonials",
+        id: existing.docs[0].id,
+        data: {
+          quote: seed.quote,
+          featured: Boolean(seed.featured),
+          stars,
+          sort: index,
+          isActive: true,
+        },
+        overrideAccess: true,
+      });
       ids.push(existing.docs[0].id);
+      updated += 1;
       continue;
     }
 
@@ -29,7 +45,7 @@ export async function runTestimonialsSeed(payload: Payload): Promise<string[]> {
         name: seed.name,
         quote: seed.quote,
         featured: Boolean(seed.featured),
-        stars: seed.stars ?? 5,
+        stars,
         sort: index,
         isActive: true,
       },
@@ -39,11 +55,9 @@ export async function runTestimonialsSeed(payload: Payload): Promise<string[]> {
     created += 1;
   }
 
-  if (created === 0) {
-    payload.logger.info("Testimonials already populated — skipped");
-  } else {
-    payload.logger.info(`Seeded testimonials (created ${created})`);
-  }
+  payload.logger.info(
+    `Testimonials seed — created ${created}, updated ${updated}`,
+  );
 
   return ids;
 }

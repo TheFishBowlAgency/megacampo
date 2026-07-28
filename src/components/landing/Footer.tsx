@@ -2,7 +2,9 @@
 
 import { Box, Flex, Grid, HStack, Text, VStack } from "@chakra-ui/react";
 import { Link } from "@/components/ui";
+import { FOOTER_ICON_CHIP_BG } from "@/components/ui/tornChipMask";
 import Image from "next/image";
+import type { ReactNode } from "react";
 import { getCopyrightText } from "@/lib/site/defaults";
 import { useFooterContent } from "@/providers";
 
@@ -54,9 +56,9 @@ export function Footer() {
               <VStack align="stretch" gap={{ base: "4", lg: "6" }}>
                 {/* Phone */}
                 <HStack gap={{ base: "3", lg: "8" }} align="start">
-                  <Box flexShrink={0} mt="1">
+                  <FooterIconBadge>
                     <PhoneIcon />
-                  </Box>
+                  </FooterIconBadge>
                   <VStack align="stretch" gap="1">
                     <Link
                       href={`tel:${contact.phoneFixed.replace(/\s/g, "")}`}
@@ -79,9 +81,9 @@ export function Footer() {
 
                 {/* Address */}
                 <HStack gap={{ base: "3", lg: "8" }} align="start">
-                  <Box flexShrink={0} mt="1">
+                  <FooterIconBadge>
                     <LocationIcon />
-                  </Box>
+                  </FooterIconBadge>
                   <Text
                     color="fg"
                     fontSize={{ base: "sm", lg: "body.md", xl: "body.lg" }}
@@ -95,9 +97,9 @@ export function Footer() {
 
                 {/* Email */}
                 <HStack gap={{ base: "3", lg: "8" }} align="center">
-                  <Box flexShrink={0}>
+                  <FooterIconBadge>
                     <EmailIcon />
-                  </Box>
+                  </FooterIconBadge>
                   <Link
                     href={`mailto:${contact.email}`}
                     color="fg"
@@ -231,50 +233,95 @@ export function Footer() {
   );
 }
 
+/** Dark torn-edge stamp behind contact icons (Figma 64×60 / mobile 32×30). */
+function FooterIconBadge({ children }: { children: ReactNode }) {
+  return (
+    <Box
+      flexShrink={0}
+      w={{ base: "32px", lg: "64px" }}
+      h={{ base: "30px", lg: "60px" }}
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      color="grayLight"
+      style={FOOTER_ICON_CHIP_BG}
+    >
+      {children}
+    </Box>
+  );
+}
+
 function PhoneIcon() {
   return (
-    <svg
-      width="32"
-      height="30"
-      viewBox="0 0 32 30"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
+    <Box
+      as="span"
+      display="inline-flex"
+      w={{ base: "15px", lg: "30px" }}
+      h={{ base: "15px", lg: "30px" }}
+      css={{
+        "& svg": { width: "100%", height: "100%" },
+      }}
     >
-      <path d="M22 19.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 3h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 10.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 17.92z" />
-    </svg>
+      <svg
+        viewBox="0 0 32 30"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        aria-hidden
+      >
+        <path d="M22 19.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 3h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 10.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 17.92z" />
+      </svg>
+    </Box>
   );
 }
 
 function LocationIcon() {
   return (
-    <svg
-      width="32"
-      height="30"
-      viewBox="0 0 32 30"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
+    <Box
+      as="span"
+      display="inline-flex"
+      w={{ base: "10px", lg: "20px" }}
+      h={{ base: "15px", lg: "30px" }}
+      css={{
+        "& svg": { width: "100%", height: "100%" },
+      }}
     >
-      <path d="M16 1C10.48 1 6 5.48 6 11c0 7.5 10 18 10 18s10-10.5 10-18c0-5.52-4.48-10-10-10z" />
-      <circle cx="16" cy="11" r="3" />
-    </svg>
+      <svg
+        viewBox="0 0 20 30"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        aria-hidden
+      >
+        <path d="M10 1C5.48 1 1 5.48 1 10c0 7.5 9 18 9 18s9-10.5 9-18c0-5.52-4.48-10-9-10z" />
+        <circle cx="10" cy="10" r="3" />
+      </svg>
+    </Box>
   );
 }
 
 function EmailIcon() {
   return (
-    <svg
-      width="32"
-      height="30"
-      viewBox="0 0 32 30"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
+    <Box
+      as="span"
+      display="inline-flex"
+      w={{ base: "13px", lg: "26px" }}
+      h={{ base: "14px", lg: "28px" }}
+      css={{
+        "& svg": { width: "100%", height: "100%" },
+      }}
     >
-      <rect x="2" y="4" width="28" height="22" rx="3" />
-      <path d="M2 7l14 9 14-9" />
-    </svg>
+      <svg
+        viewBox="0 0 32 30"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        aria-hidden
+      >
+        <rect x="2" y="4" width="28" height="22" rx="3" />
+        <path d="M2 7l14 9 14-9" />
+      </svg>
+    </Box>
   );
 }
 

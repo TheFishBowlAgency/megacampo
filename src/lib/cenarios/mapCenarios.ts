@@ -1,8 +1,22 @@
-import type { Cenario as CenariosGlobal, Scenario } from "@/payload-types";
+import type {
+  Cenario as CenariosGlobal,
+  Media,
+  Scenario,
+} from "@/payload-types";
 
 import { DEFAULT_CENARIOS, DEFAULT_SCENARIOS } from "./defaults";
 import { mapScenarioToCardItem } from "./mapScenario";
 import type { CenariosContent, ScenarioCardItem } from "./types";
+
+function resolveMediaUrl(
+  image: CenariosGlobal["hero"]["image"],
+): string | undefined {
+  if (!image || typeof image === "string") {
+    return undefined;
+  }
+
+  return (image as Media).url ?? undefined;
+}
 
 export function mapScenarioDocs(
   docs: Scenario[] | null | undefined,
@@ -34,6 +48,9 @@ export function mapCenariosGlobal(
       heading: doc.hero?.heading?.trim() || DEFAULT_CENARIOS.hero.heading,
       description:
         doc.hero?.description?.trim() || DEFAULT_CENARIOS.hero.description,
+      backgroundImageSrc:
+        resolveMediaUrl(doc.hero?.image) ??
+        DEFAULT_CENARIOS.hero.backgroundImageSrc,
     },
     section: {
       heading: doc.section?.heading?.trim() || DEFAULT_CENARIOS.section.heading,

@@ -32,6 +32,12 @@ export function mapPostToCard(post: Post): BlogPostCard {
     slug: post.slug,
     title: post.title,
     excerpt: post.excerpt?.trim() || fallback?.excerpt || "",
+    tags:
+      post.tags
+        ?.map((tag) => tag.label?.trim())
+        .filter((label): label is string => Boolean(label)) ??
+      fallback?.tags ??
+      [],
     imageSrc: resolveMediaUrl(post.image) ?? fallback?.imageSrc,
     href: `/blog/${post.slug}`,
   };
@@ -43,6 +49,12 @@ export function mapPostToDetail(post: Post): BlogPostDetail {
 
   return {
     ...card,
+    author: fallback?.author ?? "Equipa Megacampo",
+    publishedAt:
+      (typeof post.updatedAt === "string" && post.updatedAt) ||
+      (typeof post.createdAt === "string" && post.createdAt) ||
+      fallback?.publishedAt,
+    gallery: fallback?.gallery,
     body: resolveBody(
       post,
       typeof fallback?.body === "string" ? fallback.body : DEFAULT_BLOG_BODY,

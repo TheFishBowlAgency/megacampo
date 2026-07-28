@@ -10,6 +10,7 @@ export type CenariosContent = {
     /** Multi-line title; newlines become separate visual lines. */
     heading: string;
     description: string;
+    backgroundImageSrc?: string;
   };
   section: {
     heading: string;

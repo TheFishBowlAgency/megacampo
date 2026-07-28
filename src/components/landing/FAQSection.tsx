@@ -62,10 +62,7 @@ export function FAQSection({
   return (
     <Section id={id} variant={variant === "subtle" ? "subtle" : "default"}>
       <Container>
-        <VStack
-          gap={{ base: "6", md: "8", lg: "12", xl: "16" }}
-          align="stretch"
-        >
+        <VStack gap={{ base: "6", lg: "12", xl: "16" }} align="stretch">
           <Text
             as="h2"
             textStyle="h2"
@@ -93,18 +90,17 @@ export function FAQSection({
                 >
                   <Text
                     textStyle="h4"
-                    fontSize={{
-                      base: "sm",
-                      md: "lg",
-                      lg: "xl",
-                      xl: "display.h3",
-                    }}
+                    fontSize={{ base: "sm", lg: "body.md", xl: "display.h3" }}
                     color="fg"
                     textAlign="left"
                   >
                     {item.question}
                   </Text>
-                  <Box flexShrink={0} fontSize="xl" aria-hidden>
+                  <Box
+                    flexShrink={0}
+                    fontSize={{ base: "lg", lg: "xl" }}
+                    aria-hidden
+                  >
                     {openIndex === i ? <MinusIcon /> : <PlusIcon />}
                   </Box>
                 </HStack>
@@ -113,12 +109,7 @@ export function FAQSection({
                     pb="4"
                     pr="8"
                     color="fg.muted"
-                    fontSize={{
-                      base: "sm",
-                      md: "md",
-                      lg: "body.md",
-                      xl: "body.lg",
-                    }}
+                    fontSize={{ base: "sm", lg: "body.md", xl: "body.lg" }}
                     lineHeight="1.6"
                   >
                     {item.answer}

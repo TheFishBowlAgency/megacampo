@@ -6,6 +6,6 @@ import type { ComoContent } from "./types";
 
 export async function getComo(): Promise<ComoContent> {
   const payload = await getPayload({ config });
-  const doc = await payload.findGlobal({ slug: "como", depth: 0 });
+  const doc = await payload.findGlobal({ slug: "como", depth: 1 });
   return mapComoGlobal(doc);
 }

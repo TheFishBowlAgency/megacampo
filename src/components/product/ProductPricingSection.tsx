@@ -40,10 +40,13 @@ export function ProductPricingSection({
       />
       <Grid
         templateColumns={{
-          base: "repeat(2, 1fr)",
-          lg: "repeat(4, 1fr)",
+          base: "repeat(2, minmax(0, 1fr))",
+          md: "repeat(3, minmax(0, 1fr))",
+          xl: "repeat(4, minmax(0, 1fr))",
         }}
-        gap={{ base: "2.5", md: "4", lg: "5" }}
+        gap={{ base: "3", md: "5", lg: "5" }}
+        w="full"
+        alignItems="stretch"
       >
         {packages.map((pkg) => {
           const packageSlug = pkg.slug ?? pkg.id;

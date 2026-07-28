@@ -1,4 +1,4 @@
-import { Box, Grid, Text, VStack } from "@chakra-ui/react";
+import { Box, Grid, HStack, Text, VStack } from "@chakra-ui/react";
 import Image from "next/image";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/landing";
@@ -6,9 +6,36 @@ import { Container, PageHero, Section } from "@/components/layout";
 import { Link } from "@/components/ui";
 import { getBlogCopy, getBlogPosts } from "@/lib/blog/getBlog";
 
+function BlogTagPills({ tags }: { tags?: string[] }) {
+  if (!tags?.length) return null;
+
+  return (
+    <HStack gap="5" flexWrap="wrap">
+      {tags.map((tag) => (
+        <Box
+          key={tag}
+          px="8"
+          py="4"
+          borderWidth="1px"
+          borderColor="fg"
+          borderRadius="md"
+          boxShadow="0px 2px 4px rgba(0, 0, 0, 0.25)"
+        >
+          <Text
+            fontWeight="medium"
+            fontSize={{ base: "md", lg: "body.md", xl: "body.lg" }}
+            color="fg"
+          >
+            {tag}
+          </Text>
+        </Box>
+      ))}
+    </HStack>
+  );
+}
+
 export default async function BlogPage() {
-  const posts = await getBlogPosts();
-  const copy = getBlogCopy();
+  const [posts, copy] = await Promise.all([getBlogPosts(), getBlogCopy()]);
 
   return (
     <>
@@ -16,8 +43,7 @@ export default async function BlogPage() {
       <main>
         <PageHero
           title={copy.heroTitle}
-          titleTextStyle="h1.molot"
-          minH={{ base: "280px", md: "400px", xl: "560px" }}
+          backgroundImageSrc={copy.heroBackgroundImageSrc}
         />
         <Section>
           <Container>
@@ -36,16 +62,21 @@ export default async function BlogPage() {
                 templateColumns={{
                   base: "1fr",
                   md: "repeat(2, 1fr)",
-                  xl: "repeat(3, 1fr)",
                 }}
                 gap={{ base: "8", md: "8", xl: "10" }}
               >
                 {posts.map((post) => (
-                  <VStack key={post.id} as="article" align="stretch" gap="4">
+                  <VStack
+                    key={post.id}
+                    as="article"
+                    position="relative"
+                    align="stretch"
+                    gap={{ base: "5", md: "6", xl: "30px" }}
+                  >
                     <Box
                       position="relative"
                       w="full"
-                      aspectRatio="16/10"
+                      aspectRatio="650/490"
                       bg="gray.300"
                       overflow="hidden"
                     >
@@ -54,46 +85,57 @@ export default async function BlogPage() {
                           src={post.imageSrc}
                           alt={post.title}
                           fill
-                          sizes="(max-width: 767px) 100vw, 33vw"
+                          sizes="(max-width: 767px) 100vw, 50vw"
                           style={{ objectFit: "cover" }}
                         />
                       ) : null}
                     </Box>
-                    <Text
-                      as="h3"
-                      textStyle="h4"
-                      fontSize={{ base: "xl", md: "2rem", xl: "display.h3" }}
-                      color="fg"
-                      textTransform="uppercase"
-                    >
-                      {post.title}
-                    </Text>
-                    <Text
-                      color="fg.muted"
-                      fontSize={{
-                        base: "sm",
-                        md: "md",
-                        lg: "body.md",
-                        xl: "body.lg",
-                      }}
-                      lineHeight="1.5"
-                    >
-                      {post.excerpt}
-                    </Text>
-                    <Link
-                      href={post.href}
-                      color="fg.muted"
-                      fontSize={{
-                        base: "sm",
-                        md: "md",
-                        lg: "body.md",
-                        xl: "body.lg",
-                      }}
-                      _hover={{ color: "primary" }}
-                      alignSelf="flex-start"
-                    >
-                      {copy.cardLinkLabel}
-                    </Link>
+                    <BlogTagPills tags={post.tags} />
+                    <VStack align="stretch" gap="4">
+                      <Text
+                        as="h3"
+                        textStyle="h4"
+                        fontSize={{ base: "xl", md: "2rem", xl: "display.h3" }}
+                        color="fg"
+                        textTransform="uppercase"
+                      >
+                        {post.title}
+                      </Text>
+                      <Text
+                        color="fg.muted"
+                        fontSize={{
+                          base: "sm",
+                          md: "md",
+                          lg: "body.md",
+                          xl: "body.lg",
+                        }}
+                        lineHeight="1.5"
+                      >
+                        {post.excerpt}
+                      </Text>
+                      <Link
+                        href={post.href}
+                        aria-label={`${post.title} — ${copy.cardLinkLabel}`}
+                        color="fg.muted"
+                        fontSize={{
+                          base: "sm",
+                          md: "md",
+                          lg: "body.md",
+                          xl: "body.lg",
+                        }}
+                        textDecoration="underline"
+                        textUnderlineOffset="3px"
+                        _hover={{ color: "primary" }}
+                        _after={{
+                          content: '""',
+                          position: "absolute",
+                          inset: 0,
+                        }}
+                        alignSelf="flex-start"
+                      >
+                        {copy.cardLinkLabel}
+                      </Link>
+                    </VStack>
                   </VStack>
                 ))}
               </Grid>

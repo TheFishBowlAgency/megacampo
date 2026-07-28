@@ -8,14 +8,15 @@ import { Footer } from "@/components/landing";
 import { Container } from "@/components/layout";
 import { Link, QuantitySelector } from "@/components/ui";
 import { OptionGroupSelector } from "@/components/product/OptionGroupSelector";
+import { ProductImageGallery } from "@/components/product/detail/ProductImageGallery";
 import {
   AddToCartButton,
   CheckoutButton,
   DateInput,
   ExtrasSection,
   PeriodSelect,
-  ProductImage,
   ChevronLeftIcon,
+  type IncludedActivityContent,
   type ProductExtra,
 } from "@/components/product/detail/shared";
 import { TIME_PERIODS } from "@/lib/booking/constants";
@@ -24,7 +25,8 @@ import {
   buildPackageCartLineItem,
 } from "@/lib/cart/buildCartLineItem";
 import { formatPriceFromCents } from "@/lib/catalog/formatPrice";
-import type { ResolvedExtraGroup } from "@/lib/catalog";
+import { derivePackageFeatures } from "@/lib/catalog/derivePackageFeatures";
+import type { ResolvedExtraGroup, ResolvedPackageConfig } from "@/lib/catalog";
 import { useCart } from "@/providers";
 
 export interface PackageDetailContentProps {
@@ -35,6 +37,9 @@ export interface PackageDetailContentProps {
   extraGroups: ResolvedExtraGroup[];
   extras?: ProductExtra[];
   showGroupExtrasSection?: boolean;
+  categoryLabel?: string;
+  description?: string;
+  highlights?: string[];
   backHref: string;
   backLabel?: string;
 }
@@ -114,6 +119,9 @@ export function PackageDetailContent({
   extraGroups,
   extras = [],
   showGroupExtrasSection = false,
+  categoryLabel = "Paintball",
+  description,
+  highlights = [],
   backHref,
   backLabel = "Voltar às Reservas",
 }: PackageDetailContentProps) {
@@ -132,6 +140,17 @@ export function PackageDetailContent({
     extraGroups,
     selectedOptions,
   );
+
+  const includedItems =
+    highlights.length > 0
+      ? highlights
+      : derivePackageFeatures({
+          packageId,
+          name,
+          slug: packageId,
+          basePriceCents,
+          extraGroups,
+        } satisfies ResolvedPackageConfig).map((feature) => feature.label);
 
   const handleOptionChange = (groupId: string, optionId: string) => {
     setSelectedOptions((prev) => ({ ...prev, [groupId]: optionId }));
@@ -211,7 +230,7 @@ export function PackageDetailContent({
               </VStack>
             </Box>
 
-            <ProductImage name={name} imageSrc={imageSrc} />
+            <ProductImageGallery name={name} imageSrc={imageSrc} />
 
             <VStack align="stretch" gap="8" flex="1" minW={0} w="full">
               <Box display={{ base: "none", lg: "block" }}>
@@ -291,6 +310,14 @@ export function PackageDetailContent({
         {showGroupExtrasSection ? (
           <ExtrasSection
             extras={extras}
+            included={
+              {
+                categoryLabel,
+                packageName: name,
+                description,
+                items: includedItems,
+              } satisfies IncludedActivityContent
+            }
             backHref={backHref}
             backLabel={backLabel}
             onAddExtra={handleAddExtra}

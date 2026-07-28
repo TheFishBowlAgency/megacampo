@@ -24,7 +24,6 @@ export async function runComoSeed(payload: Payload): Promise<void> {
           title: step.title,
           description: step.description,
           link: step.link,
-          icon: step.icon,
         })),
       },
       cta: DEFAULT_COMO.cta,

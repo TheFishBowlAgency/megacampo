@@ -12,18 +12,44 @@ type EventQuoteTestimonialsProps = {
   quotes?: EventQuote[];
 };
 
+/** Stepped body copy — Figma 24px only from xl (1920 artboard scaling). */
+const BODY_STEP = {
+  base: "sm",
+  md: "md",
+  lg: "body.md",
+  xl: "body.lg",
+} as const;
+
 function Stars({ count = 5 }: { count?: number }) {
+  const filled = Math.min(Math.max(count, 0), 5);
+
   return (
-    <HStack gap="1" aria-label={`${count} estrelas`}>
-      {Array.from({ length: count }).map((_, i) => (
-        <Box key={i} as="span" color="dark" fontSize="sm" lineHeight="1">
-          ★
-        </Box>
-      ))}
+    <HStack gap="4" aria-label={`${filled} de 5 estrelas`}>
+      {Array.from({ length: 5 }).map((_, i) => {
+        const isFilled = i < filled;
+        return (
+          <Box
+            key={i}
+            as="span"
+            color={isFilled ? "primary" : "blackAlpha.300"}
+            fontSize="sm"
+            lineHeight="1"
+            w="21px"
+            textAlign="center"
+            aria-hidden
+          >
+            {isFilled ? "★" : "☆"}
+          </Box>
+        );
+      })}
     </HStack>
   );
 }
 
+/**
+ * Featured quote + side list.
+ * Type uses theme scale (`display.h2` / stepped body) so Figma 1920 sizes land at xl+.
+ */
 export function EventQuoteTestimonials({
   heading = DEFAULT_TESTIMONIALS_HEADING,
   quotes = DEFAULT_TESTIMONIALS,
@@ -37,35 +63,37 @@ export function EventQuoteTestimonials({
   return (
     <Section>
       <Container>
-        <VStack gap={{ base: "8", md: "10", xl: "12" }} align="stretch">
+        <VStack gap={{ base: "2.5", md: "10", xl: "16" }} align="stretch">
           <Text
             as="h2"
-            textStyle="h2"
+            fontFamily="body"
             fontSize="display.h2"
+            fontWeight="black"
             color="fg"
             textTransform="uppercase"
             textAlign="center"
+            lineHeight="1.2"
           >
             {heading}
           </Text>
 
           <Grid
             templateColumns={{ base: "1fr", lg: "1fr 1fr" }}
-            gap={{ base: "5", md: "6" }}
+            gap={{ base: "2.5", md: "5" }}
             w="full"
             alignItems="stretch"
           >
             <VStack
               bg="background"
-              p={{ base: "5", md: "6" }}
-              gap={{ base: "4", md: "5" }}
+              p={{ base: "4", md: "6" }}
+              gap={{ base: "4", md: "6" }}
               align="stretch"
               h="full"
             >
               <Box
                 position="relative"
                 w="full"
-                aspectRatio="602/400"
+                aspectRatio={{ base: "368/200", md: "602/400" }}
                 bg="gray.300"
                 overflow="hidden"
               >
@@ -80,8 +108,9 @@ export function EventQuoteTestimonials({
                 ) : null}
               </Box>
               <Text
-                fontSize={{ base: "2xl", md: "3rem" }}
-                fontWeight="extrabold"
+                fontFamily="body"
+                fontSize="display.h2"
+                fontWeight="black"
                 color="fg"
                 textTransform="uppercase"
                 lineHeight="1.1"
@@ -90,7 +119,8 @@ export function EventQuoteTestimonials({
               </Text>
               <Stars count={featured.stars ?? 5} />
               <Text
-                fontSize={{ base: "sm", md: "md", xl: "body.lg" }}
+                fontFamily="body"
+                fontSize={BODY_STEP}
                 fontWeight="extrabold"
                 color="fg"
                 lineHeight="1.5"
@@ -99,21 +129,21 @@ export function EventQuoteTestimonials({
               </Text>
             </VStack>
 
-            <VStack gap={{ base: "5", md: "6" }} align="stretch">
+            <VStack gap="5" align="stretch">
               {others.map((quote) => (
                 <Flex
                   key={quote.id}
                   bg="background"
-                  p={{ base: "4", md: "5" }}
-                  gap={{ base: "4", md: "6" }}
+                  p={{ base: "4", md: "6" }}
+                  gap="6"
                   align="stretch"
-                  direction={{ base: "column", sm: "row" }}
+                  direction="row"
                 >
                   <Box
                     position="relative"
-                    w={{ base: "full", sm: "190px" }}
+                    w={{ base: "127px", md: "190px" }}
+                    h={{ base: "151px", md: "190px" }}
                     flexShrink={0}
-                    aspectRatio="1"
                     bg="gray.300"
                     overflow="hidden"
                   >
@@ -122,22 +152,33 @@ export function EventQuoteTestimonials({
                         src={quote.imageSrc}
                         alt={quote.name}
                         fill
-                        sizes="190px"
+                        sizes="(max-width: 767px) 127px, 190px"
                         style={{ objectFit: "cover" }}
                       />
                     ) : null}
                   </Box>
-                  <VStack align="stretch" gap="2" justify="center" flex="1">
+                  <VStack
+                    align="stretch"
+                    gap="4"
+                    justify="flex-start"
+                    flex="1"
+                    minW="0"
+                  >
                     <Text
-                      fontSize={{ base: "md", xl: "body.lg" }}
+                      fontFamily="body"
+                      fontSize={BODY_STEP}
                       fontWeight="extrabold"
                       color="fg"
                       textTransform="uppercase"
+                      lineHeight="1.2"
                     >
                       {quote.name}
                     </Text>
+                    <Stars count={quote.stars ?? 5} />
                     <Text
-                      fontSize={{ base: "sm", md: "md", xl: "body.lg" }}
+                      fontFamily="body"
+                      fontSize={BODY_STEP}
+                      fontWeight="normal"
                       color="fg"
                       lineHeight="1.5"
                     >

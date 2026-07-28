@@ -5,12 +5,21 @@ import {
   getActivityBySlug,
   getAllActivitySlugs,
 } from "@/lib/activities/getActivityBySlug";
+import { resolveActivityHighlights } from "@/lib/activities/landingDefaults";
 import { getUncategorizedPackagesByActivityId } from "@/lib/catalog/getPackagesByCategory";
 import { getPackageCategoriesByActivityId } from "@/lib/package-categories/getPackageCategories";
 import { getTestimonials } from "@/lib/testimonials/getTestimonials";
+import type { Media } from "@/payload-types";
 
 export interface ActivityPageProps {
   params: Promise<{ slug: string }>;
+}
+
+function resolveMediaUrl(
+  image: string | Media | null | undefined,
+): string | undefined {
+  if (!image || typeof image === "string") return undefined;
+  return image.url ?? undefined;
 }
 
 export async function generateStaticParams() {
@@ -46,6 +55,8 @@ export default async function ActivityPage({ params }: ActivityPageProps) {
     <ActivityPackagesPageContent
       title={activity.title}
       description={activity.description}
+      highlights={resolveActivityHighlights(slug, activity.highlights)}
+      heroBackgroundImageSrc={resolveMediaUrl(activity.image)}
       packages={packages}
       activitySlug={slug}
       testimonials={testimonials}

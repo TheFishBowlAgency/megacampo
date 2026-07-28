@@ -28,7 +28,7 @@ export function AdventureSection({
   const hasMore = activities.length > INITIAL_VISIBLE_COUNT;
 
   return (
-    <Section id="actividades">
+    <Section id="actividades" scrollMarginTop="var(--site-header-offset, 7rem)">
       <Container>
         <VStack gap={{ base: "6", md: "8", lg: "12", xl: "16" }}>
           <Text

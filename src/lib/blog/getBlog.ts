@@ -7,11 +7,18 @@ import {
   getDefaultBlogPost,
   toBlogPostCard,
 } from "./defaults";
+import { mapBlogGlobal } from "./mapBlog";
 import { mapPostToCard, mapPostToDetail } from "./mapPost";
-import type { BlogPostCard, BlogPostDetail } from "./types";
+import type { BlogCopy, BlogPostCard, BlogPostDetail } from "./types";
 
-export function getBlogCopy() {
-  return DEFAULT_BLOG;
+export async function getBlogCopy(): Promise<BlogCopy> {
+  try {
+    const payload = await getPayload({ config });
+    const doc = await payload.findGlobal({ slug: "blog", depth: 1 });
+    return mapBlogGlobal(doc);
+  } catch {
+    return DEFAULT_BLOG;
+  }
 }
 
 export async function getBlogPosts(): Promise<BlogPostCard[]> {

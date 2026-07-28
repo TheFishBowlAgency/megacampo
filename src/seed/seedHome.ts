@@ -2,6 +2,7 @@ import type { Payload } from "payload";
 
 import { DEFAULT_EVENT_PRICING_TABS } from "@/lib/events/defaultPricing";
 import {
+  DEFAULT_EVENT_ACTIVITY_CHOICES,
   DEFAULT_EVENT_BODY,
   DEFAULT_EVENT_CARD_DESCRIPTION,
   DEFAULT_EVENTS,
@@ -22,6 +23,13 @@ const EVENT_SEEDS = DEFAULT_EVENTS.map((event, index) => ({
   activityHeading: "Qual a atividade certa para a tua festa?",
   activityDescription:
     "No Megacampo tens diferentes formatos para o teu evento: desde paintball a jogos de cooperação. Escolhe a atividade e consulta os pacotes disponíveis.",
+  activityChoices: DEFAULT_EVENT_ACTIVITY_CHOICES.map((choice) => ({
+    title: choice.title,
+    imageAlt: choice.imageAlt,
+    features: choice.features.map((label) => ({ label })),
+    ageNote: choice.ageNote,
+    linkHref: choice.href,
+  })),
   testimonialsHeading: DEFAULT_TESTIMONIALS_HEADING,
   pricingTabs: DEFAULT_EVENT_PRICING_TABS.map((tab) => ({
     label: tab.label,
@@ -60,12 +68,14 @@ async function ensureEvents(
       const needsTestimonials = !doc.testimonials?.length;
       const needsActivityCopy =
         !doc.activityHeading?.trim() || !doc.activityDescription?.trim();
+      const needsActivityChoices = !doc.activityChoices?.length;
 
       if (
         needsBody ||
         needsPricing ||
         needsTestimonials ||
         needsActivityCopy ||
+        needsActivityChoices ||
         !doc.description?.trim()
       ) {
         await payload.update({
@@ -76,6 +86,9 @@ async function ensureEvents(
             ...(needsBody ? { body: seed.body } : {}),
             ...(needsPricing ? { pricingTabs: seed.pricingTabs } : {}),
             ...(needsTestimonials ? { testimonials: testimonialIds } : {}),
+            ...(needsActivityChoices
+              ? { activityChoices: seed.activityChoices }
+              : {}),
             ...(needsActivityCopy
               ? {
                   activityHeading: seed.activityHeading,
@@ -103,6 +116,7 @@ async function ensureEvents(
         body: seed.body,
         activityHeading: seed.activityHeading,
         activityDescription: seed.activityDescription,
+        activityChoices: seed.activityChoices,
         pricingTabs: seed.pricingTabs,
         testimonialsHeading: seed.testimonialsHeading,
         testimonials: testimonialIds,
@@ -125,19 +139,59 @@ export async function runHomeSeed(payload: Payload): Promise<void> {
   });
 
   if (existing.hero?.heading) {
-    payload.logger.info("Home global already populated — events synced");
+    const needsTestimonials =
+      !existing.testimonials?.items?.length && testimonialIds.length > 0;
+    const needsCarouselLabels =
+      !existing.testimonials?.prevLabel?.trim() ||
+      !existing.testimonials?.nextLabel?.trim();
+
+    if (needsTestimonials || needsCarouselLabels) {
+      await payload.updateGlobal({
+        slug: "home",
+        data: {
+          testimonials: {
+            heading:
+              existing.testimonials?.heading ||
+              DEFAULT_HOME.testimonials.heading,
+            description:
+              existing.testimonials?.description ||
+              DEFAULT_HOME.testimonials.description,
+            items: needsTestimonials
+              ? testimonialIds
+              : existing.testimonials?.items,
+            prevLabel:
+              existing.testimonials?.prevLabel ||
+              DEFAULT_HOME.testimonials.prevLabel,
+            nextLabel:
+              existing.testimonials?.nextLabel ||
+              DEFAULT_HOME.testimonials.nextLabel,
+          },
+        },
+      });
+      payload.logger.info("Synced home testimonials relationship");
+    } else {
+      payload.logger.info("Home global already populated — events synced");
+    }
     return;
   }
 
   await payload.updateGlobal({
     slug: "home",
     data: {
-      hero: DEFAULT_HOME.hero,
+      hero: {
+        heading: DEFAULT_HOME.hero.heading,
+        description: DEFAULT_HOME.hero.description,
+        cta: DEFAULT_HOME.hero.cta,
+      },
       keyFeatures: {
         items: DEFAULT_HOME.keyFeatures.items.map((label) => ({ label })),
       },
       adventure: DEFAULT_HOME.adventure,
-      maps: DEFAULT_HOME.maps,
+      maps: {
+        heading: DEFAULT_HOME.maps.heading,
+        description: DEFAULT_HOME.maps.description,
+        cta: DEFAULT_HOME.maps.cta,
+      },
       eventTypes: {
         heading: DEFAULT_HOME.eventTypes.heading,
         description: DEFAULT_HOME.eventTypes.description,
@@ -157,6 +211,9 @@ export async function runHomeSeed(payload: Payload): Promise<void> {
       testimonials: {
         heading: DEFAULT_HOME.testimonials.heading,
         description: DEFAULT_HOME.testimonials.description,
+        items: testimonialIds,
+        prevLabel: DEFAULT_HOME.testimonials.prevLabel,
+        nextLabel: DEFAULT_HOME.testimonials.nextLabel,
       },
       cta: DEFAULT_HOME.cta,
       faq: DEFAULT_HOME.faq,

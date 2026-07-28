@@ -6,6 +6,7 @@ import { runBlogSeed } from "./seedBlog";
 import { runCatalogSeed } from "./seedCatalog";
 import { runCenariosSeed } from "./seedCenarios";
 import { runComoSeed } from "./seedComo";
+import { runEventosSeed } from "./seedEventos";
 import { runHomeSeed } from "./seedHome";
 import { runSiteShellSeed } from "./seedSiteShell";
 import { runTestimonialsSeed } from "./seedTestimonials";
@@ -18,6 +19,7 @@ async function main(): Promise<void> {
     await runTestimonialsSeed(payload);
     await runHomeSeed(payload);
     await runBlogSeed(payload);
+    await runEventosSeed(payload);
     await runComoSeed(payload);
     await runCenariosSeed(payload);
     await runCatalogSeed(payload);

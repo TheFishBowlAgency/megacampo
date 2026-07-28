@@ -2,6 +2,7 @@
 
 import { Box, Flex, Text, VStack } from "@chakra-ui/react";
 import { Link } from "@/components/ui";
+import { STEP_NUMBER_CHIP_MASK } from "@/components/ui/tornChipMask";
 import { Container, Section } from "@/components/layout";
 
 export type HowItWorksStep = {
@@ -11,6 +12,7 @@ export type HowItWorksStep = {
   description: string;
   linkText: string;
   href: string;
+  /** Figma illustration — supplied in code, not CMS */
   icon: React.ReactNode;
 };
 
@@ -61,7 +63,7 @@ function StepContent({
         fontWeight="extrabold"
         color="fg.muted"
         textTransform="uppercase"
-        fontSize={{ base: "sm", md: "md", lg: "lg" }}
+        fontSize={{ base: "sm", md: "md", lg: "body.md", xl: "body.lg" }}
       >
         {step.stepLabel}
       </Text>
@@ -69,18 +71,21 @@ function StepContent({
         fontWeight="semibold"
         color="fg"
         textTransform="uppercase"
-        fontSize={{ base: "lg", md: "xl", lg: "2xl" }}
+        fontSize={{ base: "lg", md: "xl", lg: "xl", xl: "2xl" }}
       >
         {step.title}
       </Text>
-      <Text color="fg" fontSize={{ base: "sm", md: "md", lg: "lg" }}>
+      <Text
+        color="fg"
+        fontSize={{ base: "sm", md: "md", lg: "body.md", xl: "body.lg" }}
+      >
         {step.description}
       </Text>
       <Link
         href={step.href}
         color="fg.muted"
-        fontSize={{ base: "sm", md: "md", lg: "lg" }}
-        _hover={{ textDecoration: "underline" }}
+        fontSize={{ base: "sm", md: "md", lg: "body.md", xl: "body.lg" }}
+        _hover={{ textDecoration: "underline", textUnderlineOffset: "3px" }}
       >
         {step.linkText}
       </Link>
@@ -88,27 +93,70 @@ function StepContent({
   );
 }
 
-function StepNumberBadge({ number }: { number: number }) {
+function StepNumberBadge({
+  number,
+  size = { base: "60px", md: "80px", lg: "100px", xl: "140px" },
+}: {
+  number: number;
+  size?: { base?: string; md?: string; lg?: string; xl?: string };
+}) {
   return (
-    <Text
-      fontFamily="heading"
-      fontSize={{ base: "6rem", md: "7rem", lg: "8rem", xl: "11rem" }}
-      fontWeight="400"
-      color="fg"
-      lineHeight="1"
+    <Box
+      bg="fg"
+      color="primary"
+      display="inline-flex"
+      alignItems="center"
+      justifyContent="center"
+      flexShrink={0}
+      w={size}
+      h={size}
       userSelect="none"
-      opacity={0.08}
+      style={STEP_NUMBER_CHIP_MASK}
     >
-      {number}
-    </Text>
+      <Text
+        fontFamily="heading.molot"
+        fontSize={{ base: "2rem", md: "2.5rem", lg: "3.5rem", xl: "5rem" }}
+        fontWeight="400"
+        lineHeight="1"
+        color="primary"
+      >
+        {number}
+      </Text>
+    </Box>
   );
 }
 
 /* ── Desktop step ──────────────────────────────────────────────────────────── */
 
-const ICON_SIZE_MD = "100px";
-const ICON_SIZE_LG = "140px";
+const BADGE_SIZE_MD = "80px";
+const BADGE_SIZE_LG = "100px";
+const BADGE_SIZE_XL = "140px";
+const ICON_SIZE_MD = "140px";
+const ICON_SIZE_LG = "180px";
+const ICON_SIZE_XL = "240px";
 const DOT_SIZE = 50;
+
+function StepIconFrame({
+  icon,
+  size,
+}: {
+  icon: React.ReactNode;
+  size: { base?: string; md?: string; lg?: string; xl?: string } | string;
+}) {
+  return (
+    <Box
+      w={size}
+      h={size}
+      flexShrink={0}
+      position="relative"
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+    >
+      {icon}
+    </Box>
+  );
+}
 
 function DesktopStep({
   step,
@@ -117,8 +165,6 @@ function DesktopStep({
   step: HowItWorksStep;
   isLeft: boolean;
 }) {
-  const iconSize = { md: ICON_SIZE_MD, lg: ICON_SIZE_LG };
-
   return (
     <Flex alignItems="flex-start">
       {/* Left column */}
@@ -126,26 +172,30 @@ function DesktopStep({
         {isLeft ? (
           <Box>
             <Flex alignItems="center">
-              <Box
-                w={iconSize}
-                h={iconSize}
-                flexShrink={0}
-                color="fg"
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-              >
-                {step.icon}
-              </Box>
+              <StepNumberBadge
+                number={step.stepNumber}
+                size={{
+                  md: BADGE_SIZE_MD,
+                  lg: BADGE_SIZE_LG,
+                  xl: BADGE_SIZE_XL,
+                }}
+              />
               <Box flex="1" h="2px" bg="fg.muted" />
             </Flex>
-            <Box pr={{ md: "50px", lg: "70px" }} pt="4">
+            <Box pr={{ md: "40px", lg: "50px", xl: "70px" }} pt="4">
               <StepContent step={step} align="right" />
             </Box>
           </Box>
         ) : (
           <Flex align="center" justify="center" minH="200px">
-            <StepNumberBadge number={step.stepNumber} />
+            <StepIconFrame
+              icon={step.icon}
+              size={{
+                md: ICON_SIZE_MD,
+                lg: ICON_SIZE_LG,
+                xl: ICON_SIZE_XL,
+              }}
+            />
           </Flex>
         )}
       </Box>
@@ -156,8 +206,9 @@ function DesktopStep({
         w={`${DOT_SIZE}px`}
         justifyContent="center"
         pt={{
-          md: `${(parseInt(ICON_SIZE_MD) - DOT_SIZE) / 2}px`,
-          lg: `${(parseInt(ICON_SIZE_LG) - DOT_SIZE) / 2}px`,
+          md: `${(parseInt(BADGE_SIZE_MD) - DOT_SIZE) / 2}px`,
+          lg: `${(parseInt(BADGE_SIZE_LG) - DOT_SIZE) / 2}px`,
+          xl: `${(parseInt(BADGE_SIZE_XL) - DOT_SIZE) / 2}px`,
         }}
       >
         <TimelineDot />
@@ -169,25 +220,29 @@ function DesktopStep({
           <Box>
             <Flex alignItems="center">
               <Box flex="1" h="2px" bg="fg.muted" />
-              <Box
-                w={iconSize}
-                h={iconSize}
-                flexShrink={0}
-                color="fg"
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-              >
-                {step.icon}
-              </Box>
+              <StepNumberBadge
+                number={step.stepNumber}
+                size={{
+                  md: BADGE_SIZE_MD,
+                  lg: BADGE_SIZE_LG,
+                  xl: BADGE_SIZE_XL,
+                }}
+              />
             </Flex>
-            <Box pl={{ md: "50px", lg: "70px" }} pt="4">
+            <Box pl={{ md: "40px", lg: "50px", xl: "70px" }} pt="4">
               <StepContent step={step} align="left" />
             </Box>
           </Box>
         ) : (
           <Flex align="center" justify="center" minH="200px">
-            <StepNumberBadge number={step.stepNumber} />
+            <StepIconFrame
+              icon={step.icon}
+              size={{
+                md: ICON_SIZE_MD,
+                lg: ICON_SIZE_LG,
+                xl: ICON_SIZE_XL,
+              }}
+            />
           </Flex>
         )}
       </Box>
@@ -203,25 +258,15 @@ function MobileStep({ step }: { step: HowItWorksStep }) {
       <Flex align="center">
         <TimelineDot size="sm" />
         <Box flex="1" h="2px" bg="fg.muted" />
-        <Box
-          w="60px"
-          h="60px"
-          flexShrink={0}
-          color="fg"
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-        >
-          {step.icon}
-        </Box>
+        <StepNumberBadge number={step.stepNumber} size={{ base: "60px" }} />
       </Flex>
 
       <Box pl="40px" pt="3">
         <StepContent step={step} align="left" />
       </Box>
 
-      <Box pl="40px" pt="2">
-        <StepNumberBadge number={step.stepNumber} />
+      <Box pl="40px" pt="4">
+        <StepIconFrame icon={step.icon} size="100px" />
       </Box>
     </Box>
   );
@@ -247,7 +292,7 @@ export function HowItWorksSection({
           color="fg"
           textTransform="uppercase"
           textAlign="center"
-          mb={{ base: "8", md: "12", lg: "16" }}
+          mb={{ base: "8", md: "10", lg: "12", xl: "16" }}
         >
           {heading}
         </Text>
@@ -264,7 +309,7 @@ export function HowItWorksSection({
             transform="translateX(-50%)"
           />
 
-          <VStack gap={{ md: "6", lg: "8" }} align="stretch">
+          <VStack gap={{ md: "12", lg: "16", xl: "24" }} align="stretch">
             {steps.map((step, index) => (
               <DesktopStep
                 key={step.stepNumber}

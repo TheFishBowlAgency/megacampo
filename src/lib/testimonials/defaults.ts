@@ -24,7 +24,7 @@ export const DEFAULT_TESTIMONIALS: EventQuote[] = [
     quote:
       "Cenários sensacionais e uma equipa claramente focada em proporcionar uma experiência de paintball de alta qualidade.",
     imageSrc: ACTIVITY_CARD_IMAGE_LASERTAG,
-    stars: 5,
+    stars: 4,
   },
   {
     id: "sondre",
@@ -32,7 +32,7 @@ export const DEFAULT_TESTIMONIALS: EventQuote[] = [
     quote:
       "Absolutely amazing stagparty! We were a group of 14 guys, and it couldn't have been better. 5/5 stars. Definitely coming back!",
     imageSrc: ACTIVITY_CARD_IMAGE_AIRSOFT,
-    stars: 5,
+    stars: 3,
   },
   {
     id: "marjo",
@@ -40,6 +40,6 @@ export const DEFAULT_TESTIMONIALS: EventQuote[] = [
     quote:
       "Cenários, material, staff, instalações incríveis. Tudo foi fantástico. Já joguei em muitos sítios e este é de outro planeta.",
     imageSrc: ACTIVITY_CARD_IMAGE_PAINTBALL,
-    stars: 5,
+    stars: 2,
   },
 ];

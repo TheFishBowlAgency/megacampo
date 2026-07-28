@@ -28,6 +28,7 @@ export type HomeContent = {
     heading: string;
     description: string;
     cta: CtaLink;
+    backgroundImageSrc: string;
   };
   keyFeatures: {
     items: string[];
@@ -40,6 +41,7 @@ export type HomeContent = {
     heading: string;
     description: string;
     cta: CtaLink;
+    backgroundImageSrc: string;
   };
   eventTypes: {
     heading: string;
@@ -63,6 +65,8 @@ export type HomeContent = {
     heading: string;
     description: string;
     images: GalleryImage[];
+    prevLabel: string;
+    nextLabel: string;
   };
   cta: {
     heading: string;

@@ -2,6 +2,7 @@
 
 import { Box, HStack, Text, VStack } from "@chakra-ui/react";
 import Image from "next/image";
+import { PRICING_TAG_TILT, TORN_CHIP_MASK } from "@/components/ui/tornChipMask";
 import { Link, type LinkProps } from "./Link";
 
 export interface ActivityLinkCardProps extends Pick<
@@ -58,7 +59,7 @@ export function ActivityLinkCard({
       display="flex"
       flexDirection="column"
       alignItems="stretch"
-      gap={{ base: "4", md: "8" }}
+      gap="8"
       w="full"
       maxW="full"
       h="full"
@@ -85,7 +86,7 @@ export function ActivityLinkCard({
           position="relative"
           w="full"
           flexShrink={0}
-          aspectRatio={{ base: "195/190", md: "427/310" }}
+          aspectRatio={{ base: "195/190", lg: "427/310" }}
           bg="#DADADA"
         >
           <Image
@@ -97,22 +98,28 @@ export function ActivityLinkCard({
           />
           <Box
             position="absolute"
-            top="10px"
-            left="10px"
+            top={{ base: "10px", md: "10px" }}
+            left={{ base: "10px", md: "10px" }}
             zIndex="1"
-            px={{ base: "2.5", md: "3" }}
-            py={{ base: "1.5", md: "2" }}
-            minW={{ base: "28", md: "32" }}
-            bg="background"
-            transform="rotate(-5.22deg)"
+            display="inline-flex"
+            alignItems="center"
+            justifyContent="center"
+            maxW="calc(100% - 20px)"
+            minH={{ base: "30px", lg: "40px" }}
+            px={{ base: "2.5", lg: "4.5" }}
+            py={{ base: "1.5", lg: "2.5" }}
+            bg="primary"
+            transform={PRICING_TAG_TILT}
+            style={TORN_CHIP_MASK}
           >
             <Text
               fontFamily="heading.molot"
-              fontSize={{ base: "20px", md: "2xl" }}
-              lineHeight={{ base: "23px", md: "1" }}
+              fontSize={{ base: "xl", lg: "xl", xl: "2xl" }}
+              lineHeight="1"
               color="dark"
               textTransform="uppercase"
               textAlign="center"
+              whiteSpace="nowrap"
             >
               {tag}
             </Text>
@@ -124,9 +131,9 @@ export function ActivityLinkCard({
             align="stretch"
             flex="1"
             minH="0"
-            gap={{ base: "8", md: "12" }}
-            px={{ base: "2.5", md: "8" }}
-            py={{ base: "4", md: "8" }}
+            gap={{ base: "8", lg: "12" }}
+            px={{ base: "2.5", lg: "8" }}
+            py={{ base: "4", lg: "8" }}
             bg="background"
           >
             <VStack
@@ -134,7 +141,7 @@ export function ActivityLinkCard({
               flex="1"
               minH="0"
               justifyContent="flex-start"
-              gap={{ base: "4", md: "6" }}
+              gap={{ base: "4", lg: "6" }}
               w="full"
               maxW="full"
               mx="auto"
@@ -143,15 +150,15 @@ export function ActivityLinkCard({
                 <HStack
                   key={line}
                   align="flex-start"
-                  gap={{ base: "4", md: "8" }}
+                  gap={{ base: "4", lg: "8" }}
                   w="full"
                 >
                   <FeatureTreeIcon />
                   <Text
                     flex="1"
                     textStyle="body"
-                    fontSize={{ base: "sm", md: "body.md", xl: "body.lg" }}
-                    lineHeight={{ base: "16px", md: "24px", xl: "28px" }}
+                    fontSize={{ base: "sm", lg: "body.md", xl: "body.lg" }}
+                    lineHeight={{ base: "1.15", lg: "1.2", xl: "1.17" }}
                     color="dark"
                   >
                     {line}
@@ -162,9 +169,9 @@ export function ActivityLinkCard({
             {ageNote?.trim() ? (
               <Text
                 flexShrink={0}
-                textStyle="h5"
-                fontSize={{ base: "xl", md: "body.md", xl: "body.lg" }}
-                lineHeight={{ base: "23px", md: "24px", xl: "28px" }}
+                fontSize={{ base: "xl", lg: "body.md", xl: "body.lg" }}
+                fontWeight="extrabold"
+                lineHeight="1.2"
                 color="dark"
                 textAlign="center"
               >
@@ -178,9 +185,9 @@ export function ActivityLinkCard({
       <VStack gap="2" align="center" w="full" flexShrink={0}>
         <Text
           as="span"
-          textStyle="h5"
-          fontSize={{ base: "xl", md: "body.md", xl: "body.lg" }}
-          lineHeight={{ base: "23px", md: "24px", xl: "28px" }}
+          fontSize={{ base: "md", lg: "body.md", xl: "body.lg" }}
+          fontWeight="extrabold"
+          lineHeight="1.2"
           color="fg"
           textTransform="uppercase"
           textAlign="center"
@@ -189,9 +196,8 @@ export function ActivityLinkCard({
         </Text>
         <Text
           as="span"
-          textStyle="body"
-          fontSize={{ base: "xs", md: "body.md", xl: "body.lg" }}
-          lineHeight={{ base: "14px", md: "24px", xl: "28px" }}
+          fontSize={{ base: "md", lg: "body.md", xl: "body.lg" }}
+          lineHeight="1.2"
           color="fg.muted"
           textAlign="center"
         >
@@ -206,7 +212,7 @@ function FeatureTreeIcon() {
   return (
     <Box
       flexShrink={0}
-      boxSize={{ base: "30px", md: "50px" }}
+      boxSize={{ base: "30px", lg: "40px", xl: "50px" }}
       position="relative"
       display="flex"
       alignItems="center"

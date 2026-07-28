@@ -1,22 +1,9 @@
 import { Header } from "@/components/header";
 import { FAQSection, CTASection, Footer } from "@/components/landing";
 import { PageHero } from "@/components/layout";
-import {
-  HowItWorksSection,
-  HandPointingIcon,
-  ChecklistIcon,
-  CalendarCheckIcon,
-} from "@/components/como";
+import { HowItWorksSection, getComoStepIcon } from "@/components/como";
 import type { HowItWorksStep } from "@/components/como";
 import { getComo } from "@/lib/como/getComo";
-import type { ComoStepIcon } from "@/lib/como/types";
-import type { ReactNode } from "react";
-
-const STEP_ICONS: Record<ComoStepIcon, ReactNode> = {
-  hand: <HandPointingIcon />,
-  checklist: <ChecklistIcon />,
-  calendar: <CalendarCheckIcon />,
-};
 
 export default async function ComoPage() {
   const como = await getComo();
@@ -28,7 +15,7 @@ export default async function ComoPage() {
     description: step.description,
     linkText: step.link.label,
     href: step.link.href,
-    icon: STEP_ICONS[step.icon],
+    icon: getComoStepIcon(index),
   }));
 
   return (
@@ -38,9 +25,8 @@ export default async function ComoPage() {
         <PageHero
           title={como.hero.heading}
           subtitle={como.hero.description}
+          backgroundImageSrc={como.hero.backgroundImageSrc}
           cta={{ label: como.hero.cta.label, href: como.hero.cta.href }}
-          heroBg="bg.hero"
-          titleTextStyle="h1.molot"
         />
 
         <HowItWorksSection heading={como.howItWorks.heading} steps={steps} />

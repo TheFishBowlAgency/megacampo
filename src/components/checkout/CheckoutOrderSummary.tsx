@@ -81,10 +81,10 @@ export function CheckoutOrderSummary({
 
         {/* Total */}
         <Flex justify="space-between" align="center">
-          <Text textStyle="h5" color="grayLight">
+          <Text textStyle="h5" color="fg" fontWeight="extrabold">
             Total
           </Text>
-          <Text textStyle="h5" color="grayLight">
+          <Text textStyle="h5" color="fg" fontWeight="extrabold">
             {formatPriceWithCurrency(total)}
           </Text>
         </Flex>

@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import { Box, Text } from "@chakra-ui/react";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/landing";
+import { PromoInfoBar } from "@/components/ui";
 import { CartAlertBanner } from "@/components/cart";
 import { Breadcrumb, Container } from "@/components/layout";
 import { OrderConfirmationContent } from "./OrderConfirmationContent";
@@ -26,6 +27,7 @@ export default function OrderConfirmationPage() {
   return (
     <>
       <Header />
+      <PromoInfoBar />
       <main>
         <Breadcrumb items={BREADCRUMB_ITEMS} />
         <CartAlertBanner message="A tua reserva foi concluída com sucesso." />

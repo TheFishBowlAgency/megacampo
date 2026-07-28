@@ -17,7 +17,6 @@ export interface ProductTestimonialsSectionProps {
   testimonials: ProductTestimonial[];
 }
 
-/** Stars in dark gray/black per Figma. size: "sm" for small cards, "md" for large. */
 function StarRating({
   rating,
   size = "md",
@@ -82,10 +81,6 @@ function CardContent({
   );
 }
 
-/**
- * Large testimonial (desktop left): landscape image at top, then name, stars, text.
- * Figma: rectangular image wider than tall; larger name and stars.
- */
 function LargeTestimonialCard({
   clientName,
   rating,
@@ -171,11 +166,6 @@ function SmallTestimonialCard({
   );
 }
 
-/**
- * Product page testimonials per Figma nodes 215-2173 (desktop) and 215-3162 (mobile).
- * Desktop: two columns — large card left (landscape image, vertical), 3 small cards right (horizontal, square avatar).
- * Mobile: four cards stacked with white separators; first = larger landscape image, rest = square; all horizontal.
- */
 export function ProductTestimonialsSection({
   heading,
   testimonials,

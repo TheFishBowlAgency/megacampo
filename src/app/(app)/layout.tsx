@@ -4,6 +4,7 @@ import { Anton, Roboto } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import { detectSiteLocale, SITE_LOCALE_COOKIE } from "@/i18n/site";
+import { DEFAULT_HEADER } from "@/lib/site/defaults";
 import { getSiteShell } from "@/lib/site/getSiteShell";
 import { StyleProvider } from "@/providers";
 
@@ -25,14 +26,26 @@ const roboto = Roboto({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Megacampo | O maior parque de paintball da Península Ibérica",
-  description:
-    "Experiência 12 mapas em 60 hectares. Paintball, airsoft, lasertag. Reservas e eventos.",
-  other: {
-    google: "notranslate",
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  try {
+    const { header } = await getSiteShell();
+    return {
+      title: header.seo.title,
+      description: header.seo.description,
+      other: {
+        google: "notranslate",
+      },
+    };
+  } catch {
+    return {
+      title: DEFAULT_HEADER.seo.title,
+      description: DEFAULT_HEADER.seo.description,
+      other: {
+        google: "notranslate",
+      },
+    };
+  }
+}
 
 export default async function RootLayout({
   children,
@@ -52,6 +65,7 @@ export default async function RootLayout({
       lang={locale}
       translate="no"
       suppressHydrationWarning
+      data-scroll-behavior="smooth"
       className={`${anton.variable} ${molot.variable} ${roboto.variable} notranslate`}
     >
       <body>

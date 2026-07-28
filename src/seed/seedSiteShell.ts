@@ -7,37 +7,18 @@ function headerNavNeedsSync(
     | { label?: string | null; href?: string | null }[]
     | null
     | undefined,
+  expected: { label: string; href: string }[],
 ): boolean {
   if (!navLinks?.length) return true;
+  if (navLinks.length !== expected.length) return true;
 
-  const hrefs = navLinks.map((l) => l.href ?? "");
-  const labels = navLinks.map((l) => (l.label ?? "").toUpperCase());
-
-  const hasParqueRoute = hrefs.some(
-    (h) => h === "/parque" || h.startsWith("/parque/"),
-  );
-  const oParque = navLinks.find((l) =>
-    (l.label ?? "").toUpperCase().includes("PARQUE"),
-  );
-  const oParqueWrong =
-    Boolean(oParque) &&
-    oParque?.href !== "/cenarios" &&
-    oParque?.href !== "/cenarios/";
-  const missingBlog = !hrefs.includes("/blog") && !labels.includes("BLOG");
-  const hasOldActividadesSpelling = labels.includes("ACTIVIDADES");
-  const loja = navLinks.find((l) =>
-    (l.label ?? "").toUpperCase().includes("LOJA"),
-  );
-  const lojaLabelStale =
-    Boolean(loja) && (loja?.label ?? "").toUpperCase() !== "LOJA DE PAINTBALL";
-
-  return (
-    hasParqueRoute ||
-    oParqueWrong ||
-    missingBlog ||
-    hasOldActividadesSpelling ||
-    lojaLabelStale
-  );
+  return expected.some((link, index) => {
+    const current = navLinks[index];
+    return (
+      (current?.label ?? "").toUpperCase() !== link.label.toUpperCase() ||
+      (current?.href ?? "") !== link.href
+    );
+  });
 }
 
 export async function runSiteShellSeed(payload: Payload): Promise<void> {
@@ -46,7 +27,27 @@ export async function runSiteShellSeed(payload: Payload): Promise<void> {
     depth: 0,
   });
 
-  if (headerNavNeedsSync(existingHeader.navLinks)) {
+  const needsDesktopNav = headerNavNeedsSync(
+    existingHeader.navLinks,
+    DEFAULT_HEADER.navLinks,
+  );
+  const needsMobileNav = headerNavNeedsSync(
+    existingHeader.mobileNavLinks,
+    DEFAULT_HEADER.mobileNavLinks,
+  );
+  const needsLabels = !existingHeader.labels?.bagLabel;
+  const needsLanguages = !existingHeader.languages?.length;
+  const needsSeo = !existingHeader.seo?.title;
+  const needsPromo = !existingHeader.promoMessage?.trim();
+
+  if (
+    needsDesktopNav ||
+    needsMobileNav ||
+    needsLabels ||
+    needsLanguages ||
+    needsSeo ||
+    needsPromo
+  ) {
     await payload.updateGlobal({
       slug: "header",
       data: {
@@ -57,14 +58,60 @@ export async function runSiteShellSeed(payload: Payload): Promise<void> {
             DEFAULT_HEADER.topBar.contactLabel,
           phone: existingHeader.topBar?.phone || DEFAULT_HEADER.topBar.phone,
         },
-        navLinks: DEFAULT_HEADER.navLinks,
+        navLinks: needsDesktopNav
+          ? DEFAULT_HEADER.navLinks
+          : existingHeader.navLinks,
+        mobileNavLinks: needsMobileNav
+          ? DEFAULT_HEADER.mobileNavLinks
+          : existingHeader.mobileNavLinks,
+        labels: needsLabels
+          ? DEFAULT_HEADER.labels
+          : {
+              languageSelectAria:
+                existingHeader.labels?.languageSelectAria ||
+                DEFAULT_HEADER.labels.languageSelectAria,
+              openMenuAria:
+                existingHeader.labels?.openMenuAria ||
+                DEFAULT_HEADER.labels.openMenuAria,
+              closeMenuAria:
+                existingHeader.labels?.closeMenuAria ||
+                DEFAULT_HEADER.labels.closeMenuAria,
+              menuAria:
+                existingHeader.labels?.menuAria ||
+                DEFAULT_HEADER.labels.menuAria,
+              searchAria:
+                existingHeader.labels?.searchAria ||
+                DEFAULT_HEADER.labels.searchAria,
+              cartAria:
+                existingHeader.labels?.cartAria ||
+                DEFAULT_HEADER.labels.cartAria,
+              bagLabel:
+                existingHeader.labels?.bagLabel ||
+                DEFAULT_HEADER.labels.bagLabel,
+              searchLabel:
+                existingHeader.labels?.searchLabel ||
+                DEFAULT_HEADER.labels.searchLabel,
+              cartHref:
+                existingHeader.labels?.cartHref ||
+                DEFAULT_HEADER.labels.cartHref,
+            },
+        languages: needsLanguages
+          ? DEFAULT_HEADER.languages
+          : existingHeader.languages,
+        promoMessage: needsPromo
+          ? DEFAULT_HEADER.promoMessage
+          : existingHeader.promoMessage,
+        seo: needsSeo
+          ? DEFAULT_HEADER.seo
+          : {
+              title: existingHeader.seo?.title || DEFAULT_HEADER.seo.title,
+              description:
+                existingHeader.seo?.description ||
+                DEFAULT_HEADER.seo.description,
+            },
       },
     });
-    payload.logger.info(
-      existingHeader.navLinks?.length
-        ? "Synced header navLinks to site defaults (O PARQUE→/cenarios, BLOG→/blog)"
-        : "Seeded header global",
-    );
+    payload.logger.info("Synced header global to site defaults");
   } else {
     payload.logger.info("Header global already up to date — skipped");
   }

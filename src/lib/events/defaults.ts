@@ -5,7 +5,12 @@ import {
 } from "@/data/activityCardMedia";
 
 import { DEFAULT_EVENT_PRICING_TABS } from "./defaultPricing";
-import type { EventCardItem, EventDetail } from "./types";
+import type {
+  EventActivityChoice,
+  EventCardItem,
+  EventDetail,
+  EventosCopy,
+} from "./types";
 import {
   DEFAULT_TESTIMONIALS,
   DEFAULT_TESTIMONIALS_HEADING,
@@ -56,11 +61,58 @@ export const DEFAULT_EVENTS: EventCardItem[] = [
   ),
 ];
 
-export const DEFAULT_EVENT_LISTING = {
+export const DEFAULT_EVENT_LISTING: EventosCopy = {
   heroTitle: "EVENTOS",
   sectionHeading: "EVENTOS",
   cardLinkLabel: "Ver mais",
-} as const;
+  backLabel: "Voltar a Eventos",
+  shareLabel: "Partilhar",
+};
+
+export const DEFAULT_EVENT_RESERVE_HREF = "/#reservas";
+export const DEFAULT_EVENT_RESERVE_LABEL = "Reserva já";
+
+export const DEFAULT_EVENT_ACTIVITY_CHOICES: EventActivityChoice[] = [
+  {
+    id: "paintball",
+    title: "PAINTBALL",
+    imageSrc: ACTIVITY_CARD_IMAGE_PAINTBALL,
+    imageAlt: "Jogadores de paintball em cenário ao ar livre",
+    features: [
+      "Ideal para equipas jovens e competitivas",
+      "Mais intensidade e adrenalina",
+      "Ótimo para “quebrar o gelo”",
+    ],
+    ageNote: "+10 anos",
+    href: "#pacotes",
+  },
+  {
+    id: "soft-paintball",
+    title: "SOFT PAINTBALL",
+    imageSrc: ACTIVITY_CARD_IMAGE_AIRSOFT,
+    imageAlt: "Equipa em atividade de soft paintball",
+    features: [
+      "Menos impacto, mesma dinâmica de jogo",
+      "Bom para grupos mistos/menos habituados a atividades radicais",
+      "Excelente equilíbrio entre conforto",
+    ],
+    ageNote: "+8 anos",
+    href: "#pacotes",
+  },
+  {
+    id: "cooperacao",
+    title: "JOGOS DE COOPERAÇÃO",
+    imageSrc: ACTIVITY_CARD_IMAGE_LASERTAG,
+    imageAlt: "Grupo em jogos de equipa e cooperação",
+    features: [
+      "Foco em comunicação, liderança e estratégia",
+      "Ideal para equipas com diferentes idades",
+      "Perfeito quando o objetivo é team building",
+    ],
+    ageNote: "+10 anos",
+    href: "#pacotes",
+  },
+];
 
 export function getDefaultEventDetail(slug: string): EventDetail | null {
   const card = DEFAULT_EVENTS.find((event) => event.slug === slug);
@@ -76,7 +128,9 @@ export function getDefaultEventDetail(slug: string): EventDetail | null {
     activityHeading: "Qual a atividade certa para a tua festa?",
     activityDescription:
       "No Megacampo tens diferentes formatos para o teu evento: desde paintball a jogos de cooperação. Escolhe a atividade e consulta os pacotes disponíveis.",
-    reserveHref: "/#reservas",
+    activityChoices: DEFAULT_EVENT_ACTIVITY_CHOICES,
+    reserveHref: DEFAULT_EVENT_RESERVE_HREF,
+    reserveLabel: DEFAULT_EVENT_RESERVE_LABEL,
     packagesHref: card.packagesHref,
     pricingTabs: DEFAULT_EVENT_PRICING_TABS,
     testimonialsHeading: DEFAULT_TESTIMONIALS_HEADING,

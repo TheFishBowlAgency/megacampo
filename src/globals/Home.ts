@@ -61,6 +61,7 @@ export const Home: GlobalConfig = {
                   label: bl("Botão", "Button"),
                   fields: linkFields,
                 },
+                mediaImageField(),
               ],
             },
           ],
@@ -144,6 +145,7 @@ export const Home: GlobalConfig = {
                   label: bl("Botão", "Button"),
                   fields: linkFields,
                 },
+                mediaImageField(),
               ],
             },
           ],
@@ -339,12 +341,36 @@ export const Home: GlobalConfig = {
                   required: true,
                 },
                 {
+                  name: "items",
+                  type: "relationship",
+                  relationTo: "testimonials",
+                  hasMany: true,
+                  label: bl("Testemunhos", "Testimonials"),
+                  admin: {
+                    description: bl(
+                      "Escolhe e ordena os testemunhos. As imagens alimentam a galeria se a galeria manual estiver vazia.",
+                      "Choose and order testimonials. Their images feed the gallery when the manual gallery is empty.",
+                    ),
+                  },
+                  filterOptions: {
+                    isActive: {
+                      equals: true,
+                    },
+                  },
+                },
+                {
                   name: "images",
                   type: "array",
-                  label: bl("Galeria", "Gallery"),
+                  label: bl("Galeria (opcional)", "Gallery (optional)"),
                   labels: {
                     singular: bl("Imagem", "Image"),
                     plural: bl("Imagens", "Images"),
+                  },
+                  admin: {
+                    description: bl(
+                      "Substitui as imagens dos testemunhos selecionados, se preenchida.",
+                      "Overrides images from selected testimonials when set.",
+                    ),
                   },
                   fields: [
                     mediaImageField({ required: true }),
@@ -354,6 +380,20 @@ export const Home: GlobalConfig = {
                       label: common.alt,
                     },
                   ],
+                },
+                {
+                  name: "prevLabel",
+                  type: "text",
+                  label: bl("Aria: anterior", "Aria: previous"),
+                  required: true,
+                  defaultValue: "Anterior",
+                },
+                {
+                  name: "nextLabel",
+                  type: "text",
+                  label: bl("Aria: seguinte", "Aria: next"),
+                  required: true,
+                  defaultValue: "Seguinte",
                 },
               ],
             },

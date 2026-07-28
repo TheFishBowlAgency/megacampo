@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Box, Flex, HStack, Text, VStack } from "@chakra-ui/react";
+import { Box, Flex, Grid, HStack, Text, VStack } from "@chakra-ui/react";
 import { Container } from "@/components/layout";
 import { Link, QuantitySelector } from "@/components/ui";
 import { TIME_PERIODS } from "@/lib/booking/constants";
@@ -418,14 +418,98 @@ function TabButton({
   );
 }
 
+export type IncludedActivityContent = {
+  categoryLabel: string;
+  packageName: string;
+  description?: string;
+  items: string[];
+};
+
+function IncludedActivityPanel({
+  content,
+}: {
+  content: IncludedActivityContent;
+}) {
+  const mid = Math.ceil(content.items.length / 2);
+  const left = content.items.slice(0, mid);
+  const right = content.items.slice(mid);
+
+  return (
+    <VStack
+      align="stretch"
+      gap={{ base: "5", lg: "6" }}
+      py={{ base: "2", lg: "4" }}
+    >
+      <Text fontSize={{ base: "sm", lg: "md" }} color="fg.muted">
+        {content.categoryLabel}
+      </Text>
+      <Text
+        as="h3"
+        fontWeight="extrabold"
+        fontSize={{ base: "xl", lg: "2xl" }}
+        color="fg"
+        textTransform="uppercase"
+      >
+        {content.packageName}
+      </Text>
+      {content.description ? (
+        <Text
+          fontWeight="bold"
+          fontSize={{ base: "sm", lg: "md", xl: "body.lg" }}
+          color="fg"
+          lineHeight="1.5"
+          maxW="3xl"
+        >
+          {content.description}
+        </Text>
+      ) : null}
+      {content.items.length > 0 ? (
+        <Grid
+          templateColumns={{ base: "1fr", md: "1fr 1fr" }}
+          gap={{ base: "3", md: "6" }}
+          maxW="4xl"
+        >
+          {[left, right].map((column, columnIndex) => (
+            <VStack key={columnIndex} align="stretch" gap="3">
+              {column.map((item) => (
+                <HStack key={item} align="flex-start" gap="3">
+                  <Box
+                    mt="2"
+                    boxSize="6px"
+                    borderRadius="full"
+                    bg="fg"
+                    flexShrink={0}
+                  />
+                  <Text
+                    fontSize={{ base: "sm", lg: "md", xl: "body.lg" }}
+                    color="fg"
+                  >
+                    {item}
+                  </Text>
+                </HStack>
+              ))}
+            </VStack>
+          ))}
+        </Grid>
+      ) : (
+        <Text fontSize="sm" color="fg.muted">
+          Informação sobre itens incluídos na atividade.
+        </Text>
+      )}
+    </VStack>
+  );
+}
+
 export function ExtrasSection({
   extras,
+  included,
   backHref,
   backLabel,
   onAddExtra,
   onCheckout,
 }: {
   extras: ProductExtra[];
+  included: IncludedActivityContent;
   backHref: string;
   backLabel: string;
   onAddExtra?: (extraId: string, quantity: number) => void;
@@ -474,11 +558,7 @@ export function ExtrasSection({
               onAddExtra={onAddExtra}
             />
           ) : (
-            <Box py="8" textAlign="center">
-              <Text textStyle="body" color="fg.muted">
-                Informação sobre itens incluídos na atividade.
-              </Text>
-            </Box>
+            <IncludedActivityPanel content={included} />
           )}
         </Box>
 
@@ -488,20 +568,21 @@ export function ExtrasSection({
               justify="space-between"
               align="center"
               cursor="pointer"
+              bg={expandedMobile === "extras" ? "primary" : "transparent"}
+              color={expandedMobile === "extras" ? "fg" : "fg.muted"}
+              px="4"
+              py="3"
               onClick={() =>
                 setExpandedMobile(expandedMobile === "extras" ? null : "extras")
               }
             >
-              <Box borderBottom="3px solid" borderColor="primary" pb="1">
-                <Text
-                  fontWeight="medium"
-                  fontSize="md"
-                  color="primary"
-                  textTransform="uppercase"
-                >
-                  Melhora a tua atividade
-                </Text>
-              </Box>
+              <Text
+                fontWeight="extrabold"
+                fontSize="md"
+                textTransform="uppercase"
+              >
+                Extras
+              </Text>
               <ChevronIcon
                 direction={expandedMobile === "extras" ? "up" : "down"}
               />
@@ -521,32 +602,29 @@ export function ExtrasSection({
               justify="space-between"
               align="center"
               cursor="pointer"
+              bg={expandedMobile === "included" ? "primary" : "transparent"}
+              color={expandedMobile === "included" ? "fg" : "fg.muted"}
+              px="4"
+              py="3"
               onClick={() =>
                 setExpandedMobile(
                   expandedMobile === "included" ? null : "included",
                 )
               }
             >
-              <Box borderBottom="3px solid" borderColor="fg.muted" pb="1">
-                <Text
-                  fontWeight="medium"
-                  fontSize="md"
-                  color="fg.muted"
-                  textTransform="uppercase"
-                >
-                  Incluído na atividade
-                </Text>
-              </Box>
+              <Text
+                fontWeight="extrabold"
+                fontSize="md"
+                textTransform="uppercase"
+              >
+                Incluído na atividade
+              </Text>
               <ChevronIcon
                 direction={expandedMobile === "included" ? "up" : "down"}
               />
             </Flex>
             {expandedMobile === "included" && (
-              <Box py="4" textAlign="center">
-                <Text fontSize="sm" color="fg.muted">
-                  Informação sobre itens incluídos na atividade.
-                </Text>
-              </Box>
+              <IncludedActivityPanel content={included} />
             )}
           </VStack>
         </VStack>

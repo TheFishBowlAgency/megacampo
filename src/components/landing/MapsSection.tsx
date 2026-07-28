@@ -15,7 +15,7 @@ export function MapsSection({ content }: MapsSectionProps) {
       bg="bg.hero"
       color="grayLight"
       py={{ base: "16", md: "20", lg: "24", xl: "28" }}
-      _before={bannerSectionUnderlayBefore}
+      _before={bannerSectionUnderlayBefore(content.backgroundImageSrc)}
     >
       <VStack
         position="relative"

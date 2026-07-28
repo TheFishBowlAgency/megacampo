@@ -1,7 +1,14 @@
 import type { Footer, Header, Media } from "@/payload-types";
+import { isSiteLocale, type SiteLocale } from "@/i18n/site";
 
 import { DEFAULT_FOOTER, DEFAULT_HEADER, DEFAULT_LOGO_SRC } from "./defaults";
-import type { FooterContent, HeaderContent, SocialLink } from "./types";
+import type {
+  FooterContent,
+  HeaderContent,
+  LanguageOption,
+  NavLink,
+  SocialLink,
+} from "./types";
 
 function resolveMediaUrl(
   image: Header["image"] | Footer["image"],
@@ -13,18 +20,47 @@ function resolveMediaUrl(
   return (image as Media).url ?? undefined;
 }
 
+function mapNavLinks(
+  links:
+    | { label?: string | null; href?: string | null; id?: string | null }[]
+    | null
+    | undefined,
+): NavLink[] {
+  return (
+    links
+      ?.filter(
+        (link): link is { label: string; href: string; id?: string | null } =>
+          Boolean(link?.label && link?.href),
+      )
+      .map((link) => ({ label: link.label, href: link.href })) ?? []
+  );
+}
+
 export function mapHeaderGlobal(doc: Header | null | undefined): HeaderContent {
   if (!doc) {
     return DEFAULT_HEADER;
   }
 
-  const navLinks =
-    doc.navLinks
+  const navLinks = mapNavLinks(doc.navLinks);
+  const mobileNavLinks = mapNavLinks(doc.mobileNavLinks);
+  const resolvedNav = navLinks.length > 0 ? navLinks : DEFAULT_HEADER.navLinks;
+
+  const languages =
+    doc.languages
       ?.filter(
-        (link): link is { label: string; href: string; id?: string | null } =>
-          Boolean(link?.label && link?.href),
+        (
+          lang,
+        ): lang is NonNullable<typeof lang> & {
+          code: SiteLocale;
+          label: string;
+        } => Boolean(lang?.code && lang?.label && isSiteLocale(lang.code)),
       )
-      .map((link) => ({ label: link.label, href: link.href })) ?? [];
+      .map(
+        (lang): LanguageOption => ({
+          code: lang.code,
+          label: lang.label,
+        }),
+      ) ?? [];
 
   return {
     logoSrc: resolveMediaUrl(doc.image) ?? DEFAULT_LOGO_SRC,
@@ -34,7 +70,36 @@ export function mapHeaderGlobal(doc: Header | null | undefined): HeaderContent {
         doc.topBar?.contactLabel?.trim() || DEFAULT_HEADER.topBar.contactLabel,
       phone: doc.topBar?.phone?.trim() || DEFAULT_HEADER.topBar.phone,
     },
-    navLinks: navLinks.length > 0 ? navLinks : DEFAULT_HEADER.navLinks,
+    navLinks: resolvedNav,
+    mobileNavLinks:
+      mobileNavLinks.length > 0
+        ? mobileNavLinks
+        : DEFAULT_HEADER.mobileNavLinks,
+    labels: {
+      languageSelectAria:
+        doc.labels?.languageSelectAria?.trim() ||
+        DEFAULT_HEADER.labels.languageSelectAria,
+      openMenuAria:
+        doc.labels?.openMenuAria?.trim() || DEFAULT_HEADER.labels.openMenuAria,
+      closeMenuAria:
+        doc.labels?.closeMenuAria?.trim() ||
+        DEFAULT_HEADER.labels.closeMenuAria,
+      menuAria: doc.labels?.menuAria?.trim() || DEFAULT_HEADER.labels.menuAria,
+      searchAria:
+        doc.labels?.searchAria?.trim() || DEFAULT_HEADER.labels.searchAria,
+      cartAria: doc.labels?.cartAria?.trim() || DEFAULT_HEADER.labels.cartAria,
+      bagLabel: doc.labels?.bagLabel?.trim() || DEFAULT_HEADER.labels.bagLabel,
+      searchLabel:
+        doc.labels?.searchLabel?.trim() || DEFAULT_HEADER.labels.searchLabel,
+      cartHref: doc.labels?.cartHref?.trim() || DEFAULT_HEADER.labels.cartHref,
+    },
+    languages: languages.length > 0 ? languages : DEFAULT_HEADER.languages,
+    promoMessage: doc.promoMessage?.trim() || DEFAULT_HEADER.promoMessage,
+    seo: {
+      title: doc.seo?.title?.trim() || DEFAULT_HEADER.seo.title,
+      description:
+        doc.seo?.description?.trim() || DEFAULT_HEADER.seo.description,
+    },
   };
 }
 

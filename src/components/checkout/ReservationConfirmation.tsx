@@ -99,9 +99,6 @@ function DataField({ label, value }: { label: string; value: string }) {
   );
 }
 
-/**
- * Full reservation confirmation layout (Figma Checkout success / encomenda).
- */
 export function ReservationConfirmation({
   orderNumber,
   items,
@@ -132,11 +129,11 @@ export function ReservationConfirmation({
       <Box>
         <Text
           textStyle="h2"
-          color="fg"
+          color="primary"
           textTransform="uppercase"
           mb={{ base: "6", md: "8" }}
         >
-          Resume da Reserva
+          Resumo da Reserva
         </Text>
 
         <Text
@@ -275,7 +272,12 @@ export function ReservationConfirmation({
         </Text>
         {paymentMethod === "multibanco" || multibanco ? (
           <Box>
-            <Text fontSize={{ base: "md", xl: "body.lg" }} color="fg" mb="4">
+            <Text
+              fontSize={{ base: "md", xl: "body.lg" }}
+              fontWeight="extrabold"
+              color="primary"
+              mb="4"
+            >
               Referência Multibanco
             </Text>
             {multibanco && (

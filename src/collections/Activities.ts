@@ -2,6 +2,7 @@ import type { CollectionConfig } from "payload";
 
 import { anyone, hideFromNonOperations, operationsAdmin } from "@/access/roles";
 import { autoSlugField } from "@/fields/autoSlugField";
+import { highlightsField } from "@/fields/highlightsField";
 import { mediaImageField } from "@/fields/mediaImageField";
 import { generateActivitySlug } from "@/hooks/generateSlug";
 import { adminGroups } from "@/i18n/adminGroups";
@@ -48,6 +49,7 @@ export const Activities: CollectionConfig = {
     },
     autoSlugField(bl("título", "title")),
     mediaImageField(),
+    highlightsField(),
     {
       name: "sort",
       type: "number",

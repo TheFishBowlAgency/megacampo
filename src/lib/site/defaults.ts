@@ -12,13 +12,41 @@ export const DEFAULT_HEADER: HeaderContent = {
   navLinks: [
     { label: "ATIVIDADES", href: "/#actividades" },
     { label: "O PARQUE", href: "/cenarios" },
-    { label: "COMO", href: "/como" },
     { label: "EVENTOS", href: "/eventos" },
     { label: "LOJA DE PAINTBALL", href: "#loja" },
     { label: "BLOG", href: "/blog" },
-    { label: "RESERVAS", href: "/#reservas" },
     { label: "CONTACTOS", href: "/#contactos" },
   ],
+  mobileNavLinks: [
+    { label: "ATIVIDADES", href: "/#actividades" },
+    { label: "O PARQUE", href: "/cenarios" },
+    { label: "EVENTOS", href: "/eventos" },
+    { label: "LOJA", href: "#loja" },
+    { label: "RESERVAS", href: "/#actividades" },
+    { label: "CONTACTOS", href: "/#contactos" },
+  ],
+  labels: {
+    languageSelectAria: "Selecionar idioma",
+    openMenuAria: "Abrir menu",
+    closeMenuAria: "Fechar menu",
+    menuAria: "Menu",
+    searchAria: "Pesquisar",
+    cartAria: "Carrinho",
+    bagLabel: "Carrinho",
+    searchLabel: "Pesquisar",
+    cartHref: "/carrinho",
+  },
+  languages: [
+    { code: "pt", label: "Português" },
+    { code: "en", label: "English" },
+    { code: "es", label: "Español" },
+  ],
+  promoMessage: "Desconto online de 20% em todos os extras",
+  seo: {
+    title: "Megacampo | O maior parque de paintball da Península Ibérica",
+    description:
+      "Experiência 12 mapas em 60 hectares. Paintball, airsoft, lasertag. Reservas e eventos.",
+  },
 };
 
 export const DEFAULT_FOOTER: FooterContent = {

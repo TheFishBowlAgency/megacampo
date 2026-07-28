@@ -25,6 +25,7 @@
 *.pem
 /media
 /figma_images
+/.figma_qa_tmp
 
 # debug
 npm-debug.log*

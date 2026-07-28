@@ -21,8 +21,10 @@ import { Options } from "./collections/Options";
 import { Packages } from "./collections/Packages";
 import { GroupExtras } from "./collections/GroupExtras";
 import { Orders } from "./collections/Orders";
+import { Blog } from "./globals/Blog";
 import { Cenarios } from "./globals/Cenarios";
 import { Como } from "./globals/Como";
+import { Eventos } from "./globals/Eventos";
 import { Footer } from "./globals/Footer";
 import { Header } from "./globals/Header";
 import { Home } from "./globals/Home";
@@ -59,7 +61,7 @@ export default buildConfig({
     GroupExtras,
     Orders,
   ],
-  globals: [Header, Footer, Home, Como, Cenarios],
+  globals: [Header, Footer, Home, Como, Cenarios, Blog, Eventos],
   editor: lexicalEditor(),
   i18n: {
     fallbackLanguage: "pt",

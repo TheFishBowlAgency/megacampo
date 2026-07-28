@@ -1,14 +1,15 @@
-import type { Como as ComoGlobal } from "@/payload-types";
+import type { Como as ComoGlobal, Media } from "@/payload-types";
 
 import { DEFAULT_COMO } from "./defaults";
-import type { ComoContent, ComoStepIcon } from "./types";
+import type { ComoContent } from "./types";
 
-const STEP_ICONS: ComoStepIcon[] = ["hand", "checklist", "calendar"];
-
-function isStepIcon(value: unknown): value is ComoStepIcon {
-  return (
-    typeof value === "string" && STEP_ICONS.includes(value as ComoStepIcon)
-  );
+function resolveMediaUrl(
+  image: (string | null) | Media | undefined,
+): string | undefined {
+  if (!image || typeof image === "string") {
+    return undefined;
+  }
+  return image.url ?? undefined;
 }
 
 export function mapComoGlobal(doc: ComoGlobal | null | undefined): ComoContent {
@@ -24,8 +25,7 @@ export function mapComoGlobal(doc: ComoGlobal | null | undefined): ComoContent {
           step?.title &&
           step?.description &&
           step?.link?.label &&
-          step?.link?.href &&
-          isStepIcon(step.icon),
+          step?.link?.href,
       )
       .map((step) => ({
         stepLabel: step.stepLabel!,
@@ -35,7 +35,6 @@ export function mapComoGlobal(doc: ComoGlobal | null | undefined): ComoContent {
           label: step.link!.label!,
           href: step.link!.href!,
         },
-        icon: step.icon as ComoStepIcon,
       })) ?? [];
 
   const faqItems =
@@ -51,6 +50,9 @@ export function mapComoGlobal(doc: ComoGlobal | null | undefined): ComoContent {
       heading: doc.hero?.heading?.trim() || DEFAULT_COMO.hero.heading,
       description:
         doc.hero?.description?.trim() || DEFAULT_COMO.hero.description,
+      backgroundImageSrc:
+        resolveMediaUrl(doc.hero?.image) ??
+        DEFAULT_COMO.hero.backgroundImageSrc,
       cta: {
         label: doc.hero?.cta?.label?.trim() || DEFAULT_COMO.hero.cta.label,
         href: doc.hero?.cta?.href?.trim() || DEFAULT_COMO.hero.cta.href,

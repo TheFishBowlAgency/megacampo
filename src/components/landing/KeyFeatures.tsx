@@ -1,5 +1,6 @@
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { Box, Grid, Text } from "@chakra-ui/react";
 import { Container } from "@/components/layout";
+import { TORN_CHIP_MASK } from "@/components/ui/tornChipMask";
 import type { HomeContent } from "@/lib/home/types";
 
 type KeyFeaturesProps = {
@@ -8,49 +9,59 @@ type KeyFeaturesProps = {
 
 export function KeyFeatures({ items }: KeyFeaturesProps) {
   return (
-    <Box py={{ base: "8", md: "10" }}>
+    <Box bg="white" py={{ base: "8", md: "10", lg: "12" }}>
       <Container>
-        <Flex
-          flexWrap="wrap"
-          gap={{ base: "3", md: "4", lg: "4", xl: "5" }}
-          justifyContent="center"
+        <Grid
+          templateColumns={{
+            base: "repeat(2, 1fr)",
+            md: "repeat(3, 1fr)",
+            lg: `repeat(${Math.min(items.length, 5)}, minmax(0, 1fr))`,
+          }}
+          gap={{ base: "5", md: "6", lg: "50px" }}
         >
-          {items.map((label) => (
-            <Box
-              key={label}
-              position="relative"
-              display="inline-flex"
-              alignItems="center"
-              justifyContent="center"
-              px={{ base: "5", md: "4", lg: "3" }}
-              py={{ base: "2", md: "3" }}
-              minW={{ base: "160px", md: "180px", lg: "180px", xl: "200px" }}
-              minH={{ base: "50px", md: "60px", lg: "60px", xl: "70px" }}
-            >
+          {items.map((label, index) => {
+            const isLastOddOnMobile =
+              items.length % 2 === 1 && index === items.length - 1;
+
+            return (
               <Box
-                position="absolute"
-                inset="0"
-                border="2px solid"
-                borderColor="dark"
-                transform="skewX(-8deg)"
-                borderRadius="sm"
-              />
-              <Text
-                fontFamily="heading.molot"
-                fontSize={{ base: "xs", md: "sm", lg: "md", xl: "body.lg" }}
-                fontWeight="normal"
-                textAlign="center"
-                color="dark"
-                textTransform="uppercase"
-                lineHeight="1.2"
-                position="relative"
-                zIndex="1"
+                key={label}
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                px={{ base: "4", md: "5", lg: "6" }}
+                py={{ base: "2", md: "2.5" }}
+                minH={{ base: "60px", md: "64px", lg: "70px" }}
+                bg="bg"
+                style={TORN_CHIP_MASK}
+                gridColumn={{
+                  base: isLastOddOnMobile ? "1 / -1" : "auto",
+                  md: "auto",
+                }}
+                w={{
+                  base: isLastOddOnMobile ? "calc(50% - 0.625rem)" : "full",
+                  md: "full",
+                }}
+                justifySelf={{
+                  base: isLastOddOnMobile ? "center" : "stretch",
+                  md: "stretch",
+                }}
               >
-                {label}
-              </Text>
-            </Box>
-          ))}
-        </Flex>
+                <Text
+                  fontFamily="heading.molot"
+                  fontSize={{ base: "xs", md: "sm", lg: "md", xl: "body.lg" }}
+                  fontWeight="normal"
+                  textAlign="center"
+                  color="fg"
+                  textTransform="uppercase"
+                  lineHeight="1.2"
+                >
+                  {label}
+                </Text>
+              </Box>
+            );
+          })}
+        </Grid>
       </Container>
     </Box>
   );

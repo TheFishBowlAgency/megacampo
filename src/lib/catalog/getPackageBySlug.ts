@@ -28,6 +28,8 @@ export type PackageDetailData = {
   imageSrc?: string;
   config: ResolvedPackageConfig;
   category?: PackageCategory | null;
+  /** Included items for the detail “Incluído na atividade” tab. */
+  highlights: string[];
 };
 
 function resolveMediaUrl(image: Package["image"]): string | undefined {
@@ -57,6 +59,10 @@ async function buildPackageDetailData(
     imageSrc: resolveMediaUrl(pkg.image),
     config: resolvedConfig,
     category,
+    highlights:
+      pkg.highlights
+        ?.map((item) => item.label?.trim())
+        .filter((label): label is string => Boolean(label)) ?? [],
   };
 }
 
@@ -176,7 +182,10 @@ export async function resolveActivitySegment(
   const activity = await getActivityBySlug(activitySlug);
   if (!activity) return null;
 
-  const category = await getPackageCategoryByActivitySlug(activitySlug, segment);
+  const category = await getPackageCategoryByActivitySlug(
+    activitySlug,
+    segment,
+  );
   if (category) {
     return { type: "category", category };
   }

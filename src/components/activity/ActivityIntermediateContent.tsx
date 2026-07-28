@@ -14,7 +14,6 @@ type ActivityIntermediateContentProps = {
 
 export function ActivityIntermediateContent({
   title,
-  description,
   categories,
 }: ActivityIntermediateContentProps) {
   return (
@@ -34,22 +33,6 @@ export function ActivityIntermediateContent({
               >
                 {title}
               </Text>
-              {description ? (
-                <Text
-                  color="fg.muted"
-                  fontSize={{
-                    base: "sm",
-                    md: "md",
-                    lg: "body.md",
-                    xl: "body.lg",
-                  }}
-                  textAlign="center"
-                  maxW="3xl"
-                  mx="auto"
-                >
-                  {description}
-                </Text>
-              ) : null}
               <ActivityCategoriesGrid categories={categories} />
             </VStack>
           </Container>

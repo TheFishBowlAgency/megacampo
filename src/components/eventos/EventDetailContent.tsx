@@ -13,14 +13,11 @@ type EventDetailContentProps = {
 export function EventDetailContent({ event }: EventDetailContentProps) {
   return (
     <main>
-      <PageHero
-        title={event.title}
-        titleTextStyle="h1.molot"
-        minH={{ base: "320px", md: "480px", xl: "800px" }}
-      />
+      <PageHero title={event.title} backgroundImageSrc={event.imageSrc} />
       <ActivityChoiceSection
         heading={event.activityHeading}
         description={event.activityDescription}
+        activities={event.activityChoices}
       />
       <PricingSection
         tabs={event.pricingTabs}
