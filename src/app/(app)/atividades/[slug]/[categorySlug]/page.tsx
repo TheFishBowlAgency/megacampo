@@ -1,77 +1,98 @@
-import { notFound } from 'next/navigation';
-import { Header } from '@/components/header';
-import { FAQSection, Footer } from '@/components/landing';
-import { PageHero } from '@/components/layout';
+import { notFound } from "next/navigation";
 import {
-  ProductHighlightStrip,
-  ProductPricingSection,
-  ProductTestimonialsSection,
-} from '@/components/product';
-import { getProductBySlug } from '@/data/products';
+  ActivityPackagesPageContent,
+  PackageDetailContent,
+} from "@/components/product";
+import { getActivityBySlug } from "@/lib/activities/getActivityBySlug";
+import { resolveActivityHighlights } from "@/lib/activities/landingDefaults";
 import {
-  getAllPackageCategoryParams,
-  getPackageCategoryByActivitySlug,
-} from '@/lib/package-categories/getPackageCategories';
-import { getCategoryPathSlug } from '@/lib/package-categories/slugHelpers';
-import { getPackagesByCategoryId } from '@/lib/catalog/getPackagesByCategory';
+  getAllActivitySegmentParams,
+  resolveActivitySegment,
+} from "@/lib/catalog/getPackageBySlug";
+import { getGroupExtras } from "@/lib/catalog";
+import { getPackagesByCategoryId } from "@/lib/catalog/getPackagesByCategory";
+import { getCategoryPathSlug } from "@/lib/package-categories/slugHelpers";
+import { getTestimonials } from "@/lib/testimonials/getTestimonials";
+import type { Media } from "@/payload-types";
 
-export interface PackageCategoryPageProps {
+export interface ActivitySegmentPageProps {
   params: Promise<{ slug: string; categorySlug: string }>;
 }
 
-export async function generateStaticParams() {
-  return getAllPackageCategoryParams();
+export const dynamic = "force-dynamic";
+
+function resolveMediaUrl(
+  image: string | Media | null | undefined,
+): string | undefined {
+  if (!image || typeof image === "string") return undefined;
+  return image.url ?? undefined;
 }
 
-export default async function PackageCategoryPage({
+export async function generateStaticParams() {
+  return getAllActivitySegmentParams();
+}
+
+export default async function ActivitySegmentPage({
   params,
-}: PackageCategoryPageProps) {
-  const { slug, categorySlug } = await params;
-  const category = await getPackageCategoryByActivitySlug(slug, categorySlug);
-  if (!category) notFound();
+}: ActivitySegmentPageProps) {
+  const { slug, categorySlug: segment } = await params;
+  const resolution = await resolveActivitySegment(slug, segment);
+  if (!resolution) notFound();
 
-  const product = getProductBySlug(slug);
-  if (!product) notFound();
+  const activity = await getActivityBySlug(slug);
+  if (!activity) notFound();
 
-  const packages = await getPackagesByCategoryId(
-    category.id,
-    product.packages,
-    {
+  if (resolution.type === "package") {
+    const { package: packageData } = resolution;
+    const { extras, showSection } = await getGroupExtras(slug);
+
+    return (
+      <PackageDetailContent
+        key={packageData.id}
+        packageId={packageData.id}
+        name={packageData.name}
+        basePriceCents={packageData.config.basePriceCents}
+        imageSrc={packageData.imageSrc}
+        extraGroups={packageData.config.extraGroups}
+        extras={extras}
+        showGroupExtrasSection={showSection}
+        categoryLabel={activity.title}
+        description={activity.description ?? undefined}
+        highlights={packageData.highlights}
+        backHref={`/atividades/${slug}`}
+        backLabel="Voltar às Reservas"
+      />
+    );
+  }
+
+  const { category } = resolution;
+
+  const categoryPathSlug = getCategoryPathSlug(slug, category.slug);
+  const [packages, testimonials] = await Promise.all([
+    getPackagesByCategoryId(category.id, {
       activitySlug: slug,
-      categoryPathSlug: getCategoryPathSlug(slug, category.slug),
-    },
-  );
+      categoryPathSlug,
+    }),
+    getTestimonials(),
+  ]);
 
   return (
-    <>
-      <Header />
-      <main style={{ backgroundColor: 'var(--chakra-colors-gray-light)' }}>
-        <PageHero
-          title={category.title}
-          heroBg="bg.hero"
-          titleTextStyle="h1.molot"
-          minH={{ base: '300px', md: '400px', lg: '560px' }}
-        />
-        <ProductHighlightStrip highlights={product.highlights} />
-        <ProductPricingSection
-          sectionTitle={product.sectionTitle}
-          sectionDescription={product.sectionDescription}
-          packages={packages}
-          activitySlug={slug}
-          categorySlug={getCategoryPathSlug(slug, category.slug)}
-        />
-        <ProductTestimonialsSection
-          heading={product.testimonialsHeading}
-          testimonials={product.testimonials}
-        />
-        <FAQSection
-          id="faq"
-          heading={product.faqHeading}
-          variant="subtle"
-          items={product.faqItems}
-        />
-        <Footer />
-      </main>
-    </>
+    <ActivityPackagesPageContent
+      title={activity.title}
+      heroTitle={category.title}
+      description={category.description ?? activity.description}
+      highlights={resolveActivityHighlights(
+        slug,
+        category.highlights,
+        activity.highlights,
+      )}
+      heroBackgroundImageSrc={
+        resolveMediaUrl(category.image) ?? resolveMediaUrl(activity.image)
+      }
+      packages={packages}
+      activitySlug={slug}
+      categorySlug={categoryPathSlug}
+      testimonials={testimonials}
+    />
   );
 }

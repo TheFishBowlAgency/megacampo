@@ -1,18 +1,19 @@
-'use client';
+"use client";
 
-import { Header } from '@/components/header';
-import { Footer } from '@/components/landing';
+import { Header } from "@/components/header";
+import { Footer } from "@/components/landing";
+import { PromoInfoBar } from "@/components/ui";
 import {
   Breadcrumb,
   CartAlertBanner,
   CartEmptyView,
   CartWithItemsView,
-} from '@/components/cart';
-import { useCart } from '@/providers';
+} from "@/components/cart";
+import { useCart } from "@/providers";
 
 const BREADCRUMB_ITEMS = [
-  { label: 'Reservas', href: '/#reservas' },
-  { label: 'Carrinho' },
+  { label: "Reservas", href: "/#reservas" },
+  { label: "Carrinho" },
 ];
 
 export function CartPageContent() {
@@ -30,17 +31,20 @@ export function CartPageContent() {
   return (
     <>
       <Header />
+      <PromoInfoBar />
       <main>
         <Breadcrumb items={BREADCRUMB_ITEMS} />
         <CartAlertBanner
           message={
             isEmpty
-              ? 'Neste momento, não existem artigos no teu carrinho de compras.'
-              : 'Por favor, verifica os detalhes da tua reserva.'
+              ? "Neste momento, não existem artigos no teu carrinho de compras."
+              : "Por favor, verifica os detalhes da tua reserva."
           }
         />
-        <section style={{ background: 'var(--chakra-colors-bg-subtle)' }}>
-          {!isHydrated ? null : isEmpty ? (
+        <section style={{ background: "var(--chakra-colors-bg-subtle)" }}>
+          {!isHydrated ? (
+            <CartEmptyView />
+          ) : isEmpty ? (
             <CartEmptyView />
           ) : (
             <CartWithItemsView

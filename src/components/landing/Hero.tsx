@@ -1,67 +1,68 @@
-import { Box, Text, VStack } from '@chakra-ui/react';
-import { Link } from '@/components/ui';
-import { bannerSectionUnderlayBefore } from '@/components/layout/bannerUnderlay';
+import { Box, Text, VStack } from "@chakra-ui/react";
+import { Link } from "@/components/ui";
+import { bannerSectionUnderlayBefore } from "@/components/layout/bannerUnderlay";
+import type { HomeContent } from "@/lib/home/types";
 
-const HEADING = 'O MAIOR PARQUE DE PAINTBALL DA PENÍNSULA IBÉRICA';
-const DESCRIPTION =
-  'Joga em 12 mapas cinematográficos. Quer sejas iniciante ou profissional, temos atividades para todas as idades e níveis de experiência.';
+type HeroProps = {
+  content: HomeContent["hero"];
+};
 
-export function Hero() {
+export function Hero({ content }: HeroProps) {
   return (
     <Box
       position="relative"
       overflow="hidden"
       bg="bg.hero"
       color="grayLight"
-      py={{ base: '16', md: '20', lg: '28' }}
-      _before={bannerSectionUnderlayBefore}
+      py={{ base: "16", md: "20", lg: "24", xl: "28" }}
+      minH={{ base: "561px", md: "640px" }}
+      display="flex"
+      flexDirection="column"
+      justifyContent="center"
+      _before={bannerSectionUnderlayBefore(content.backgroundImageSrc)}
     >
       <VStack
         position="relative"
         zIndex={1}
-        gap={{ base: '8', md: '10', lg: '16' }}
+        gap={{ base: "8", md: "10", lg: "12", xl: "16" }}
         textAlign="center"
-        maxW={{ base: '100%', md: '900px', lg: '1758px' }}
+        maxW={{ base: "100%", md: "900px", xl: "1758px" }}
         mx="auto"
-        px={{ base: '5', md: '8' }}
+        px={{ base: "5", md: "8" }}
       >
-        <VStack gap={{ base: '5', md: '8' }}>
+        <VStack gap={{ base: "5", md: "8" }}>
           <Text
             as="h1"
             textStyle="h1.molot"
-            fontSize={{
-              base: 'display.h1.mobile',
-              md: '5rem',
-              lg: 'display.h1',
-            }}
+            fontSize="display.h1"
             lineHeight="1"
             textTransform="uppercase"
             color="grayLight"
           >
-            {HEADING}
+            {content.heading}
           </Text>
           <Text
-            textStyle="h5"
-            fontSize={{ base: 'sm', md: 'md', lg: 'body.lg' }}
+            textStyle="lead"
+            fontSize={{ base: "sm", md: "md", lg: "body.md", xl: "body.lg" }}
             color="grayLight"
-            maxW={{ base: '400px', md: '600px', lg: '800px' }}
+            maxW={{ base: "400px", md: "600px", xl: "800px" }}
           >
-            {DESCRIPTION}
+            {content.description}
           </Text>
         </VStack>
         <Link
-          href="#reservas"
+          href={content.cta.href}
           bg="primary"
           color="grayLight"
           px="8"
           py="4"
           textStyle="button"
-          fontSize={{ base: 'md', lg: 'body.lg' }}
+          fontSize={{ base: "md", lg: "body.md", xl: "body.lg" }}
           textTransform="uppercase"
           borderRadius="md"
           _hover={{ opacity: 0.9 }}
         >
-          RESERVA JÁ
+          {content.cta.label}
         </Link>
       </VStack>
     </Box>

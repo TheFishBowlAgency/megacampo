@@ -12,15 +12,26 @@ import {
   Pagination,
   ProductSearchBar,
 } from "@/components/category";
-import type { Category } from "@/data/categories";
+import type {
+  ReservasProductItem,
+  ReservasSidebarItem,
+} from "@/lib/reservas/getReservasProducts";
 
 const PRODUCTS_PER_PAGE = 8;
 
 export interface CategoryPageContentProps {
-  category: Category;
+  category: {
+    slug: string;
+    name: string;
+    products: ReservasProductItem[];
+  };
+  sidebarItems: ReservasSidebarItem[];
 }
 
-export function CategoryPageContent({ category }: CategoryPageContentProps) {
+export function CategoryPageContent({
+  category,
+  sidebarItems,
+}: CategoryPageContentProps) {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
 
@@ -57,7 +68,7 @@ export function CategoryPageContent({ category }: CategoryPageContentProps) {
             {/* Breadcrumb */}
             <HStack
               gap={{ base: "1.5", lg: "3" }}
-              fontSize={{ base: "sm", lg: "body.lg" }}
+              fontSize={{ base: "sm", lg: "body.md", xl: "body.lg" }}
               flexWrap="wrap"
               overflow="hidden"
             >
@@ -111,7 +122,10 @@ export function CategoryPageContent({ category }: CategoryPageContentProps) {
           <Flex gap={{ base: "0", lg: "16" }} align="flex-start">
             {/* Sidebar – desktop only */}
             <Box display={{ base: "none", lg: "block" }}>
-              <CategoriesSidebar activeSlug={category.slug} />
+              <CategoriesSidebar
+                activeSlug={category.slug}
+                items={sidebarItems}
+              />
             </Box>
 
             {/* Products grid */}

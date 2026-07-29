@@ -33,7 +33,7 @@ export function ProductSearchBar({
         variant="flushed"
         border="none"
         borderBottom="none"
-        fontSize={{ base: "sm", lg: "body.lg" }}
+        fontSize={{ base: "sm", lg: "body.md", xl: "body.lg" }}
         color="fg"
         _placeholder={{ color: "fg.muted" }}
         _focus={{ boxShadow: "none", borderColor: "transparent" }}

@@ -11,9 +11,6 @@ export interface CartSummaryProps {
   mt?: string | number;
 }
 
-/**
- * Order summary strip: total and checkout CTA.
- */
 export function CartSummary({
   total,
   checkoutLabel = "FINALIZAR COMPRA",
@@ -22,17 +19,30 @@ export function CartSummary({
 }: CartSummaryProps) {
   return (
     <Box
-      bg="bg.dark"
+      bg="dark"
       color="white"
-      p={{ base: "5", md: "6" }}
-      borderRadius="lg"
+      p={{ base: "6", md: "10" }}
+      borderRadius="0"
       mt={mt}
+      display="flex"
+      flexDirection="column"
+      gap={{ base: "8", md: "14" }}
+      w="full"
+      maxW={{ md: "369px" }}
     >
-      <HStack justify="space-between" flexWrap="wrap" gap="4" mb="4">
-        <Text fontWeight="bold" textTransform="uppercase" fontSize="lg">
+      <HStack justify="space-between" align="center" gap="4">
+        <Text
+          fontWeight="extrabold"
+          fontSize={{ base: "md", xl: "body.lg" }}
+          color="fg.muted"
+        >
           Total
         </Text>
-        <Text fontWeight="bold" color="primary" fontSize="xl">
+        <Text
+          fontWeight="extrabold"
+          color="primary"
+          fontSize={{ base: "md", xl: "body.lg" }}
+        >
           {total}
         </Text>
       </HStack>
@@ -40,11 +50,15 @@ export function CartSummary({
         asChild
         width="full"
         bg="primary"
-        color="white"
+        color="grayLight"
         size="lg"
-        fontWeight="bold"
+        h="60px"
+        px="8"
+        borderRadius="0"
+        fontWeight="medium"
         textTransform="uppercase"
-        _hover={{ bg: "primary.muted", color: "fg" }}
+        fontSize={{ base: "md", lg: "body.md", xl: "body.lg" }}
+        _hover={{ opacity: 0.9 }}
       >
         <Link href={checkoutHref}>{checkoutLabel}</Link>
       </Button>

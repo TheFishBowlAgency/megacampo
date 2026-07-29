@@ -11,40 +11,33 @@ import {
   MenuTrigger,
   Text,
 } from "@chakra-ui/react";
-import { useState } from "react";
-
-const PHONE = "+351 913 402 013";
-
-const LANGUAGES = [
-  { code: "pt", label: "Português" },
-  { code: "en", label: "English" },
-  { code: "es", label: "Español" },
-] as const;
+import { useHeaderContent, useSiteLocale } from "@/providers";
 
 export function TopBar() {
-  const [locale, setLocale] =
-    useState<(typeof LANGUAGES)[number]["code"]>("pt");
-  const currentLabel = LANGUAGES.find((l) => l.code === locale)?.label ?? "PT";
+  const { locale, setLocale } = useSiteLocale();
+  const { topBar, labels, languages } = useHeaderContent();
+  const currentLabel =
+    languages.find((l) => l.code === locale)?.label ??
+    languages[0]?.label ??
+    "PT";
 
   return (
     <Box bg="primary" color="white" py="2">
-      <Box px={{ base: "4", md: "6", lg: "8" }} maxW="1280px" mx="auto">
+      <Box px={{ base: "4", md: "6", lg: "8" }} maxW="1320px" mx="auto">
         <HStack gap="4">
           <Text
-            // fontSize={{ base: "sm", md: "md" }}
-            // fontWeight="medium"
             flex="1"
             fontSize={{ lgDown: "1rem" }}
             letterSpacing="wide"
             textAlign="center"
             textStyle="h5"
           >
-            Contacta-nos: {PHONE}
+            {topBar.contactLabel} {topBar.phone}
           </Text>
           <MenuRoot positioning={{ placement: "bottom-end" }}>
             <MenuTrigger
               type="button"
-              aria-label="Selecionar idioma"
+              aria-label={labels.languageSelectAria}
               py="1"
               px="2"
               borderRadius="md"
@@ -60,8 +53,6 @@ export function TopBar() {
             >
               <Icon asChild size={{ base: "lg", md: "2xl" }}>
                 <svg
-                  // width="32"
-                  // height="32"
                   viewBox="0 0 32 32"
                   fill="none"
                   stroke="currentColor"
@@ -86,7 +77,7 @@ export function TopBar() {
                 py="1"
                 minW="140px"
               >
-                {LANGUAGES.map((lang) => (
+                {languages.map((lang) => (
                   <MenuItem
                     key={lang.code}
                     value={lang.code}
@@ -107,23 +98,6 @@ export function TopBar() {
         </HStack>
       </Box>
     </Box>
-  );
-}
-
-function GlobeIcon() {
-  return (
-    <svg
-      // width="32"
-      // height="32"
-      viewBox="0 0 32 32"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      aria-hidden
-    >
-      <circle cx="12" cy="12" r="10" />
-      <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-    </svg>
   );
 }
 

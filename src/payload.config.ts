@@ -1,6 +1,8 @@
 import { mongooseAdapter } from "@payloadcms/db-mongodb";
 import { cloudStoragePlugin } from "@payloadcms/plugin-cloud-storage";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
+import { en } from "@payloadcms/translations/languages/en";
+import { pt } from "@payloadcms/translations/languages/pt";
 import path from "path";
 import { buildConfig } from "payload";
 import { fileURLToPath } from "url";
@@ -9,11 +11,24 @@ import sharp from "sharp";
 import { Users } from "./collections/Users";
 import { Media } from "./collections/Media";
 import { Activities } from "./collections/Activities";
+import { Events } from "./collections/Events";
+import { Posts } from "./collections/Posts";
+import { Scenarios } from "./collections/Scenarios";
+import { Testimonials } from "./collections/Testimonials";
 import { PackageCategories } from "./collections/PackageCategories";
 import { OptionGroups } from "./collections/OptionGroups";
 import { Options } from "./collections/Options";
 import { Packages } from "./collections/Packages";
+import { GroupExtras } from "./collections/GroupExtras";
 import { Orders } from "./collections/Orders";
+import { Payments } from "./collections/Payments";
+import { Blog } from "./globals/Blog";
+import { Cenarios } from "./globals/Cenarios";
+import { Como } from "./globals/Como";
+import { Eventos } from "./globals/Eventos";
+import { Footer } from "./globals/Footer";
+import { Header } from "./globals/Header";
+import { Home } from "./globals/Home";
 import {
   buildCloudinaryFileURL,
   cloudinaryAdapter,
@@ -36,13 +51,24 @@ export default buildConfig({
     Users,
     Media,
     Activities,
+    Testimonials,
+    Events,
+    Posts,
+    Scenarios,
     PackageCategories,
     OptionGroups,
     Options,
     Packages,
+    GroupExtras,
     Orders,
+    Payments,
   ],
+  globals: [Header, Footer, Home, Como, Cenarios, Blog, Eventos],
   editor: lexicalEditor(),
+  i18n: {
+    fallbackLanguage: "pt",
+    supportedLanguages: { pt, en },
+  },
   secret: process.env.PAYLOAD_SECRET || "",
   typescript: {
     outputFile: path.resolve(dirname, "payload-types.ts"),

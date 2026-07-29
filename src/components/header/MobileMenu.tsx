@@ -5,24 +5,21 @@ import {
   CloseButton,
   Flex,
   HStack,
-  IconButton,
+  Icon,
   Link,
+  MenuContent,
+  MenuItem,
+  MenuPositioner,
+  MenuRoot,
+  MenuTrigger,
   Text,
   VStack,
 } from "@chakra-ui/react";
 import Image from "next/image";
-
-const NAV_LINKS = [
-  { label: "ATIVIDADES", href: "/#actividades" },
-  { label: "O PARQUE", href: "/cenarios" },
-  { label: "COMO", href: "/como" },
-  { label: "EVENTOS", href: "/eventos" },
-  { label: "LOJA", href: "/#loja" },
-  { label: "RESERVAS", href: "/#reservas" },
-  { label: "CONTACTOS", href: "/#contactos" },
-];
-
-const PHONE = "+351 913 402 013";
+import { usePathname } from "next/navigation";
+import { getCopyrightText } from "@/lib/site/defaults";
+import { isNavLinkActive } from "@/lib/site/navActive";
+import { useFooterContent, useHeaderContent, useSiteLocale } from "@/providers";
 
 export function MobileMenu({
   isOpen,
@@ -31,6 +28,13 @@ export function MobileMenu({
   isOpen: boolean;
   onClose: () => void;
 }) {
+  const pathname = usePathname();
+  const { locale, setLocale } = useSiteLocale();
+  const { logoSrc, logoAlt, topBar, mobileNavLinks, labels, languages } =
+    useHeaderContent();
+  const footer = useFooterContent();
+  const phone = topBar.phone;
+
   if (!isOpen) return null;
 
   return (
@@ -42,154 +46,255 @@ export function MobileMenu({
       overflowY="auto"
       role="dialog"
       aria-modal="true"
-      aria-label="Menu"
+      aria-label={labels.menuAria}
     >
-      {/* Top orange bar */}
-      <Box bg="primary" color="white" py="2" px="4">
-        <Flex justify="space-between" align="center" maxW="1280px" mx="auto">
-          <Text fontSize="sm" fontWeight="medium">
-            Contacta-nos: {PHONE}
-          </Text>
-          <HStack gap="2">
-            <IconButton
-              aria-label="Idioma"
-              variant="ghost"
+      <Box
+        bg="primary"
+        color="white"
+        py="2"
+        px="4"
+        position="relative"
+        zIndex="2"
+      >
+        <Text fontSize="sm" fontWeight="extrabold" textAlign="center" px="14">
+          {topBar.contactLabel} {phone}
+        </Text>
+        <Box
+          position="absolute"
+          right="4"
+          top="50%"
+          transform="translateY(-50%)"
+          zIndex="2"
+        >
+          <MenuRoot positioning={{ placement: "bottom-end" }}>
+            <MenuTrigger
+              type="button"
+              aria-label={labels.languageSelectAria}
+              py="1"
+              px="2"
+              borderRadius="md"
+              bg="transparent"
+              border="none"
+              cursor="pointer"
+              display="flex"
+              alignItems="center"
+              gap="1"
               color="white"
-              size="sm"
+              _hover={{ bg: "whiteAlpha.200" }}
+              _expanded={{ bg: "whiteAlpha.200" }}
             >
-              <GlobeIcon />
-            </IconButton>
-          </HStack>
-        </Flex>
+              <Icon asChild size="md">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  aria-hidden
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                </svg>
+              </Icon>
+              <Icon as={ChevronDownIcon} />
+            </MenuTrigger>
+            <MenuPositioner zIndex="popover">
+              <MenuContent
+                bg="white"
+                color="fg"
+                borderWidth="1px"
+                borderColor="gray.200"
+                py="1"
+                minW="140px"
+                zIndex="popover"
+              >
+                {languages.map((lang) => (
+                  <MenuItem
+                    key={lang.code}
+                    value={lang.code}
+                    onClick={() => setLocale(lang.code)}
+                    cursor="pointer"
+                    py="2"
+                    px="3"
+                    fontSize="sm"
+                    _hover={{ bg: "gray.100" }}
+                    _focus={{ bg: "gray.100" }}
+                  >
+                    {lang.label}
+                    {lang.code === locale ? " ✓" : ""}
+                  </MenuItem>
+                ))}
+              </MenuContent>
+            </MenuPositioner>
+          </MenuRoot>
+        </Box>
       </Box>
 
-      {/* Header with logo + close */}
-      <Flex
-        justify="space-between"
-        align="center"
+      <Box
+        position="relative"
         px="4"
         py="4"
         borderBottomWidth="1px"
         borderColor="gray.200"
       >
-        <Logo />
-        <CloseButton size="lg" onClick={onClose} aria-label="Fechar menu" />
-      </Flex>
+        <Flex justify="center" align="center">
+          <Image
+            src={logoSrc}
+            alt={logoAlt}
+            width={139}
+            height={80}
+            loading="eager"
+            style={{ height: "auto", width: "auto", maxWidth: "80px" }}
+          />
+        </Flex>
+        <CloseButton
+          size="lg"
+          onClick={onClose}
+          aria-label={labels.closeMenuAria}
+          position="absolute"
+          right="4"
+          top="50%"
+          transform="translateY(-50%)"
+        >
+          <CloseIcon />
+        </CloseButton>
+      </Box>
 
-      {/* Nav links */}
       <VStack align="stretch" gap="0" px="4" py="6">
-        {NAV_LINKS.map((item, i) => (
-          <Link
-            key={item.href}
-            href={item.href}
-            onClick={onClose}
-            py="4"
-            display="flex"
-            alignItems="center"
-            justifyContent="space-between"
-            fontWeight="bold"
-            textTransform="uppercase"
-            fontSize="md"
-            color={i === 0 ? "primary" : "fg"}
-            borderBottom={i < NAV_LINKS.length - 1 ? "1px solid" : undefined}
-            borderColor="gray.200"
-            _hover={{ color: "primary" }}
-          >
-            {item.label}
-            <ChevronRightIcon />
-          </Link>
-        ))}
+        {mobileNavLinks.map((item) => {
+          const active = isNavLinkActive(pathname, item.href);
+          return (
+            <Link
+              key={`${item.href}-${item.label}`}
+              href={item.href}
+              onClick={onClose}
+              py="4"
+              display="flex"
+              alignItems="center"
+              justifyContent="space-between"
+              fontWeight="medium"
+              textTransform="uppercase"
+              fontSize="md"
+              color="fg"
+              _hover={{ "& > span": { color: "primary" } }}
+            >
+              <Text
+                as="span"
+                display="inline-block"
+                color={active ? "primary" : "inherit"}
+                borderBottomWidth={active ? "3px" : "0"}
+                borderBottomColor="primary"
+                borderBottomStyle="solid"
+                pb={active ? "0.5" : "0"}
+                lineHeight="1.2"
+              >
+                {item.label}
+              </Text>
+              <ChevronRightIcon />
+            </Link>
+          );
+        })}
       </VStack>
 
-      {/* Utility: Bag, Search, Phone */}
-      <Box px="4" py="4" borderBottomWidth="1px" borderColor="gray.200">
+      <Box px="4" py="4" borderYWidth="1px" borderColor="gray.200">
         <VStack align="stretch" gap="3">
-          <HStack gap="3">
-            <Box as="span" fontSize="lg">
-              🛒
-            </Box>
-            <Text fontWeight="medium">Bag</Text>
-          </HStack>
+          <Link
+            href={labels.cartHref}
+            onClick={onClose}
+            display="flex"
+            alignItems="center"
+            gap="3"
+            _hover={{ color: "primary" }}
+          >
+            <CartIcon />
+            <Text fontWeight="medium">{labels.bagLabel}</Text>
+          </Link>
           <HStack gap="3">
             <SearchIcon />
-            <Text fontWeight="medium">Search</Text>
+            <Text fontWeight="medium">{labels.searchLabel}</Text>
           </HStack>
-          <HStack gap="3">
+          <HStack gap="3" color="primary">
             <PhoneIcon />
             <Link
-              href={`tel:${PHONE.replace(/\s/g, "")}`}
-              color="primary"
+              href={`tel:${phone.replace(/\s/g, "")}`}
               fontWeight="semibold"
             >
-              {PHONE.replace(/\s/g, " ")}
+              {phone.replace(/\s/g, " ")}
             </Link>
           </HStack>
         </VStack>
       </Box>
 
-      {/* Segue-nos + legal */}
       <Box px="4" py="8">
         <Text fontWeight="bold" textTransform="uppercase" mb="4" fontSize="sm">
-          Segue-nos
+          {footer.social.title}
         </Text>
         <HStack gap="4" mb="6">
-          <Link href="#" aria-label="Facebook">
-            <FacebookIcon />
-          </Link>
-          <Link href="#" aria-label="Instagram">
-            <InstagramIcon />
-          </Link>
+          {footer.social.links.map((link) => (
+            <Link
+              key={`${link.platform}-${link.url}`}
+              href={link.url}
+              aria-label={
+                link.platform === "facebook" ? "Facebook" : "Instagram"
+              }
+            >
+              {link.platform === "facebook" ? (
+                <FacebookIcon />
+              ) : (
+                <InstagramIcon />
+              )}
+            </Link>
+          ))}
         </HStack>
         <VStack align="stretch" gap="2" mb="6">
-          <Link
-            href="#"
-            fontWeight="bold"
-            textTransform="uppercase"
-            fontSize="sm"
-          >
-            Termos de utilização
-          </Link>
-          <Link
-            href="#"
-            fontWeight="bold"
-            textTransform="uppercase"
-            fontSize="sm"
-          >
-            Política de privacidade
-          </Link>
+          {footer.legalLinks.map((link) => (
+            <Link
+              key={`${link.href}-${link.label}`}
+              href={link.href}
+              fontWeight="bold"
+              textTransform="uppercase"
+              fontSize="sm"
+            >
+              {link.label}
+            </Link>
+          ))}
         </VStack>
         <Text fontSize="xs" color="fg.muted">
-          © Copyright 2025 by Megacampo
+          {getCopyrightText()}
         </Text>
       </Box>
     </Box>
   );
 }
 
-function Logo() {
-  return (
-    <Image
-      src="/logo.png"
-      alt="Megacampo"
-      width={139}
-      height={80}
-      style={{ height: "auto", width: "auto", maxWidth: "80px" }}
-    />
-  );
-}
-
-function GlobeIcon() {
+function CloseIcon() {
   return (
     <svg
-      width="20"
-      height="20"
+      width="24"
+      height="24"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="2"
+      strokeWidth="3"
+      strokeLinecap="round"
+      aria-hidden
     >
-      <circle cx="12" cy="12" r="10" />
-      <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+      <path d="M18 6 6 18M6 6l12 12" />
+    </svg>
+  );
+}
+
+function ChevronDownIcon() {
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="3"
+      aria-hidden
+    >
+      <path d="m6 9 6 6 6-6" />
     </svg>
   );
 }
@@ -202,9 +307,29 @@ function ChevronRightIcon() {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="2"
+      strokeWidth="3"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
     >
       <path d="m9 18 6-6-6-6" />
+    </svg>
+  );
+}
+
+function CartIcon() {
+  return (
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+    >
+      <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" />
+      <path d="M3 6h18" />
+      <path d="M16 10a4 4 0 0 1-8 0" />
     </svg>
   );
 }

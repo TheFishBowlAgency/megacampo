@@ -1,6 +1,4 @@
-export function euroToCents(amount: number): number {
-  return Math.round(amount * 100);
-}
+export { euroToCents } from "@/lib/pricing/cents";
 
 export type OptionRef = {
   optionKey: string;
@@ -79,6 +77,7 @@ export type ActivityDef = {
   key: string;
   title: string;
   sort: number;
+  highlights?: string[];
 };
 
 export type CategoryDef = {
@@ -86,6 +85,7 @@ export type CategoryDef = {
   activityKey: string;
   title: string;
   sort: number;
+  highlights?: string[];
 };
 
 export function group(

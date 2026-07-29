@@ -13,53 +13,53 @@
  * via the `definition` "supportedTimezones".
  */
 export type SupportedTimezones =
-  | 'Pacific/Midway'
-  | 'Pacific/Niue'
-  | 'Pacific/Honolulu'
-  | 'Pacific/Rarotonga'
-  | 'America/Anchorage'
-  | 'Pacific/Gambier'
-  | 'America/Los_Angeles'
-  | 'America/Tijuana'
-  | 'America/Denver'
-  | 'America/Phoenix'
-  | 'America/Chicago'
-  | 'America/Guatemala'
-  | 'America/New_York'
-  | 'America/Bogota'
-  | 'America/Caracas'
-  | 'America/Santiago'
-  | 'America/Buenos_Aires'
-  | 'America/Sao_Paulo'
-  | 'Atlantic/South_Georgia'
-  | 'Atlantic/Azores'
-  | 'Atlantic/Cape_Verde'
-  | 'Europe/London'
-  | 'Europe/Berlin'
-  | 'Africa/Lagos'
-  | 'Europe/Athens'
-  | 'Africa/Cairo'
-  | 'Europe/Moscow'
-  | 'Asia/Riyadh'
-  | 'Asia/Dubai'
-  | 'Asia/Baku'
-  | 'Asia/Karachi'
-  | 'Asia/Tashkent'
-  | 'Asia/Calcutta'
-  | 'Asia/Dhaka'
-  | 'Asia/Almaty'
-  | 'Asia/Jakarta'
-  | 'Asia/Bangkok'
-  | 'Asia/Shanghai'
-  | 'Asia/Singapore'
-  | 'Asia/Tokyo'
-  | 'Asia/Seoul'
-  | 'Australia/Brisbane'
-  | 'Australia/Sydney'
-  | 'Pacific/Guam'
-  | 'Pacific/Noumea'
-  | 'Pacific/Auckland'
-  | 'Pacific/Fiji';
+  | "Pacific/Midway"
+  | "Pacific/Niue"
+  | "Pacific/Honolulu"
+  | "Pacific/Rarotonga"
+  | "America/Anchorage"
+  | "Pacific/Gambier"
+  | "America/Los_Angeles"
+  | "America/Tijuana"
+  | "America/Denver"
+  | "America/Phoenix"
+  | "America/Chicago"
+  | "America/Guatemala"
+  | "America/New_York"
+  | "America/Bogota"
+  | "America/Caracas"
+  | "America/Santiago"
+  | "America/Buenos_Aires"
+  | "America/Sao_Paulo"
+  | "Atlantic/South_Georgia"
+  | "Atlantic/Azores"
+  | "Atlantic/Cape_Verde"
+  | "Europe/London"
+  | "Europe/Berlin"
+  | "Africa/Lagos"
+  | "Europe/Athens"
+  | "Africa/Cairo"
+  | "Europe/Moscow"
+  | "Asia/Riyadh"
+  | "Asia/Dubai"
+  | "Asia/Baku"
+  | "Asia/Karachi"
+  | "Asia/Tashkent"
+  | "Asia/Calcutta"
+  | "Asia/Dhaka"
+  | "Asia/Almaty"
+  | "Asia/Jakarta"
+  | "Asia/Bangkok"
+  | "Asia/Shanghai"
+  | "Asia/Singapore"
+  | "Asia/Tokyo"
+  | "Asia/Seoul"
+  | "Australia/Brisbane"
+  | "Australia/Sydney"
+  | "Pacific/Guam"
+  | "Pacific/Noumea"
+  | "Pacific/Auckland"
+  | "Pacific/Fiji";
 
 export interface Config {
   auth: {
@@ -70,37 +70,77 @@ export interface Config {
     users: User;
     media: Media;
     activities: Activity;
-    'package-categories': PackageCategory;
-    'option-groups': OptionGroup;
+    events: Event;
+    posts: Post;
+    testimonials: Testimonial;
+    scenarios: Scenario;
+    "package-categories": PackageCategory;
+    "option-groups": OptionGroup;
     options: Option;
     packages: Package;
+    "group-extras": GroupExtra;
     orders: Order;
-    'payload-kv': PayloadKv;
-    'payload-locked-documents': PayloadLockedDocument;
-    'payload-preferences': PayloadPreference;
-    'payload-migrations': PayloadMigration;
+    payments: Payment;
+    "payload-kv": PayloadKv;
+    "payload-locked-documents": PayloadLockedDocument;
+    "payload-preferences": PayloadPreference;
+    "payload-migrations": PayloadMigration;
   };
-  collectionsJoins: {};
+  collectionsJoins: {
+    orders: {
+      paymentEvents: "payments";
+    };
+  };
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     activities: ActivitiesSelect<false> | ActivitiesSelect<true>;
-    'package-categories': PackageCategoriesSelect<false> | PackageCategoriesSelect<true>;
-    'option-groups': OptionGroupsSelect<false> | OptionGroupsSelect<true>;
+    events: EventsSelect<false> | EventsSelect<true>;
+    posts: PostsSelect<false> | PostsSelect<true>;
+    testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
+    scenarios: ScenariosSelect<false> | ScenariosSelect<true>;
+    "package-categories":
+      | PackageCategoriesSelect<false>
+      | PackageCategoriesSelect<true>;
+    "option-groups": OptionGroupsSelect<false> | OptionGroupsSelect<true>;
     options: OptionsSelect<false> | OptionsSelect<true>;
     packages: PackagesSelect<false> | PackagesSelect<true>;
+    "group-extras": GroupExtrasSelect<false> | GroupExtrasSelect<true>;
     orders: OrdersSelect<false> | OrdersSelect<true>;
-    'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
-    'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
-    'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
-    'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
+    payments: PaymentsSelect<false> | PaymentsSelect<true>;
+    "payload-kv": PayloadKvSelect<false> | PayloadKvSelect<true>;
+    "payload-locked-documents":
+      | PayloadLockedDocumentsSelect<false>
+      | PayloadLockedDocumentsSelect<true>;
+    "payload-preferences":
+      | PayloadPreferencesSelect<false>
+      | PayloadPreferencesSelect<true>;
+    "payload-migrations":
+      | PayloadMigrationsSelect<false>
+      | PayloadMigrationsSelect<true>;
   };
   db: {
     defaultIDType: string;
   };
   fallbackLocale: null;
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    header: Header;
+    footer: Footer;
+    home: Home;
+    como: Como;
+    cenarios: Cenario;
+    blog: Blog;
+    eventos: Evento;
+  };
+  globalsSelect: {
+    header: HeaderSelect<false> | HeaderSelect<true>;
+    footer: FooterSelect<false> | FooterSelect<true>;
+    home: HomeSelect<false> | HomeSelect<true>;
+    como: ComoSelect<false> | ComoSelect<true>;
+    cenarios: CenariosSelect<false> | CenariosSelect<true>;
+    blog: BlogSelect<false> | BlogSelect<true>;
+    eventos: EventosSelect<false> | EventosSelect<true>;
+  };
   locale: null;
   widgets: {
     collections: CollectionsWidget;
@@ -135,6 +175,10 @@ export interface UserAuthOperations {
  */
 export interface User {
   id: string;
+  /**
+   * Controls what this user can see and edit in the admin panel.
+   */
+  role: "super-admin" | "admin" | "cms-manager";
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -152,7 +196,7 @@ export interface User {
       }[]
     | null;
   password?: string | null;
-  collection: 'users';
+  collection: "users";
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -160,8 +204,10 @@ export interface User {
  */
 export interface Media {
   id: string;
+  /**
+   * Image description for accessibility and SEO.
+   */
   alt: string;
-  prefix?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -185,6 +231,209 @@ export interface Activity {
    * Short summary shown on activity cards.
    */
   description?: string | null;
+  /**
+   * Auto-generated from title.
+   */
+  slug: string;
+  image?: (string | null) | Media;
+  /**
+   * Chips under the packages page hero.
+   */
+  highlights?:
+    | {
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  sort?: number | null;
+  /**
+   * Optional group add-ons shown in the «Improve your activity» tab.
+   */
+  groupExtras?: (string | GroupExtra)[] | null;
+  isActive?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "group-extras".
+ */
+export interface GroupExtra {
+  id: string;
+  name: string;
+  /**
+   * Auto-generated from name.
+   */
+  slug: string;
+  priceCents: number;
+  /**
+   * Group extra price in euros (e.g. 30 for €30).
+   */
+  priceEur: number;
+  image?: (string | null) | Media;
+  sort?: number | null;
+  isActive?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events".
+ */
+export interface Event {
+  id: string;
+  title: string;
+  /**
+   * Short summary on event cards and detail lead copy.
+   */
+  description?: string | null;
+  /**
+   * Long-form copy on the simple event detail page.
+   */
+  body?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ("ltr" | "rtl") | null;
+      format: "left" | "start" | "center" | "right" | "end" | "justify" | "";
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * CTA label on the simple event detail page.
+   */
+  reserveLabel?: string | null;
+  /**
+   * Destination for the Reserve CTA (detail and banner).
+   */
+  reserveHref?: string | null;
+  activityHeading?: string | null;
+  activityDescription?: string | null;
+  activityChoices?:
+    | {
+        title: string;
+        image?: (string | null) | Media;
+        imageAlt?: string | null;
+        features?:
+          | {
+              label: string;
+              id?: string | null;
+            }[]
+          | null;
+        ageNote?: string | null;
+        linkHref?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  pricingTabs?:
+    | {
+        label: string;
+        packages?:
+          | {
+              name: string;
+              price: string;
+              popular?: boolean | null;
+              features?:
+                | {
+                    label: string;
+                    id?: string | null;
+                  }[]
+                | null;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  testimonialsHeading?: string | null;
+  testimonials?: (string | Testimonial)[] | null;
+  /**
+   * Auto-generated from title.
+   */
+  slug: string;
+  image?: (string | null) | Media;
+  sort?: number | null;
+  isActive?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "posts".
+ */
+export interface Post {
+  id: string;
+  title: string;
+  /**
+   * Short summary shown on blog listing cards.
+   */
+  excerpt: string;
+  /**
+   * Categories shown below the image on listing cards.
+   */
+  tags?:
+    | {
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Full article text on the detail page.
+   */
+  body: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ("ltr" | "rtl") | null;
+      format: "left" | "start" | "center" | "right" | "end" | "justify" | "";
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  /**
+   * Auto-generated from title.
+   */
+  slug: string;
+  image?: (string | null) | Media;
+  sort?: number | null;
+  isActive?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testimonials".
+ */
+export interface Testimonial {
+  id: string;
+  name: string;
+  quote: string;
+  image?: (string | null) | Media;
+  featured?: boolean | null;
+  stars?: number | null;
+  sort?: number | null;
+  isActive?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "scenarios".
+ */
+export interface Scenario {
+  id: string;
+  title: string;
   /**
    * Auto-generated from title.
    */
@@ -216,7 +465,20 @@ export interface PackageCategory {
    */
   slug: string;
   image?: (string | null) | Media;
+  /**
+   * Chips under the packages page hero.
+   */
+  highlights?:
+    | {
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
   sort?: number | null;
+  /**
+   * Optional group add-ons shown in the «Improve your activity» tab.
+   */
+  groupExtras?: (string | GroupExtra)[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -227,7 +489,7 @@ export interface PackageCategory {
 export interface OptionGroup {
   id: string;
   title: string;
-  selectionType: 'single' | 'multi';
+  selectionType: "single" | "multi";
   sort?: number | null;
   updatedAt: string;
   createdAt: string;
@@ -240,12 +502,13 @@ export interface Option {
   id: string;
   group: string | OptionGroup;
   label: string;
+  defaultPriceCents?: number | null;
   /**
    * Optional fallback price. Package-specific pricing in Packages usually overrides this.
    */
-  defaultPriceCents?: number | null;
-  pricingUnit: 'per_person' | 'per_booking';
-  cartBehavior: 'inline' | 'separate_line_item';
+  defaultPriceEur?: number | null;
+  pricingUnit: "per_person" | "per_booking";
+  cartBehavior: "inline" | "separate_line_item";
   /**
    * Maximum quantity per booking (e.g. 1 for Private Lounge).
    */
@@ -271,12 +534,26 @@ export interface Package {
    */
   slug: string;
   image?: (string | null) | Media;
-  /**
-   * Base package price in cents (EUR).
-   */
   basePriceCents: number;
+  /**
+   * Base package price in euros.
+   */
+  basePriceEur: number;
   isActive?: boolean | null;
   sort?: number | null;
+  /**
+   * Shows "MOST POPULAR" badge on the pricing card.
+   */
+  isMostPopular?: boolean | null;
+  /**
+   * Included items shown on the pricing card (e.g. paintballs, gear, insurance).
+   */
+  highlights?:
+    | {
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
   /**
    * Inherit extra configuration from another package (e.g. Commando Party → Commando). Apply overrides below.
    */
@@ -286,15 +563,21 @@ export interface Package {
    */
   templateOverrides?:
     | {
-        type: 'replaceOption' | 'excludeOption' | 'addOption' | 'setDefault' | 'priceOverride';
+        type:
+          | "replaceOption"
+          | "excludeOption"
+          | "addOption"
+          | "setDefault"
+          | "priceOverride";
         group: string | OptionGroup;
         fromOption?: (string | null) | Option;
         toOption?: (string | null) | Option;
         isDefault?: boolean | null;
-        /**
-         * Package-specific price in cents for the added or replaced option.
-         */
         priceCents?: number | null;
+        /**
+         * Package-specific price in euros for the added or replaced option.
+         */
+        priceEur?: number | null;
         id?: string | null;
       }[]
     | null;
@@ -311,10 +594,11 @@ export interface Package {
            * Pre-selected choice for this package in this group.
            */
           isDefault?: boolean | null;
+          priceCents: number;
           /**
            * Add-on price for this package (0 = included with the default selection).
            */
-          priceCents: number;
+          priceEur: number;
           id?: string | null;
         }[];
         id?: string | null;
@@ -333,11 +617,19 @@ export interface Order {
    * Order identifier (max 25 chars for Multibanco).
    */
   orderNumber: string;
-  /**
-   * Multibanco: marca como Paid manualmente no dia da visita. PayPal: atualizado automaticamente.
-   */
-  status: 'pending' | 'awaiting_payment' | 'paid' | 'failed' | 'expired' | 'cancelled';
-  paymentMethod: 'multibanco' | 'paypal';
+  status:
+    | "pending"
+    | "awaiting_payment"
+    | "paid"
+    | "failed"
+    | "expired"
+    | "cancelled"
+    | "refunded";
+  paymentMethod: "multibanco" | "paypal";
+  totalAmount: number;
+  paidAt?: string | null;
+  paymentExpiresAt?: string | null;
+  observations?: string | null;
   customerFirstName: string;
   customerLastName: string;
   customerEmail: string;
@@ -348,8 +640,47 @@ export interface Order {
   customerCountry: string;
   customerNif?: string | null;
   acceptMarketing?: boolean | null;
-  observations?: string | null;
-  items:
+  items: {
+    lineId: string;
+    itemType?: ("package" | "extra") | null;
+    productName: string;
+    productSubtitle?: string | null;
+    quantity: number;
+    unitPrice: number;
+    packageId?: string | null;
+    date?: string | null;
+    period?: string | null;
+    imageUrl?: string | null;
+    details?:
+      | {
+          label: string;
+          value: string;
+          id?: string | null;
+        }[]
+      | null;
+    selections?:
+      | {
+          groupId: string;
+          optionId: string;
+          id?: string | null;
+        }[]
+      | null;
+    id?: string | null;
+  }[];
+  multibancoEntity?: string | null;
+  multibancoReference?: string | null;
+  multibancoRequestId?: string | null;
+  paypalOrderId?: string | null;
+  paypalCaptureId?: string | null;
+  paymentEvents?: {
+    docs: (string | Payment)[];
+    hasNextPage: boolean;
+    totalDocs?: number;
+  };
+  /**
+   * Raw provider metadata — support only.
+   */
+  paymentDetails?:
     | {
         [k: string]: unknown;
       }
@@ -358,21 +689,37 @@ export interface Order {
     | number
     | boolean
     | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Payment attempt and event audit log.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payments".
+ */
+export interface Payment {
+  id: string;
+  order: string | Order;
+  orderNumber: string;
+  provider: "multibanco" | "paypal";
+  type: "attempt" | "capture" | "callback" | "refund" | "cancellation";
+  status: "pending" | "succeeded" | "failed" | "refunded" | "cancelled";
   /**
-   * Order total in EUR.
+   * Amount in EUR.
    */
-  totalAmount: number;
-  multibancoEntity?: string | null;
+  amount: number;
+  currency: string;
+  attemptNumber: number;
   /**
-   * Referência Multibanco apresentada ao cliente.
+   * E.g. PayPal order/capture ID, Multibanco requestId/reference.
    */
-  multibancoReference?: string | null;
-  multibancoRequestId?: string | null;
-  paypalOrderId?: string | null;
+  providerPaymentId?: string | null;
   /**
-   * Raw payment provider response metadata.
+   * Idempotency key for the provider webhook/event.
    */
-  paymentDetails?:
+  providerEventId?: string | null;
+  rawPayload?:
     | {
         [k: string]: unknown;
       }
@@ -409,40 +756,64 @@ export interface PayloadLockedDocument {
   id: string;
   document?:
     | ({
-        relationTo: 'users';
+        relationTo: "users";
         value: string | User;
       } | null)
     | ({
-        relationTo: 'media';
+        relationTo: "media";
         value: string | Media;
       } | null)
     | ({
-        relationTo: 'activities';
+        relationTo: "activities";
         value: string | Activity;
       } | null)
     | ({
-        relationTo: 'package-categories';
+        relationTo: "events";
+        value: string | Event;
+      } | null)
+    | ({
+        relationTo: "posts";
+        value: string | Post;
+      } | null)
+    | ({
+        relationTo: "testimonials";
+        value: string | Testimonial;
+      } | null)
+    | ({
+        relationTo: "scenarios";
+        value: string | Scenario;
+      } | null)
+    | ({
+        relationTo: "package-categories";
         value: string | PackageCategory;
       } | null)
     | ({
-        relationTo: 'option-groups';
+        relationTo: "option-groups";
         value: string | OptionGroup;
       } | null)
     | ({
-        relationTo: 'options';
+        relationTo: "options";
         value: string | Option;
       } | null)
     | ({
-        relationTo: 'packages';
+        relationTo: "packages";
         value: string | Package;
       } | null)
     | ({
-        relationTo: 'orders';
+        relationTo: "group-extras";
+        value: string | GroupExtra;
+      } | null)
+    | ({
+        relationTo: "orders";
         value: string | Order;
+      } | null)
+    | ({
+        relationTo: "payments";
+        value: string | Payment;
       } | null);
   globalSlug?: string | null;
   user: {
-    relationTo: 'users';
+    relationTo: "users";
     value: string | User;
   };
   updatedAt: string;
@@ -455,7 +826,7 @@ export interface PayloadLockedDocument {
 export interface PayloadPreference {
   id: string;
   user: {
-    relationTo: 'users';
+    relationTo: "users";
     value: string | User;
   };
   key?: string | null;
@@ -487,6 +858,7 @@ export interface PayloadMigration {
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
+  role?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -510,7 +882,6 @@ export interface UsersSelect<T extends boolean = true> {
  */
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
-  prefix?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
@@ -532,6 +903,90 @@ export interface ActivitiesSelect<T extends boolean = true> {
   description?: T;
   slug?: T;
   image?: T;
+  highlights?: T;
+  sort?: T;
+  groupExtras?: T;
+  isActive?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events_select".
+ */
+export interface EventsSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  body?: T;
+  reserveLabel?: T;
+  reserveHref?: T;
+  activityHeading?: T;
+  activityDescription?: T;
+  activityChoices?:
+    | T
+    | {
+        title?: T;
+        image?: T;
+        imageAlt?: T;
+        features?:
+          | T
+          | {
+              label?: T;
+              id?: T;
+            };
+        ageNote?: T;
+        linkHref?: T;
+        id?: T;
+      };
+  pricingTabs?: T;
+  testimonialsHeading?: T;
+  testimonials?: T;
+  slug?: T;
+  image?: T;
+  sort?: T;
+  isActive?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "posts_select".
+ */
+export interface PostsSelect<T extends boolean = true> {
+  title?: T;
+  excerpt?: T;
+  tags?: T;
+  body?: T;
+  slug?: T;
+  image?: T;
+  sort?: T;
+  isActive?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testimonials_select".
+ */
+export interface TestimonialsSelect<T extends boolean = true> {
+  name?: T;
+  quote?: T;
+  image?: T;
+  featured?: T;
+  stars?: T;
+  sort?: T;
+  isActive?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "scenarios_select".
+ */
+export interface ScenariosSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  image?: T;
   sort?: T;
   isActive?: T;
   updatedAt?: T;
@@ -548,7 +1003,9 @@ export interface PackageCategoriesSelect<T extends boolean = true> {
   minAge?: T;
   slug?: T;
   image?: T;
+  highlights?: T;
   sort?: T;
+  groupExtras?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -571,6 +1028,7 @@ export interface OptionsSelect<T extends boolean = true> {
   group?: T;
   label?: T;
   defaultPriceCents?: T;
+  defaultPriceEur?: T;
   pricingUnit?: T;
   cartBehavior?: T;
   maxPerBooking?: T;
@@ -589,8 +1047,16 @@ export interface PackagesSelect<T extends boolean = true> {
   slug?: T;
   image?: T;
   basePriceCents?: T;
+  basePriceEur?: T;
   isActive?: T;
   sort?: T;
+  isMostPopular?: T;
+  highlights?:
+    | T
+    | {
+        label?: T;
+        id?: T;
+      };
   templatePackage?: T;
   templateOverrides?:
     | T
@@ -601,6 +1067,7 @@ export interface PackagesSelect<T extends boolean = true> {
         toOption?: T;
         isDefault?: T;
         priceCents?: T;
+        priceEur?: T;
         id?: T;
       };
   extraGroupConfigs?:
@@ -614,10 +1081,26 @@ export interface PackagesSelect<T extends boolean = true> {
               option?: T;
               isDefault?: T;
               priceCents?: T;
+              priceEur?: T;
               id?: T;
             };
         id?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "group-extras_select".
+ */
+export interface GroupExtrasSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  priceCents?: T;
+  priceEur?: T;
+  image?: T;
+  sort?: T;
+  isActive?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -629,6 +1112,10 @@ export interface OrdersSelect<T extends boolean = true> {
   orderNumber?: T;
   status?: T;
   paymentMethod?: T;
+  totalAmount?: T;
+  paidAt?: T;
+  paymentExpiresAt?: T;
+  observations?: T;
   customerFirstName?: T;
   customerLastName?: T;
   customerEmail?: T;
@@ -639,14 +1126,61 @@ export interface OrdersSelect<T extends boolean = true> {
   customerCountry?: T;
   customerNif?: T;
   acceptMarketing?: T;
-  observations?: T;
-  items?: T;
-  totalAmount?: T;
+  items?:
+    | T
+    | {
+        lineId?: T;
+        itemType?: T;
+        productName?: T;
+        productSubtitle?: T;
+        quantity?: T;
+        unitPrice?: T;
+        packageId?: T;
+        date?: T;
+        period?: T;
+        imageUrl?: T;
+        details?:
+          | T
+          | {
+              label?: T;
+              value?: T;
+              id?: T;
+            };
+        selections?:
+          | T
+          | {
+              groupId?: T;
+              optionId?: T;
+              id?: T;
+            };
+        id?: T;
+      };
   multibancoEntity?: T;
   multibancoReference?: T;
   multibancoRequestId?: T;
   paypalOrderId?: T;
+  paypalCaptureId?: T;
+  paymentEvents?: T;
   paymentDetails?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payments_select".
+ */
+export interface PaymentsSelect<T extends boolean = true> {
+  order?: T;
+  orderNumber?: T;
+  provider?: T;
+  type?: T;
+  status?: T;
+  amount?: T;
+  currency?: T;
+  attemptNumber?: T;
+  providerPaymentId?: T;
+  providerEventId?: T;
+  rawPayload?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -692,13 +1226,721 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "header".
+ */
+export interface Header {
+  id: string;
+  image?: (string | null) | Media;
+  logoAlt?: string | null;
+  topBar: {
+    contactLabel: string;
+    phone: string;
+  };
+  navLinks?:
+    | {
+        label: string;
+        /**
+         * Internal path (e.g. /como) or anchor (e.g. /#contactos).
+         */
+        href: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Mobile menu links. If empty, falls back to desktop navigation.
+   */
+  mobileNavLinks?:
+    | {
+        label: string;
+        /**
+         * Internal path (e.g. /como) or anchor (e.g. /#contactos).
+         */
+        href: string;
+        id?: string | null;
+      }[]
+    | null;
+  labels: {
+    languageSelectAria: string;
+    openMenuAria: string;
+    closeMenuAria: string;
+    menuAria: string;
+    searchAria: string;
+    cartAria: string;
+    bagLabel: string;
+    searchLabel: string;
+    cartHref: string;
+  };
+  languages?:
+    | {
+        code: "pt" | "en" | "es";
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Dark bar below the header on cart/checkout pages.
+   */
+  promoMessage?: string | null;
+  seo: {
+    title: string;
+    description: string;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer".
+ */
+export interface Footer {
+  id: string;
+  image?: (string | null) | Media;
+  logoAlt?: string | null;
+  contact: {
+    title: string;
+    phoneFixed: string;
+    phoneMobile: string;
+    phoneFixedNote?: string | null;
+    phoneMobileNote?: string | null;
+    email: string;
+    addressLine1: string;
+    addressLine2: string;
+  };
+  hours: {
+    title: string;
+    rows?:
+      | {
+          label: string;
+          value: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  social: {
+    title: string;
+    links?:
+      | {
+          platform: "facebook" | "instagram";
+          url: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  legalLinks?:
+    | {
+        label: string;
+        href: string;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "home".
+ */
+export interface Home {
+  id: string;
+  hero: {
+    heading: string;
+    description: string;
+    cta: {
+      label: string;
+      href: string;
+    };
+    image?: (string | null) | Media;
+  };
+  keyFeatures?: {
+    items?:
+      | {
+          label: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  adventure: {
+    heading: string;
+    showAllLabel: string;
+  };
+  maps: {
+    heading: string;
+    description: string;
+    cta: {
+      label: string;
+      href: string;
+    };
+    image?: (string | null) | Media;
+  };
+  eventTypes: {
+    heading: string;
+    description: string;
+    cardLinkLabel: string;
+    /**
+     * Choose and order the events shown in this section.
+     */
+    events?: (string | Event)[] | null;
+  };
+  moreThanPaintball: {
+    heading: string;
+    description: string;
+    image?: (string | null) | Media;
+    features?:
+      | {
+          label: string;
+          icon: "tree" | "grill" | "shower" | "parking" | "coffee";
+          id?: string | null;
+        }[]
+      | null;
+  };
+  safety: {
+    heading: string;
+    description: string;
+    image?: (string | null) | Media;
+    items?:
+      | {
+          label: string;
+          icon: "briefing" | "shield" | "person" | "rules";
+          id?: string | null;
+        }[]
+      | null;
+  };
+  testimonials: {
+    heading: string;
+    description: string;
+    /**
+     * Choose and order testimonials. Their images feed the gallery when the manual gallery is empty.
+     */
+    items?: (string | Testimonial)[] | null;
+    /**
+     * Overrides images from selected testimonials when set.
+     */
+    images?:
+      | {
+          image: string | Media;
+          alt?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+    prevLabel: string;
+    nextLabel: string;
+  };
+  cta: {
+    heading: string;
+    button: {
+      label: string;
+      href: string;
+    };
+  };
+  faq: {
+    heading: string;
+    items?:
+      | {
+          question: string;
+          answer: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "como".
+ */
+export interface Como {
+  id: string;
+  hero: {
+    heading: string;
+    description: string;
+    image?: (string | null) | Media;
+    cta: {
+      label: string;
+      href: string;
+    };
+  };
+  howItWorks: {
+    heading: string;
+    /**
+     * Step illustration icons are defined in code (by step order).
+     */
+    steps?:
+      | {
+          /**
+           * e.g. «First step».
+           */
+          stepLabel: string;
+          title: string;
+          description: string;
+          link: {
+            label: string;
+            href: string;
+          };
+          id?: string | null;
+        }[]
+      | null;
+  };
+  cta: {
+    heading: string;
+    button: {
+      label: string;
+      href: string;
+    };
+  };
+  faq: {
+    heading: string;
+    items?:
+      | {
+          question: string;
+          answer: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "cenarios".
+ */
+export interface Cenario {
+  id: string;
+  hero: {
+    /**
+     * One line per title line (e.g. MAPAS / MUNDIALMENTE / FAMOSOS).
+     */
+    heading: string;
+    description: string;
+    image?: (string | null) | Media;
+  };
+  section: {
+    heading: string;
+    description: string;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blog".
+ */
+export interface Blog {
+  id: string;
+  hero: {
+    heading: string;
+    image?: (string | null) | Media;
+  };
+  section: {
+    heading: string;
+    cardLinkLabel: string;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "eventos".
+ */
+export interface Evento {
+  id: string;
+  hero: {
+    heading: string;
+    image?: (string | null) | Media;
+  };
+  section: {
+    heading: string;
+    cardLinkLabel: string;
+  };
+  detail?: {
+    backLabel: string;
+    shareLabel: string;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "header_select".
+ */
+export interface HeaderSelect<T extends boolean = true> {
+  image?: T;
+  logoAlt?: T;
+  topBar?:
+    | T
+    | {
+        contactLabel?: T;
+        phone?: T;
+      };
+  navLinks?:
+    | T
+    | {
+        label?: T;
+        href?: T;
+        id?: T;
+      };
+  mobileNavLinks?:
+    | T
+    | {
+        label?: T;
+        href?: T;
+        id?: T;
+      };
+  labels?:
+    | T
+    | {
+        languageSelectAria?: T;
+        openMenuAria?: T;
+        closeMenuAria?: T;
+        menuAria?: T;
+        searchAria?: T;
+        cartAria?: T;
+        bagLabel?: T;
+        searchLabel?: T;
+        cartHref?: T;
+      };
+  languages?:
+    | T
+    | {
+        code?: T;
+        label?: T;
+        id?: T;
+      };
+  promoMessage?: T;
+  seo?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer_select".
+ */
+export interface FooterSelect<T extends boolean = true> {
+  image?: T;
+  logoAlt?: T;
+  contact?:
+    | T
+    | {
+        title?: T;
+        phoneFixed?: T;
+        phoneMobile?: T;
+        phoneFixedNote?: T;
+        phoneMobileNote?: T;
+        email?: T;
+        addressLine1?: T;
+        addressLine2?: T;
+      };
+  hours?:
+    | T
+    | {
+        title?: T;
+        rows?:
+          | T
+          | {
+              label?: T;
+              value?: T;
+              id?: T;
+            };
+      };
+  social?:
+    | T
+    | {
+        title?: T;
+        links?:
+          | T
+          | {
+              platform?: T;
+              url?: T;
+              id?: T;
+            };
+      };
+  legalLinks?:
+    | T
+    | {
+        label?: T;
+        href?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "home_select".
+ */
+export interface HomeSelect<T extends boolean = true> {
+  hero?:
+    | T
+    | {
+        heading?: T;
+        description?: T;
+        cta?:
+          | T
+          | {
+              label?: T;
+              href?: T;
+            };
+        image?: T;
+      };
+  keyFeatures?:
+    | T
+    | {
+        items?:
+          | T
+          | {
+              label?: T;
+              id?: T;
+            };
+      };
+  adventure?:
+    | T
+    | {
+        heading?: T;
+        showAllLabel?: T;
+      };
+  maps?:
+    | T
+    | {
+        heading?: T;
+        description?: T;
+        cta?:
+          | T
+          | {
+              label?: T;
+              href?: T;
+            };
+        image?: T;
+      };
+  eventTypes?:
+    | T
+    | {
+        heading?: T;
+        description?: T;
+        cardLinkLabel?: T;
+        events?: T;
+      };
+  moreThanPaintball?:
+    | T
+    | {
+        heading?: T;
+        description?: T;
+        image?: T;
+        features?:
+          | T
+          | {
+              label?: T;
+              icon?: T;
+              id?: T;
+            };
+      };
+  safety?:
+    | T
+    | {
+        heading?: T;
+        description?: T;
+        image?: T;
+        items?:
+          | T
+          | {
+              label?: T;
+              icon?: T;
+              id?: T;
+            };
+      };
+  testimonials?:
+    | T
+    | {
+        heading?: T;
+        description?: T;
+        items?: T;
+        images?:
+          | T
+          | {
+              image?: T;
+              alt?: T;
+              id?: T;
+            };
+        prevLabel?: T;
+        nextLabel?: T;
+      };
+  cta?:
+    | T
+    | {
+        heading?: T;
+        button?:
+          | T
+          | {
+              label?: T;
+              href?: T;
+            };
+      };
+  faq?:
+    | T
+    | {
+        heading?: T;
+        items?:
+          | T
+          | {
+              question?: T;
+              answer?: T;
+              id?: T;
+            };
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "como_select".
+ */
+export interface ComoSelect<T extends boolean = true> {
+  hero?:
+    | T
+    | {
+        heading?: T;
+        description?: T;
+        image?: T;
+        cta?:
+          | T
+          | {
+              label?: T;
+              href?: T;
+            };
+      };
+  howItWorks?:
+    | T
+    | {
+        heading?: T;
+        steps?:
+          | T
+          | {
+              stepLabel?: T;
+              title?: T;
+              description?: T;
+              link?:
+                | T
+                | {
+                    label?: T;
+                    href?: T;
+                  };
+              id?: T;
+            };
+      };
+  cta?:
+    | T
+    | {
+        heading?: T;
+        button?:
+          | T
+          | {
+              label?: T;
+              href?: T;
+            };
+      };
+  faq?:
+    | T
+    | {
+        heading?: T;
+        items?:
+          | T
+          | {
+              question?: T;
+              answer?: T;
+              id?: T;
+            };
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "cenarios_select".
+ */
+export interface CenariosSelect<T extends boolean = true> {
+  hero?:
+    | T
+    | {
+        heading?: T;
+        description?: T;
+        image?: T;
+      };
+  section?:
+    | T
+    | {
+        heading?: T;
+        description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blog_select".
+ */
+export interface BlogSelect<T extends boolean = true> {
+  hero?:
+    | T
+    | {
+        heading?: T;
+        image?: T;
+      };
+  section?:
+    | T
+    | {
+        heading?: T;
+        cardLinkLabel?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "eventos_select".
+ */
+export interface EventosSelect<T extends boolean = true> {
+  hero?:
+    | T
+    | {
+        heading?: T;
+        image?: T;
+      };
+  section?:
+    | T
+    | {
+        heading?: T;
+        cardLinkLabel?: T;
+      };
+  detail?:
+    | T
+    | {
+        backLabel?: T;
+        shareLabel?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "collections_widget".
  */
 export interface CollectionsWidget {
   data?: {
     [k: string]: unknown;
   };
-  width: 'full';
+  width: "full";
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -708,7 +1950,6 @@ export interface Auth {
   [k: string]: unknown;
 }
 
-
-declare module 'payload' {
+declare module "payload" {
   export interface GeneratedTypes extends Config {}
 }

@@ -1,11 +1,12 @@
-import config from '@payload-config';
-import { getPayload } from 'payload';
+import config from "@payload-config";
+import { getPayload } from "payload";
 
-import type { CartLineItem } from '@/components/cart/types';
-import type { CheckoutFormData } from '@/components/checkout/CheckoutForm';
-import { calculateCartTotal } from '@/lib/orders/calculateTotal';
-import { generateOrderNumber } from '@/lib/orders/generateOrderNumber';
-import type { PaymentMethod } from '@/lib/payments/types';
+import type { CartLineItem } from "@/components/cart/types";
+import type { CheckoutFormData } from "@/components/checkout/CheckoutForm";
+import { generateOrderNumber } from "@/lib/orders/generateOrderNumber";
+import { cartItemsToOrderItems } from "@/lib/orders/mapOrderItems";
+import { repriceCartItems } from "@/lib/orders/repriceCart";
+import type { PaymentMethod } from "@/lib/payments/types";
 
 export interface CreateOrderInput {
   formData: CheckoutFormData;
@@ -18,13 +19,13 @@ export interface CreateOrderInput {
 export async function createOrderRecord(input: CreateOrderInput) {
   const payload = await getPayload({ config });
   const orderNumber = generateOrderNumber();
-  const totalAmount = calculateCartTotal(input.items);
+  const { items, totalAmount } = await repriceCartItems(input.items);
 
   const order = await payload.create({
-    collection: 'orders',
+    collection: "orders",
     data: {
       orderNumber,
-      status: 'pending',
+      status: "pending",
       paymentMethod: input.paymentMethod,
       customerFirstName: input.formData.firstName.trim(),
       customerLastName: input.formData.lastName.trim(),
@@ -37,7 +38,7 @@ export async function createOrderRecord(input: CreateOrderInput) {
       customerNif: input.formData.nif.trim() || undefined,
       acceptMarketing: input.acceptMarketing,
       observations: input.observations.trim() || undefined,
-      items: input.items,
+      items: cartItemsToOrderItems(items),
       totalAmount,
     },
     overrideAccess: true,
@@ -49,10 +50,26 @@ export async function createOrderRecord(input: CreateOrderInput) {
 export async function getOrderByNumber(orderNumber: string) {
   const payload = await getPayload({ config });
   const result = await payload.find({
-    collection: 'orders',
+    collection: "orders",
     where: {
       orderNumber: {
         equals: orderNumber,
+      },
+    },
+    limit: 1,
+    overrideAccess: true,
+  });
+
+  return result.docs[0] ?? null;
+}
+
+export async function getOrderByPayPalOrderId(paypalOrderId: string) {
+  const payload = await getPayload({ config });
+  const result = await payload.find({
+    collection: "orders",
+    where: {
+      paypalOrderId: {
+        equals: paypalOrderId,
       },
     },
     limit: 1,
@@ -68,12 +85,12 @@ export async function updateOrderByNumber(
 ) {
   const order = await getOrderByNumber(orderNumber);
   if (!order) {
-    throw new Error('Encomenda não encontrada.');
+    throw new Error("Encomenda não encontrada.");
   }
 
   const payload = await getPayload({ config });
   return payload.update({
-    collection: 'orders',
+    collection: "orders",
     id: order.id,
     data,
     overrideAccess: true,

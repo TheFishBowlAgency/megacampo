@@ -15,19 +15,35 @@ export {
   type TemplateOverride,
   type TemplateOverrideType,
 } from "./resolvePackageConfig";
-export { formatPriceFromCents } from "./formatPrice";
 export {
+  formatPriceAmount,
+  formatPriceFromCents,
+  formatPriceFromEur,
+  formatPriceWithCurrency,
+} from "./formatPrice";
+export { getGroupExtras, type GroupExtrasResult } from "./groupExtras";
+export {
+  getAllActivitySegmentParams,
+  getAllFlatPackageParams,
   getAllPackageParams,
-  getFallbackPackagePathSlug,
   getPackageByActivityCategorySlug,
+  getPackageByActivitySlug,
+  resolveActivitySegment,
+  type ActivitySegmentResolution,
   type PackageDetailData,
 } from "./getPackageBySlug";
 export {
+  buildFlatFullPackageSlug,
+  buildFlatPackagePath,
   buildFullPackageSlug,
   buildPackagePath,
+  getFlatPackagePathSlug,
   getPackagePathSlug,
 } from "./packageSlugHelpers";
 export {
+  getFallbackPackagePathSlug,
   getPackagesByCategoryId,
-  mapPackageToProductPackage,
+  getUncategorizedPackagesByActivityId,
+  mapPackageToCardItem,
 } from "./getPackagesByCategory";
+export type { PackageCardFeature, PackageCardItem } from "./types";

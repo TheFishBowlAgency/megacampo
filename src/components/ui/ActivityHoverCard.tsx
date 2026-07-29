@@ -1,9 +1,10 @@
-'use client';
+"use client";
 
-import { Box, Text, VStack } from '@chakra-ui/react';
-import Image from 'next/image';
-import { useState } from 'react';
-import { Link } from './Link';
+import { Box, Text, VStack } from "@chakra-ui/react";
+import Image from "next/image";
+import { useCallback, useState } from "react";
+import { Link } from "./Link";
+import { ACTIVITY_TAG_TILT, TORN_CHIP_MASK } from "./tornChipMask";
 
 export interface ActivityHoverCardProps {
   /** Shown as the card background; use a path under `public/` or any URL */
@@ -21,7 +22,7 @@ export interface ActivityHoverCardProps {
 }
 
 /**
- * Image card with tag badge; hover reveals description and CTA button.
+ * Image card with tag badge; hover/tap reveals description and CTA.
  */
 export function ActivityHoverCard({
   imageSrc,
@@ -31,22 +32,30 @@ export function ActivityHoverCard({
   subtitle,
   description,
   href,
-  ctaLabel = 'SABER MAIS',
+  ctaLabel = "SABER MAIS",
 }: ActivityHoverCardProps) {
-  const [hovered, setHovered] = useState(false);
+  const [revealed, setRevealed] = useState(false);
   const alt = imageAlt ?? title;
 
+  const showOverlay = useCallback(() => setRevealed(true), []);
+  const hideOverlay = useCallback(() => setRevealed(false), []);
+
   return (
-    <VStack gap={{ base: '3', lg: '6' }}>
-      <Box
+    <VStack gap={{ base: "3", lg: "6" }}>
+      <Link
+        href={href}
         position="relative"
+        display="block"
         w="full"
-        aspectRatio={{ base: '195/265', lg: '315/428' }}
+        aspectRatio={{ base: "195/265", lg: "315/428" }}
         bg="gray.300"
-        overflow="hidden"
-        cursor="pointer"
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
+        textDecoration="none"
+        _hover={{ textDecoration: "none" }}
+        onMouseEnter={showOverlay}
+        onMouseLeave={hideOverlay}
+        onFocus={showOverlay}
+        onBlur={hideOverlay}
+        aria-label={`${title} — ${ctaLabel}`}
       >
         {imageSrc ? (
           <Box position="absolute" inset="0" overflow="hidden">
@@ -55,7 +64,7 @@ export function ActivityHoverCard({
               alt={alt}
               fill
               sizes="(max-width: 991px) 50vw, 25vw"
-              style={{ objectFit: 'cover' }}
+              style={{ objectFit: "cover" }}
             />
           </Box>
         ) : null}
@@ -64,19 +73,19 @@ export function ActivityHoverCard({
           position="absolute"
           top="10px"
           left="10px"
-          zIndex="2"
-          px="3"
-          py="1.5"
-          bg="primary"
-          transform="skewX(-5deg)"
-          borderRadius="sm"
+          zIndex="1"
+          px={{ base: "3", lg: "4" }}
+          py={{ base: "1.5", lg: "2" }}
+          bg="bg"
+          transform={ACTIVITY_TAG_TILT}
+          style={TORN_CHIP_MASK}
         >
           <Text
             fontFamily="heading.molot"
-            fontSize={{ base: 'xs', lg: 'md' }}
+            fontSize={{ base: "xs", lg: "md" }}
             color="dark"
             textTransform="uppercase"
-            transform="skewX(5deg)"
+            whiteSpace="nowrap"
           >
             {tag}
           </Text>
@@ -85,54 +94,62 @@ export function ActivityHoverCard({
         <Box
           position="absolute"
           inset="0"
-          bg="blackAlpha.800"
-          opacity={hovered ? 1 : 0}
+          zIndex="2"
+          opacity={revealed ? 1 : 0}
           transition="opacity 0.3s"
           display="flex"
           flexDirection="column"
-          justifyContent="space-between"
+          justifyContent="center"
+          alignItems="center"
+          gap="8"
           p="5"
-          zIndex="1"
+          pointerEvents={revealed ? "auto" : "none"}
         >
+          <Box position="absolute" inset="0" bg="dark" opacity={0.8} />
+
           <Text
+            position="relative"
             color="grayLight"
-            fontSize={{ base: 'sm', lg: 'md' }}
+            fontSize={{ base: "sm", lg: "md" }}
             lineHeight="1.6"
+            textAlign="center"
+            px="2"
           >
             {description}
           </Text>
-          <Link
-            href={href}
+          <Box
+            position="relative"
             bg="primary"
             color="grayLight"
             px="8"
             py="4"
             textStyle="button"
-            fontSize={{ base: 'sm', lg: 'body.lg' }}
+            fontSize={{ base: "sm", lg: "body.md", xl: "body.lg" }}
             textTransform="uppercase"
             borderRadius="md"
             textAlign="center"
-            _hover={{ opacity: 0.9 }}
-            alignSelf="center"
+            mt="auto"
+            mb="2"
           >
             {ctaLabel}
-          </Link>
+          </Box>
         </Box>
-      </Box>
+      </Link>
 
       <VStack gap="1">
         <Text
-          textStyle="h3"
-          fontSize={{ base: 'md', lg: 'display.h3' }}
+          fontSize={{ base: "md", lg: "xl", xl: "display.h3" }}
+          fontWeight="extrabold"
           color="fg"
           textAlign="center"
           textTransform="uppercase"
+          lineHeight="1.2"
         >
           {title}
         </Text>
         <Text
           textStyle="body"
-          fontSize={{ base: 'sm', lg: 'body.lg' }}
+          fontSize={{ base: "sm", lg: "body.md", xl: "body.lg" }}
           color="fg.muted"
           textAlign="center"
         >

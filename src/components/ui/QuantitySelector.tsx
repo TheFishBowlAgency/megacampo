@@ -52,7 +52,7 @@ export function QuantitySelector({
       >
         <Text
           fontWeight="extrabold"
-          fontSize={{ base: "md", lg: "body.lg" }}
+          fontSize={{ base: "md", lg: "body.md", xl: "body.lg" }}
           color="fg.muted"
           lineHeight="1"
         >

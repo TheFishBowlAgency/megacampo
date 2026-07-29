@@ -1,21 +1,22 @@
-import type { MultibancoReferenceResult } from './types';
+import type { MultibancoReferenceResult } from "./types";
+import { parseIfthenpayDateTime } from "./money";
 
-const MULTIBANCO_API_BASE = 'https://api.ifthenpay.com/multibanco/reference';
+const MULTIBANCO_API_BASE = "https://api.ifthenpay.com/multibanco/reference";
 
 function getMbKey(): string {
   const key = process.env.MB_KEY || process.env.MBWAY_KEY;
   if (!key) {
-    throw new Error('MB_KEY is not configured');
+    throw new Error("MB_KEY is not configured");
   }
   return key;
 }
 
-function getMultibancoEndpoint(): '/init' | '/sandbox' {
-  return process.env.MULTIBANCO_SANDBOX === 'true' ? '/sandbox' : '/init';
+function getMultibancoEndpoint(): "/init" | "/sandbox" {
+  return process.env.MULTIBANCO_SANDBOX === "true" ? "/sandbox" : "/init";
 }
 
 function parseStatusCode(status: string | undefined): string {
-  if (!status) return '';
+  if (!status) return "";
   return status.substring(0, 1);
 }
 
@@ -43,8 +44,8 @@ export async function createMultibancoReference(input: {
   const response = await fetch(
     `${MULTIBANCO_API_BASE}${getMultibancoEndpoint()}`,
     {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         mbKey: getMbKey(),
         orderId: input.orderId,
@@ -60,14 +61,14 @@ export async function createMultibancoReference(input: {
   );
 
   if (!response.ok) {
-    throw new Error('Não foi possível gerar a referência Multibanco.');
+    throw new Error("Não foi possível gerar a referência Multibanco.");
   }
 
   const data = (await response.json()) as MultibancoReferenceResponse;
   const status = parseStatusCode(data.Status);
 
-  if (status !== '0' || !data.RequestId || !data.Entity || !data.Reference) {
-    throw new Error(data.Message || 'A referência Multibanco não foi gerada.');
+  if (status !== "0" || !data.RequestId || !data.Entity || !data.Reference) {
+    throw new Error(data.Message || "A referência Multibanco não foi gerada.");
   }
 
   return {
@@ -76,8 +77,32 @@ export async function createMultibancoReference(input: {
     amount: Number(data.Amount ?? input.amount),
     entity: String(data.Entity),
     reference: data.Reference,
-    expiryDate: data.ExpiryDate || '',
+    expiryDate: data.ExpiryDate || "",
     status,
-    message: data.Message || 'Success',
+    message: data.Message || "Success",
   };
+}
+
+export function getMultibancoAntiPhishingKey(): string {
+  const key = process.env.IFTHENPAY_ANTI_PHISHING_KEY;
+  if (!key) {
+    throw new Error("IFTHENPAY_ANTI_PHISHING_KEY is not configured");
+  }
+  return key;
+}
+
+export function multibancoExpiryIso(
+  expiryDate: string | null | undefined,
+  fallbackDays = 3,
+): string {
+  const parsed = parseIfthenpayDateTime(expiryDate);
+  if (parsed) return parsed.toISOString();
+  return new Date(
+    Date.now() + fallbackDays * 24 * 60 * 60 * 1000,
+  ).toISOString();
+}
+
+export function buildMultibancoCallbackUrl(appUrl: string): string {
+  const base = appUrl.replace(/\/$/, "");
+  return `${base}/api/webhooks/ifthenpay/multibanco?key=[ANTI_PHISHING_KEY]&orderId=[ORDER_ID]&amount=[amount]&requestId=[REQUEST_ID]&entity=[entity]&reference=[REFERENCE]&payment_datetime=[PAYMENT_DATETIME]`;
 }

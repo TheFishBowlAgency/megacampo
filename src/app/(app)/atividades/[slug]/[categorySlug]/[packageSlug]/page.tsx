@@ -1,16 +1,18 @@
-import { notFound } from 'next/navigation';
-import { PackageDetailContent } from '@/components/product/PackageDetailContent';
-import { getCategoryBySlug } from '@/data/categories';
+import { notFound } from "next/navigation";
+import { PackageDetailContent } from "@/components/product/PackageDetailContent";
 import {
   getPackageByActivityCategorySlug,
   getAllPackageParams,
-} from '@/lib/catalog';
-import { buildPackageCategoryPath } from '@/lib/package-categories/slugHelpers';
-import { getPackageCategoryByActivitySlug } from '@/lib/package-categories/getPackageCategories';
+  getGroupExtras,
+} from "@/lib/catalog";
+import { buildPackageCategoryPath } from "@/lib/package-categories/slugHelpers";
+import { getPackageCategoryByActivitySlug } from "@/lib/package-categories/getPackageCategories";
 
 export interface PackagePageProps {
   params: Promise<{ slug: string; categorySlug: string; packageSlug: string }>;
 }
+
+export const dynamic = "force-dynamic";
 
 export async function generateStaticParams() {
   return getAllPackageParams();
@@ -28,8 +30,7 @@ export default async function PackagePage({ params }: PackagePageProps) {
   const category = await getPackageCategoryByActivitySlug(slug, categorySlug);
   if (!category) notFound();
 
-  const paintballCategory = getCategoryBySlug('paintball');
-  const extras = paintballCategory?.extras ?? [];
+  const { extras, showSection } = await getGroupExtras(slug, categorySlug);
 
   return (
     <PackageDetailContent
@@ -40,6 +41,10 @@ export default async function PackagePage({ params }: PackagePageProps) {
       imageSrc={packageData.imageSrc}
       extraGroups={packageData.config.extraGroups}
       extras={extras}
+      showGroupExtrasSection={showSection}
+      categoryLabel={category.title}
+      description={category.description?.trim() || undefined}
+      highlights={packageData.highlights}
       backHref={buildPackageCategoryPath(slug, category.slug)}
       backLabel="Voltar às Reservas"
     />

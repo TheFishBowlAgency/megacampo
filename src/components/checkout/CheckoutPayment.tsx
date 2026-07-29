@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { useCallback, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { PayPalButtons, PayPalScriptProvider } from '@paypal/react-paypal-js';
+import { useCallback, useState } from "react";
+import { useRouter } from "next/navigation";
+import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
 
-import type { CartLineItem } from '@/components/cart/types';
-import type { CheckoutFormData } from '@/components/checkout/CheckoutForm';
-import type { PaymentMethod } from '@/lib/payments/types';
+import type { CartLineItem } from "@/components/cart/types";
+import type { CheckoutFormData } from "@/components/checkout/CheckoutForm";
+import type { PaymentMethod } from "@/lib/payments/types";
 
 interface PayPalCheckoutButtonsProps {
   orderNumber: string;
@@ -31,17 +31,17 @@ export function PayPalCheckoutButtons({
     <PayPalScriptProvider
       options={{
         clientId,
-        currency: 'EUR',
-        intent: 'capture',
+        currency: "EUR",
+        intent: "capture",
       }}
     >
       <PayPalButtons
         disabled={disabled}
-        style={{ layout: 'vertical', label: 'paypal' }}
+        style={{ layout: "vertical", label: "paypal" }}
         createOrder={async () => {
-          const response = await fetch('/api/checkout/paypal/create', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+          const response = await fetch("/api/checkout/paypal/create", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ orderNumber }),
           });
 
@@ -51,15 +51,15 @@ export function PayPalCheckoutButtons({
           };
 
           if (!response.ok || !data.paypalOrderId) {
-            throw new Error(data.error || 'Não foi possível iniciar o PayPal.');
+            throw new Error(data.error || "Não foi possível iniciar o PayPal.");
           }
 
           return data.paypalOrderId;
         }}
         onApprove={async (data) => {
-          const response = await fetch('/api/checkout/paypal/capture', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+          const response = await fetch("/api/checkout/paypal/capture", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
               orderNumber,
               paypalOrderId: data.orderID,
@@ -73,17 +73,26 @@ export function PayPalCheckoutButtons({
 
           if (!response.ok || !result.orderNumber) {
             throw new Error(
-              result.error || 'Não foi possível confirmar o pagamento.',
+              result.error || "Não foi possível confirmar o pagamento.",
             );
           }
 
           onSuccess(result.orderNumber);
         }}
         onError={() => {
-          onError('Ocorreu um erro com o PayPal. Tenta novamente.');
+          onError("Ocorreu um erro com o PayPal. Tenta novamente.");
         }}
-        onCancel={() => {
-          onError('Pagamento PayPal cancelado.');
+        onCancel={async () => {
+          try {
+            await fetch("/api/checkout/paypal/cancel", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ orderNumber }),
+            });
+          } catch {
+            // Best-effort: still surface cancel to the user.
+          }
+          onError("Pagamento PayPal cancelado.");
         }}
       />
     </PayPalScriptProvider>
@@ -127,9 +136,9 @@ export function useCheckout({
   }, []);
 
   const createOrder = useCallback(async () => {
-    const response = await fetch('/api/checkout', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+    const response = await fetch("/api/checkout", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         formData,
         items,
@@ -146,7 +155,7 @@ export function useCheckout({
     };
 
     if (!response.ok || !data.orderNumber) {
-      throw new Error(data.error || 'Não foi possível criar a encomenda.');
+      throw new Error(data.error || "Não foi possível criar a encomenda.");
     }
 
     return data.orderNumber;
@@ -167,9 +176,9 @@ export function useCheckout({
       const orderNumber = await createOrder();
       setPendingOrderNumber(orderNumber);
 
-      const response = await fetch('/api/checkout/multibanco', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("/api/checkout/multibanco", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ orderNumber }),
       });
 
@@ -177,7 +186,7 @@ export function useCheckout({
 
       if (!response.ok) {
         throw new Error(
-          data.error || 'Não foi possível gerar a referência Multibanco.',
+          data.error || "Não foi possível gerar a referência Multibanco.",
         );
       }
 
@@ -186,7 +195,7 @@ export function useCheckout({
       setError(
         err instanceof Error
           ? err.message
-          : 'Não foi possível processar o pagamento.',
+          : "Não foi possível processar o pagamento.",
       );
       setIsSubmitting(false);
     }
@@ -205,7 +214,7 @@ export function useCheckout({
       setError(
         err instanceof Error
           ? err.message
-          : 'Não foi possível criar a encomenda.',
+          : "Não foi possível criar a encomenda.",
       );
       setIsSubmitting(false);
       return null;

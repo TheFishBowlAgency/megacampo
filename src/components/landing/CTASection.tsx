@@ -10,7 +10,7 @@ export type CTASectionProps = {
 
 const DEFAULT_HEADING = "PRONTO PARA UMA AVENTURA?";
 const DEFAULT_BUTTON = "RESERVA JÁ";
-const DEFAULT_HREF = "/#reservas";
+const DEFAULT_HREF = "/#actividades";
 
 export function CTASection({
   heading = DEFAULT_HEADING,
@@ -18,13 +18,16 @@ export function CTASection({
   href = DEFAULT_HREF,
 }: CTASectionProps = {}) {
   return (
-    <Box bg="primary" py={{ base: "10", md: "14", lg: "16" }}>
+    <Box bg="primary" py={{ base: "10", md: "12", lg: "14", xl: "16" }}>
       <Container>
-        <VStack gap={{ base: "5", md: "6", lg: "8" }} textAlign="center">
+        <VStack
+          gap={{ base: "5", md: "6", lg: "6", xl: "8" }}
+          textAlign="center"
+        >
           <Text
             as="h2"
             textStyle="h2"
-            fontSize={{ base: "xl", md: "2xl", lg: "display.h2" }}
+            fontSize="display.h2"
             color="fg"
             textTransform="uppercase"
           >
@@ -37,7 +40,7 @@ export function CTASection({
             px="8"
             py="4"
             textStyle="button"
-            fontSize={{ base: "md", lg: "body.lg" }}
+            fontSize={{ base: "md", lg: "body.md", xl: "body.lg" }}
             textTransform="uppercase"
             borderRadius="md"
             _hover={{ opacity: 0.9 }}

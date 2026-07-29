@@ -1,19 +1,25 @@
-'use client';
+"use client";
 
-import { Button, Grid, Text, VStack } from '@chakra-ui/react';
-import { useState } from 'react';
-import { ActivityHoverCard } from '@/components/ui';
-import { Container, Section } from '@/components/layout';
+import { Button, Grid, Text, VStack } from "@chakra-ui/react";
+import { useState } from "react";
+import { ActivityHoverCard } from "@/components/ui";
+import { Container, Section } from "@/components/layout";
 import {
   INITIAL_VISIBLE_COUNT,
   type ActivityCardItem,
-} from '@/lib/activities/types';
+} from "@/lib/activities/types";
 
 interface AdventureSectionProps {
+  heading: string;
+  showAllLabel: string;
   activities: ActivityCardItem[];
 }
 
-export function AdventureSection({ activities }: AdventureSectionProps) {
+export function AdventureSection({
+  heading,
+  showAllLabel,
+  activities,
+}: AdventureSectionProps) {
   const [showAll, setShowAll] = useState(false);
 
   const visibleActivities = showAll
@@ -22,26 +28,26 @@ export function AdventureSection({ activities }: AdventureSectionProps) {
   const hasMore = activities.length > INITIAL_VISIBLE_COUNT;
 
   return (
-    <Section id="actividades">
+    <Section id="actividades" scrollMarginTop="var(--site-header-offset, 7rem)">
       <Container>
-        <VStack gap={{ base: '6', md: '10', lg: '16' }}>
+        <VStack gap={{ base: "6", md: "8", lg: "12", xl: "16" }}>
           <Text
             as="h2"
             textStyle="h2"
-            fontSize={{ base: 'xl', md: '2xl', lg: 'display.h2' }}
+            fontSize="display.h2"
             textAlign="center"
             color="fg"
             textTransform="uppercase"
           >
-            ESCOLHE A TUA AVENTURA
+            {heading}
           </Text>
 
           <Grid
             templateColumns={{
-              base: 'repeat(2, 1fr)',
-              lg: 'repeat(4, 1fr)',
+              base: "repeat(2, 1fr)",
+              lg: "repeat(4, 1fr)",
             }}
-            gap={{ base: '4', md: '5' }}
+            gap={{ base: "4", md: "5" }}
             w="full"
           >
             {visibleActivities.map((item) => (
@@ -68,12 +74,12 @@ export function AdventureSection({ activities }: AdventureSectionProps) {
               py="4"
               h="auto"
               textStyle="button"
-              fontSize={{ base: 'md', lg: 'body.lg' }}
+              fontSize={{ base: "md", lg: "body.md", xl: "body.lg" }}
               textTransform="uppercase"
               borderRadius="md"
               _hover={{ opacity: 0.9 }}
             >
-              VER TODAS
+              {showAllLabel}
             </Button>
           ) : null}
         </VStack>

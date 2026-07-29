@@ -24,7 +24,7 @@ export function Pagination({
   return (
     <HStack justify="space-between" w="full">
       <Text
-        fontSize={{ base: "sm", lg: "body.lg" }}
+        fontSize={{ base: "sm", lg: "body.md", xl: "body.lg" }}
         color="fg"
         whiteSpace="nowrap"
       >
@@ -42,7 +42,7 @@ export function Pagination({
         >
           <ChevronLeftIcon />
           <Text
-            fontSize={{ base: "sm", lg: "body.lg" }}
+            fontSize={{ base: "sm", lg: "body.md", xl: "body.lg" }}
             color="fg.muted"
             whiteSpace="nowrap"
           >
@@ -59,7 +59,7 @@ export function Pagination({
           _hover={hasNext ? { color: "primary" } : {}}
         >
           <Text
-            fontSize={{ base: "sm", lg: "body.lg" }}
+            fontSize={{ base: "sm", lg: "body.md", xl: "body.lg" }}
             color="fg.muted"
             whiteSpace="nowrap"
           >

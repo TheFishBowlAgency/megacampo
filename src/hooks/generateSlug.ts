@@ -52,6 +52,21 @@ export const generateActivitySlug = generateSlugBeforeValidate({
   sourceField: "title",
 });
 
+export const generateEventSlug = generateSlugBeforeValidate({
+  collectionSlug: "events",
+  sourceField: "title",
+});
+
+export const generatePostSlug = generateSlugBeforeValidate({
+  collectionSlug: "posts",
+  sourceField: "title",
+});
+
+export const generateScenarioSlug = generateSlugBeforeValidate({
+  collectionSlug: "scenarios",
+  sourceField: "title",
+});
+
 export const generatePackageCategorySlug = generateSlugBeforeValidate({
   collectionSlug: "package-categories",
   sourceField: "title",
@@ -68,8 +83,17 @@ export const generatePackageSlug = generateSlugBeforeValidate({
   sourceField: "name",
   buildBaseSlug: (data, req) =>
     buildPackageSlug(req, {
-      activity: data.activity as Parameters<typeof buildPackageSlug>[1]["activity"],
-      category: data.category as Parameters<typeof buildPackageSlug>[1]["category"],
+      activity: data.activity as Parameters<
+        typeof buildPackageSlug
+      >[1]["activity"],
+      category: data.category as Parameters<
+        typeof buildPackageSlug
+      >[1]["category"],
       name: typeof data.name === "string" ? data.name : null,
     }),
+});
+
+export const generateGroupExtraSlug = generateSlugBeforeValidate({
+  collectionSlug: "group-extras",
+  sourceField: "name",
 });

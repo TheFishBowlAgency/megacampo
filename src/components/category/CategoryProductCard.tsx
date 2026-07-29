@@ -2,10 +2,10 @@
 
 import { Box, Text, VStack } from "@chakra-ui/react";
 import { Link } from "@/components/ui";
-import type { CategoryProduct } from "@/data/categories";
+import type { ReservasProductItem } from "@/lib/reservas/getReservasProducts";
 
 export interface CategoryProductCardProps {
-  product: CategoryProduct;
+  product: ReservasProductItem;
   categorySlug: string;
 }
 
@@ -17,15 +17,17 @@ export function CategoryProductCard({
   product,
   categorySlug,
 }: CategoryProductCardProps) {
+  const href =
+    product.detailHref ?? `/reservas/${categorySlug}/${product.slug}`;
+
   return (
     <Link
-      href={`/reservas/${categorySlug}/${product.slug}`}
+      href={href}
       display="block"
       _hover={{ opacity: 0.92, transform: "translateY(-2px)" }}
       transition="all 0.2s"
     >
       <Box overflow="hidden">
-        {/* Image / placeholder area */}
         <Box
           bg="#DADADA"
           h={{ base: "214px", lg: "236px" }}
@@ -58,7 +60,7 @@ export function CategoryProductCard({
             >
               <Text
                 fontFamily="heading.molot"
-                fontSize={{ base: "lg", lg: "2xl" }}
+                fontSize={{ base: "lg", lg: "xl", xl: "2xl" }}
                 color="dark"
                 textAlign="center"
                 whiteSpace="nowrap"
@@ -71,11 +73,10 @@ export function CategoryProductCard({
           )}
         </Box>
 
-        {/* Price strip */}
         <VStack bg="primary" py={{ base: "3", lg: "4" }} gap="1">
           <Text
             fontWeight="extrabold"
-            fontSize={{ base: "md", lg: "body.lg" }}
+            fontSize={{ base: "md", lg: "body.md", xl: "body.lg" }}
             color="grayLight"
             lineHeight="1"
           >
@@ -83,7 +84,7 @@ export function CategoryProductCard({
           </Text>
           <Text
             fontWeight="normal"
-            fontSize={{ base: "sm", lg: "body.lg" }}
+            fontSize={{ base: "sm", lg: "body.md", xl: "body.lg" }}
             color="offset"
             lineHeight="1"
           >

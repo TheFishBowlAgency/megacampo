@@ -4,54 +4,58 @@ import { Box, HStack, IconButton, useBreakpointValue } from "@chakra-ui/react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Link } from "@/components/ui";
-
-const NAV_LINKS = [
-  { label: "ACTIVIDADES", href: "/#actividades" },
-  { label: "O PARQUE", href: "/cenarios" },
-  { label: "COMO", href: "/como" },
-  { label: "EVENTOS", href: "/eventos" },
-  { label: "LOJA", href: "#loja" },
-  { label: "RESERVAS", href: "/#reservas" },
-  { label: "CONTACTOS", href: "/#contactos" },
-] as const;
+import { isNavLinkActive } from "@/lib/site/navActive";
+import { useHeaderContent } from "@/providers";
 
 export function Navbar({ onOpenMenu }: { onOpenMenu: () => void }) {
   const pathname = usePathname();
+  const { logoSrc, logoAlt, navLinks, labels } = useHeaderContent();
   const showMobileNav = useBreakpointValue({ base: true, lg: false }) ?? true;
-
-  const isActive = (item: (typeof NAV_LINKS)[number]) => {
-    if (item.href === "/cenarios") return pathname === "/cenarios";
-    if (item.href === "/como") return pathname === "/como";
-    if (item.href === "/eventos") return pathname === "/eventos";
-    if (item.href === "/#actividades")
-      return pathname.startsWith("/atividades");
-    return false;
-  };
 
   return (
     <Box bg="white" borderBottomWidth="1px" borderColor="gray.200" py="3">
-      <Box maxW="1280px" mx="auto" px={{ base: "4", md: "6", lg: "8" }}>
-        <HStack justify="space-between" gap="4">
-          {/* Logo */}
-          <Link href="/" _hover={{ opacity: 0.9 }}>
-            <Image
-              src="/logo.png"
-              alt="Megacampo"
-              width={139}
-              height={80}
-              style={{ height: "auto", width: "auto", maxWidth: "100px" }}
-              priority
-            />
-          </Link>
+      <Box maxW="1320px" mx="auto" px={{ base: "4", md: "6", lg: "8" }}>
+        {showMobileNav ? (
+          <Box
+            display="grid"
+            gridTemplateColumns="1fr auto 1fr"
+            alignItems="center"
+            gap="2"
+          >
+            <HStack justify="flex-start">
+              <IconButton
+                aria-label={labels.openMenuAria}
+                variant="ghost"
+                size="lg"
+                onClick={onOpenMenu}
+              >
+                <HamburgerIcon />
+              </IconButton>
+            </HStack>
 
-          {showMobileNav ? (
-            <HStack gap="2">
-              <IconButton aria-label="Pesquisar" variant="ghost" size="sm">
+            <Link href="/" _hover={{ opacity: 0.9 }} justifySelf="center">
+              <Image
+                src={logoSrc}
+                alt={logoAlt}
+                width={139}
+                height={80}
+                loading="eager"
+                style={{ height: "auto", width: "auto", maxWidth: "100px" }}
+                priority
+              />
+            </Link>
+
+            <HStack gap="2" justify="flex-end">
+              <IconButton
+                aria-label={labels.searchAria}
+                variant="ghost"
+                size="sm"
+              >
                 <SearchIcon />
               </IconButton>
               <Link
-                href="/carrinho"
-                aria-label="Carrinho"
+                href={labels.cartHref}
+                aria-label={labels.cartAria}
                 display="flex"
                 alignItems="center"
                 justifyContent="center"
@@ -61,22 +65,28 @@ export function Navbar({ onOpenMenu }: { onOpenMenu: () => void }) {
               >
                 <CartIcon />
               </Link>
-              <IconButton
-                aria-label="Abrir menu"
-                variant="ghost"
-                size="lg"
-                onClick={onOpenMenu}
-              >
-                <HamburgerIcon />
-              </IconButton>
             </HStack>
-          ) : (
+          </Box>
+        ) : (
+          <HStack justify="space-between" gap="4">
+            <Link href="/" _hover={{ opacity: 0.9 }}>
+              <Image
+                src={logoSrc}
+                alt={logoAlt}
+                width={139}
+                height={80}
+                loading="eager"
+                style={{ height: "auto", width: "auto", maxWidth: "100px" }}
+                priority
+              />
+            </Link>
+
             <HStack gap="6" flex="1" justify="center">
-              {NAV_LINKS.map((item) => {
-                const active = isActive(item);
+              {navLinks.map((item) => {
+                const active = isNavLinkActive(pathname, item.href);
                 return (
                   <Link
-                    key={item.href}
+                    key={`${item.href}-${item.label}`}
                     href={item.href}
                     fontWeight="semibold"
                     textTransform="uppercase"
@@ -93,16 +103,18 @@ export function Navbar({ onOpenMenu }: { onOpenMenu: () => void }) {
                 );
               })}
             </HStack>
-          )}
 
-          {!showMobileNav && (
             <HStack gap="2">
-              <IconButton aria-label="Pesquisar" variant="ghost" size="sm">
+              <IconButton
+                aria-label={labels.searchAria}
+                variant="ghost"
+                size="sm"
+              >
                 <SearchIcon />
               </IconButton>
               <Link
-                href="/carrinho"
-                aria-label="Carrinho"
+                href={labels.cartHref}
+                aria-label={labels.cartAria}
                 display="flex"
                 alignItems="center"
                 justifyContent="center"
@@ -113,8 +125,8 @@ export function Navbar({ onOpenMenu }: { onOpenMenu: () => void }) {
                 <CartIcon />
               </Link>
             </HStack>
-          )}
-        </HStack>
+          </HStack>
+        )}
       </Box>
     </Box>
   );

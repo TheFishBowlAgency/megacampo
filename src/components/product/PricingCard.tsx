@@ -1,143 +1,156 @@
-'use client';
+"use client";
 
-import { Box, Text, VStack } from '@chakra-ui/react';
-import { Link } from '@/components/ui';
-import type { ProductPackage } from '@/data/products';
+import { Box, Text, VStack } from "@chakra-ui/react";
+import { Link } from "@/components/ui";
+import { PRICING_TAG_TILT, TORN_CHIP_MASK } from "@/components/ui/tornChipMask";
+import { useSiteLocale } from "@/providers";
+import type { PackageCardItem } from "@/lib/catalog/types";
 
 export interface PricingCardProps {
-  pkg: ProductPackage;
+  pkg: PackageCardItem;
   detailHref?: string;
 }
 
 /**
- * Pricing package card matching Figma design: dark bg, orange ribbon banner
- * with rotated package name (Molot font), price, features, and CTA.
+ * Dark pricing card — torn tilted name chip, centered content, cream popular badge.
  */
 export function PricingCard({
   pkg,
-  detailHref = '/#reservas',
+  detailHref = "/#reservas",
 }: PricingCardProps) {
+  const { copy } = useSiteLocale();
+
   return (
     <Box
       as="article"
       bg="dark"
-      borderRadius="sm"
+      color="grayLight"
+      borderRadius="4px"
+      w="full"
+      minW="0"
+      px={{ base: "5", lg: "8" }}
+      pt={{ base: "6", lg: "8" }}
+      pb={{ base: "8", lg: "16" }}
       display="flex"
       flexDirection="column"
       alignItems="center"
       justifyContent="space-between"
-      w="full"
+      gap={{ base: "6", lg: "12" }}
+      minH={{ base: "auto", xl: "900px" }}
       h="full"
-      pt={{ base: '4', lg: '8' }}
-      pb={{ base: '8', lg: '16' }}
-      px={{ base: '2.5', lg: '8' }}
-      overflow="hidden"
+      textAlign="center"
     >
-      <VStack gap={{ base: '6', lg: '12' }} align="center" w="full">
-        {/* Orange ribbon banner with rotated package name */}
-        <Box py={{ base: '2', lg: '3' }}>
-          <Box
-            bg="primary"
-            px={{ base: '4', lg: '8' }}
-            py={{ base: '1.5', lg: '3' }}
-            borderRadius="md"
-            transform="rotate(-5.22deg)"
+      <VStack align="center" gap={{ base: "6", lg: "12" }} flex="1" w="full">
+        <Box
+          display="inline-flex"
+          alignItems="center"
+          justifyContent="center"
+          maxW="full"
+          px={{ base: "3", lg: "5" }}
+          py={{ base: "1.5", lg: "2.5" }}
+          bg="primary"
+          transform={PRICING_TAG_TILT}
+          style={TORN_CHIP_MASK}
+        >
+          <Text
+            fontFamily="heading.molot"
+            fontSize={{ base: "md", lg: "xl", xl: "2xl" }}
+            fontWeight="normal"
+            lineHeight="1"
+            color="dark"
+            textTransform="uppercase"
+            whiteSpace="nowrap"
           >
-            <Text
-              fontFamily="heading.molot"
-              fontSize={{ base: 'xl', lg: '3rem' }}
-              color="dark"
-              textAlign="center"
-              whiteSpace="nowrap"
-              lineHeight="1"
-            >
-              {pkg.name}
-            </Text>
-          </Box>
+            {pkg.name}
+          </Text>
         </Box>
 
-        {/* Price */}
         <VStack gap="2" align="center">
           <Text
-            fontSize={{ base: '2xl', lg: '3rem' }}
+            fontFamily="body"
+            fontSize={{ base: "xl", lg: "2xl", xl: "3rem" }}
             fontWeight="black"
-            color="white"
+            color="grayLight"
             lineHeight="1"
           >
             {pkg.price}€
           </Text>
           <Text
-            fontSize={{ base: 'sm', lg: 'body.lg' }}
-            color="white"
+            className="notranslate"
+            translate="no"
+            fontFamily="body"
+            fontSize={{ base: "xs", lg: "sm", xl: "body.md" }}
+            fontWeight="normal"
+            color="grayLight"
             opacity={0.5}
           >
-            {pkg.perPersonLabel ?? 'Por pessoa'}
+            {pkg.perPersonLabel ?? copy.package.perPerson}
           </Text>
         </VStack>
 
-        {/* Dashed separator */}
-        <Box
-          w="full"
-          borderBottomWidth="1px"
-          borderStyle="dashed"
-          borderColor="whiteAlpha.400"
-        />
+        <Box h="1px" w="full" bg="grayLight" />
 
-        {/* Popular badge + features */}
-        <VStack gap={{ base: '4', lg: '6' }} align="center" w="full">
-          {pkg.popular && (
+        <VStack align="center" gap={{ base: "4", lg: "6" }} flex="1" w="full">
+          {pkg.popular ? (
             <Box
-              bg={{ base: 'primary.muted', lg: 'bg.subtle' }}
-              px={{ base: '4', lg: '8' }}
-              py="2"
+              bg="offset"
+              px={{ base: "3", lg: "4" }}
+              py={{ base: "1.5", lg: "2" }}
               borderRadius="md"
+              display="inline-flex"
+              alignItems="center"
+              justifyContent="center"
             >
               <Text
-                fontSize={{ base: 'sm', lg: 'body.lg' }}
+                className="notranslate"
+                translate="no"
+                fontFamily="body"
+                fontSize={{ base: "xs", lg: "sm", xl: "md" }}
                 fontWeight="medium"
                 color="primary"
                 textTransform="uppercase"
-                whiteSpace="nowrap"
+                lineHeight="1.2"
               >
-                O MAIS POPULAR
+                {copy.package.mostPopular}
               </Text>
             </Box>
-          )}
+          ) : null}
           {pkg.features.map((feature) => (
             <Text
-              key={feature}
-              fontSize={{ base: 'sm', lg: 'body.lg' }}
+              key={feature.id}
+              fontFamily="body"
+              fontSize={{ base: "xs", lg: "body.md", xl: "body.lg" }}
               fontWeight="extrabold"
-              color="white"
+              color="grayLight"
               opacity={0.5}
-              textAlign="center"
               textTransform="uppercase"
+              lineHeight="1.2"
+              textAlign="center"
             >
-              {feature}
+              {feature.label}
             </Text>
           ))}
         </VStack>
       </VStack>
 
-      {/* CTA button */}
       <Link
+        className="notranslate"
+        translate="no"
         href={detailHref}
         bg="primary"
-        color="white"
+        color="grayLight"
+        px={{ base: "6", lg: "8" }}
+        py={{ base: "3", lg: "4" }}
+        fontFamily="body"
+        fontSize={{ base: "sm", lg: "body.md", xl: "body.lg" }}
         fontWeight="medium"
+        lineHeight="1.3"
         textTransform="uppercase"
-        fontSize={{ base: 'sm', lg: 'body.lg' }}
-        px="8"
-        py="4"
+        textAlign="center"
         borderRadius="md"
-        boxShadow="0px 5px 16px 0px rgba(0,0,0,0.22)"
-        mt={{ base: '8', lg: '12' }}
         _hover={{ opacity: 0.9 }}
-        display="inline-flex"
-        alignItems="center"
-        justifyContent="center"
       >
-        {pkg.ctaLabel ?? 'RESERVA JÁ'}
+        {pkg.ctaLabel ?? copy.package.reserve}
       </Link>
     </Box>
   );

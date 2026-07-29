@@ -2,14 +2,21 @@
 
 import { Box, Grid, Text, VStack } from "@chakra-ui/react";
 import { Container, Section } from "@/components/layout";
-import type { ProductTestimonial as ProductTestimonialType } from "@/data/products";
+
+export interface ProductTestimonial {
+  id: string;
+  clientName: string;
+  rating: number;
+  text: string;
+  /** Desktop: use as large featured card when true */
+  featured?: boolean;
+}
 
 export interface ProductTestimonialsSectionProps {
   heading: string;
-  testimonials: ProductTestimonialType[];
+  testimonials: ProductTestimonial[];
 }
 
-/** Stars in dark gray/black per Figma. size: "sm" for small cards, "md" for large. */
 function StarRating({
   rating,
   size = "md",
@@ -74,15 +81,11 @@ function CardContent({
   );
 }
 
-/**
- * Large testimonial (desktop left): landscape image at top, then name, stars, text.
- * Figma: rectangular image wider than tall; larger name and stars.
- */
 function LargeTestimonialCard({
   clientName,
   rating,
   text,
-}: ProductTestimonialType) {
+}: ProductTestimonial) {
   return (
     <Box
       bg="bg"
@@ -124,7 +127,7 @@ function SmallTestimonialCard({
   text,
   variant = "square",
   fillHeight = false,
-}: ProductTestimonialType & {
+}: ProductTestimonial & {
   variant?: "square" | "landscape";
   fillHeight?: boolean;
 }) {
@@ -163,11 +166,6 @@ function SmallTestimonialCard({
   );
 }
 
-/**
- * Product page testimonials per Figma nodes 215-2173 (desktop) and 215-3162 (mobile).
- * Desktop: two columns — large card left (landscape image, vertical), 3 small cards right (horizontal, square avatar).
- * Mobile: four cards stacked with white separators; first = larger landscape image, rest = square; all horizontal.
- */
 export function ProductTestimonialsSection({
   heading,
   testimonials,

@@ -1,6 +1,7 @@
-import { NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
 
-import { finalizePayPalPayment } from '@/lib/payments/finalizePayPal';
+import { finalizePayPalPayment } from "@/lib/payments/finalizePayPal";
+import { PaymentAmountMismatchError } from "@/lib/payments/markOrderPaid";
 
 export async function POST(request: Request) {
   try {
@@ -11,7 +12,7 @@ export async function POST(request: Request) {
 
     if (!body.orderNumber || !body.paypalOrderId) {
       return NextResponse.json(
-        { error: 'Dados de pagamento em falta.' },
+        { error: "Dados de pagamento em falta." },
         { status: 400 },
       );
     }
@@ -23,12 +24,17 @@ export async function POST(request: Request) {
 
     return NextResponse.json(result);
   } catch (error) {
-    console.error('PayPal capture error:', error);
+    console.error("PayPal capture error:", error);
     const message =
       error instanceof Error
         ? error.message
-        : 'Não foi possível confirmar o pagamento PayPal.';
-    const status = message === 'Encomenda não encontrada.' ? 404 : 500;
+        : "Não foi possível confirmar o pagamento PayPal.";
+
+    if (error instanceof PaymentAmountMismatchError) {
+      return NextResponse.json({ error: message }, { status: 400 });
+    }
+
+    const status = message === "Encomenda não encontrada." ? 404 : 500;
     return NextResponse.json({ error: message }, { status });
   }
 }

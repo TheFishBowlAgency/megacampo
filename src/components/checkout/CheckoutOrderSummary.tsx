@@ -3,25 +3,12 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
 import { Link } from "@/components/ui";
 import type { CartLineItem } from "@/components/cart/types";
+import { getCartItemDisplay } from "@/components/cart/getCartItemDisplay";
+import { formatPriceWithCurrency } from "@/lib/catalog/formatPrice";
 
 export interface CheckoutOrderSummaryProps {
   items: CartLineItem[];
   editCartHref?: string;
-}
-
-function formatPrice(value: number): string {
-  return value.toFixed(2).replace(".", ",") + "€";
-}
-
-function getDisplayInfo(item: CartLineItem) {
-  if (item.productSubtitle) {
-    return { category: item.productName, itemName: item.productSubtitle };
-  }
-  const parts = item.productName.split(" ");
-  return {
-    category: parts[0],
-    itemName: parts.slice(1).join(" ") || parts[0],
-  };
 }
 
 /**
@@ -37,7 +24,7 @@ export function CheckoutOrderSummary({
   return (
     <Box
       bg="primary"
-      borderRadius="5px"
+      borderRadius="0"
       p="5"
       display="flex"
       flexDirection="column"
@@ -56,7 +43,7 @@ export function CheckoutOrderSummary({
       {/* Line Items + Total */}
       <Box display="flex" flexDirection="column" gap="8">
         {items.map((item, idx) => {
-          const { category, itemName } = getDisplayInfo(item);
+          const { category, itemName } = getCartItemDisplay(item);
           const lineTotal = item.unitPrice * item.quantity;
           const allDetails = [
             ...item.details.map((d) => `${d.label}: ${d.value}`),
@@ -74,7 +61,7 @@ export function CheckoutOrderSummary({
                     {itemName}
                   </Text>
                   <Text textStyle="h5" color="fg">
-                    {formatPrice(lineTotal)}
+                    {formatPriceWithCurrency(lineTotal)}
                   </Text>
                 </Flex>
                 <Box display="flex" flexDirection="column" gap="3">
@@ -94,11 +81,11 @@ export function CheckoutOrderSummary({
 
         {/* Total */}
         <Flex justify="space-between" align="center">
-          <Text textStyle="h5" color="grayLight">
+          <Text textStyle="h5" color="fg" fontWeight="extrabold">
             Total
           </Text>
-          <Text textStyle="h5" color="grayLight">
-            {formatPrice(total)}
+          <Text textStyle="h5" color="fg" fontWeight="extrabold">
+            {formatPriceWithCurrency(total)}
           </Text>
         </Flex>
       </Box>

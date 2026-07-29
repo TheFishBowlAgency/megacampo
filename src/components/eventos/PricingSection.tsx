@@ -1,219 +1,114 @@
 "use client";
 
-import { Box, Button, Grid, Text, VStack } from "@chakra-ui/react";
+import { Box, Grid, VStack } from "@chakra-ui/react";
 import { useState } from "react";
-import { Container, Section } from "@/components/layout";
-import { Link } from "../ui";
+import { Section } from "@/components/layout";
+import { PricingCard } from "@/components/product/PricingCard";
+import { DEFAULT_EVENT_PRICING_TABS } from "@/lib/events/defaultPricing";
+import type { EventPricingTab } from "@/lib/events/types";
 
-const TABS = [
-  { id: "paintball", label: "PAINTBALL" },
-  { id: "soft-paintball", label: "SOFT PAINTBALL" },
-  { id: "cooperacao", label: "JOGOS DE COOPERAÇÃO" },
-] as const;
+export type PricingSectionProps = {
+  tabs?: EventPricingTab[];
+  reserveHref?: string;
+};
 
-const PACKAGES = [
-  {
-    id: "commando",
-    name: "COMMANDO",
-    price: "29,95",
-    popular: true,
-    features: [
-      "200 bolas",
-      "Marcador de paintball",
-      "Botija de ar comprimido",
-      "Máscara de proteção",
-      "Farda camuflada",
-      "Acessos aos 12 cenários",
-      "Mínimo 8 pessoas",
-    ],
-  },
-  {
-    id: "ranger",
-    name: "RANGER",
-    price: "39,95",
-    popular: false,
-    features: [
-      "500 bolas",
-      "Marcador de paintball",
-      "Botija de ar comprimido",
-      "Máscara de proteção",
-      "Farda camuflada",
-      "Acessos aos 12 cenários",
-      "Mínimo 8 pessoas",
-    ],
-  },
-  {
-    id: "swat",
-    name: "SWAT",
-    price: "49,95",
-    popular: false,
-    features: [
-      "1000 bolas",
-      "Marcador de paintball",
-      "Botija de ar comprimido",
-      "Máscara de proteção",
-      "Farda camuflada",
-      "Acessos aos 12 cenários",
-      "Mínimo 8 pessoas",
-    ],
-  },
-  {
-    id: "elite",
-    name: "ELITE",
-    price: "69,95",
-    popular: false,
-    features: [
-      "1500 bolas",
-      "Marcador de paintball",
-      "Botija de ar comprimido",
-      "Máscara de proteção",
-      "Farda camuflada",
-      "Acessos aos 12 cenários",
-      "Mínimo 8 pessoas",
-    ],
-  },
-];
+export function PricingSection({
+  tabs = DEFAULT_EVENT_PRICING_TABS,
+  reserveHref = "/#reservas",
+}: PricingSectionProps) {
+  const safeTabs = tabs.length > 0 ? tabs : DEFAULT_EVENT_PRICING_TABS;
 
-export function PricingSection() {
-  const [activeTab, setActiveTab] = useState<string>("paintball");
+  const [activeTab, setActiveTab] = useState<string>(
+    safeTabs[0]?.id ?? "paintball",
+  );
+  const current =
+    safeTabs.find((tab) => tab.id === activeTab) ??
+    safeTabs[0] ??
+    DEFAULT_EVENT_PRICING_TABS[0];
+  const packages = current?.packages?.length
+    ? current.packages
+    : DEFAULT_EVENT_PRICING_TABS[0].packages;
 
   return (
-    <Section variant="dark" id="pacotes">
-      <Container>
-        <VStack gap={{ base: "8", md: "10", lg: "12" }} align="stretch">
+    <Section variant="subtle" id="pacotes" bg="#fff">
+      <Box maxW="1768px" mx="auto" px={{ base: "5", md: "6", lg: "8" }}>
+        <VStack gap={{ base: "8", md: "10", xl: "12" }} align="stretch">
           <Box
             display="flex"
-            flexWrap="wrap"
-            gap="2"
-            justifyContent="center"
+            flexWrap={{ base: "nowrap", md: "wrap" }}
+            gap={{ base: "4", lg: "8" }}
+            justifyContent={{ base: "flex-start", md: "center" }}
+            mx={{ base: "-5", md: "0" }}
+            px={{ base: "5", md: "0" }}
+            overflowX={{ base: "auto", md: "visible" }}
             role="tablist"
             aria-label="Tipo de atividade"
+            css={{
+              scrollSnapType: "x mandatory",
+              WebkitOverflowScrolling: "touch",
+              scrollbarWidth: "none",
+              "&::-webkit-scrollbar": { display: "none" },
+            }}
           >
-            {TABS.map((tab) => (
-              <Button
-                key={tab.id}
-                variant={activeTab === tab.id ? "solid" : "ghost"}
-                colorPalette={activeTab === tab.id ? "primary" : "gray"}
-                size="sm"
-                textTransform="uppercase"
-                fontWeight="semibold"
-                onClick={() => setActiveTab(tab.id)}
-                role="tab"
-                aria-selected={activeTab === tab.id}
-              >
-                {tab.label}
-              </Button>
-            ))}
+            {safeTabs.map((tab) => {
+              const active = activeTab === tab.id;
+              return (
+                <Box
+                  key={tab.id}
+                  as="button"
+                  role="tab"
+                  aria-selected={active}
+                  onClick={() => setActiveTab(tab.id)}
+                  flexShrink={0}
+                  whiteSpace="nowrap"
+                  fontSize={{ base: "sm", lg: "body.md", xl: "body.lg" }}
+                  fontWeight="medium"
+                  textTransform="uppercase"
+                  color={active ? "primary" : "fg.muted"}
+                  borderBottomWidth="2px"
+                  borderBottomColor={active ? "primary" : "fg.muted"}
+                  pb="1"
+                  cursor="pointer"
+                  _hover={{ color: "primary" }}
+                  css={{ scrollSnapAlign: "start" }}
+                >
+                  {tab.label}
+                </Box>
+              );
+            })}
           </Box>
+
           <Grid
             templateColumns={{
-              // base: "1fr",
-              base: "repeat(2, 1fr)",
-              lg: "repeat(4, 1fr)",
+              base: "repeat(2, minmax(0, 1fr))",
+              md: "repeat(3, minmax(0, 1fr))",
+              xl: "repeat(4, minmax(0, 1fr))",
             }}
-            gap={{ base: "4", md: "6" }}
+            gap={{ base: "3", md: "5" }}
             w="full"
+            alignItems="stretch"
           >
-            {PACKAGES.map((pkg) => (
-              <Box
+            {packages.map((pkg) => (
+              <PricingCard
                 key={pkg.id}
-                as="article"
-                bg="bg.dark"
-                borderRadius="lg"
-                overflow="hidden"
-                borderWidth="1px"
-                borderColor="whiteAlpha.200"
-                position="relative"
-                display="flex"
-                flexDirection="column"
-                minH={{ base: "auto", md: "420px" }}
-              >
-                {pkg.popular && (
-                  <Box
-                    position="absolute"
-                    top="0"
-                    left="0"
-                    right="0"
-                    bg="primary.muted"
-                    color="fg"
-                    py="1"
-                    px="3"
-                    fontSize="xs"
-                    fontWeight="bold"
-                    textTransform="uppercase"
-                    textAlign="center"
-                    zIndex="1"
-                  >
-                    O mais popular
-                  </Box>
-                )}
-                <Box
-                  bg="primary"
-                  color="white"
-                  py="3"
-                  px="4"
-                  textAlign="center"
-                  mt={pkg.popular ? "6" : "0"}
-                >
-                  <Text
-                    fontWeight="bold"
-                    textTransform="uppercase"
-                    fontSize="lg"
-                    letterSpacing="wider"
-                  >
-                    {pkg.name}
-                  </Text>
-                </Box>
-                <VStack
-                  p="6"
-                  flex="1"
-                  align="stretch"
-                  gap="4"
-                  justifyContent="space-between"
-                >
-                  <Box>
-                    <Text
-                      fontSize={{ base: "2xl", md: "3xl" }}
-                      fontWeight="bold"
-                      color="white"
-                    >
-                      {pkg.price}€
-                    </Text>
-                    <Text fontSize="sm" color="whiteAlpha.800">
-                      Por pessoa
-                    </Text>
-                  </Box>
-                  <VStack align="stretch" gap="2" flex="1">
-                    {pkg.features.map((feature) => (
-                      <Text
-                        key={feature}
-                        fontSize="sm"
-                        color="whiteAlpha.900"
-                        lineHeight="tall"
-                      >
-                        {feature}
-                      </Text>
-                    ))}
-                  </VStack>
-                  <Button
-                    asChild
-                    width="full"
-                    colorPalette="primary"
-                    bg="primary"
-                    color="white"
-                    fontWeight="bold"
-                    textTransform="uppercase"
-                    size="lg"
-                    _hover={{ bg: "primary.muted", color: "fg" }}
-                  >
-                    <Link href="/#reservas">Reserva já</Link>
-                  </Button>
-                </VStack>
-              </Box>
+                pkg={{
+                  id: pkg.id,
+                  slug: pkg.id,
+                  name: pkg.name,
+                  price: pkg.price,
+                  popular: pkg.popular,
+                  features: pkg.features.map((feature, featureIndex) => ({
+                    id: `${pkg.id}-${featureIndex}`,
+                    label: feature,
+                  })),
+                  ctaLabel: "Reserva já",
+                }}
+                detailHref={reserveHref}
+              />
             ))}
           </Grid>
         </VStack>
-      </Container>
+      </Box>
     </Section>
   );
 }

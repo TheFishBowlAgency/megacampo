@@ -16,7 +16,7 @@ export function InfoBar({ children }: InfoBarProps) {
       <Container>
         <Text
           textStyle="body"
-          fontSize={{ base: "sm", lg: "body.lg" }}
+          fontSize={{ base: "sm", lg: "body.md", xl: "body.lg" }}
           color="grayLight"
           textAlign="center"
         >

@@ -1,46 +1,77 @@
-import type { Metadata } from 'next';
-import { Anton, Roboto } from 'next/font/google';
-import localFont from 'next/font/local';
-import './globals.css';
-import { StyleProvider } from '@/providers';
+import type { Metadata } from "next";
+import { cookies, headers } from "next/headers";
+import { Anton, Roboto } from "next/font/google";
+import localFont from "next/font/local";
+import "./globals.css";
+import { detectSiteLocale, SITE_LOCALE_COOKIE } from "@/i18n/site";
+import { DEFAULT_HEADER } from "@/lib/site/defaults";
+import { getSiteShell } from "@/lib/site/getSiteShell";
+import { StyleProvider } from "@/providers";
 
 const anton = Anton({
-  weight: '400',
-  variable: '--font-anton',
-  subsets: ['latin'],
+  weight: "400",
+  variable: "--font-anton",
+  subsets: ["latin"],
 });
 
 const molot = localFont({
-  src: '../../../public/fonts/martimmolina.ttf',
-  variable: '--font-molot',
-  display: 'swap',
+  src: "../../../public/fonts/martimmolina.ttf",
+  variable: "--font-molot",
+  display: "swap",
 });
 
 const roboto = Roboto({
-  weight: ['400', '500', '600', '800'],
-  variable: '--font-roboto',
-  subsets: ['latin'],
+  weight: ["400", "500", "600", "800"],
+  variable: "--font-roboto",
+  subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: 'Megacampo | O maior parque de paintball da Península Ibérica',
-  description:
-    'Experiência 12 mapas em 60 hectares. Paintball, airsoft, lasertag. Reservas e eventos.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  try {
+    const { header } = await getSiteShell();
+    return {
+      title: header.seo.title,
+      description: header.seo.description,
+      other: {
+        google: "notranslate",
+      },
+    };
+  } catch {
+    return {
+      title: DEFAULT_HEADER.seo.title,
+      description: DEFAULT_HEADER.seo.description,
+      other: {
+        google: "notranslate",
+      },
+    };
+  }
+}
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookieStore = await cookies();
+  const headerStore = await headers();
+  const locale = detectSiteLocale({
+    cookie: cookieStore.get(SITE_LOCALE_COOKIE)?.value,
+    acceptLanguage: headerStore.get("accept-language"),
+  });
+  const { header, footer } = await getSiteShell();
+
   return (
     <html
-      lang="en"
+      lang={locale}
+      translate="no"
       suppressHydrationWarning
-      className={`${anton.variable} ${molot.variable} ${roboto.variable}`}
+      data-scroll-behavior="smooth"
+      className={`${anton.variable} ${molot.variable} ${roboto.variable} notranslate`}
     >
       <body>
-        <StyleProvider>{children}</StyleProvider>
+        <StyleProvider initialLocale={locale} header={header} footer={footer}>
+          {children}
+        </StyleProvider>
       </body>
     </html>
   );
