@@ -5,7 +5,7 @@ import config from "@payload-config";
 import { euroToCents } from "@/lib/pricing/cents";
 
 type LegacyGroupExtraDoc = {
-  _id: string;
+  _id: { toString(): string };
   name?: string;
   priceEur?: number | null;
   priceCents?: number | null;
@@ -22,7 +22,7 @@ async function migrateGroupExtras(): Promise<void> {
 
   const docs = (await collection
     .find({})
-    .toArray()) as LegacyGroupExtraDoc[];
+    .toArray()) as unknown as LegacyGroupExtraDoc[];
 
   let migrated = 0;
 
