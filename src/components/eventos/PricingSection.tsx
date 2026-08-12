@@ -10,17 +10,26 @@ import type { EventPricingTab } from "@/lib/events/types";
 export type PricingSectionProps = {
   tabs?: EventPricingTab[];
   reserveHref?: string;
+  activeTabId?: string;
+  onActiveTabChange?: (tabId: string) => void;
 };
 
 export function PricingSection({
   tabs = DEFAULT_EVENT_PRICING_TABS,
   reserveHref = "/#reservas",
+  activeTabId,
+  onActiveTabChange,
 }: PricingSectionProps) {
   const safeTabs = tabs.length > 0 ? tabs : DEFAULT_EVENT_PRICING_TABS;
+  const isControlled =
+    activeTabId !== undefined && onActiveTabChange !== undefined;
 
-  const [activeTab, setActiveTab] = useState<string>(
+  const [uncontrolledTab, setUncontrolledTab] = useState<string>(
     safeTabs[0]?.id ?? "paintball",
   );
+  const activeTab = isControlled ? activeTabId : uncontrolledTab;
+  const setActiveTab = isControlled ? onActiveTabChange : setUncontrolledTab;
+
   const current =
     safeTabs.find((tab) => tab.id === activeTab) ??
     safeTabs[0] ??
@@ -28,6 +37,10 @@ export function PricingSection({
   const packages = current?.packages?.length
     ? current.packages
     : DEFAULT_EVENT_PRICING_TABS[0].packages;
+
+  const mdColumnCount = Math.min(Math.max(packages.length, 1), 2);
+  const lgColumnCount = Math.min(Math.max(packages.length, 1), 3);
+  const xlColumnCount = Math.min(Math.max(packages.length, 1), 4);
 
   return (
     <Section variant="subtle" id="pacotes" bg="#fff">
@@ -80,12 +93,16 @@ export function PricingSection({
 
           <Grid
             templateColumns={{
-              base: "repeat(2, minmax(0, 1fr))",
-              md: "repeat(3, minmax(0, 1fr))",
-              xl: "repeat(4, minmax(0, 1fr))",
+              base: `repeat(${Math.min(Math.max(packages.length, 1), 2)}, minmax(0, 1fr))`,
+              md: `repeat(${mdColumnCount}, minmax(0, 315px))`,
+              lg: `repeat(${lgColumnCount}, minmax(0, 400px))`,
+              xl: `repeat(${xlColumnCount}, minmax(0, 400px))`,
             }}
             gap={{ base: "3", md: "5" }}
-            w="full"
+            w={{ base: "full", md: "auto" }}
+            mx="auto"
+            maxW="full"
+            justifyContent="center"
             alignItems="stretch"
           >
             {packages.map((pkg) => (

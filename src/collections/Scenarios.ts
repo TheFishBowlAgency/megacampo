@@ -34,6 +34,7 @@ export const Scenarios: CollectionConfig = {
       type: "text",
       label: common.title,
       required: true,
+      localized: true,
     },
     autoSlugField(bl("título", "title")),
     mediaImageField(),

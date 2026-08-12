@@ -4,6 +4,7 @@ import { EventSimpleDetailContent } from "@/components/eventos";
 import { getEventBySlug } from "@/lib/events/getEventBySlug";
 import { getAllEventSlugs, getEventsCopy } from "@/lib/events/getEvents";
 import { getHome } from "@/lib/home/getHome";
+import { getRequestLocale } from "@/i18n/site";
 
 export interface EventPageProps {
   params: Promise<{ slug: string }>;
@@ -16,10 +17,11 @@ export async function generateStaticParams() {
 
 export default async function EventPage({ params }: EventPageProps) {
   const { slug } = await params;
+  const locale = await getRequestLocale();
   const [event, copy, home] = await Promise.all([
-    getEventBySlug(slug),
-    getEventsCopy(),
-    getHome(),
+    getEventBySlug(slug, locale),
+    getEventsCopy(locale),
+    getHome(locale),
   ]);
   if (!event) notFound();
 

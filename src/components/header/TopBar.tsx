@@ -24,13 +24,17 @@ export function TopBar() {
   return (
     <Box bg="primary" color="white" py="2">
       <Box px={{ base: "4", md: "6", lg: "8" }} maxW="1320px" mx="auto">
-        <HStack gap="4">
+        <HStack gap="4" alignItems="center" minH="10">
           <Text
             flex="1"
             fontSize={{ lgDown: "1rem" }}
             letterSpacing="wide"
             textAlign="center"
             textStyle="h5"
+            lineHeight="1"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
           >
             {topBar.contactLabel} {topBar.phone}
           </Text>
@@ -44,16 +48,25 @@ export function TopBar() {
               bg="transparent"
               border="none"
               cursor="pointer"
-              display="flex"
+              display="inline-flex"
               alignItems="center"
+              justifyContent="center"
               gap="2"
               color="white"
+              lineHeight="1"
               _hover={{ bg: "whiteAlpha.200" }}
               _expanded={{ bg: "whiteAlpha.200" }}
             >
-              <Icon asChild size={{ base: "lg", md: "2xl" }}>
+              <Icon
+                asChild
+                boxSize={{ base: "5", md: "6" }}
+                display="inline-flex"
+                alignItems="center"
+                justifyContent="center"
+                flexShrink={0}
+              >
                 <svg
-                  viewBox="0 0 32 32"
+                  viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
                   strokeWidth="2"
@@ -63,10 +76,16 @@ export function TopBar() {
                   <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
                 </svg>
               </Icon>
-              <Text as="span" hideBelow="lg" textStyle="h5">
+              <Text as="span" hideBelow="lg" textStyle="h5" lineHeight="1">
                 {currentLabel}
               </Text>
-              <Icon as={ChevronDownIcon} />
+              <Icon
+                as={ChevronDownIcon}
+                boxSize="4"
+                display="inline-flex"
+                alignItems="center"
+                flexShrink={0}
+              />
             </MenuTrigger>
             <MenuPositioner>
               <MenuContent

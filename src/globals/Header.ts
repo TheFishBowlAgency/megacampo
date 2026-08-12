@@ -11,6 +11,7 @@ const navLinkFields = [
     type: "text" as const,
     label: common.label,
     required: true,
+    localized: true,
   },
   {
     name: "href",
@@ -44,6 +45,7 @@ export const Header: GlobalConfig = {
       type: "text",
       label: bl("Texto alternativo do logótipo", "Logo alt text"),
       defaultValue: "Megacampo",
+      localized: true,
     },
     {
       name: "topBar",
@@ -56,6 +58,7 @@ export const Header: GlobalConfig = {
           label: bl("Etiqueta de contacto", "Contact label"),
           required: true,
           defaultValue: "Contacta-nos:",
+          localized: true,
         },
         {
           name: "phone",
@@ -107,6 +110,7 @@ export const Header: GlobalConfig = {
           label: bl("Aria: selecionar idioma", "Aria: select language"),
           required: true,
           defaultValue: "Selecionar idioma",
+          localized: true,
         },
         {
           name: "openMenuAria",
@@ -114,6 +118,7 @@ export const Header: GlobalConfig = {
           label: bl("Aria: abrir menu", "Aria: open menu"),
           required: true,
           defaultValue: "Abrir menu",
+          localized: true,
         },
         {
           name: "closeMenuAria",
@@ -121,6 +126,7 @@ export const Header: GlobalConfig = {
           label: bl("Aria: fechar menu", "Aria: close menu"),
           required: true,
           defaultValue: "Fechar menu",
+          localized: true,
         },
         {
           name: "menuAria",
@@ -128,6 +134,7 @@ export const Header: GlobalConfig = {
           label: bl("Aria: menu", "Aria: menu"),
           required: true,
           defaultValue: "Menu",
+          localized: true,
         },
         {
           name: "searchAria",
@@ -135,6 +142,7 @@ export const Header: GlobalConfig = {
           label: bl("Aria: pesquisar", "Aria: search"),
           required: true,
           defaultValue: "Pesquisar",
+          localized: true,
         },
         {
           name: "cartAria",
@@ -142,6 +150,7 @@ export const Header: GlobalConfig = {
           label: bl("Aria: carrinho", "Aria: cart"),
           required: true,
           defaultValue: "Carrinho",
+          localized: true,
         },
         {
           name: "bagLabel",
@@ -149,6 +158,7 @@ export const Header: GlobalConfig = {
           label: bl("Etiqueta do carrinho (mobile)", "Bag label (mobile)"),
           required: true,
           defaultValue: "Carrinho",
+          localized: true,
         },
         {
           name: "searchLabel",
@@ -156,6 +166,7 @@ export const Header: GlobalConfig = {
           label: bl("Etiqueta de pesquisa (mobile)", "Search label (mobile)"),
           required: true,
           defaultValue: "Pesquisar",
+          localized: true,
         },
         {
           name: "cartHref",
@@ -206,6 +217,7 @@ export const Header: GlobalConfig = {
         ),
       },
       defaultValue: "Desconto online de 20% em todos os extras",
+      localized: true,
     },
     {
       name: "seo",
@@ -219,6 +231,7 @@ export const Header: GlobalConfig = {
           required: true,
           defaultValue:
             "Megacampo | O maior parque de paintball da Península Ibérica",
+          localized: true,
         },
         {
           name: "description",
@@ -227,6 +240,7 @@ export const Header: GlobalConfig = {
           required: true,
           defaultValue:
             "Experiência 12 mapas em 60 hectares. Paintball, airsoft, lasertag. Reservas e eventos.",
+          localized: true,
         },
       ],
     },

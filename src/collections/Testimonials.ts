@@ -35,6 +35,7 @@ export const Testimonials: CollectionConfig = {
       type: "textarea",
       label: bl("Citação", "Quote"),
       required: true,
+      localized: true,
     },
     mediaImageField(),
     {

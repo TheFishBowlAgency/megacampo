@@ -68,3 +68,14 @@ export function detectSiteLocale(options: {
 
   return "pt";
 }
+
+/** Server-only: resolve locale from cookie / Accept-Language. */
+export async function getRequestLocale(): Promise<SiteLocale> {
+  const { cookies, headers } = await import("next/headers");
+  const cookieStore = await cookies();
+  const headerStore = await headers();
+  return detectSiteLocale({
+    cookie: cookieStore.get(SITE_LOCALE_COOKIE)?.value,
+    acceptLanguage: headerStore.get("accept-language"),
+  });
+}

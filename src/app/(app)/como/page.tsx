@@ -4,9 +4,11 @@ import { PageHero } from "@/components/layout";
 import { HowItWorksSection, getComoStepIcon } from "@/components/como";
 import type { HowItWorksStep } from "@/components/como";
 import { getComo } from "@/lib/como/getComo";
+import { getRequestLocale } from "@/i18n/site";
 
 export default async function ComoPage() {
-  const como = await getComo();
+  const locale = await getRequestLocale();
+  const como = await getComo(locale);
 
   const steps: HowItWorksStep[] = como.howItWorks.steps.map((step, index) => ({
     stepNumber: index + 1,

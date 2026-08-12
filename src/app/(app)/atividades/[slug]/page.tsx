@@ -9,6 +9,7 @@ import { resolveActivityHighlights } from "@/lib/activities/landingDefaults";
 import { getUncategorizedPackagesByActivityId } from "@/lib/catalog/getPackagesByCategory";
 import { getPackageCategoriesByActivityId } from "@/lib/package-categories/getPackageCategories";
 import { getTestimonials } from "@/lib/testimonials/getTestimonials";
+import { getRequestLocale } from "@/i18n/site";
 import type { Media } from "@/payload-types";
 
 export interface ActivityPageProps {
@@ -46,9 +47,10 @@ export default async function ActivityPage({ params }: ActivityPageProps) {
   }
 
   // Flat activities with no categories: go straight to packages marketing
+  const locale = await getRequestLocale();
   const [packages, testimonials] = await Promise.all([
     getUncategorizedPackagesByActivityId(activity.id, slug),
-    getTestimonials(),
+    getTestimonials(locale),
   ]);
 
   return (

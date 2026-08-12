@@ -46,6 +46,11 @@ export default buildConfig({
     importMap: {
       baseDir: path.resolve(dirname),
     },
+    components: {
+      providers: [
+        "/components/admin/AdminLanguagePreference#AdminLanguagePreference",
+      ],
+    },
   },
   collections: [
     Users,
@@ -68,6 +73,15 @@ export default buildConfig({
   i18n: {
     fallbackLanguage: "pt",
     supportedLanguages: { pt, en },
+  },
+  localization: {
+    defaultLocale: "pt",
+    fallback: true,
+    locales: [
+      { code: "pt", label: "Português" },
+      { code: "en", label: "English" },
+      { code: "es", label: "Español" },
+    ],
   },
   secret: process.env.PAYLOAD_SECRET || "",
   typescript: {

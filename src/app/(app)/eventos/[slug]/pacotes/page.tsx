@@ -3,6 +3,7 @@ import { Header } from "@/components/header";
 import { EventDetailContent } from "@/components/eventos";
 import { getEventBySlug } from "@/lib/events/getEventBySlug";
 import { getAllEventSlugs } from "@/lib/events/getEvents";
+import { getRequestLocale } from "@/i18n/site";
 
 export interface EventPackagesPageProps {
   params: Promise<{ slug: string }>;
@@ -17,7 +18,8 @@ export default async function EventPackagesPage({
   params,
 }: EventPackagesPageProps) {
   const { slug } = await params;
-  const event = await getEventBySlug(slug);
+  const locale = await getRequestLocale();
+  const event = await getEventBySlug(slug, locale);
   if (!event) notFound();
 
   return (

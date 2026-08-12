@@ -13,6 +13,7 @@ import { getGroupExtras } from "@/lib/catalog";
 import { getPackagesByCategoryId } from "@/lib/catalog/getPackagesByCategory";
 import { getCategoryPathSlug } from "@/lib/package-categories/slugHelpers";
 import { getTestimonials } from "@/lib/testimonials/getTestimonials";
+import { getRequestLocale } from "@/i18n/site";
 import type { Media } from "@/payload-types";
 
 export interface ActivitySegmentPageProps {
@@ -68,12 +69,13 @@ export default async function ActivitySegmentPage({
   const { category } = resolution;
 
   const categoryPathSlug = getCategoryPathSlug(slug, category.slug);
+  const locale = await getRequestLocale();
   const [packages, testimonials] = await Promise.all([
     getPackagesByCategoryId(category.id, {
       activitySlug: slug,
       categoryPathSlug,
     }),
-    getTestimonials(),
+    getTestimonials(locale),
   ]);
 
   return (

@@ -33,6 +33,7 @@ export const Blog: GlobalConfig = {
                   type: "text",
                   label: common.title,
                   required: true,
+                  localized: true,
                 },
                 mediaImageField(),
               ],
@@ -52,6 +53,7 @@ export const Blog: GlobalConfig = {
                   type: "text",
                   label: common.title,
                   required: true,
+                  localized: true,
                 },
                 {
                   name: "cardLinkLabel",
@@ -59,6 +61,7 @@ export const Blog: GlobalConfig = {
                   label: bl("Etiqueta do cartão", "Card link label"),
                   required: true,
                   defaultValue: "Ver mais",
+                  localized: true,
                 },
               ],
             },

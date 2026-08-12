@@ -34,12 +34,14 @@ export const Posts: CollectionConfig = {
       type: "text",
       label: common.title,
       required: true,
+      localized: true,
     },
     {
       name: "excerpt",
       type: "textarea",
       label: bl("Excerto", "Excerpt"),
       required: true,
+      localized: true,
       admin: {
         description: bl(
           "Resumo curto nos cartões da listagem do blog.",
@@ -61,6 +63,7 @@ export const Posts: CollectionConfig = {
           type: "text",
           label: common.label,
           required: true,
+          localized: true,
         },
       ],
       admin: {
@@ -75,6 +78,7 @@ export const Posts: CollectionConfig = {
       type: "richText",
       label: bl("Corpo", "Body"),
       required: true,
+      localized: true,
       admin: {
         description: bl(
           "Texto completo do artigo na página de detalhe.",

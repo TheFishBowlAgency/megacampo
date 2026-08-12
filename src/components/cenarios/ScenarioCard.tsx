@@ -15,7 +15,7 @@ export interface ScenarioCardProps {
   imageSrc?: string;
   /** Link for the whole card. Defaults to # */
   href?: string;
-  /** CTA label under the title. Defaults to "Ver mais" */
+  /** Optional CTA under the title. Omit to hide (maps page). */
   linkLabel?: string;
 }
 
@@ -27,12 +27,12 @@ export function ScenarioCard({
   name,
   imageSrc,
   href = "#",
-  linkLabel = "Ver mais",
+  linkLabel,
 }: ScenarioCardProps) {
   return (
     <Link
       href={href}
-      aria-label={`${name} — ${linkLabel}`}
+      aria-label={linkLabel ? `${name} — ${linkLabel}` : name}
       display="flex"
       flexDirection="column"
       alignItems="stretch"
@@ -107,13 +107,15 @@ export function ScenarioCard({
         >
           {name}
         </Text>
-        <Text
-          fontSize={{ base: "md", lg: "body.md", xl: "body.lg" }}
-          lineHeight="1.2"
-          color="grayMid"
-        >
-          {linkLabel}
-        </Text>
+        {linkLabel ? (
+          <Text
+            fontSize={{ base: "md", lg: "body.md", xl: "body.lg" }}
+            lineHeight="1.2"
+            color="grayMid"
+          >
+            {linkLabel}
+          </Text>
+        ) : null}
       </VStack>
     </Link>
   );

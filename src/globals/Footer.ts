@@ -23,6 +23,7 @@ export const Footer: GlobalConfig = {
       type: "text",
       label: bl("Texto alternativo do logótipo", "Logo alt text"),
       defaultValue: "Megacampo",
+      localized: true,
     },
     {
       name: "contact",
@@ -35,6 +36,7 @@ export const Footer: GlobalConfig = {
           label: common.title,
           required: true,
           defaultValue: "CONTACTA-NOS",
+          localized: true,
         },
         {
           name: "phoneFixed",
@@ -55,12 +57,14 @@ export const Footer: GlobalConfig = {
           type: "text",
           label: bl("Nota telefone fixo", "Landline note"),
           defaultValue: "*Chamada para rede fixa nacional",
+          localized: true,
         },
         {
           name: "phoneMobileNote",
           type: "text",
           label: bl("Nota telefone móvel", "Mobile note"),
           defaultValue: "**Chamada para rede móvel nacional",
+          localized: true,
         },
         {
           name: "email",
@@ -96,6 +100,7 @@ export const Footer: GlobalConfig = {
           label: common.title,
           required: true,
           defaultValue: "HORÁRIO",
+          localized: true,
         },
         {
           name: "rows",
@@ -111,12 +116,14 @@ export const Footer: GlobalConfig = {
               type: "text",
               label: common.label,
               required: true,
+              localized: true,
             },
             {
               name: "value",
               type: "text",
               label: bl("Valor", "Value"),
               required: true,
+              localized: true,
             },
           ],
         },
@@ -133,6 +140,7 @@ export const Footer: GlobalConfig = {
           label: common.title,
           required: true,
           defaultValue: "SEGUE-NOS",
+          localized: true,
         },
         {
           name: "links",
@@ -177,6 +185,7 @@ export const Footer: GlobalConfig = {
           type: "text",
           label: common.label,
           required: true,
+          localized: true,
         },
         {
           name: "href",

@@ -7,7 +7,7 @@ import { Link, type LinkProps } from "./Link";
 
 export interface ActivityLinkCardProps extends Pick<
   LinkProps,
-  "href" | "prefetch" | "replace" | "scroll" | "shallow"
+  "href" | "prefetch" | "replace" | "scroll" | "shallow" | "onClick"
 > {
   imageSrc: string;
   imageAlt: string;
@@ -36,6 +36,7 @@ export function ActivityLinkCard({
   replace,
   scroll,
   shallow,
+  onClick,
   imageSrc,
   imageAlt,
   tag,
@@ -55,6 +56,7 @@ export function ActivityLinkCard({
       replace={replace}
       scroll={scroll}
       shallow={shallow}
+      onClick={onClick}
       aria-label={ariaLabel ?? defaultAria}
       display="flex"
       flexDirection="column"

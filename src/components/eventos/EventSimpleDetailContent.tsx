@@ -11,7 +11,9 @@ import { DEFAULT_EVENT_LISTING } from "@/lib/events/defaults";
 
 import { ShareButton } from "./ShareButton";
 
-const RESERVE_BUTTON_SHADOW = "0px 2px 4px rgba(0, 0, 0, 0.25)";
+import { BUTTON_SHADOW } from "@/lib/ui/buttonShadow";
+
+const RESERVE_BUTTON_SHADOW = BUTTON_SHADOW;
 
 const BODY_FONT_SIZE = {
   base: "sm",

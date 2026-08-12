@@ -12,8 +12,15 @@ export function isNavLinkActive(pathname: string, href: string): boolean {
   if (href === "/blog") {
     return pathname === "/blog" || pathname.startsWith("/blog/");
   }
-  if (href === "/#actividades" || href === "/atividades") {
+  if (
+    href === "/#actividades" ||
+    href === "/atividades" ||
+    href === "#actividades"
+  ) {
     return pathname === "/" || pathname.startsWith("/atividades");
+  }
+  if (href.startsWith("http")) {
+    return false;
   }
   if (href === "/#reservas" || href === "/reservas") {
     return pathname.startsWith("/reservas") || pathname === "/carrinho";

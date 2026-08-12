@@ -33,6 +33,7 @@ export const Cenarios: GlobalConfig = {
                   type: "textarea",
                   label: common.title,
                   required: true,
+                  localized: true,
                   admin: {
                     description: bl(
                       "Uma linha por linha do título (ex.: MAPAS / MUNDIALMENTE / FAMOSOS).",
@@ -45,6 +46,7 @@ export const Cenarios: GlobalConfig = {
                   type: "textarea",
                   label: common.description,
                   required: true,
+                  localized: true,
                 },
                 mediaImageField(),
               ],
@@ -64,12 +66,14 @@ export const Cenarios: GlobalConfig = {
                   type: "text",
                   label: common.title,
                   required: true,
+                  localized: true,
                 },
                 {
                   name: "description",
                   type: "textarea",
                   label: common.description,
                   required: true,
+                  localized: true,
                 },
               ],
             },

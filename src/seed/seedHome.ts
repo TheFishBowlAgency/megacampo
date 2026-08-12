@@ -144,31 +144,78 @@ export async function runHomeSeed(payload: Payload): Promise<void> {
     const needsCarouselLabels =
       !existing.testimonials?.prevLabel?.trim() ||
       !existing.testimonials?.nextLabel?.trim();
+    const heroCtaHref = existing.hero?.cta?.href?.trim() ?? "";
+    const midCtaHref = existing.cta?.button?.href?.trim() ?? "";
+    const needsHeroCtaHref =
+      !heroCtaHref ||
+      heroCtaHref === "/" ||
+      heroCtaHref === "/#" ||
+      !heroCtaHref.includes("actividades");
+    const needsMidCtaHref =
+      !midCtaHref ||
+      midCtaHref === "/" ||
+      midCtaHref === "/#" ||
+      !midCtaHref.includes("actividades");
 
-    if (needsTestimonials || needsCarouselLabels) {
+    if (
+      needsTestimonials ||
+      needsCarouselLabels ||
+      needsHeroCtaHref ||
+      needsMidCtaHref
+    ) {
       await payload.updateGlobal({
         slug: "home",
         data: {
-          testimonials: {
-            heading:
-              existing.testimonials?.heading ||
-              DEFAULT_HOME.testimonials.heading,
-            description:
-              existing.testimonials?.description ||
-              DEFAULT_HOME.testimonials.description,
-            items: needsTestimonials
-              ? testimonialIds
-              : existing.testimonials?.items,
-            prevLabel:
-              existing.testimonials?.prevLabel ||
-              DEFAULT_HOME.testimonials.prevLabel,
-            nextLabel:
-              existing.testimonials?.nextLabel ||
-              DEFAULT_HOME.testimonials.nextLabel,
-          },
+          ...(needsHeroCtaHref
+            ? {
+                hero: {
+                  heading: existing.hero.heading,
+                  description: existing.hero.description,
+                  cta: {
+                    label:
+                      existing.hero.cta?.label || DEFAULT_HOME.hero.cta.label,
+                    href: DEFAULT_HOME.hero.cta.href,
+                  },
+                },
+              }
+            : {}),
+          ...(needsMidCtaHref
+            ? {
+                cta: {
+                  heading: existing.cta?.heading || DEFAULT_HOME.cta.heading,
+                  button: {
+                    label:
+                      existing.cta?.button?.label ||
+                      DEFAULT_HOME.cta.button.label,
+                    href: DEFAULT_HOME.cta.button.href,
+                  },
+                },
+              }
+            : {}),
+          ...(needsTestimonials || needsCarouselLabels
+            ? {
+                testimonials: {
+                  heading:
+                    existing.testimonials?.heading ||
+                    DEFAULT_HOME.testimonials.heading,
+                  description:
+                    existing.testimonials?.description ||
+                    DEFAULT_HOME.testimonials.description,
+                  items: needsTestimonials
+                    ? testimonialIds
+                    : existing.testimonials?.items,
+                  prevLabel:
+                    existing.testimonials?.prevLabel ||
+                    DEFAULT_HOME.testimonials.prevLabel,
+                  nextLabel:
+                    existing.testimonials?.nextLabel ||
+                    DEFAULT_HOME.testimonials.nextLabel,
+                },
+              }
+            : {}),
         },
       });
-      payload.logger.info("Synced home testimonials relationship");
+      payload.logger.info("Synced home CTA / testimonials");
     } else {
       payload.logger.info("Home global already populated — events synced");
     }

@@ -37,11 +37,12 @@ function samePageHashId(href: string): string | null {
   if (typeof window === "undefined") return null;
 
   try {
-    const url = new URL(href, window.location.origin);
+    const url = new URL(href, window.location.href);
     if (url.pathname !== window.location.pathname) return null;
     if (!url.hash || url.hash.length < 2) return null;
-    const id = decodeURIComponent(url.hash.slice(1));
-    return id.includes("#") ? null : id;
+    // Hash may include query-like noise; only the element id portion is valid
+    const id = decodeURIComponent(url.hash.slice(1).split("?")[0] ?? "");
+    return !id || id.includes("#") ? null : id;
   } catch {
     return null;
   }
@@ -135,7 +136,14 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
         <ChakraLink
           ref={ref}
           href={href as string}
-          target={external ? "_blank" : "_self"}
+          target={
+            external || String(href).startsWith("http") ? "_blank" : "_self"
+          }
+          rel={
+            external || String(href).startsWith("http")
+              ? "noopener noreferrer"
+              : undefined
+          }
           onClick={onClick}
           {...chakraProps}
         >

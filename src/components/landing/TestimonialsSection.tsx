@@ -35,18 +35,20 @@ export function TestimonialsSection({
 
   const visibleCount = useBreakpointValue({ base: 1, md: 2, lg: 4 }) ?? 1;
   const maxIndex = Math.max(0, gallery.length - visibleCount);
-  const safeIndex = Math.min(index, maxIndex);
-  const canGoPrev = safeIndex > 0;
-  const canGoNext = safeIndex < maxIndex;
+  const safeIndex =
+    maxIndex === 0
+      ? 0
+      : ((index % (maxIndex + 1)) + (maxIndex + 1)) % (maxIndex + 1);
+  const canRotate = maxIndex > 0;
 
   const goPrev = () => {
-    if (!canGoPrev) return;
-    setIndex(safeIndex - 1);
+    if (!canRotate) return;
+    setIndex(safeIndex === 0 ? maxIndex : safeIndex - 1);
   };
 
   const goNext = () => {
-    if (!canGoNext) return;
-    setIndex(safeIndex + 1);
+    if (!canRotate) return;
+    setIndex(safeIndex >= maxIndex ? 0 : safeIndex + 1);
   };
 
   const visibleImages = gallery
@@ -122,14 +124,14 @@ export function TestimonialsSection({
               <CarouselArrowButton
                 label={prevLabel}
                 onClick={goPrev}
-                disabled={!canGoPrev}
+                disabled={!canRotate}
               >
                 <ChevronLeftIcon />
               </CarouselArrowButton>
               <CarouselArrowButton
                 label={nextLabel}
                 onClick={goNext}
-                disabled={!canGoNext}
+                disabled={!canRotate}
               >
                 <ChevronRightIcon />
               </CarouselArrowButton>

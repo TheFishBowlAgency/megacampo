@@ -118,16 +118,25 @@ function mapActivityChoices(event: Event): EventActivityChoice[] {
       DEFAULT_EVENT_ACTIVITY_CHOICES[index] ??
       DEFAULT_EVENT_ACTIVITY_CHOICES[0];
 
+    const matchedDefault =
+      DEFAULT_EVENT_ACTIVITY_CHOICES.find(
+        (item) => item.title === title.toUpperCase(),
+      ) ?? fallback;
+
+    const tabId = matchedDefault?.id ?? choice.id ?? `activity-${index}`;
+    const rawHref = choice.linkHref?.trim();
+    const href = rawHref && rawHref !== "#pacotes" ? rawHref : `#pacotes`;
+
     mapped.push({
-      id: choice.id ?? `activity-${index}`,
+      id: tabId,
       title: title.toUpperCase(),
       imageSrc,
-      imageAlt: choice.imageAlt?.trim() || fallback.imageAlt || title,
+      imageAlt: choice.imageAlt?.trim() || matchedDefault.imageAlt || title,
       features: (choice.features ?? [])
         .map((feature) => feature.label?.trim())
         .filter((label): label is string => Boolean(label)),
       ...(choice.ageNote?.trim() ? { ageNote: choice.ageNote.trim() } : {}),
-      href: choice.linkHref?.trim() || "#pacotes",
+      href,
     });
   });
 

@@ -2,6 +2,7 @@ import { Box, Text, VStack } from "@chakra-ui/react";
 import { Link } from "@/components/ui";
 import { bannerSectionUnderlayBefore } from "@/components/layout/bannerUnderlay";
 import type { HomeContent } from "@/lib/home/types";
+import { BUTTON_SHADOW } from "@/lib/ui/buttonShadow";
 
 type HeroProps = {
   content: HomeContent["hero"];
@@ -60,6 +61,7 @@ export function Hero({ content }: HeroProps) {
           fontSize={{ base: "md", lg: "body.md", xl: "body.lg" }}
           textTransform="uppercase"
           borderRadius="md"
+          boxShadow={BUTTON_SHADOW}
           _hover={{ opacity: 0.9 }}
         >
           {content.cta.label}

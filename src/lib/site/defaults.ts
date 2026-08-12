@@ -2,6 +2,8 @@ import type { FooterContent, HeaderContent } from "./types";
 
 export const DEFAULT_LOGO_SRC = "/logo.png";
 
+const LOJA_HREF = "https://www.estrategopaintball.com/";
+
 export const DEFAULT_HEADER: HeaderContent = {
   logoSrc: DEFAULT_LOGO_SRC,
   logoAlt: "Megacampo",
@@ -12,17 +14,17 @@ export const DEFAULT_HEADER: HeaderContent = {
   navLinks: [
     { label: "ATIVIDADES", href: "/#actividades" },
     { label: "O PARQUE", href: "/cenarios" },
+    { label: "COMO FUNCIONA", href: "/como" },
     { label: "EVENTOS", href: "/eventos" },
-    { label: "LOJA DE PAINTBALL", href: "#loja" },
-    { label: "BLOG", href: "/blog" },
+    { label: "LOJA DE PAINTBALL", href: LOJA_HREF },
     { label: "CONTACTOS", href: "/#contactos" },
   ],
   mobileNavLinks: [
     { label: "ATIVIDADES", href: "/#actividades" },
     { label: "O PARQUE", href: "/cenarios" },
+    { label: "COMO FUNCIONA", href: "/como" },
     { label: "EVENTOS", href: "/eventos" },
-    { label: "LOJA", href: "#loja" },
-    { label: "RESERVAS", href: "/#actividades" },
+    { label: "LOJA DE PAINTBALL", href: LOJA_HREF },
     { label: "CONTACTOS", href: "/#contactos" },
   ],
   labels: {
