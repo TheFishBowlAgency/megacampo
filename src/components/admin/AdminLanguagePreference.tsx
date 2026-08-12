@@ -37,7 +37,12 @@ export function AdminLanguagePreference({ children }: { children: ReactNode }) {
         const pref = await getPreference(ADMIN_LANGUAGE_PREFERENCE_KEY);
         if (cancelled) return;
 
-        if (typeof pref === "string" && pref && pref !== i18n.language) {
+        if (
+          typeof pref === "string" &&
+          pref &&
+          pref !== i18n.language &&
+          switchLanguage
+        ) {
           await switchLanguage(pref);
           if (cancelled) return;
           lastSavedLangRef.current = pref;
