@@ -11,6 +11,7 @@ const linkFields = [
     type: "text" as const,
     label: common.label,
     required: true,
+    localized: true,
   },
   {
     name: "href",
@@ -48,12 +49,14 @@ export const Como: GlobalConfig = {
                   type: "text",
                   label: common.title,
                   required: true,
+                  localized: true,
                 },
                 {
                   name: "description",
                   type: "textarea",
                   label: common.description,
                   required: true,
+                  localized: true,
                 },
                 mediaImageField(),
                 {
@@ -79,6 +82,7 @@ export const Como: GlobalConfig = {
                   type: "text",
                   label: common.title,
                   required: true,
+                  localized: true,
                 },
                 {
                   name: "steps",
@@ -100,6 +104,7 @@ export const Como: GlobalConfig = {
                       type: "text",
                       label: bl("Etiqueta do passo", "Step label"),
                       required: true,
+                      localized: true,
                       admin: {
                         description: bl(
                           "Ex.: «Primeiro passo».",
@@ -112,12 +117,14 @@ export const Como: GlobalConfig = {
                       type: "text",
                       label: common.title,
                       required: true,
+                      localized: true,
                     },
                     {
                       name: "description",
                       type: "textarea",
                       label: common.description,
                       required: true,
+                      localized: true,
                     },
                     {
                       name: "link",
@@ -144,6 +151,7 @@ export const Como: GlobalConfig = {
                   type: "text",
                   label: common.title,
                   required: true,
+                  localized: true,
                 },
                 {
                   name: "button",
@@ -168,6 +176,7 @@ export const Como: GlobalConfig = {
                   type: "text",
                   label: common.title,
                   required: true,
+                  localized: true,
                 },
                 {
                   name: "items",
@@ -183,12 +192,14 @@ export const Como: GlobalConfig = {
                       type: "text",
                       label: bl("Pergunta", "Question"),
                       required: true,
+                      localized: true,
                     },
                     {
                       name: "answer",
                       type: "textarea",
                       label: bl("Resposta", "Answer"),
                       required: true,
+                      localized: true,
                     },
                   ],
                 },

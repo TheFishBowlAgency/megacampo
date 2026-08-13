@@ -122,7 +122,7 @@ export interface Config {
   db: {
     defaultIDType: string;
   };
-  fallbackLocale: null;
+  fallbackLocale: "pt" | false | ("pt" | "en" | "es")[];
   globals: {
     header: Header;
     footer: Footer;
@@ -141,7 +141,7 @@ export interface Config {
     blog: BlogSelect<false> | BlogSelect<true>;
     eventos: EventosSelect<false> | EventosSelect<true>;
   };
-  locale: null;
+  locale: "pt" | "en" | "es";
   widgets: {
     collections: CollectionsWidget;
   };

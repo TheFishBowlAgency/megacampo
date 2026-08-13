@@ -1,6 +1,9 @@
 import config from "@payload-config";
 import { getPayload } from "payload";
 
+import type { SiteLocale } from "@/i18n/site";
+import { localeQuery } from "@/lib/site/localeQuery";
+
 import {
   DEFAULT_BLOG,
   DEFAULT_BLOG_POSTS,
@@ -11,17 +14,23 @@ import { mapBlogGlobal } from "./mapBlog";
 import { mapPostToCard, mapPostToDetail } from "./mapPost";
 import type { BlogCopy, BlogPostCard, BlogPostDetail } from "./types";
 
-export async function getBlogCopy(): Promise<BlogCopy> {
+export async function getBlogCopy(locale: SiteLocale): Promise<BlogCopy> {
   try {
     const payload = await getPayload({ config });
-    const doc = await payload.findGlobal({ slug: "blog", depth: 1 });
+    const doc = await payload.findGlobal({
+      slug: "blog",
+      depth: 1,
+      ...localeQuery(locale),
+    });
     return mapBlogGlobal(doc);
   } catch {
     return DEFAULT_BLOG;
   }
 }
 
-export async function getBlogPosts(): Promise<BlogPostCard[]> {
+export async function getBlogPosts(
+  locale: SiteLocale,
+): Promise<BlogPostCard[]> {
   try {
     const payload = await getPayload({ config });
     const { docs } = await payload.find({
@@ -35,6 +44,7 @@ export async function getBlogPosts(): Promise<BlogPostCard[]> {
       limit: 50,
       depth: 1,
       pagination: false,
+      ...localeQuery(locale),
     });
 
     if (docs.length === 0) {
@@ -49,6 +59,7 @@ export async function getBlogPosts(): Promise<BlogPostCard[]> {
 
 export async function getBlogPostBySlug(
   slug: string,
+  locale: SiteLocale,
 ): Promise<BlogPostDetail | null> {
   try {
     const payload = await getPayload({ config });
@@ -71,6 +82,7 @@ export async function getBlogPostBySlug(
       limit: 1,
       depth: 1,
       pagination: false,
+      ...localeQuery(locale),
     });
 
     if (docs[0]) {

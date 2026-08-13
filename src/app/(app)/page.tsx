@@ -14,9 +14,14 @@ import {
 } from "@/components/landing";
 import { getActivities } from "@/lib/activities/getActivities";
 import { getHome } from "@/lib/home/getHome";
+import { getRequestLocale } from "@/i18n/site";
 
 export default async function HomePage() {
-  const [home, activities] = await Promise.all([getHome(), getActivities()]);
+  const locale = await getRequestLocale();
+  const [home, activities] = await Promise.all([
+    getHome(locale),
+    getActivities(),
+  ]);
 
   return (
     <>

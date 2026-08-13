@@ -15,7 +15,7 @@ export const DEFAULT_HOME: HomeContent = {
       "Joga em 12 mapas cinematográficos. Quer sejas iniciante ou profissional, temos atividades para todas as idades e níveis de experiência.",
     cta: {
       label: "RESERVA JÁ",
-      href: "#actividades",
+      href: "/#actividades",
     },
     backgroundImageSrc: BANNER_SECTION_UNDERLAY_URL,
   },
@@ -113,7 +113,7 @@ export const DEFAULT_HOME: HomeContent = {
     heading: "PRONTO PARA UMA AVENTURA?",
     button: {
       label: "RESERVA JÁ",
-      href: "#actividades",
+      href: "/#actividades",
     },
   },
   faq: {

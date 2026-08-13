@@ -3,9 +3,14 @@ import { EventsListingSection } from "@/components/eventos";
 import { Footer } from "@/components/landing";
 import { PageHero } from "@/components/layout";
 import { getEvents, getEventsCopy } from "@/lib/events/getEvents";
+import { getRequestLocale } from "@/i18n/site";
 
 export default async function EventosPage() {
-  const [events, copy] = await Promise.all([getEvents(), getEventsCopy()]);
+  const locale = await getRequestLocale();
+  const [events, copy] = await Promise.all([
+    getEvents(locale),
+    getEventsCopy(locale),
+  ]);
 
   return (
     <>

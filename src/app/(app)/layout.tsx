@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import { cookies, headers } from "next/headers";
 import { Anton, Roboto } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
-import { detectSiteLocale, SITE_LOCALE_COOKIE } from "@/i18n/site";
+import { getRequestLocale } from "@/i18n/site";
 import { DEFAULT_HEADER } from "@/lib/site/defaults";
 import { getSiteShell } from "@/lib/site/getSiteShell";
 import { StyleProvider } from "@/providers";
@@ -28,7 +27,8 @@ const roboto = Roboto({
 
 export async function generateMetadata(): Promise<Metadata> {
   try {
-    const { header } = await getSiteShell();
+    const locale = await getRequestLocale();
+    const { header } = await getSiteShell(locale);
     return {
       title: header.seo.title,
       description: header.seo.description,
@@ -52,13 +52,8 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const cookieStore = await cookies();
-  const headerStore = await headers();
-  const locale = detectSiteLocale({
-    cookie: cookieStore.get(SITE_LOCALE_COOKIE)?.value,
-    acceptLanguage: headerStore.get("accept-language"),
-  });
-  const { header, footer } = await getSiteShell();
+  const locale = await getRequestLocale();
+  const { header, footer } = await getSiteShell(locale);
 
   return (
     <html

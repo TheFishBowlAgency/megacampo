@@ -1,3 +1,5 @@
+"use client";
+
 import { Box, Grid, Text, VStack } from "@chakra-ui/react";
 import { Container, Section } from "@/components/layout";
 import { ActivityLinkCard } from "@/components/ui";
@@ -12,12 +14,14 @@ type ActivityChoiceSectionProps = {
   heading?: string;
   description?: string;
   activities?: EventActivityChoice[];
+  onActivitySelect?: (activity: EventActivityChoice) => void;
 };
 
 export function ActivityChoiceSection({
   heading = DEFAULT_HEADING,
   description = DEFAULT_SUBHEADING,
   activities = DEFAULT_EVENT_ACTIVITY_CHOICES,
+  onActivitySelect,
 }: ActivityChoiceSectionProps = {}) {
   return (
     <Section>
@@ -76,6 +80,7 @@ export function ActivityChoiceSection({
                   footerTitle={activity.title}
                   features={activity.features}
                   ageNote={activity.ageNote}
+                  onClick={() => onActivitySelect?.(activity)}
                 />
               </Box>
             ))}

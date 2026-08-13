@@ -4,9 +4,11 @@ import { Footer } from "@/components/landing";
 import { ScenarioCard, SectionHeading } from "@/components/cenarios";
 import { Container, PageHero } from "@/components/layout";
 import { getCenarios } from "@/lib/cenarios/getCenarios";
+import { getRequestLocale } from "@/i18n/site";
 
 export default async function CenariosPage() {
-  const cenarios = await getCenarios();
+  const locale = await getRequestLocale();
+  const cenarios = await getCenarios(locale);
 
   return (
     <>

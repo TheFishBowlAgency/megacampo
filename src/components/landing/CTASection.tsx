@@ -1,6 +1,7 @@
 import { Box, Text, VStack } from "@chakra-ui/react";
 import { Link } from "@/components/ui";
 import { Container } from "@/components/layout";
+import { BUTTON_SHADOW } from "@/lib/ui/buttonShadow";
 
 export type CTASectionProps = {
   heading?: string;
@@ -43,6 +44,7 @@ export function CTASection({
             fontSize={{ base: "md", lg: "body.md", xl: "body.lg" }}
             textTransform="uppercase"
             borderRadius="md"
+            boxShadow={BUTTON_SHADOW}
             _hover={{ opacity: 0.9 }}
           >
             {buttonText}

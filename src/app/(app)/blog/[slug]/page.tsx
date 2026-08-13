@@ -8,6 +8,7 @@ import { ChevronLeftIcon } from "@/components/product/detail/shared";
 import { Link } from "@/components/ui";
 import { RichTextContent } from "@/components/ui/RichTextContent";
 import { getAllBlogSlugs, getBlogPostBySlug } from "@/lib/blog/getBlog";
+import { getRequestLocale } from "@/i18n/site";
 
 const TAG_CHIP_SHADOW = "0px 2px 4px rgba(0, 0, 0, 0.25)";
 
@@ -29,7 +30,8 @@ function formatPostDate(value?: string): string {
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const { slug } = await params;
-  const post = await getBlogPostBySlug(slug);
+  const locale = await getRequestLocale();
+  const post = await getBlogPostBySlug(slug, locale);
   if (!post) notFound();
 
   const gallery =

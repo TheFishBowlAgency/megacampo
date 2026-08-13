@@ -2,9 +2,11 @@
 
 import { useState } from "react";
 import { Box, Flex, Grid, HStack, Text, VStack } from "@chakra-ui/react";
+import Image from "next/image";
 import { Container } from "@/components/layout";
 import { Link, QuantitySelector } from "@/components/ui";
 import { TIME_PERIODS } from "@/lib/booking/constants";
+import { BUTTON_SHADOW } from "@/lib/ui/buttonShadow";
 
 export interface ProductExtra {
   id: string;
@@ -32,19 +34,16 @@ export function ProductImage({
       justifyContent="center"
       pt="5"
       position="relative"
+      overflow="hidden"
       mx={{ base: "auto", lg: "0" }}
     >
       {imageSrc ? (
-        <img
+        <Image
           src={imageSrc}
           alt={name}
-          style={{
-            objectFit: "cover",
-            width: "100%",
-            height: "100%",
-            position: "absolute",
-            inset: 0,
-          }}
+          fill
+          sizes="(max-width: 767px) 100vw, (max-width: 991px) 280px, 316px"
+          style={{ objectFit: "cover" }}
         />
       ) : (
         <Box
@@ -98,10 +97,7 @@ export function AddToCartButton({
       pointerEvents={disabled ? "none" : "auto"}
       _hover={{ opacity: disabled ? 0.5 : 0.9 }}
       transition="opacity 0.15s"
-      boxShadow={{
-        base: "0px 5px 16px rgba(0,0,0,0.22)",
-        lg: "none",
-      }}
+      boxShadow={BUTTON_SHADOW}
       w={{ base: "full", lg: "auto" }}
       textAlign="center"
     >
@@ -142,10 +138,7 @@ export function CheckoutButton({
       pointerEvents={disabled ? "none" : "auto"}
       _hover={{ opacity: disabled ? 0.5 : 0.9 }}
       transition="opacity 0.15s"
-      boxShadow={{
-        base: "0px 5px 16px rgba(0,0,0,0.22)",
-        lg: isOutline ? "none" : undefined,
-      }}
+      boxShadow={BUTTON_SHADOW}
       w={{ base: "full", lg: "auto" }}
       textAlign="center"
     >
@@ -272,16 +265,20 @@ function ExtrasListDesktop({
         <Box key={extra.id}>
           <Flex align="center" justify="space-between">
             <HStack gap="6" w="354px">
-              <Box w="150px" h="150px" flexShrink={0}>
+              <Box
+                w="150px"
+                h="150px"
+                flexShrink={0}
+                position="relative"
+                overflow="hidden"
+              >
                 {extra.imageSrc ? (
-                  <img
+                  <Image
                     src={extra.imageSrc}
                     alt={extra.name}
-                    style={{
-                      objectFit: "cover",
-                      width: "100%",
-                      height: "100%",
-                    }}
+                    fill
+                    sizes="150px"
+                    style={{ objectFit: "cover" }}
                   />
                 ) : (
                   <ExtraImagePlaceholder />
@@ -341,16 +338,20 @@ function ExtrasListMobile({
         <Box key={extra.id}>
           <VStack align="stretch" gap="6">
             <HStack gap="5" align="start">
-              <Box w="90px" h="90px" flexShrink={0}>
+              <Box
+                w="90px"
+                h="90px"
+                flexShrink={0}
+                position="relative"
+                overflow="hidden"
+              >
                 {extra.imageSrc ? (
-                  <img
+                  <Image
                     src={extra.imageSrc}
                     alt={extra.name}
-                    style={{
-                      objectFit: "cover",
-                      width: "100%",
-                      height: "100%",
-                    }}
+                    fill
+                    sizes="90px"
+                    style={{ objectFit: "cover" }}
                   />
                 ) : (
                   <ExtraImagePlaceholder />

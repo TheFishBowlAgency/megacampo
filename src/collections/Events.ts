@@ -34,11 +34,13 @@ export const Events: CollectionConfig = {
       type: "text",
       label: common.title,
       required: true,
+      localized: true,
     },
     {
       name: "description",
       type: "textarea",
       label: common.description,
+      localized: true,
       admin: {
         description: bl(
           "Resumo curto nos cartões de eventos e lead do detalhe.",
@@ -50,6 +52,7 @@ export const Events: CollectionConfig = {
       name: "body",
       type: "richText",
       label: bl("Corpo", "Body"),
+      localized: true,
       admin: {
         description: bl(
           "Texto longo na página de detalhe simples do evento.",
@@ -62,6 +65,7 @@ export const Events: CollectionConfig = {
       type: "text",
       label: bl("Etiqueta do botão de reserva", "Reserve button label"),
       defaultValue: "Reserva já",
+      localized: true,
       admin: {
         description: bl(
           "Texto do CTA na página de detalhe simples.",
@@ -85,6 +89,7 @@ export const Events: CollectionConfig = {
       name: "activityHeading",
       type: "text",
       label: bl("Título da escolha de atividade", "Activity choice heading"),
+      localized: true,
     },
     {
       name: "activityDescription",
@@ -93,6 +98,7 @@ export const Events: CollectionConfig = {
         "Descrição da escolha de atividade",
         "Activity choice description",
       ),
+      localized: true,
     },
     {
       name: "activityChoices",
@@ -115,12 +121,14 @@ export const Events: CollectionConfig = {
           type: "text",
           label: common.title,
           required: true,
+          localized: true,
         },
         mediaImageField(),
         {
           name: "imageAlt",
           type: "text",
           label: bl("Texto alternativo da imagem", "Image alt text"),
+          localized: true,
         },
         {
           name: "features",
@@ -136,6 +144,7 @@ export const Events: CollectionConfig = {
               type: "text",
               label: common.label,
               required: true,
+              localized: true,
             },
           ],
         },
@@ -143,6 +152,7 @@ export const Events: CollectionConfig = {
           name: "ageNote",
           type: "text",
           label: bl("Nota de idade", "Age note"),
+          localized: true,
           admin: {
             description: bl('Ex.: "+10 anos".', 'E.g. "+10 years".'),
           },
@@ -182,6 +192,7 @@ export const Events: CollectionConfig = {
           type: "text",
           label: common.label,
           required: true,
+          localized: true,
         },
         {
           name: "packages",
@@ -197,6 +208,7 @@ export const Events: CollectionConfig = {
               type: "text",
               label: common.name,
               required: true,
+              localized: true,
             },
             {
               name: "price",
@@ -230,6 +242,7 @@ export const Events: CollectionConfig = {
                   type: "text",
                   label: common.label,
                   required: true,
+                  localized: true,
                 },
               ],
             },
@@ -242,6 +255,7 @@ export const Events: CollectionConfig = {
       type: "text",
       label: bl("Título dos testemunhos", "Testimonials heading"),
       defaultValue: "O que dizem os nossos clientes?",
+      localized: true,
     },
     {
       name: "testimonials",

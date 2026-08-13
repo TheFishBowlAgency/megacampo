@@ -5,6 +5,7 @@ import { Footer } from "@/components/landing";
 import { Container, PageHero, Section } from "@/components/layout";
 import { Link } from "@/components/ui";
 import { getBlogCopy, getBlogPosts } from "@/lib/blog/getBlog";
+import { getRequestLocale } from "@/i18n/site";
 
 function BlogTagPills({ tags }: { tags?: string[] }) {
   if (!tags?.length) return null;
@@ -35,7 +36,11 @@ function BlogTagPills({ tags }: { tags?: string[] }) {
 }
 
 export default async function BlogPage() {
-  const [posts, copy] = await Promise.all([getBlogPosts(), getBlogCopy()]);
+  const locale = await getRequestLocale();
+  const [posts, copy] = await Promise.all([
+    getBlogPosts(locale),
+    getBlogCopy(locale),
+  ]);
 
   return (
     <>

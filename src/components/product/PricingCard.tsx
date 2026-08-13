@@ -5,6 +5,7 @@ import { Link } from "@/components/ui";
 import { PRICING_TAG_TILT, TORN_CHIP_MASK } from "@/components/ui/tornChipMask";
 import { useSiteLocale } from "@/providers";
 import type { PackageCardItem } from "@/lib/catalog/types";
+import { BUTTON_SHADOW } from "@/lib/ui/buttonShadow";
 
 export interface PricingCardProps {
   pkg: PackageCardItem;
@@ -148,6 +149,7 @@ export function PricingCard({
         textTransform="uppercase"
         textAlign="center"
         borderRadius="md"
+        boxShadow={BUTTON_SHADOW}
         _hover={{ opacity: 0.9 }}
       >
         {pkg.ctaLabel ?? copy.package.reserve}

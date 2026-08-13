@@ -2,11 +2,15 @@ import config from "@payload-config";
 import { getPayload } from "payload";
 
 import type { EventQuote } from "@/lib/events/types";
+import type { SiteLocale } from "@/i18n/site";
+import { localeQuery } from "@/lib/site/localeQuery";
 
 import { DEFAULT_TESTIMONIALS } from "./defaults";
 import { mapTestimonialToQuote } from "./mapTestimonial";
 
-export async function getTestimonials(): Promise<EventQuote[]> {
+export async function getTestimonials(
+  locale: SiteLocale,
+): Promise<EventQuote[]> {
   try {
     const payload = await getPayload({ config });
     const { docs } = await payload.find({
@@ -20,6 +24,7 @@ export async function getTestimonials(): Promise<EventQuote[]> {
       limit: 50,
       depth: 1,
       pagination: false,
+      ...localeQuery(locale),
     });
 
     if (docs.length === 0) return DEFAULT_TESTIMONIALS;
